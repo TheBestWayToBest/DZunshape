@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F0D4D8CA-C039-4527-AAB3-E93F0FD07626}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HighSpeed</RootNamespace>
+    <AssemblyName>HighSpeed</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DotNetPrint">
+      <HintPath>..\Lib\DotNetPrint.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\Lib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="IrisSkin4">
+      <HintPath>..\..\..\Downloads\IrisSkin4\X86\IrisSkin4.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="OrderHandle\w_Batch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_Batch.Designer.cs">
+      <DependentUpon>w_Batch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderHandle\w_CigaretteInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_CigaretteInfo.Designer.cs">
+      <DependentUpon>w_CigaretteInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderHandle\w_Cigarette_LeftCount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_Cigarette_LeftCount.Designer.cs">
+      <DependentUpon>w_Cigarette_LeftCount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderHandle\w_Export.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_Export.Designer.cs">
+      <DependentUpon>w_Export.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderHandle\w_Order_Recieve.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_Order_Recieve.Designer.cs">
+      <DependentUpon>w_Order_Recieve.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderHandle\w_Order_Union.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_Order_Union.Designer.cs">
+      <DependentUpon>w_Order_Union.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderHandle\w_SortFm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_SortFm.Designer.cs">
+      <DependentUpon>w_SortFm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="w_Database_Set.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="w_Database_Set.Designer.cs">
+      <DependentUpon>w_Database_Set.cs</DependentUpon>
+    </Compile>
+    <Compile Include="w_main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="w_main.Designer.cs">
+      <DependentUpon>w_main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="w_User.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="w_User.Designer.cs">
+      <DependentUpon>w_User.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="OrderHandle\w_Batch.resx">
+      <DependentUpon>w_Batch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_CigaretteInfo.resx">
+      <DependentUpon>w_CigaretteInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_Cigarette_LeftCount.resx">
+      <DependentUpon>w_Cigarette_LeftCount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_Export.resx">
+      <DependentUpon>w_Export.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_Order_Recieve.resx">
+      <DependentUpon>w_Order_Recieve.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_Order_Union.resx">
+      <DependentUpon>w_Order_Union.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_SortFm.resx">
+      <DependentUpon>w_SortFm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="w_Database_Set.resx">
+      <DependentUpon>w_Database_Set.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="w_main.resx">
+      <DependentUpon>w_main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="w_User.resx">
+      <DependentUpon>w_User.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lib\Lib.csproj">
+      <Project>{35F077F9-A7D2-429C-8938-12B80E68BFB9}</Project>
+      <Name>Lib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
