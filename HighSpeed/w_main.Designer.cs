@@ -64,7 +64,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.skinEngine1 = new Sunisoft.IrisSkin.SkinEngine();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -120,6 +119,7 @@
             this.分拣批次管理ToolStripMenuItem.Name = "分拣批次管理ToolStripMenuItem";
             this.分拣批次管理ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.分拣批次管理ToolStripMenuItem.Text = "分拣批次管理";
+            this.分拣批次管理ToolStripMenuItem.Click += new System.EventHandler(this.分拣批次管理ToolStripMenuItem_Click);
             // 
             // 品牌条码信息ToolStripMenuItem
             // 
@@ -287,6 +287,7 @@
             this.数据库设置ToolStripMenuItem.Name = "数据库设置ToolStripMenuItem";
             this.数据库设置ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.数据库设置ToolStripMenuItem.Text = "数据库设置";
+            this.数据库设置ToolStripMenuItem.Click += new System.EventHandler(this.数据库设置ToolStripMenuItem_Click);
             // 
             // 任务状态修改ToolStripMenuItem
             // 
@@ -337,15 +338,6 @@
             this.toolStripStatusLabel4.Size = new System.Drawing.Size(231, 17);
             this.toolStripStatusLabel4.Text = "toolStripStatusLabel4";
             this.toolStripStatusLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // skinEngine1
-            // 
-            this.skinEngine1.@__DrawButtonFocusRectangle = true;
-            this.skinEngine1.DisabledButtonTextColor = System.Drawing.Color.Gray;
-            this.skinEngine1.DisabledMenuFontColor = System.Drawing.SystemColors.GrayText;
-            this.skinEngine1.InactiveCaptionColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.skinEngine1.SerialNumber = "";
-            this.skinEngine1.SkinFile = null;
             // 
             // w_main
             // 
@@ -406,6 +398,6 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
-        private Sunisoft.IrisSkin.SkinEngine skinEngine1;
+       // private Sunisoft.IrisSkin.SkinEngine skinEngine1;
     }
 }

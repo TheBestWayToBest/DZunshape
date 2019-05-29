@@ -14,8 +14,8 @@ namespace HighSpeed
     {
         public w_main()
         {
-            this.skinEngine1 = new Sunisoft.IrisSkin.SkinEngine(this);
-            this.skinEngine1.SkinFile = Application.StartupPath + @"\Skin\SportsBlack.ssk";
+            //this.skinEngine1 = new Sunisoft.IrisSkin.SkinEngine(this);
+            //this.skinEngine1.SkinFile = Application.StartupPath + @"\Skin\SportsBlack.ssk";
             InitializeComponent();
             
         }
@@ -67,6 +67,25 @@ namespace HighSpeed
             return blResult;
         }
         #endregion
+
+        private void 数据库设置ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void 分拣批次管理ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            w_Batch frm = new w_Batch();
+            if (CheckExist(frm))
+            {
+                frm.Dispose();
+                frm = null;
+                return;
+            }
+            frm.MdiParent = this;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
 
     }
 }

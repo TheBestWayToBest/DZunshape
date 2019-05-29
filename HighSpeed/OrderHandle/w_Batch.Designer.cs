@@ -61,7 +61,7 @@
             this.cbnormal.AutoSize = true;
             this.cbnormal.Checked = true;
             this.cbnormal.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbnormal.Location = new System.Drawing.Point(18, 20);
+            this.cbnormal.Location = new System.Drawing.Point(640, 14);
             this.cbnormal.Margin = new System.Windows.Forms.Padding(2);
             this.cbnormal.Name = "cbnormal";
             this.cbnormal.Size = new System.Drawing.Size(60, 16);
@@ -74,7 +74,7 @@
             this.cbunnormal.AutoSize = true;
             this.cbunnormal.Checked = true;
             this.cbunnormal.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbunnormal.Location = new System.Drawing.Point(128, 20);
+            this.cbunnormal.Location = new System.Drawing.Point(750, 14);
             this.cbunnormal.Margin = new System.Windows.Forms.Padding(2);
             this.cbunnormal.Name = "cbunnormal";
             this.cbunnormal.Size = new System.Drawing.Size(60, 16);
@@ -84,7 +84,7 @@
             // 
             // btn_close
             // 
-            this.btn_close.Location = new System.Drawing.Point(338, 14);
+            this.btn_close.Location = new System.Drawing.Point(139, 14);
             this.btn_close.Name = "btn_close";
             this.btn_close.Size = new System.Drawing.Size(75, 23);
             this.btn_close.TabIndex = 1;
@@ -93,13 +93,14 @@
             // 
             // btn_new
             // 
-            this.btn_new.Location = new System.Drawing.Point(224, 14);
+            this.btn_new.Location = new System.Drawing.Point(25, 14);
             this.btn_new.Name = "btn_new";
             this.btn_new.Size = new System.Drawing.Size(75, 23);
             this.btn_new.TabIndex = 0;
             this.btn_new.Text = "创建批次";
             this.btn_new.UseCompatibleTextRendering = true;
             this.btn_new.UseVisualStyleBackColor = true;
+            this.btn_new.Click += new System.EventHandler(this.btn_new_Click);
             // 
             // batchdata
             // 

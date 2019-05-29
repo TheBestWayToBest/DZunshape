@@ -37,6 +37,9 @@
     <Reference Include="DotNetPrint">
       <HintPath>..\Lib\DotNetPrint.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\InBoundNew\InBound\bin\Debug\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\Lib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
@@ -60,6 +63,12 @@
     </Compile>
     <Compile Include="OrderHandle\w_Batch.Designer.cs">
       <DependentUpon>w_Batch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderHandle\w_batch_new.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_batch_new.designer.cs">
+      <DependentUpon>w_batch_new.cs</DependentUpon>
     </Compile>
     <Compile Include="OrderHandle\w_CigaretteInfo.cs">
       <SubType>Form</SubType>
@@ -120,6 +129,9 @@
     <EmbeddedResource Include="OrderHandle\w_Batch.resx">
       <DependentUpon>w_Batch.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_batch_new.resx">
+      <DependentUpon>w_batch_new.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_CigaretteInfo.resx">
       <DependentUpon>w_CigaretteInfo.cs</DependentUpon>
     </EmbeddedResource>
@@ -156,6 +168,7 @@
     <EmbeddedResource Include="w_User.resx">
       <DependentUpon>w_User.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -167,6 +180,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Business\Business.csproj">
+      <Project>{40E299A9-B89C-43E9-ADE3-444019024F82}</Project>
+      <Name>Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lib\Lib.csproj">
       <Project>{35F077F9-A7D2-429C-8938-12B80E68BFB9}</Project>
       <Name>Lib</Name>
