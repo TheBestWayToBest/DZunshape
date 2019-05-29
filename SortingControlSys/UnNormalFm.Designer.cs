@@ -256,6 +256,7 @@
             this.BtnEnd.Size = new System.Drawing.Size(99, 43);
             this.BtnEnd.TabIndex = 8;
             this.BtnEnd.UseVisualStyleBackColor = true;
+            this.BtnEnd.Click += new System.EventHandler(this.BtnEnd_Click);
             // 
             // panel3
             // 

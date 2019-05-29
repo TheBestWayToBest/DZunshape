@@ -22,9 +22,6 @@ namespace SortingControlSys
         delegate void HandleUpDate(string info);
 
         static HandleUpDate handle;
-        static Boolean isInit = false;
-
-        //bool issendone = false;
 
         OPCServer opcServer;
         /// <summary>
@@ -41,7 +38,7 @@ namespace SortingControlSys
 
         private void BtnStatrt_Click(object sender, EventArgs e)
         {
-            //DZEntities en = new DZEntities();
+            DZEntities en = new DZEntities();
             timerSendTask.Interval = 1000 * 10;
             timerSendTask.Start();
             GetTaskInfo("启动定时器");
@@ -86,7 +83,14 @@ namespace SortingControlSys
                 if (opcServer.ConnectState)
                 {
                     GetTaskInfo("PLC连接成功!");
+                    opcServer.SpyBiaozhiGroup.callback = OnDataChange;
+                    opcServer.FinishOnlyGroup.callback = OnDataChange;
                 }
+                
+            }
+            else
+            {
+                timerSendTask.Stop();
             }
 
         }
@@ -150,8 +154,8 @@ namespace SortingControlSys
                                 }
                            
                                 DelSendTask task = new DelSendTask(opcServer.SendOnlyTask);
-                                IAsyncResult result = task.BeginInvoke(null, task); 
- 
+                                IAsyncResult result = task.BeginInvoke(null, task);
+                                StringBuilder re = task.EndInvoke(result);
                             }
                             else
                             {
@@ -192,6 +196,11 @@ namespace SortingControlSys
                 opcServer.SpyBiaozhiGroup.Write(0, 0);
             }
             timerSendTask.Stop();
+        }
+
+        private void BtnEnd_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
