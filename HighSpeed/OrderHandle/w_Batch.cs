@@ -20,12 +20,14 @@ namespace HighSpeed.OrderHandle
         }
         BatchClass bc = new BatchClass();
         TaskClass tc = new TaskClass();
-
+        ReceiveClass rc = new ReceiveClass();
+        ChannelClass cc = new ChannelClass();
         /// <summary>
         /// 刷新界面
         /// </summary>
         void Refsh()
         {
+            cc.GetSortTroughInfo("s", 1);
             var data = bc.GetBatchDetail() ;
             batchdata.DataSource = data.Content;
           //  batchdata.DataSource = bc.GetBatchDetail().ResultObject;

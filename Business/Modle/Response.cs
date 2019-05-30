@@ -88,9 +88,34 @@ namespace Business.Modle
       {
 
       }
+      private string Defaultinfo ="";
       public Response(string defaultMsgText)
           : base( defaultMsgText)
       {
+          Defaultinfo = defaultMsgText;
+      }
+      /// <summary>
+      /// 默认信息 返回默认是false
+      /// </summary>
+      [Description("默认信息")]
+      public Response<T> DefaultResponse
+      {
+          get
+          {
+              Response<T> defaultresponse = new Response<T>();
+              if (string.IsNullOrWhiteSpace(Defaultinfo))
+              {
+
+                  defaultresponse.MessageText += "默认错误";
+              }
+              else
+              {
+                  defaultresponse.MessageText += Defaultinfo;
+              }
+              defaultresponse.IsSuccess = false;
+              defaultresponse.ResultObject = null;
+              return defaultresponse;
+          }
 
       }
     

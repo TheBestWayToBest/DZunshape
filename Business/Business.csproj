@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessClass\BatchClass.cs" />
+    <Compile Include="BusinessClass\ChannelClass.cs" />
     <Compile Include="BusinessClass\ReceiveClass.cs" />
     <Compile Include="BusinessClass\TaskClass.cs" />
     <Compile Include="BusinessClass\ValidationClass.cs" />

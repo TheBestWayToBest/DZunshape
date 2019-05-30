@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Model.Store" Alias="Self" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="11.2" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="Model.Store" Alias="Self" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="11.2" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="T_PRODUCE_BATCH" EntityType="Model.Store.T_PRODUCE_BATCH" store:Type="Tables" Schema="ZOOMTELDZ" />
           <EntitySet Name="T_PRODUCE_ORDER" EntityType="Model.Store.T_PRODUCE_ORDER" store:Type="Tables" Schema="ZOOMTELDZ" />
@@ -150,6 +150,7 @@
           <Property Name="UNSTATE" Type="varchar2" MaxLength="10" />
           <Property Name="CONTACT" Type="varchar2" MaxLength="50" />
           <Property Name="DELIVERYDATE" Type="date" />
+          <Property Name="SELATASKNUM" Type="number" />
         </EntityType>
         <EntityType Name="T_PRODUCE_ORDERID">
           <Key>
@@ -483,14 +484,7 @@
           <Parameter Name="IN_CWXX" Type="varchar2" Mode="In" />
           <Parameter Name="IN_CCMK" Type="varchar2" Mode="In" />
         </Function>
-        <!--生成过程中发现错误:
-      警告 6005: 函数“UPDATE_MANTISSAWOLF”在参数索引 1 处有一个数据类型为“pl/sql table”的参数“ITEMARRAY”，目标 .NET Framework 版本目前不支持该数据类型。已排除该函数。
-      
-      <Function Name="UPDATE_MANTISSAWOLF" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="ZOOMTELDZ">
-        <Parameter Name="SIGN" Type="number" Mode="In" />
-      </Function>-->
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
@@ -550,6 +544,7 @@
           <Property Name="UNSTATE" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
           <Property Name="CONTACT" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="DELIVERYDATE" Type="DateTime" />
+          <Property Type="Decimal" Name="SELATASKNUM" Precision="38" Scale="0" />
         </EntityType>
         <EntityType Name="T_PRODUCE_ORDERID">
           <Key>
@@ -883,6 +878,7 @@
           <EntitySetMapping Name="T_PRODUCE_ORDER">
             <EntityTypeMapping TypeName="Model.T_PRODUCE_ORDER">
               <MappingFragment StoreEntitySet="T_PRODUCE_ORDER">
+                <ScalarProperty Name="SELATASKNUM" ColumnName="SELATASKNUM" />
                 <ScalarProperty Name="BILLCODE" ColumnName="BILLCODE" />
                 <ScalarProperty Name="COMPANYCODE" ColumnName="COMPANYCODE" />
                 <ScalarProperty Name="COMPANYNAME" ColumnName="COMPANYNAME" />
