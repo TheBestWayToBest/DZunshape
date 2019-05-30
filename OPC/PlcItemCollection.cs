@@ -16,11 +16,11 @@ namespace OPC
             List<string> list = new List<string>();
             list.Add(OpcPresortServer + "DB1,DINT0");
             list.Add(OpcPresortServer + "DB1,DINT4");
-            for (int i = 0; i <= 96; i+=2)
+            for (int i = 0; i <= 192; i+=2)
             {
                 list.Add(OpcPresortServer + "DB1,W" + i + 8);//为烟柜内部皮带的条烟总数
             }
-            list.Add(OpcPresortServer + "DB1,DINT204");
+            list.Add(OpcPresortServer + "DB1,DINT204");//立式烟仓与卧式烟仓总条烟数
             list.Add(OpcPresortServer + "DB1,W208");
             list.Add(OpcPresortServer + "DB1,W210");
             return list;

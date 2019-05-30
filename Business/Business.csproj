@@ -51,6 +51,7 @@
     <Compile Include="BusinessClass\ChannelClass.cs" />
     <Compile Include="BusinessClass\ReceiveClass.cs" />
     <Compile Include="BusinessClass\TaskClass.cs" />
+    <Compile Include="BusinessClass\UnPokeClass.cs" />
     <Compile Include="BusinessClass\ValidationClass.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="DZEntity.Designer.cs">
