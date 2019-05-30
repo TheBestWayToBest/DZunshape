@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace OPC
 {
+    /// <summary>
+    /// OPC连接
+    /// </summary>
     public class OPCServer
     {
         internal const string SERVER_NAME = "OPC.SimaticNET";       // local server name
@@ -17,7 +20,11 @@ namespace OPC
 
         bool connectState = false;
 
+        /// <summary>
+        /// 连接状态
+        /// </summary>
         public bool ConnectState { get { return connectState; } set { connectState = value; } }
+
         bool isSendOne = false;
 
         public bool IsSendOn { get { return isSendOne; } set { isSendOne = value; } }
@@ -44,9 +51,21 @@ namespace OPC
         /// 包装机
         /// </summary>
         PlcGroup PackageMachineGroup;
+        /// <summary>
+        /// opcserver对象
+        /// </summary>
         public IOPCServer PIOPCServer { get { return pIOPCServer; } set { pIOPCServer = value; } }
+        /// <summary>
+        /// 任务交互区
+        /// </summary>
         public PlcGroup OnlyTaskGroup { get { return onlyTaskGroup; } set { onlyTaskGroup = value; } }
+        /// <summary>
+        /// 标志位监控
+        /// </summary>
         public PlcGroup SpyBiaozhiGroup { get { return spyBiaozhiGroup; } set { spyBiaozhiGroup = value; } }
+        /// <summary>
+        /// 完成信号交互区
+        /// </summary>
         public PlcGroup FinishOnlyGroup { get { return finishOnlyGroup; } set { finishOnlyGroup = value; } }
 
 

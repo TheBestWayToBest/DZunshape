@@ -16,7 +16,7 @@
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -109,7 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Business\Business.csproj">
-      <Project>{40E299A9-B89C-43E9-ADE3-444019024F82}</Project>
+      <Project>{A86E0C98-9483-410F-9771-1253589DAEFB}</Project>
       <Name>Business</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lib\Lib.csproj">

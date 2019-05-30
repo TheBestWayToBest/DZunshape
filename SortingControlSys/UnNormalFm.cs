@@ -38,7 +38,10 @@ namespace SortingControlSys
 
         private void BtnStatrt_Click(object sender, EventArgs e)
         {
+
             DZEntities en = new DZEntities();
+            var s = en.T_WMS_ITEM.Select(x => x).ToList();
+            //en.T_PRODUCE_ORDER.Select(x => x);
             timerSendTask.Interval = 1000 * 10;
             timerSendTask.Start();
             GetTaskInfo("启动定时器");
@@ -74,23 +77,35 @@ namespace SortingControlSys
         }
         public void startFenJian()
         {
-            GetTaskInfo("正在尝试连接服务器......");
-            string[] str = opcServer.Connection();
-            if (string.IsNullOrWhiteSpace(str[0]))
+            if (!opcServer.ConnectState)
             {
-                GetTaskInfo("opC服务器创成功！");
-                opcServer.ConnectState = opcServer.CheckConnection();
-                if (opcServer.ConnectState)
+                GetTaskInfo("正在尝试连接服务器......");
+                string[] str = opcServer.Connection();
+                if (string.IsNullOrWhiteSpace(str[0]))
                 {
-                    GetTaskInfo("PLC连接成功!");
-                    opcServer.SpyBiaozhiGroup.callback = OnDataChange;
-                    opcServer.FinishOnlyGroup.callback = OnDataChange;
+                    GetTaskInfo("opC服务器创成功！");
+                    opcServer.ConnectState = opcServer.CheckConnection();
+                    if (opcServer.ConnectState)
+                    {
+                        GetTaskInfo("PLC连接成功!");
+                        opcServer.SpyBiaozhiGroup.callback = OnDataChange;
+                        opcServer.FinishOnlyGroup.callback = OnDataChange;
+                    }
+                    else
+                    {
+                        GetTaskInfo("PLC连接失败!");
+                        timerSendTask.Stop();
+                    }
                 }
-                
+                else
+                {
+                    GetTaskInfo(str[0]);
+                    timerSendTask.Stop();
+                }
             }
-            else
+            else 
             {
-                timerSendTask.Stop();
+                
             }
 
         }

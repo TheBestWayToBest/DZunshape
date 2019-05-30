@@ -37,14 +37,8 @@
     <Reference Include="DotNetPrint">
       <HintPath>..\Lib\DotNetPrint.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\..\InBoundNew\InBound\bin\Debug\EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\Lib\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="IrisSkin4">
-      <HintPath>..\..\..\Downloads\IrisSkin4\X86\IrisSkin4.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -181,7 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Business\Business.csproj">
-      <Project>{40E299A9-B89C-43E9-ADE3-444019024F82}</Project>
+      <Project>{A86E0C98-9483-410F-9771-1253589DAEFB}</Project>
       <Name>Business</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lib\Lib.csproj">
