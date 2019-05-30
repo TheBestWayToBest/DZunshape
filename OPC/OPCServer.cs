@@ -131,7 +131,7 @@ namespace OPC
         /// 写入异型烟链板机（合包）任务发送区DB块的内容
         /// </summary>
         /// <returns></returns>
-        public StringBuilder SendOnlyTask()
+        public StringBuilder SendOnlyTask(object[] datas, StringBuilder OutStr)
         {
             StringBuilder sb = new StringBuilder();
             isSendOne = true;
@@ -139,16 +139,14 @@ namespace OPC
             WriteLog.GetLog().Write("烟仓烟柜发送数据前读标志位：" + flag + flag);
             if (flag == 0)
             {
-                string OutStr = "";
-                object[] datas = new object[50];//= UnPokeService.getAllLineTask(10, out listOnly, out OutStr);//获取可发送任务
+                //string OutStr = "";
+                //object[] datas = new object[50];//= UnPokeService.getAllLineTask(10, out listOnly, out OutStr);//获取可发送任务
                 if (int.Parse(datas[0].ToString()) == 0)
                 {
-                    //updateListBox("烟仓烟柜分拣数据发送完毕");
                     sb.Append("烟仓烟柜分拣数据发送完毕");
                     return sb;
                 }
                 WriteLog.GetLog().Write("烟仓烟柜分拣线:" + OutStr);
-                //updateListBox("烟仓烟柜分拣线:" + OutStr);
                 sb.Append("烟仓烟柜分拣线:" + OutStr);
                 OnlyTaskGroup.SyncWrite(datas);
             }

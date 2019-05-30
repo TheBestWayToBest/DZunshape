@@ -11,6 +11,7 @@ using OPC;
 using OpcRcw.Da;
 using Tool;
 using Business;
+using Business.BusinessClass;
 
 namespace SortingControlSys
 {
@@ -18,7 +19,7 @@ namespace SortingControlSys
     {
         private delegate void HandleDelegate(string strshow);
         private delegate void HandleDelegate2(Boolean visible, Control control);
-        delegate StringBuilder DelSendTask();
+        delegate StringBuilder DelSendTask(object[]data,StringBuilder outStr);
         delegate void HandleUpDate(string info);
 
         static HandleUpDate handle;
@@ -32,20 +33,17 @@ namespace SortingControlSys
         public UnNormalFm()
         {
             InitializeComponent();
+            UpdateControlEnable(false, BtnEnd);
             opcServer = new OPCServer();
             handle += UpdateListBox;
         }
 
         private void BtnStatrt_Click(object sender, EventArgs e)
         {
-
-            DZEntities en = new DZEntities();
-            var s = en.T_WMS_ITEM.Select(x => x).ToList();
-            //en.T_PRODUCE_ORDER.Select(x => x);
             timerSendTask.Interval = 1000 * 10;
             timerSendTask.Start();
             GetTaskInfo("启动定时器");
-            updateControlEnable(false, BtnStatrt);
+            UpdateControlEnable(false, BtnStatrt);
             Thread thread = new Thread(new ThreadStart(startFenJian));
             thread.Start();
         }
@@ -63,11 +61,11 @@ namespace SortingControlSys
                 this.list_data.Items.Insert(0, time + "    " + info);
             }
         }
-        public void updateControlEnable(Boolean enable, Control control)
+        public void UpdateControlEnable(Boolean enable, Control control)
         {
             if (control.InvokeRequired)
             {
-                control.Invoke(new HandleDelegate2(updateControlEnable), new Object[] { enable, control });
+                control.Invoke(new HandleDelegate2(UpdateControlEnable), new Object[] { enable, control });
             }
             else
             {
@@ -101,11 +99,13 @@ namespace SortingControlSys
                 {
                     GetTaskInfo(str[0]);
                     timerSendTask.Stop();
+                    UpdateControlEnable(true, BtnStatrt);
                 }
             }
             else 
             {
-                
+                opcServer.SpyBiaozhiGroup.callback = OnDataChange;
+                opcServer.FinishOnlyGroup.callback = OnDataChange;
             }
 
         }
@@ -113,7 +113,6 @@ namespace SortingControlSys
 
         public void OnDataChange(int group, int[] clientId, object[] values)
         {
-
             if (group == 5)//1线完成信号
             {
                 for (int i = 0; i < clientId.Length; i++)//"出口号：" + clientId[i] + ";任务号:" + taskno
@@ -138,7 +137,7 @@ namespace SortingControlSys
                             return;
                         }
                     }
-                    //FinishOnlyGroup.Write(0, clientId[i] - 1);
+                    opcServer.FinishOnlyGroup.Write(0, clientId[i] - 1);
                 }
 
             }
@@ -161,16 +160,18 @@ namespace SortingControlSys
                                 if (receivePackage != 0)
                                 {
                                     GetTaskInfo(ListLineNum[0] + "线烟仓任务包号:" + receivePackage + "已接收");
-                                    //UnPokeService.UpdateTask(receivePackage, 15);
+                                    UnPokeClass.UpdateTask(receivePackage, 15);
                                 }
                                 if (opcServer.IsSendOn)//如果任务已经在发送中则返回
                                 {
                                     return;
                                 }
-                           
+                                StringBuilder outStr=new StringBuilder ();
+                                object[] data = UnPokeClass.GetOneDateBaseTask(10, "1", out outStr);
                                 DelSendTask task = new DelSendTask(opcServer.SendOnlyTask);
-                                IAsyncResult result = task.BeginInvoke(null, task);
+                                IAsyncResult result = task.BeginInvoke(data,outStr,null, task);
                                 StringBuilder re = task.EndInvoke(result);
+                                GetTaskInfo(re.ToString());
                             }
                             else
                             {
@@ -178,14 +179,12 @@ namespace SortingControlSys
                                 {
                                     WriteLog.GetLog().Write(ListLineNum[0] + "线烟仓读到标志位:" + values[i]);
                                 }
-
                             }
                         }
                         catch (Exception ex)
                         {
                             WriteLog.GetLog().Write(ListLineNum[1] + "线烟仓异常信息" + ex.Message);
                         }
-
                     }
                 }
             }
@@ -209,13 +208,44 @@ namespace SortingControlSys
             {
                 opcServer.SpyBiaozhiGroup.Write(2, 0);
                 opcServer.SpyBiaozhiGroup.Write(0, 0);
+                GetTaskInfo("发送任务");
+            }
+            else 
+            {
+                GetTaskInfo("强制跳变失败");
             }
             timerSendTask.Stop();
         }
 
         private void BtnEnd_Click(object sender, EventArgs e)
         {
-
+            if (opcServer.ConnectState)
+            {
+                DialogResult result = MessageBox.Show("确定要停止发送任务?",//对话框的显示内容 
+                                                        "操作提示",//对话框的标题 
+                                                        MessageBoxButtons.YesNo,//定义对话框的按钮，这里定义了YSE和NO两个按钮 
+                                                        MessageBoxIcon.Question,//定义对话框内的图表式样，这里是一个黄色三角型内加一个感叹号 
+                                                        MessageBoxDefaultButton.Button2);//定义对话框的按钮式样
+                if (result == DialogResult.Yes)
+                {
+                    try
+                    {
+                        opcServer.FinishOnlyGroup.callback -= OnDataChange;
+                        opcServer.SpyBiaozhiGroup.callback -= OnDataChange;
+                        GetTaskInfo("异型烟倍速链，常规烟翻版移除事件成功！");
+                        GetTaskInfo("任务停止发送与接收！");
+                        UpdateControlEnable(false, BtnEnd);
+                    }
+                    catch (NullReferenceException nuller)
+                    {
+                        GetTaskInfo("OPC未能创建成功！" + nuller.Message);
+                    }
+                    catch (Exception ex)
+                    {
+                        GetTaskInfo("异型烟链板机任务停止失败！错误：" + ex.Message);
+                    }
+                }
+            }
         }
     }
 }
