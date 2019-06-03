@@ -28,24 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.TxtSortNum = new System.Windows.Forms.TextBox();
-            this.TxtRegionCode = new System.Windows.Forms.TextBox();
-            this.TxtCusID = new System.Windows.Forms.TextBox();
             this.BtnSearch = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.CmbState = new System.Windows.Forms.ComboBox();
-            this.BtnUpdate = new System.Windows.Forms.Button();
-            this.TxtStartNum = new System.Windows.Forms.TextBox();
+            this.TxtCusID = new System.Windows.Forms.TextBox();
+            this.TxtRegionCode = new System.Windows.Forms.TextBox();
+            this.TxtSortNum = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.TxtEndNum = new System.Windows.Forms.TextBox();
+            this.TxtStartNum = new System.Windows.Forms.TextBox();
+            this.BtnUpdate = new System.Windows.Forms.Button();
+            this.CmbState = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.DgvData = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -78,6 +78,64 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "数据查询";
             // 
+            // BtnSearch
+            // 
+            this.BtnSearch.Location = new System.Drawing.Point(799, 16);
+            this.BtnSearch.Name = "BtnSearch";
+            this.BtnSearch.Size = new System.Drawing.Size(75, 23);
+            this.BtnSearch.TabIndex = 6;
+            this.BtnSearch.Text = "查询";
+            this.BtnSearch.UseVisualStyleBackColor = true;
+            this.BtnSearch.Click += new System.EventHandler(this.BtnSearch_Click);
+            // 
+            // TxtCusID
+            // 
+            this.TxtCusID.Location = new System.Drawing.Point(573, 17);
+            this.TxtCusID.Name = "TxtCusID";
+            this.TxtCusID.Size = new System.Drawing.Size(100, 21);
+            this.TxtCusID.TabIndex = 5;
+            // 
+            // TxtRegionCode
+            // 
+            this.TxtRegionCode.Location = new System.Drawing.Point(318, 17);
+            this.TxtRegionCode.Name = "TxtRegionCode";
+            this.TxtRegionCode.Size = new System.Drawing.Size(100, 21);
+            this.TxtRegionCode.TabIndex = 4;
+            // 
+            // TxtSortNum
+            // 
+            this.TxtSortNum.Location = new System.Drawing.Point(90, 17);
+            this.TxtSortNum.Name = "TxtSortNum";
+            this.TxtSortNum.Size = new System.Drawing.Size(100, 21);
+            this.TxtSortNum.TabIndex = 3;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(502, 20);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(65, 12);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "专卖证号：";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(259, 21);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 12);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "车组号：";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 21);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(77, 12);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "分拣任务号：";
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.TxtEndNum);
@@ -94,100 +152,28 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "状态修改";
             // 
-            // groupBox3
+            // TxtEndNum
             // 
-            this.groupBox3.Controls.Add(this.DgvData);
-            this.groupBox3.Location = new System.Drawing.Point(0, 109);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(1127, 619);
-            this.groupBox3.TabIndex = 1;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "查询结果";
+            this.TxtEndNum.Location = new System.Drawing.Point(291, 19);
+            this.TxtEndNum.Name = "TxtEndNum";
+            this.TxtEndNum.Size = new System.Drawing.Size(100, 21);
+            this.TxtEndNum.TabIndex = 9;
             // 
-            // label1
+            // TxtStartNum
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 21);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 12);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "分拣任务号：";
+            this.TxtStartNum.Location = new System.Drawing.Point(90, 19);
+            this.TxtStartNum.Name = "TxtStartNum";
+            this.TxtStartNum.Size = new System.Drawing.Size(100, 21);
+            this.TxtStartNum.TabIndex = 8;
             // 
-            // label2
+            // BtnUpdate
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(259, 21);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 12);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "车组号：";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(502, 20);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(65, 12);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "专卖证号：";
-            // 
-            // TxtSortNum
-            // 
-            this.TxtSortNum.Location = new System.Drawing.Point(90, 17);
-            this.TxtSortNum.Name = "TxtSortNum";
-            this.TxtSortNum.Size = new System.Drawing.Size(100, 21);
-            this.TxtSortNum.TabIndex = 3;
-            // 
-            // TxtRegionCode
-            // 
-            this.TxtRegionCode.Location = new System.Drawing.Point(318, 17);
-            this.TxtRegionCode.Name = "TxtRegionCode";
-            this.TxtRegionCode.Size = new System.Drawing.Size(100, 21);
-            this.TxtRegionCode.TabIndex = 4;
-            // 
-            // TxtCusID
-            // 
-            this.TxtCusID.Location = new System.Drawing.Point(573, 17);
-            this.TxtCusID.Name = "TxtCusID";
-            this.TxtCusID.Size = new System.Drawing.Size(100, 21);
-            this.TxtCusID.TabIndex = 5;
-            // 
-            // BtnSearch
-            // 
-            this.BtnSearch.Location = new System.Drawing.Point(799, 16);
-            this.BtnSearch.Name = "BtnSearch";
-            this.BtnSearch.Size = new System.Drawing.Size(75, 23);
-            this.BtnSearch.TabIndex = 6;
-            this.BtnSearch.Text = "查询";
-            this.BtnSearch.UseVisualStyleBackColor = true;
-            this.BtnSearch.Click += new System.EventHandler(this.BtnSearch_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(502, 23);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(41, 12);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "状态为";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 23);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(65, 12);
-            this.label5.TabIndex = 1;
-            this.label5.Text = "更新任务号";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(259, 23);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(17, 12);
-            this.label6.TabIndex = 2;
-            this.label6.Text = "到";
+            this.BtnUpdate.Location = new System.Drawing.Point(799, 17);
+            this.BtnUpdate.Name = "BtnUpdate";
+            this.BtnUpdate.Size = new System.Drawing.Size(75, 23);
+            this.BtnUpdate.TabIndex = 7;
+            this.BtnUpdate.Text = "更新";
+            this.BtnUpdate.UseVisualStyleBackColor = true;
             // 
             // CmbState
             // 
@@ -202,35 +188,49 @@
             this.CmbState.Size = new System.Drawing.Size(121, 20);
             this.CmbState.TabIndex = 3;
             // 
-            // BtnUpdate
+            // label6
             // 
-            this.BtnUpdate.Location = new System.Drawing.Point(799, 17);
-            this.BtnUpdate.Name = "BtnUpdate";
-            this.BtnUpdate.Size = new System.Drawing.Size(75, 23);
-            this.BtnUpdate.TabIndex = 7;
-            this.BtnUpdate.Text = "更新";
-            this.BtnUpdate.UseVisualStyleBackColor = true;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(259, 23);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(17, 12);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "到";
             // 
-            // TxtStartNum
+            // label5
             // 
-            this.TxtStartNum.Location = new System.Drawing.Point(90, 19);
-            this.TxtStartNum.Name = "TxtStartNum";
-            this.TxtStartNum.Size = new System.Drawing.Size(100, 21);
-            this.TxtStartNum.TabIndex = 8;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(13, 23);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(65, 12);
+            this.label5.TabIndex = 1;
+            this.label5.Text = "更新任务号";
             // 
-            // TxtEndNum
+            // label4
             // 
-            this.TxtEndNum.Location = new System.Drawing.Point(291, 19);
-            this.TxtEndNum.Name = "TxtEndNum";
-            this.TxtEndNum.Size = new System.Drawing.Size(100, 21);
-            this.TxtEndNum.TabIndex = 9;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(502, 23);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(41, 12);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "状态为";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.DgvData);
+            this.groupBox3.Location = new System.Drawing.Point(0, 109);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(1127, 619);
+            this.groupBox3.TabIndex = 1;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "查询结果";
             // 
             // DgvData
             // 
             this.DgvData.AllowUserToAddRows = false;
             this.DgvData.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
-            this.DgvData.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            this.DgvData.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.DgvData.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.DgvData.BackgroundColor = System.Drawing.SystemColors.Control;
             this.DgvData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
