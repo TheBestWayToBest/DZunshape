@@ -20,7 +20,7 @@ namespace HighSpeed.OrderHandle
         }
         BatchClass bc = new BatchClass();
         TaskClass tc = new TaskClass();
-        ReceiveClass rc = new ReceiveClass();
+        ScheduleClass rc = new ScheduleClass();
         ChannelClass cc = new ChannelClass();
         /// <summary>
         /// 刷新界面

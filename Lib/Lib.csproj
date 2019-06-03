@@ -53,6 +53,7 @@
     <Content Include="office.dll" />
     <Content Include="opcrcw.comn.dll" />
     <Content Include="opcrcw.da.dll" />
+    <Content Include="WHC.Pager.WinControlEx.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

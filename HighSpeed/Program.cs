@@ -15,7 +15,7 @@ namespace HighSpeed
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new w_main());
+            Application.Run(new  w_main());
         }
     }
 }

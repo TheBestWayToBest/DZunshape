@@ -12,6 +12,8 @@
           <EntitySet Name="T_PRODUCE_ORDERLINE" EntityType="Model.Store.T_PRODUCE_ORDERLINE" store:Type="Tables" Schema="ZOOMTELDZ" />
           <EntitySet Name="T_PRODUCE_REPLENISHPLAN" EntityType="Model.Store.T_PRODUCE_REPLENISHPLAN" store:Type="Tables" Schema="ZOOMTELDZ" />
           <EntitySet Name="T_PRODUCE_SORTTROUGH" EntityType="Model.Store.T_PRODUCE_SORTTROUGH" store:Type="Tables" Schema="ZOOMTELDZ" />
+          <EntitySet Name="T_SALE_ORDER_HEAD" EntityType="Model.Store.T_SALE_ORDER_HEAD" store:Type="Tables" Schema="ZOOMTELDZ" />
+          <EntitySet Name="T_SALE_ORDER_LINE" EntityType="Model.Store.T_SALE_ORDER_LINE" store:Type="Tables" Schema="ZOOMTELDZ" />
           <EntitySet Name="T_UN_PLCITEM" EntityType="Model.Store.T_UN_PLCITEM" store:Type="Tables" Schema="ZOOMTELDZ" />
           <EntitySet Name="T_UN_POKE" EntityType="Model.Store.T_UN_POKE" store:Type="Tables" Schema="ZOOMTELDZ" />
           <EntitySet Name="T_UN_POKE_H" EntityType="Model.Store.T_UN_POKE_H" store:Type="Tables" store:Schema="ZOOMTELDZ" store:Name="T_UN_POKE_H">
@@ -210,17 +212,42 @@
           <Property Name="STATE" Type="varchar2" MaxLength="10" />
           <Property Name="MANTISSA" Type="number" />
           <Property Name="CIGARETTETYPE" Type="number" />
-          <Property Name="REPLENISHLINE" Type="number" />
-          <Property Name="TRANSPORTATIONLINE" Type="number" />
           <Property Name="LASTMANTISSA" Type="number" />
           <Property Name="TROUGHTYPE" Type="number" />
           <Property Name="GROUPNO" Type="number" />
-          <Property Name="THRESHOLD" Type="number" />
-          <Property Name="BOXCOUNT" Type="number" />
-          <Property Name="MAINTISSALESS" Type="number" />
-          <Property Name="CLEARUP" Type="number" />
-          <Property Name="CLEARTHRESHOLD" Type="number" />
           <Property Name="SEQ" Type="number" />
+        </EntityType>
+        <EntityType Name="T_SALE_ORDER_HEAD">
+          <Key>
+            <PropertyRef Name="ORDERNO" />
+          </Key>
+          <Property Name="ORDERNO" Type="varchar2" Nullable="false" MaxLength="80" />
+          <Property Name="ORDERDATE" Type="date" />
+          <Property Name="CUSTOMER_ID" Type="varchar2" MaxLength="30" />
+          <Property Name="CUSTOMER_NAME" Type="varchar2" MaxLength="200" />
+          <Property Name="CONTACTADDRESS" Type="varchar2" MaxLength="200" />
+          <Property Name="CONTACTPHONE" Type="varchar2" MaxLength="30" />
+          <Property Name="CONTACT" Type="varchar2" MaxLength="50" />
+          <Property Name="ROUTECODE" Type="varchar2" MaxLength="160" />
+          <Property Name="DELIVERYSEQ" Type="number" />
+          <Property Name="TOTALAMOUNT" Type="number" Precision="16" Scale="2" />
+          <Property Name="TOTALQTY" Type="number" />
+          <Property Name="CREATEUSER" Type="varchar2" MaxLength="40" />
+          <Property Name="CREATETIME" Type="date" />
+        </EntityType>
+        <EntityType Name="T_SALE_ORDER_LINE">
+          <Key>
+            <PropertyRef Name="ORDERNO" />
+            <PropertyRef Name="ITEM_ID" />
+          </Key>
+          <Property Name="ORDERNO" Type="varchar2" Nullable="false" MaxLength="80" />
+          <Property Name="ITEM_ID" Type="varchar2" Nullable="false" MaxLength="30" />
+          <Property Name="UOM_ID" Type="number" />
+          <Property Name="ITEMNAME" Type="varchar2" MaxLength="50" />
+          <Property Name="QTY" Type="number" />
+          <Property Name="SALEPRICE" Type="number" Precision="16" Scale="2" />
+          <Property Name="SALEAMOUNT" Type="number" Precision="16" Scale="2" />
+          <Property Name="REMARK" Type="varchar2" MaxLength="100" />
         </EntityType>
         <EntityType Name="T_UN_PLCITEM">
           <Key>
@@ -494,7 +521,6 @@
           <EntitySet Name="T_PRODUCE_ORDERID" EntityType="Model.T_PRODUCE_ORDERID" />
           <EntitySet Name="T_PRODUCE_ORDERLINE" EntityType="Model.T_PRODUCE_ORDERLINE" />
           <EntitySet Name="T_PRODUCE_REPLENISHPLAN" EntityType="Model.T_PRODUCE_REPLENISHPLAN" />
-          <EntitySet Name="T_PRODUCE_SORTTROUGH" EntityType="Model.T_PRODUCE_SORTTROUGH" />
           <EntitySet Name="T_UN_PLCITEM" EntityType="Model.T_UN_PLCITEM" />
           <EntitySet Name="T_UN_POKE" EntityType="Model.T_UN_POKE" />
           <EntitySet Name="T_UN_POKE_H" EntityType="Model.T_UN_POKE_H" />
@@ -505,6 +531,9 @@
           <EntitySet Name="T_UN_TASKLINE_H" EntityType="Model.T_UN_TASKLINE_H" />
           <EntitySet Name="T_WMS_ITEM" EntityType="Model.T_WMS_ITEM" />
           <EntitySet Name="T_XT_HTCWXX" EntityType="Model.T_XT_HTCWXX" />
+          <EntitySet Name="T_PRODUCE_SORTTROUGH" EntityType="Model.T_PRODUCE_SORTTROUGH" />
+          <EntitySet Name="T_SALE_ORDER_HEAD" EntityType="Model.T_SALE_ORDER_HEAD" />
+          <EntitySet Name="T_SALE_ORDER_LINE" EntityType="Model.T_SALE_ORDER_LINE" />
         </EntityContainer>
         <EntityType Name="T_PRODUCE_BATCH">
           <Key>
@@ -587,33 +616,6 @@
           <Property Name="TASKNUM" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
           <Property Name="MANTISSA" Type="Decimal" Precision="38" Scale="0" />
           <Property Name="SCANTIME" Type="DateTime" />
-          <Property Name="SEQ" Type="Decimal" Precision="38" Scale="0" />
-        </EntityType>
-        <EntityType Name="T_PRODUCE_SORTTROUGH">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
-          <Property Name="LINENUM" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
-          <Property Name="TROUGHNUM" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
-          <Property Name="TROUGHDESC" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
-          <Property Name="ACTCOUNT" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="MACHINESEQ" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="CIGARETTECODE" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
-          <Property Name="CIGARETTENAME" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
-          <Property Name="STATE" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
-          <Property Name="MANTISSA" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="CIGARETTETYPE" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="REPLENISHLINE" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="TRANSPORTATIONLINE" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="LASTMANTISSA" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="TROUGHTYPE" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="GROUPNO" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="THRESHOLD" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="BOXCOUNT" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="MAINTISSALESS" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="CLEARUP" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="CLEARTHRESHOLD" Type="Decimal" Precision="38" Scale="0" />
           <Property Name="SEQ" Type="Decimal" Precision="38" Scale="0" />
         </EntityType>
         <EntityType Name="T_UN_PLCITEM">
@@ -858,6 +860,58 @@
           <Property Name="CWXX" Type="String" MaxLength="512" Unicode="false" FixedLength="false" />
           <Property Name="CCMK" Type="String" MaxLength="40" Unicode="false" FixedLength="false" />
         </EntityType>
+        <EntityType Name="T_PRODUCE_SORTTROUGH">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Decimal" Name="ID" Nullable="false" Precision="38" Scale="0" />
+          <Property Type="String" Name="LINENUM" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="TROUGHNUM" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="TROUGHDESC" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="ACTCOUNT" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="MACHINESEQ" Precision="38" Scale="0" />
+          <Property Type="String" Name="CIGARETTECODE" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CIGARETTENAME" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="STATE" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="MANTISSA" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="CIGARETTETYPE" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="LASTMANTISSA" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="TROUGHTYPE" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="GROUPNO" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="SEQ" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="T_SALE_ORDER_HEAD">
+          <Key>
+            <PropertyRef Name="ORDERNO" />
+          </Key>
+          <Property Type="String" Name="ORDERNO" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ORDERDATE" />
+          <Property Type="String" Name="CUSTOMER_ID" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CUSTOMER_NAME" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CONTACTADDRESS" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CONTACTPHONE" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CONTACT" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ROUTECODE" MaxLength="160" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="DELIVERYSEQ" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="TOTALAMOUNT" Precision="16" Scale="2" />
+          <Property Type="Decimal" Name="TOTALQTY" Precision="38" Scale="0" />
+          <Property Type="String" Name="CREATEUSER" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CREATETIME" />
+        </EntityType>
+        <EntityType Name="T_SALE_ORDER_LINE">
+          <Key>
+            <PropertyRef Name="ORDERNO" />
+            <PropertyRef Name="ITEM_ID" />
+          </Key>
+          <Property Type="String" Name="ORDERNO" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ITEM_ID" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="UOM_ID" Precision="38" Scale="0" />
+          <Property Type="String" Name="ITEMNAME" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="QTY" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="SALEPRICE" Precision="16" Scale="2" />
+          <Property Type="Decimal" Name="SALEAMOUNT" Precision="16" Scale="2" />
+          <Property Type="String" Name="REMARK" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -946,34 +1000,6 @@
                 <ScalarProperty Name="TASKNUM" ColumnName="TASKNUM" />
                 <ScalarProperty Name="MANTISSA" ColumnName="MANTISSA" />
                 <ScalarProperty Name="SCANTIME" ColumnName="SCANTIME" />
-                <ScalarProperty Name="SEQ" ColumnName="SEQ" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="T_PRODUCE_SORTTROUGH">
-            <EntityTypeMapping TypeName="Model.T_PRODUCE_SORTTROUGH">
-              <MappingFragment StoreEntitySet="T_PRODUCE_SORTTROUGH">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="LINENUM" ColumnName="LINENUM" />
-                <ScalarProperty Name="TROUGHNUM" ColumnName="TROUGHNUM" />
-                <ScalarProperty Name="TROUGHDESC" ColumnName="TROUGHDESC" />
-                <ScalarProperty Name="ACTCOUNT" ColumnName="ACTCOUNT" />
-                <ScalarProperty Name="MACHINESEQ" ColumnName="MACHINESEQ" />
-                <ScalarProperty Name="CIGARETTECODE" ColumnName="CIGARETTECODE" />
-                <ScalarProperty Name="CIGARETTENAME" ColumnName="CIGARETTENAME" />
-                <ScalarProperty Name="STATE" ColumnName="STATE" />
-                <ScalarProperty Name="MANTISSA" ColumnName="MANTISSA" />
-                <ScalarProperty Name="CIGARETTETYPE" ColumnName="CIGARETTETYPE" />
-                <ScalarProperty Name="REPLENISHLINE" ColumnName="REPLENISHLINE" />
-                <ScalarProperty Name="TRANSPORTATIONLINE" ColumnName="TRANSPORTATIONLINE" />
-                <ScalarProperty Name="LASTMANTISSA" ColumnName="LASTMANTISSA" />
-                <ScalarProperty Name="TROUGHTYPE" ColumnName="TROUGHTYPE" />
-                <ScalarProperty Name="GROUPNO" ColumnName="GROUPNO" />
-                <ScalarProperty Name="THRESHOLD" ColumnName="THRESHOLD" />
-                <ScalarProperty Name="BOXCOUNT" ColumnName="BOXCOUNT" />
-                <ScalarProperty Name="MAINTISSALESS" ColumnName="MAINTISSALESS" />
-                <ScalarProperty Name="CLEARUP" ColumnName="CLEARUP" />
-                <ScalarProperty Name="CLEARTHRESHOLD" ColumnName="CLEARTHRESHOLD" />
                 <ScalarProperty Name="SEQ" ColumnName="SEQ" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1227,6 +1253,60 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="T_PRODUCE_SORTTROUGH">
+            <EntityTypeMapping TypeName="Model.T_PRODUCE_SORTTROUGH">
+              <MappingFragment StoreEntitySet="T_PRODUCE_SORTTROUGH">
+                <ScalarProperty Name="SEQ" ColumnName="SEQ" />
+                <ScalarProperty Name="GROUPNO" ColumnName="GROUPNO" />
+                <ScalarProperty Name="TROUGHTYPE" ColumnName="TROUGHTYPE" />
+                <ScalarProperty Name="LASTMANTISSA" ColumnName="LASTMANTISSA" />
+                <ScalarProperty Name="CIGARETTETYPE" ColumnName="CIGARETTETYPE" />
+                <ScalarProperty Name="MANTISSA" ColumnName="MANTISSA" />
+                <ScalarProperty Name="STATE" ColumnName="STATE" />
+                <ScalarProperty Name="CIGARETTENAME" ColumnName="CIGARETTENAME" />
+                <ScalarProperty Name="CIGARETTECODE" ColumnName="CIGARETTECODE" />
+                <ScalarProperty Name="MACHINESEQ" ColumnName="MACHINESEQ" />
+                <ScalarProperty Name="ACTCOUNT" ColumnName="ACTCOUNT" />
+                <ScalarProperty Name="TROUGHDESC" ColumnName="TROUGHDESC" />
+                <ScalarProperty Name="TROUGHNUM" ColumnName="TROUGHNUM" />
+                <ScalarProperty Name="LINENUM" ColumnName="LINENUM" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_SALE_ORDER_HEAD">
+            <EntityTypeMapping TypeName="Model.T_SALE_ORDER_HEAD">
+              <MappingFragment StoreEntitySet="T_SALE_ORDER_HEAD">
+                <ScalarProperty Name="CREATETIME" ColumnName="CREATETIME" />
+                <ScalarProperty Name="CREATEUSER" ColumnName="CREATEUSER" />
+                <ScalarProperty Name="TOTALQTY" ColumnName="TOTALQTY" />
+                <ScalarProperty Name="TOTALAMOUNT" ColumnName="TOTALAMOUNT" />
+                <ScalarProperty Name="DELIVERYSEQ" ColumnName="DELIVERYSEQ" />
+                <ScalarProperty Name="ROUTECODE" ColumnName="ROUTECODE" />
+                <ScalarProperty Name="CONTACT" ColumnName="CONTACT" />
+                <ScalarProperty Name="CONTACTPHONE" ColumnName="CONTACTPHONE" />
+                <ScalarProperty Name="CONTACTADDRESS" ColumnName="CONTACTADDRESS" />
+                <ScalarProperty Name="CUSTOMER_NAME" ColumnName="CUSTOMER_NAME" />
+                <ScalarProperty Name="CUSTOMER_ID" ColumnName="CUSTOMER_ID" />
+                <ScalarProperty Name="ORDERDATE" ColumnName="ORDERDATE" />
+                <ScalarProperty Name="ORDERNO" ColumnName="ORDERNO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_SALE_ORDER_LINE">
+            <EntityTypeMapping TypeName="Model.T_SALE_ORDER_LINE">
+              <MappingFragment StoreEntitySet="T_SALE_ORDER_LINE">
+                <ScalarProperty Name="REMARK" ColumnName="REMARK" />
+                <ScalarProperty Name="SALEAMOUNT" ColumnName="SALEAMOUNT" />
+                <ScalarProperty Name="SALEPRICE" ColumnName="SALEPRICE" />
+                <ScalarProperty Name="QTY" ColumnName="QTY" />
+                <ScalarProperty Name="ITEMNAME" ColumnName="ITEMNAME" />
+                <ScalarProperty Name="UOM_ID" ColumnName="UOM_ID" />
+                <ScalarProperty Name="ITEM_ID" ColumnName="ITEM_ID" />
+                <ScalarProperty Name="ORDERNO" ColumnName="ORDERNO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -1253,7 +1333,6 @@
         <EntityTypeShape EntityType="Model.T_PRODUCE_ORDERID" Width="1.5" PointX="4.75" PointY="0.75" Height="1.1810514322916665" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_PRODUCE_ORDERLINE" Width="1.5" PointX="4.75" PointY="2.75" Height="2.8441984049479156" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_PRODUCE_REPLENISHPLAN" Width="1.5" PointX="6.75" PointY="0.75" Height="3.9529630533854156" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.T_PRODUCE_SORTTROUGH" Width="1.5" PointX="0.75" PointY="6.75" Height="5.0617277018229174" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_UN_PLCITEM" Width="1.5" PointX="2.75" PointY="6.75" Height="2.2898160807291674" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_UN_POKE" Width="1.5" PointX="4.75" PointY="6.75" Height="4.6921394856770817" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_UN_POKE_H" Width="1.5" PointX="6.75" PointY="5.75" Height="4.8769335937500031" IsExpanded="true" />
@@ -1264,6 +1343,9 @@
         <EntityTypeShape EntityType="Model.T_UN_TASKLINE_H" Width="1.5" PointX="10.75" PointY="11.75" Height="2.2898160807291674" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_WMS_ITEM" Width="1.5" PointX="12.75" PointY="0.75" Height="9.8663745117187531" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_XT_HTCWXX" Width="1.5" PointX="0.75" PointY="12.75" Height="1.9202278645833388" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.T_PRODUCE_SORTTROUGH" Width="1.5" PointX="3.375" PointY="12.75" Height="3.7681689453125031" />
+        <EntityTypeShape EntityType="Model.T_SALE_ORDER_HEAD" Width="1.5" PointX="5.375" PointY="12.75" Height="3.3985807291666674" />
+        <EntityTypeShape EntityType="Model.T_SALE_ORDER_LINE" Width="1.5" PointX="7.375" PointY="13.75" Height="2.4746101888020888" />
       </Diagram>
     </Diagrams>
   </Designer>

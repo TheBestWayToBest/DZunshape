@@ -87,5 +87,47 @@ namespace HighSpeed
             frm.Show();
         }
 
+        private void 分拣通道管理ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            win_trough frm = new win_trough();
+            if (CheckExist(frm) == true)
+            {
+                frm.Dispose();
+                frm = null;
+                return;
+            }
+            frm.MdiParent = this;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
+        private void 预排程ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            win_schedule frm = new win_schedule();
+            if (CheckExist(frm) == true)
+            {
+                frm.Dispose();
+                frm = null;
+                return;
+            }
+            frm.MdiParent = this;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
+        private void 任务排程ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            w_SortFm frm = new w_SortFm();
+            if (CheckExist(frm) == true)
+            {
+                frm.Dispose();
+                frm = null;
+                return;
+            }
+            frm.MdiParent = this;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
     }
 }

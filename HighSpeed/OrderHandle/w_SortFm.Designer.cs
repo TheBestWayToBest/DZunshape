@@ -66,6 +66,7 @@
             this.btnTransfor.TabIndex = 6;
             this.btnTransfor.Text = "订单拆分";
             this.btnTransfor.UseVisualStyleBackColor = true;
+            this.btnTransfor.Visible = false;
             // 
             // btnVid
             // 
@@ -75,6 +76,7 @@
             this.btnVid.TabIndex = 5;
             this.btnVid.Text = "验证下游数据";
             this.btnVid.UseVisualStyleBackColor = true;
+            this.btnVid.Visible = false;
             // 
             // btnPokeSeq
             // 
@@ -84,37 +86,41 @@
             this.btnPokeSeq.TabIndex = 4;
             this.btnPokeSeq.Text = "条烟顺序";
             this.btnPokeSeq.UseVisualStyleBackColor = true;
+            this.btnPokeSeq.Visible = false;
             // 
             // btnRef
             // 
-            this.btnRef.Location = new System.Drawing.Point(561, 12);
+            this.btnRef.Location = new System.Drawing.Point(387, 8);
             this.btnRef.Name = "btnRef";
             this.btnRef.Size = new System.Drawing.Size(75, 23);
             this.btnRef.TabIndex = 3;
             this.btnRef.Text = "刷 新";
             this.btnRef.UseVisualStyleBackColor = true;
+            this.btnRef.Click += new System.EventHandler(this.btnRef_Click);
             // 
             // rdbUnUnionDan
             // 
             this.rdbUnUnionDan.AutoSize = true;
-            this.rdbUnUnionDan.Location = new System.Drawing.Point(484, 15);
+            this.rdbUnUnionDan.Location = new System.Drawing.Point(672, 15);
             this.rdbUnUnionDan.Name = "rdbUnUnionDan";
             this.rdbUnUnionDan.Size = new System.Drawing.Size(59, 16);
             this.rdbUnUnionDan.TabIndex = 2;
             this.rdbUnUnionDan.TabStop = true;
             this.rdbUnUnionDan.Text = "不合单";
             this.rdbUnUnionDan.UseVisualStyleBackColor = true;
+            this.rdbUnUnionDan.Visible = false;
             // 
             // rdbUnionDan
             // 
             this.rdbUnionDan.AutoSize = true;
-            this.rdbUnionDan.Location = new System.Drawing.Point(394, 15);
+            this.rdbUnionDan.Location = new System.Drawing.Point(582, 15);
             this.rdbUnionDan.Name = "rdbUnionDan";
             this.rdbUnionDan.Size = new System.Drawing.Size(47, 16);
             this.rdbUnionDan.TabIndex = 2;
             this.rdbUnionDan.TabStop = true;
             this.rdbUnionDan.Text = "合单";
             this.rdbUnionDan.UseVisualStyleBackColor = true;
+            this.rdbUnionDan.Visible = false;
             // 
             // panel1
             // 
@@ -145,12 +151,13 @@
             // btnSort
             // 
             this.btnSort.Font = new System.Drawing.Font("宋体", 9F);
-            this.btnSort.Location = new System.Drawing.Point(661, 12);
+            this.btnSort.Location = new System.Drawing.Point(487, 8);
             this.btnSort.Name = "btnSort";
             this.btnSort.Size = new System.Drawing.Size(75, 23);
             this.btnSort.TabIndex = 0;
             this.btnSort.Text = "排  程";
             this.btnSort.UseVisualStyleBackColor = true;
+            this.btnSort.Click += new System.EventHandler(this.btnSort_Click);
             // 
             // dgvSortInfo
             // 
@@ -205,7 +212,7 @@
             this.panel2.Controls.Add(this.lblTime);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.progressBar1);
-            this.panel2.Location = new System.Drawing.Point(153, 204);
+            this.panel2.Location = new System.Drawing.Point(14, 66);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(797, 89);
             this.panel2.TabIndex = 29;

@@ -55,6 +55,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WHC.Pager.WinControlEx">
+      <HintPath>..\Lib\WHC.Pager.WinControlEx.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OrderHandle\w_Batch.cs">
@@ -81,6 +84,18 @@
     <Compile Include="OrderHandle\w_Cigarette_LeftCount.Designer.cs">
       <DependentUpon>w_Cigarette_LeftCount.cs</DependentUpon>
     </Compile>
+    <Compile Include="OrderHandle\w_CigInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_CigInfo.Designer.cs">
+      <DependentUpon>w_CigInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderHandle\w_EDITthough.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_EDITthough.Designer.cs">
+      <DependentUpon>w_EDITthough.cs</DependentUpon>
+    </Compile>
     <Compile Include="OrderHandle\w_Export.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,11 +114,23 @@
     <Compile Include="OrderHandle\w_Order_Union.Designer.cs">
       <DependentUpon>w_Order_Union.cs</DependentUpon>
     </Compile>
+    <Compile Include="OrderHandle\w_schedule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_schedule.designer.cs">
+      <DependentUpon>w_schedule.cs</DependentUpon>
+    </Compile>
     <Compile Include="OrderHandle\w_SortFm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="OrderHandle\w_SortFm.Designer.cs">
       <DependentUpon>w_SortFm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderHandle\w_trough.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_trough.designer.cs">
+      <DependentUpon>w_trough.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -137,6 +164,12 @@
     <EmbeddedResource Include="OrderHandle\w_Cigarette_LeftCount.resx">
       <DependentUpon>w_Cigarette_LeftCount.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_CigInfo.resx">
+      <DependentUpon>w_CigInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_EDITthough.resx">
+      <DependentUpon>w_EDITthough.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_Export.resx">
       <DependentUpon>w_Export.cs</DependentUpon>
     </EmbeddedResource>
@@ -146,8 +179,14 @@
     <EmbeddedResource Include="OrderHandle\w_Order_Union.resx">
       <DependentUpon>w_Order_Union.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_schedule.resx">
+      <DependentUpon>w_schedule.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_SortFm.resx">
       <DependentUpon>w_SortFm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_trough.resx">
+      <DependentUpon>w_trough.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

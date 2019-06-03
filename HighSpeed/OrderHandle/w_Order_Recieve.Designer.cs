@@ -37,14 +37,11 @@
             this.btn_all = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.orderdata = new System.Windows.Forms.DataGridView();
-            this.checkbox = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dpid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.count_hs = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.order_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.checkbox = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.orderdata)).BeginInit();
             this.panel2.SuspendLayout();
@@ -88,6 +85,7 @@
             this.btn_search.TabIndex = 3;
             this.btn_search.Text = "查询";
             this.btn_search.UseVisualStyleBackColor = true;
+            this.btn_search.Click += new System.EventHandler(this.btn_search_Click);
             // 
             // btn_recieve
             // 
@@ -98,6 +96,7 @@
             this.btn_recieve.TabIndex = 4;
             this.btn_recieve.Text = "接收";
             this.btn_recieve.UseVisualStyleBackColor = true;
+            this.btn_recieve.Click += new System.EventHandler(this.btn_recieve_Click);
             // 
             // txt_codestr
             // 
@@ -118,6 +117,7 @@
             this.btn_all.TabIndex = 9;
             this.btn_all.Text = "全选";
             this.btn_all.UseVisualStyleBackColor = true;
+            this.btn_all.Click += new System.EventHandler(this.btn_all_Click);
             // 
             // panel1
             // 
@@ -142,10 +142,7 @@
             this.orderdata.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.orderdata.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.checkbox,
-            this.Column1,
-            this.dpid,
-            this.count_hs,
-            this.order_qty});
+            this.Column1});
             this.orderdata.Dock = System.Windows.Forms.DockStyle.Fill;
             this.orderdata.Location = new System.Drawing.Point(0, 42);
             this.orderdata.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -154,42 +151,7 @@
             this.orderdata.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.orderdata.Size = new System.Drawing.Size(1190, 220);
             this.orderdata.TabIndex = 4;
-            // 
-            // checkbox
-            // 
-            this.checkbox.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.checkbox.FalseValue = "false";
-            this.checkbox.HeaderText = "选择";
-            this.checkbox.Name = "checkbox";
-            this.checkbox.TrueValue = "true";
-            this.checkbox.Width = 35;
-            // 
-            // Column1
-            // 
-            this.Column1.DataPropertyName = "rownum";
-            this.Column1.HeaderText = "序号";
-            this.Column1.Name = "Column1";
-            // 
-            // dpid
-            // 
-            this.dpid.DataPropertyName = "routecode";
-            this.dpid.HeaderText = "车组信息";
-            this.dpid.Name = "dpid";
-            this.dpid.ReadOnly = true;
-            // 
-            // count_hs
-            // 
-            this.count_hs.DataPropertyName = "count_hs";
-            this.count_hs.HeaderText = "订货户数";
-            this.count_hs.Name = "count_hs";
-            this.count_hs.ReadOnly = true;
-            // 
-            // order_qty
-            // 
-            this.order_qty.DataPropertyName = "order_qty";
-            this.order_qty.HeaderText = "订货量";
-            this.order_qty.Name = "order_qty";
-            this.order_qty.ReadOnly = true;
+            this.orderdata.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.orderdata_CellEndEdit);
             // 
             // panel2
             // 
@@ -219,6 +181,21 @@
             this.progressBar1.Size = new System.Drawing.Size(741, 22);
             this.progressBar1.TabIndex = 0;
             this.progressBar1.Visible = false;
+            // 
+            // checkbox
+            // 
+            this.checkbox.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.checkbox.FalseValue = "false";
+            this.checkbox.HeaderText = "选择";
+            this.checkbox.Name = "checkbox";
+            this.checkbox.TrueValue = "true";
+            this.checkbox.Width = 35;
+            // 
+            // Column1
+            // 
+            this.Column1.DataPropertyName = "rownum";
+            this.Column1.HeaderText = "序号";
+            this.Column1.Name = "Column1";
             // 
             // w_Order_Recieve
             // 
@@ -250,13 +227,10 @@
         private System.Windows.Forms.Button btn_all;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridView orderdata;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn checkbox;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dpid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn count_hs;
-        private System.Windows.Forms.DataGridViewTextBoxColumn order_qty;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn checkbox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
     }
 }

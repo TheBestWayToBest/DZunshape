@@ -49,7 +49,7 @@
   <ItemGroup>
     <Compile Include="BusinessClass\BatchClass.cs" />
     <Compile Include="BusinessClass\ChannelClass.cs" />
-    <Compile Include="BusinessClass\ReceiveClass.cs" />
+    <Compile Include="BusinessClass\ScheduleClass.cs" />
     <Compile Include="BusinessClass\TaskClass.cs" />
     <Compile Include="BusinessClass\UnPokeClass.cs" />
     <Compile Include="BusinessClass\ValidationClass.cs" />
@@ -59,6 +59,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DZEntity.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Modle\CigarettInfo.cs" />
+    <Compile Include="Modle\MainOrder.cs" />
     <Compile Include="Modle\Response.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
