@@ -59,6 +59,7 @@
       <DependentUpon>DZEntity.edmx</DependentUpon>
     </Compile>
     <Compile Include="Modle\Response.cs" />
+    <Compile Include="Modle\TaskDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,7 +72,12 @@
     <None Include="App.Config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Tool\Tool.csproj">
+      <Project>{AB35AA11-2ABE-4F7C-811D-9659DD00228E}</Project>
+      <Name>Tool</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
