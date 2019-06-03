@@ -1198,6 +1198,30 @@ namespace Business
         private Nullable<global::System.DateTime> _DELIVERYDATE;
         partial void OnDELIVERYDATEChanging(Nullable<global::System.DateTime> value);
         partial void OnDELIVERYDATEChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> SELATASKNUM
+        {
+            get
+            {
+                return _SELATASKNUM;
+            }
+            set
+            {
+                OnSELATASKNUMChanging(value);
+                ReportPropertyChanging("SELATASKNUM");
+                _SELATASKNUM = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("SELATASKNUM");
+                OnSELATASKNUMChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _SELATASKNUM;
+        partial void OnSELATASKNUMChanging(Nullable<global::System.Decimal> value);
+        partial void OnSELATASKNUMChanged();
 
         #endregion
 
