@@ -132,6 +132,20 @@ namespace Business.BusinessClass
                }
            }
        }
+       /// <summary>
+       /// 验证订单数量是否与源数据一致
+       /// </summary>
+       /// <returns></returns>
+       public Response ValiOrderNum()
+       {
+           Response re = new Response();
+           using (DZEntities en = new DZEntities())
+           {
+
+               return re;
+           }
+
+       }
  
     }
 }

@@ -108,12 +108,6 @@
     <Compile Include="OrderHandle\w_Order_Recieve.Designer.cs">
       <DependentUpon>w_Order_Recieve.cs</DependentUpon>
     </Compile>
-    <Compile Include="OrderHandle\w_Order_Union.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="OrderHandle\w_Order_Union.Designer.cs">
-      <DependentUpon>w_Order_Union.cs</DependentUpon>
-    </Compile>
     <Compile Include="OrderHandle\w_schedule.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -175,9 +169,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_Order_Recieve.resx">
       <DependentUpon>w_Order_Recieve.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OrderHandle\w_Order_Union.resx">
-      <DependentUpon>w_Order_Union.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_schedule.resx">
       <DependentUpon>w_schedule.cs</DependentUpon>

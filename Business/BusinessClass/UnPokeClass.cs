@@ -200,7 +200,7 @@ namespace Business.BusinessClass
                                 ThroughNum = poke.TROUGHNUM,
                                 BillCode = task.BILLCODE,
                                 CigName = through.CIGARETTENAME,
-                                Num = poke.POKENUM
+                                Num = poke.POKENUM ??0
                             }).Where(exSortNum).Where(exCode).Where(exCusCode).OrderBy(item => item.SortNum).Skip(pageNum * 50).Take(50).ToList();
                 return data;
             }
