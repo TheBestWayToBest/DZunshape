@@ -77,6 +77,9 @@ namespace SortingControlSys
         {
             if (!opcServer.ConnectState)
             {
+                opcServer.OnlyTaskGroup.addItem(PlcItemCollection.GetOnlyDBItem());//任务交互区
+                opcServer.SpyBiaozhiGroup.addItem(PlcItemCollection.GetSpyOnlyLineItem());//监控任务标识位
+                opcServer.FinishOnlyGroup.addItem(PlcItemCollection.GetOnlyLineFinishTaskItem());//完成信号交互区;
                 GetTaskInfo("正在尝试连接服务器......");
                 string[] str = opcServer.Connection();
                 if (string.IsNullOrWhiteSpace(str[0]))

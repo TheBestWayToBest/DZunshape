@@ -51,6 +51,8 @@ namespace OPC
         /// 包装机
         /// </summary>
         PlcGroup PackageMachineGroup;
+
+        PlcGroup relenishiplanGroup;
         /// <summary>
         /// opcserver对象
         /// </summary>
@@ -67,6 +69,10 @@ namespace OPC
         /// 完成信号交互区
         /// </summary>
         public PlcGroup FinishOnlyGroup { get { return finishOnlyGroup; } set { finishOnlyGroup = value; } }
+        /// <summary>
+        /// 件烟补货交互区
+        /// </summary>
+        //public PlcGroup RelenishiplanGroup { get { return relenishiplanGroup; } set { relenishiplanGroup = value; } }
 
 
         public string[] Connection()
@@ -99,9 +105,13 @@ namespace OPC
             finishOnlyGroup = new PlcGroup(pIOPCServer, 5, "group5", 1, LOCALE_ID);// 完成信号
             spyBiaozhiGroup = new PlcGroup(pIOPCServer, 9, "group9", 1, LOCALE_ID);//监控标志位 
 
-            onlyTaskGroup.addItem(PlcItemCollection.GetOnlyDBItem());//任务交互区
-            spyBiaozhiGroup.addItem(PlcItemCollection.GetSpyOnlyLineItem());//监控任务标识位
-            finishOnlyGroup.addItem(PlcItemCollection.GetOnlyLineFinishTaskItem());//完成信号交互区;
+
+            //relenishiplanGroup = new PlcGroup(pIOPCServer, 10, "group10", 1, LOCALE_ID);//件烟补货
+
+
+            
+
+            //relenishiplanGroup.addItem(PlcItemCollection.GetRelenishplanItem());//件烟补货
 
             strmessage[0] += "";//写入校验plc连接尝试结果
             strmessage[1] = "1";

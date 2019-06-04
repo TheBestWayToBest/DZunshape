@@ -2,18 +2,20 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A86E0C98-9483-410F-9771-1253589DAEFB}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{27704451-932E-4D96-986C-4CC9130B9770}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Business</RootNamespace>
-    <AssemblyName>Business</AssemblyName>
+    <RootNamespace>SmokeRelenishment</RootNamespace>
+    <AssemblyName>SmokeRelenishment</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,7 +24,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -37,53 +40,53 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessClass\BatchClass.cs" />
-    <Compile Include="BusinessClass\ChannelClass.cs" />
-    <Compile Include="BusinessClass\ItemClass.cs" />
-    <Compile Include="BusinessClass\RelenishimentClass.cs" />
-    <Compile Include="BusinessClass\ScheduleClass.cs" />
-    <Compile Include="BusinessClass\TaskClass.cs" />
-    <Compile Include="BusinessClass\UnPokeClass.cs" />
-    <Compile Include="BusinessClass\ValidationClass.cs" />
-    <Compile Include="Class1.cs" />
-    <Compile Include="DZEntity.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DZEntity.edmx</DependentUpon>
+    <Compile Include="SmokeRelenishment.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Modle\CigarettInfo.cs" />
-    <Compile Include="Modle\ItemInfo.cs" />
-    <Compile Include="Modle\MainOrder.cs" />
-    <Compile Include="Modle\Response.cs" />
-    <Compile Include="Modle\TaskDetail.cs" />
-    <Compile Include="Modle\TaskInfo.cs" />
+    <Compile Include="SmokeRelenishment.Designer.cs">
+      <DependentUpon>SmokeRelenishment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EntityDeploy Include="DZEntity.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DZEntity.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config" />
+    <EmbeddedResource Include="SmokeRelenishment.resx">
+      <DependentUpon>SmokeRelenishment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tool\Tool.csproj">
-      <Project>{AB35AA11-2ABE-4F7C-811D-9659DD00228E}</Project>
-      <Name>Tool</Name>
-    </ProjectReference>
+    <Content Include="Image\icon_exit.png" />
+    <Content Include="Image\mainbj.png" />
+    <Content Include="Image\topfj.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
