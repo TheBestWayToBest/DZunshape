@@ -99,51 +99,52 @@
             // 订单信息ToolStripMenuItem
             // 
             this.订单信息ToolStripMenuItem.Name = "订单信息ToolStripMenuItem";
-            this.订单信息ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.订单信息ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.订单信息ToolStripMenuItem.Text = "卷烟信息";
+            this.订单信息ToolStripMenuItem.Click += new System.EventHandler(this.订单信息ToolStripMenuItem_Click);
             // 
             // 零售户信息ToolStripMenuItem
             // 
             this.零售户信息ToolStripMenuItem.Name = "零售户信息ToolStripMenuItem";
-            this.零售户信息ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.零售户信息ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.零售户信息ToolStripMenuItem.Text = "零售户信息";
             // 
             // 车组信息ToolStripMenuItem
             // 
             this.车组信息ToolStripMenuItem.Name = "车组信息ToolStripMenuItem";
-            this.车组信息ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.车组信息ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.车组信息ToolStripMenuItem.Text = "车组信息";
             // 
             // 分拣批次管理ToolStripMenuItem
             // 
             this.分拣批次管理ToolStripMenuItem.Name = "分拣批次管理ToolStripMenuItem";
-            this.分拣批次管理ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.分拣批次管理ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.分拣批次管理ToolStripMenuItem.Text = "分拣批次管理";
             this.分拣批次管理ToolStripMenuItem.Click += new System.EventHandler(this.分拣批次管理ToolStripMenuItem_Click);
             // 
             // 品牌条码信息ToolStripMenuItem
             // 
             this.品牌条码信息ToolStripMenuItem.Name = "品牌条码信息ToolStripMenuItem";
-            this.品牌条码信息ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.品牌条码信息ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.品牌条码信息ToolStripMenuItem.Text = "品牌条码信息";
             // 
             // 品牌尾数维护ToolStripMenuItem
             // 
             this.品牌尾数维护ToolStripMenuItem.Name = "品牌尾数维护ToolStripMenuItem";
-            this.品牌尾数维护ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.品牌尾数维护ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.品牌尾数维护ToolStripMenuItem.Text = "品牌尾数维护";
             // 
             // 分拣通道管理ToolStripMenuItem
             // 
             this.分拣通道管理ToolStripMenuItem.Name = "分拣通道管理ToolStripMenuItem";
-            this.分拣通道管理ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.分拣通道管理ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.分拣通道管理ToolStripMenuItem.Text = "分拣通道管理";
             this.分拣通道管理ToolStripMenuItem.Click += new System.EventHandler(this.分拣通道管理ToolStripMenuItem_Click);
             // 
             // 通道转移ToolStripMenuItem
             // 
             this.通道转移ToolStripMenuItem.Name = "通道转移ToolStripMenuItem";
-            this.通道转移ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.通道转移ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.通道转移ToolStripMenuItem.Text = "通道转移";
             // 
             // 订单处理ToolStripMenuItem

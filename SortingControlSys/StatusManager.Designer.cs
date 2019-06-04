@@ -174,6 +174,7 @@
             this.BtnUpdate.TabIndex = 7;
             this.BtnUpdate.Text = "更新";
             this.BtnUpdate.UseVisualStyleBackColor = true;
+            this.BtnUpdate.Click += new System.EventHandler(this.BtnUpdate_Click);
             // 
             // CmbState
             // 
@@ -232,6 +233,7 @@
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
             this.DgvData.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.DgvData.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.DgvData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DgvData.BackgroundColor = System.Drawing.SystemColors.Control;
             this.DgvData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DgvData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {

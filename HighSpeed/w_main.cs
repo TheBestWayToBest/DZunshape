@@ -129,5 +129,19 @@ namespace HighSpeed
             frm.Show();
         }
 
+        private void 订单信息ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            w_CigaretteInfo frm = new w_CigaretteInfo();
+            if (CheckExist(frm) == true)
+            {
+                frm.Dispose();
+                frm = null;
+                return;
+            }
+            frm.MdiParent = this;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
     }
 }

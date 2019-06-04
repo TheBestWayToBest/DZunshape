@@ -200,9 +200,76 @@ namespace Business.BusinessClass
                                 ThroughNum = poke.TROUGHNUM,
                                 BillCode = task.BILLCODE,
                                 CigName = through.CIGARETTENAME,
-                                Num = poke.POKENUM
+                                Num = poke.POKENUM??0
                             }).Where(exSortNum).Where(exCode).Where(exCusCode).OrderBy(item => item.SortNum).Skip(pageNum * 50).Take(50).ToList();
                 return data;
+            }
+        }
+
+        /// <summary>
+        /// 更新任务(任务号区间查询) 
+        /// </summary>
+        /// <param name="startNum">起始任务号</param>
+        /// <param name="endNum">结束任务号</param>
+        /// <param name="status"></param>
+        public static int UpdateTask(decimal startNum, decimal endNum, decimal status)
+        {
+            using (DZEntities en = new DZEntities())
+            {
+                var query = en.T_UN_POKE.Where(item => item.SORTNUM >= startNum && item.SORTNUM <= endNum).ToList();
+                foreach (var item in query)
+                {
+                    item.STATUS = status;
+                }
+                var queryTask = en.T_UN_TASK.Where(item => item.SORTNUM >= startNum && item.SORTNUM <= endNum).ToList();
+                foreach (var item in queryTask)
+                {
+                    if (status == 20)
+                    {
+                        item.STATE = "30";
+                        item.FINISHTIME = DateTime.Now;
+                    }
+                    else
+                    {
+                        item.STATE = "15";
+                    }
+                }
+                int rowNum = en.SaveChanges();
+                return rowNum;
+            }
+        }
+        public static List<TaskInfo> GetUNCustomer()
+        {
+            using (DZEntities en = new DZEntities())
+            {
+                var query = en.T_UN_TASK.GroupBy(item => new { item.REGIONCODE, item.ORDERDATE, item.SYNSEQ }).Select(item => new TaskInfo
+                {
+                    REGIONCODE = item.Key.REGIONCODE,
+                    ORDERDATE = item.Key.ORDERDATE,
+                    SYNSEQ = item.Key.SYNSEQ ?? 0,
+                    FinishCount = 0,
+                    FinishQTY = 0,
+                    QTY = item.Sum(x => x.TASKQUANTITY) ?? 0,
+                    Count = item.Count(t => t.REGIONCODE == item.Key.REGIONCODE)
+                }).ToList();
+                var query2 = en.T_UN_TASK.Where(item => item.STATE == "30").GroupBy(item => item.REGIONCODE).Select(item => new TaskInfo { REGIONCODE = item.Key, FinishCount = item.Count(x => x.REGIONCODE == item.Key), FinishQTY = item.Sum(x => x.TASKQUANTITY) ?? 0 }).ToList();
+                if (query2.Count > 0)
+                {
+                    foreach (var item in query2)
+                    {
+                        var data = query.Find(x => x.REGIONCODE == item.REGIONCODE);
+                        data.FinishCount = item.FinishCount;
+                        data.FinishQTY = item.FinishQTY;
+                    }
+                }
+                if (query.Count > 0)
+                {
+                    foreach (var item in query)
+                    {
+                        item.Rate = Math.Round((item.FinishCount / item.Count), 2) + "%";
+                    }
+                }
+                return query;
             }
         }
     }
