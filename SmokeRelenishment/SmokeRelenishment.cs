@@ -17,6 +17,7 @@ namespace SmokeRelenishment
         public SmokeRelenishment()
         {
             InitializeComponent();
+            BGWConn.RunWorkerAsync();
             X = this.Width;//获取窗体的宽度
             Y = this.Height;//获取窗体的高度
             SetTag(this);//调用方法
@@ -105,12 +106,13 @@ namespace SmokeRelenishment
         {
             OPCServer opcServer = new OPCServer();
             WriteLog.GetLog().Write("正在尝试连接服务器......");
-            opcServer.OnlyTaskGroup.addItem(PlcItemCollection.GetRelenishplanItem());
-            opcServer.FinishOnlyGroup.addItem(PlcItemCollection.GetReFinishTaskItem());
-            opcServer.SpyBiaozhiGroup.addItem(PlcItemCollection.GetReSpyOnlyLineItem());
+           
             string[] str = opcServer.Connection();
             if (string.IsNullOrWhiteSpace(str[0]))
             {
+                opcServer.OnlyTaskGroup.addItem(PlcItemCollection.GetRelenishplanItem());//任务交互区
+                opcServer.SpyBiaozhiGroup.addItem(PlcItemCollection.GetReSpyOnlyLineItem());//监控任务标识位
+                opcServer.FinishOnlyGroup.addItem(PlcItemCollection.GetReFinishTaskItem());//完成信号交互区;
                 WriteLog.GetLog().Write("opC服务器创成功！");
                 opcServer.ConnectState = opcServer.CheckConnection();
                 if (opcServer.ConnectState)

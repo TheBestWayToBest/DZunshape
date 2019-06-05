@@ -14,11 +14,14 @@ namespace OPC
     public class OPCServer
     {
         internal const string SERVER_NAME = "OPC.SimaticNET";       // local server name
-
-        internal const string GROUP_NAME = "grp1";                  // Group name
         internal const int LOCALE_ID = 0x409;                       // LOCALE FOR ENGLISH.
 
         bool connectState = false;
+
+        public OPCServer() 
+        {
+            
+        }
 
         /// <summary>
         /// 连接状态
@@ -27,6 +30,9 @@ namespace OPC
 
         bool isSendOne = false;
 
+        /// <summary>
+        /// 发送状态
+        /// </summary>
         public bool IsSendOn { get { return isSendOne; } set { isSendOne = value; } }
 
 
@@ -51,8 +57,6 @@ namespace OPC
         /// 包装机
         /// </summary>
         PlcGroup PackageMachineGroup;
-
-        PlcGroup relenishiplanGroup;
         /// <summary>
         /// opcserver对象
         /// </summary>
@@ -69,11 +73,6 @@ namespace OPC
         /// 完成信号交互区
         /// </summary>
         public PlcGroup FinishOnlyGroup { get { return finishOnlyGroup; } set { finishOnlyGroup = value; } }
-        /// <summary>
-        /// 件烟补货交互区
-        /// </summary>
-        //public PlcGroup RelenishiplanGroup { get { return relenishiplanGroup; } set { relenishiplanGroup = value; } }
-
 
         public string[] Connection()
         {
@@ -100,18 +99,9 @@ namespace OPC
                 return strmessage;
             }
 
-
             onlyTaskGroup = new PlcGroup(pIOPCServer, 1, "group1", 1, LOCALE_ID);// 任务交互区
             finishOnlyGroup = new PlcGroup(pIOPCServer, 5, "group5", 1, LOCALE_ID);// 完成信号
-            spyBiaozhiGroup = new PlcGroup(pIOPCServer, 9, "group9", 1, LOCALE_ID);//监控标志位 
-
-
-            //relenishiplanGroup = new PlcGroup(pIOPCServer, 10, "group10", 1, LOCALE_ID);//件烟补货
-
-
-            
-
-            //relenishiplanGroup.addItem(PlcItemCollection.GetRelenishplanItem());//件烟补货
+            spyBiaozhiGroup = new PlcGroup(pIOPCServer, 9, "group9", 1, LOCALE_ID);//监控标志位
 
             strmessage[0] += "";//写入校验plc连接尝试结果
             strmessage[1] = "1";
@@ -149,15 +139,13 @@ namespace OPC
             WriteLog.GetLog().Write("烟仓烟柜发送数据前读标志位：" + flag + flag);
             if (flag == 0)
             {
-                //string OutStr = "";
-                //object[] datas = new object[50];//= UnPokeService.getAllLineTask(10, out listOnly, out OutStr);//获取可发送任务
                 if (int.Parse(datas[0].ToString()) == 0)
                 {
-                    sb.Append("烟仓烟柜分拣数据发送完毕");
+                    sb.AppendLine("烟仓烟柜分拣数据发送完毕");
                     return sb;
                 }
-                WriteLog.GetLog().Write("烟仓烟柜分拣线:" + OutStr);
-                sb.Append("烟仓烟柜分拣线:" + OutStr);
+                //WriteLog.GetLog().Write("烟仓烟柜分拣线:" + OutStr);
+                sb.AppendLine("烟仓烟柜分拣线:" + OutStr);
                 OnlyTaskGroup.SyncWrite(datas);
             }
             isSendOne = false;
