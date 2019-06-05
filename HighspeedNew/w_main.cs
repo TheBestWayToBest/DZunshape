@@ -16,8 +16,11 @@ namespace HighSpeed
         {
             //this.skinEngine1 = new Sunisoft.IrisSkin.SkinEngine(this);
             //this.skinEngine1.SkinFile = Application.StartupPath + @"\Skin\SportsBlack.ssk";
+
             InitializeComponent();
-            
+            toolStripStatusLabel1.Text = "长株潭烟草物流";
+            toolStripStatusLabel2.Text = "当前用户：";//+ //PublicFun.PubStruserempname;
+            toolStripStatusLabel3.Text = "登录时间：" + System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
         private void TSM_OrderReceive_Click(object sender, EventArgs e)

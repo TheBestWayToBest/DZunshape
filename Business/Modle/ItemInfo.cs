@@ -18,19 +18,9 @@ namespace Business.Modle
         public string ItemName { get; set; }
 
         /// <summary>
-        /// 卷烟简称
-        /// </summary>
-        public string ShortName { get; set; }
-
-        /// <summary>
         /// 件烟条码
         /// </summary>
         public string BigBox_Bar { get; set; }
-
-        /// <summary>
-        /// 重量
-        /// </summary>
-        public decimal Weight { get; set; }
 
         /// <summary>
         /// 长度

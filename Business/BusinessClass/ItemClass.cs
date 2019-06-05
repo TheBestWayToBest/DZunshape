@@ -30,14 +30,31 @@ namespace Business.BusinessClass
                     {
                         ItemNo = item.ITEMNO,
                         ItemName = item.ITEMNAME,
-                        ShortName = item.SHORTNAME,
                         BigBox_Bar = item.BIGBOX_BAR,
-                        Weight = item.WEIGHT ?? 0,
                         ILength = item.ILENGTH ?? 0,
                         IWidth = item.IWIDTH ?? 0,
                         JZ_Size = item.JT_SIZE ?? 50
                     }).ToList();
                 return query;
+            }
+        }
+
+        public static bool UpdateItemInfo(T_WMS_ITEM item) 
+        {
+            using (DZEntities en = new DZEntities()) 
+            {
+                int rows=0;
+                List<T_WMS_ITEM> list = new List<T_WMS_ITEM>();
+                list = en.T_WMS_ITEM.Where(it => it.ITEMNO == it.ITEMNO).ToList();
+                foreach (var ite in list)
+                {
+                    ite.ITEMNAME = item.ITEMNAME;
+                    ///gogos
+                    rows += en.SaveChanges();
+                }
+                if (rows > 0)
+                    return true;
+                return false;
             }
         }
     }
