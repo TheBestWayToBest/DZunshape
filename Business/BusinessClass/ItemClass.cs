@@ -33,7 +33,9 @@ namespace Business.BusinessClass
                         BigBox_Bar = item.BIGBOX_BAR,
                         ILength = item.ILENGTH ?? 0,
                         IWidth = item.IWIDTH ?? 0,
-                        JZ_Size = item.JT_SIZE ?? 50
+                        JZ_Size = item.JT_SIZE ?? 50,
+                        RowStatus = item.ROWSTATUS??0,
+                        Shiptype = item.SHIPTYPE
                     }).ToList();
                 return query;
             }

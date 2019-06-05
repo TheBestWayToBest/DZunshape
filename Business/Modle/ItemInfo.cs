@@ -23,6 +23,16 @@ namespace Business.Modle
         public string BigBox_Bar { get; set; }
 
         /// <summary>
+        /// 卷烟类型
+        /// </summary>
+        public string Shiptype { get; set; }
+
+        /// <summary>
+        /// 卷烟状态
+        /// </summary>
+        public decimal RowStatus { get; set; }
+
+        /// <summary>
         /// 长度
         /// </summary>
         public decimal ILength { get; set; }

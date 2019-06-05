@@ -32,10 +32,8 @@
             this.txt_keywd = new System.Windows.Forms.TextBox();
             this.box_type = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.BtnExport = new System.Windows.Forms.Button();
+            this.BtnPrint = new System.Windows.Forms.Button();
             this.BtnSearch = new System.Windows.Forms.Button();
             this.DgvItemInfo = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -43,9 +41,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.ItemNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ItemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ShortName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.件码 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.重量 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Shiptype = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RowStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.长度 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.宽度 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.JZ_Size = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -59,10 +57,8 @@
             this.panel1.Controls.Add(this.txt_keywd);
             this.panel1.Controls.Add(this.box_type);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.button5);
-            this.panel1.Controls.Add(this.button4);
-            this.panel1.Controls.Add(this.button3);
-            this.panel1.Controls.Add(this.button2);
+            this.panel1.Controls.Add(this.BtnExport);
+            this.panel1.Controls.Add(this.BtnPrint);
             this.panel1.Controls.Add(this.BtnSearch);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -98,41 +94,25 @@
             this.label1.TabIndex = 7;
             this.label1.Text = "条件选择";
             // 
-            // button5
+            // BtnExport
             // 
-            this.button5.Location = new System.Drawing.Point(879, 4);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 27);
-            this.button5.TabIndex = 6;
-            this.button5.Text = "导出";
-            this.button5.UseVisualStyleBackColor = true;
+            this.BtnExport.Location = new System.Drawing.Point(879, 4);
+            this.BtnExport.Name = "BtnExport";
+            this.BtnExport.Size = new System.Drawing.Size(75, 27);
+            this.BtnExport.TabIndex = 6;
+            this.BtnExport.Text = "导出";
+            this.BtnExport.UseVisualStyleBackColor = true;
+            this.BtnExport.Click += new System.EventHandler(this.BtnExport_Click);
             // 
-            // button4
+            // BtnPrint
             // 
-            this.button4.Location = new System.Drawing.Point(708, 2);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 27);
-            this.button4.TabIndex = 5;
-            this.button4.Text = "打印";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(618, 3);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 27);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "清空条件";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(798, 3);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 27);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "关闭";
-            this.button2.UseVisualStyleBackColor = true;
+            this.BtnPrint.Location = new System.Drawing.Point(708, 2);
+            this.BtnPrint.Name = "BtnPrint";
+            this.BtnPrint.Size = new System.Drawing.Size(75, 27);
+            this.BtnPrint.TabIndex = 5;
+            this.BtnPrint.Text = "打印";
+            this.BtnPrint.UseVisualStyleBackColor = true;
+            this.BtnPrint.Click += new System.EventHandler(this.BtnPrint_Click);
             // 
             // BtnSearch
             // 
@@ -152,9 +132,9 @@
             this.DgvItemInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ItemNo,
             this.ItemName,
-            this.ShortName,
             this.件码,
-            this.重量,
+            this.Shiptype,
+            this.RowStatus,
             this.长度,
             this.宽度,
             this.JZ_Size});
@@ -166,6 +146,8 @@
             this.DgvItemInfo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DgvItemInfo.Size = new System.Drawing.Size(1268, 345);
             this.DgvItemInfo.TabIndex = 37;
+            this.DgvItemInfo.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvItemInfo_CellFormatting);
+            this.DgvItemInfo.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvItemInfo_CellValueChanged);
             // 
             // panel2
             // 
@@ -210,24 +192,23 @@
             this.ItemName.Name = "ItemName";
             this.ItemName.ReadOnly = true;
             // 
-            // ShortName
-            // 
-            this.ShortName.DataPropertyName = "ShortName";
-            this.ShortName.HeaderText = "简称";
-            this.ShortName.Name = "ShortName";
-            this.ShortName.ReadOnly = true;
-            // 
             // 件码
             // 
             this.件码.DataPropertyName = "BigBox_Bar";
             this.件码.HeaderText = "件码";
             this.件码.Name = "件码";
             // 
-            // 重量
+            // Shiptype
             // 
-            this.重量.DataPropertyName = "Weight";
-            this.重量.HeaderText = "重量";
-            this.重量.Name = "重量";
+            this.Shiptype.DataPropertyName = "Shiptype";
+            this.Shiptype.HeaderText = "卷烟类型";
+            this.Shiptype.Name = "Shiptype";
+            // 
+            // RowStatus
+            // 
+            this.RowStatus.DataPropertyName = "RowStatus";
+            this.RowStatus.HeaderText = "卷烟状态";
+            this.RowStatus.Name = "RowStatus";
             // 
             // 长度
             // 
@@ -244,7 +225,7 @@
             // JZ_Size
             // 
             this.JZ_Size.DataPropertyName = "JZ_Size";
-            this.JZ_Size.HeaderText = "件条转化率";
+            this.JZ_Size.HeaderText = "条/件换算";
             this.JZ_Size.Name = "JZ_Size";
             // 
             // w_CigaretteInfo
@@ -272,10 +253,8 @@
         private System.Windows.Forms.TextBox txt_keywd;
         private System.Windows.Forms.ComboBox box_type;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button BtnExport;
+        private System.Windows.Forms.Button BtnPrint;
         private System.Windows.Forms.Button BtnSearch;
         private System.Windows.Forms.DataGridView DgvItemInfo;
         private System.Windows.Forms.Panel panel2;
@@ -283,9 +262,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridViewTextBoxColumn ItemNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn ItemName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ShortName;
         private System.Windows.Forms.DataGridViewTextBoxColumn 件码;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 重量;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Shiptype;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RowStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn 长度;
         private System.Windows.Forms.DataGridViewTextBoxColumn 宽度;
         private System.Windows.Forms.DataGridViewTextBoxColumn JZ_Size;
