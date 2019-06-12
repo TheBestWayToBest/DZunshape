@@ -33,7 +33,7 @@ namespace Business.BusinessClass
                         BigBox_Bar = item.BIGBOX_BAR,
                         ILength = item.ILENGTH ?? 0,
                         IWidth = item.IWIDTH ?? 0,
-                        JZ_Size = item.JT_SIZE ?? 50,
+                        JT_Size = item.JT_SIZE ?? 50,
                         RowStatus = item.ROWSTATUS??0,
                         Shiptype = item.SHIPTYPE
                     }).ToList();
@@ -41,16 +41,21 @@ namespace Business.BusinessClass
             }
         }
 
-        public static bool UpdateItemInfo(T_WMS_ITEM item) 
+        public static bool UpdateItemInfo(ItemInfo item) 
         {
             using (DZEntities en = new DZEntities()) 
             {
                 int rows=0;
                 List<T_WMS_ITEM> list = new List<T_WMS_ITEM>();
-                list = en.T_WMS_ITEM.Where(it => it.ITEMNO == it.ITEMNO).ToList();
+                list = en.T_WMS_ITEM.Where(it => it.ITEMNO == item.ItemNo && it.ITEMNAME == item.ItemName).ToList();
                 foreach (var ite in list)
                 {
-                    ite.ITEMNAME = item.ITEMNAME;
+                    ite.ITEMNAME = item.ItemName;
+                    ite.ILENGTH = item.ILength;
+                    ite.IWIDTH = item.IWidth;
+                    ite.JT_SIZE = item.JT_Size;
+                    ite.ROWSTATUS = item.RowStatus;
+                    ite.SHIPTYPE = item.Shiptype;
                     ///gogos
                     rows += en.SaveChanges();
                 }

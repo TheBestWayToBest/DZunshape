@@ -45,6 +45,6 @@ namespace Business.Modle
         /// <summary>
         /// 件条转化率
         /// </summary>
-        public decimal JZ_Size { get; set; }
+        public decimal JT_Size { get; set; }
     }
 }

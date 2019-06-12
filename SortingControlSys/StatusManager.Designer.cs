@@ -56,6 +56,10 @@
             this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BtnNext = new System.Windows.Forms.Button();
+            this.BtnPre = new System.Windows.Forms.Button();
+            this.BtnFirst = new System.Windows.Forms.Button();
+            this.BtnEnd = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -218,6 +222,10 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.BtnEnd);
+            this.groupBox3.Controls.Add(this.BtnFirst);
+            this.groupBox3.Controls.Add(this.BtnPre);
+            this.groupBox3.Controls.Add(this.BtnNext);
             this.groupBox3.Controls.Add(this.DgvData);
             this.groupBox3.Location = new System.Drawing.Point(0, 109);
             this.groupBox3.Name = "groupBox3";
@@ -308,6 +316,42 @@
             this.Column9.Name = "Column9";
             this.Column9.ReadOnly = true;
             // 
+            // BtnNext
+            // 
+            this.BtnNext.Location = new System.Drawing.Point(949, 594);
+            this.BtnNext.Name = "BtnNext";
+            this.BtnNext.Size = new System.Drawing.Size(75, 23);
+            this.BtnNext.TabIndex = 1;
+            this.BtnNext.Text = "下一页";
+            this.BtnNext.UseVisualStyleBackColor = true;
+            // 
+            // BtnPre
+            // 
+            this.BtnPre.Location = new System.Drawing.Point(640, 594);
+            this.BtnPre.Name = "BtnPre";
+            this.BtnPre.Size = new System.Drawing.Size(75, 23);
+            this.BtnPre.TabIndex = 2;
+            this.BtnPre.Text = "上一页";
+            this.BtnPre.UseVisualStyleBackColor = true;
+            // 
+            // BtnFirst
+            // 
+            this.BtnFirst.Location = new System.Drawing.Point(552, 594);
+            this.BtnFirst.Name = "BtnFirst";
+            this.BtnFirst.Size = new System.Drawing.Size(75, 23);
+            this.BtnFirst.TabIndex = 3;
+            this.BtnFirst.Text = "首页";
+            this.BtnFirst.UseVisualStyleBackColor = true;
+            // 
+            // BtnEnd
+            // 
+            this.BtnEnd.Location = new System.Drawing.Point(1042, 594);
+            this.BtnEnd.Name = "BtnEnd";
+            this.BtnEnd.Size = new System.Drawing.Size(75, 23);
+            this.BtnEnd.TabIndex = 4;
+            this.BtnEnd.Text = "尾页";
+            this.BtnEnd.UseVisualStyleBackColor = true;
+            // 
             // StatusManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -358,6 +402,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
+        private System.Windows.Forms.Button BtnEnd;
+        private System.Windows.Forms.Button BtnFirst;
+        private System.Windows.Forms.Button BtnPre;
+        private System.Windows.Forms.Button BtnNext;
 
     }
 }

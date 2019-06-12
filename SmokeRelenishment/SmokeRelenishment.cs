@@ -9,14 +9,28 @@ using System.Windows.Forms;
 using System.Configuration;
 using Tool;
 using OPC;
+using System.IO.Ports;
+using Business.BusinessClass;
+using Business;
 
 namespace SmokeRelenishment
 {
     public partial class SmokeRelenishment : Form
     {
+        Label[] lbladded;
+        Label[] lbladd;
         public SmokeRelenishment()
         {
             InitializeComponent();
+            lbladded = new Label[10]
+            {
+                LblAdded1,LblAdded2,LblAdded3,LblAdded4,LblAdded5,LblAdded6,LblAdded7,LblAdded8,LblAdded9,LblAdded10
+            };
+            lbladd = new Label[10]
+            {
+                LblAdd1,LblAdd2,LblAdd3,LblAdd4,LblAdd5,LblAdd6,LblAdd7,LblAdd8,LblAdd9,LblAdd10
+            };
+            OpenSerialPort();
             BGWConn.RunWorkerAsync();
             X = this.Width;//获取窗体的宽度
             Y = this.Height;//获取窗体的高度
@@ -100,10 +114,13 @@ namespace SmokeRelenishment
             StringBuilder sb = new StringBuilder();
             sb.Append("开始获取数据" + DateTime.Now.ToString());
             string strStart = System.DateTime.Now.ToString();
+            //List<T_PRODUCE_REPLENISHPLAN> list = RelenishimentClass.GetReplenishplan();
+            
         }
 
         private void BGWConn_DoWork(object sender, DoWorkEventArgs e)
         {
+            GetData(true);
             OPCServer opcServer = new OPCServer();
             WriteLog.GetLog().Write("正在尝试连接服务器......");
            
@@ -118,6 +135,7 @@ namespace SmokeRelenishment
                 if (opcServer.ConnectState)
                 {
                     GetData(true);
+                    
                     WriteLog.GetLog().Write("PLC连接成功!");
                 }
                 else
@@ -130,5 +148,74 @@ namespace SmokeRelenishment
                 WriteLog.GetLog().Write(str[0]);
             }
         }
+        SerialPort sp = new SerialPort();
+        string sp_name;
+        public void OpenSerialPort()
+        {
+            sp_name = "COM3";
+            sp.PortName = sp_name;
+            if (!sp.IsOpen)
+            {
+                try
+                {
+                    sp.ReadBufferSize = 32;
+                    sp.BaudRate = 9600;
+                    sp.Open();
+                    sp.DataReceived += new SerialDataReceivedEventHandler(sp_DataReceived);
+                }
+                catch
+                {
+
+                }
+            }
+
+        }
+        //处理扫描文本
+        static string str;
+        void sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            SerialPort sp = sender as SerialPort;
+            String tempCode = sp.ReadExisting();
+            str = tempCode.Split('\r').First();
+            //int length = 0;
+            //TextboxFZ3(1, str);
+            //List<T_PRODUCE_REPLENISHPLAN> list = new List<T_PRODUCE_REPLENISHPLAN>();
+            //list = RelenishimentClass.GetFinishedReplenishplan(str);
+            //LbaAddedData(list);
+            for (int i = 0; i < lbladded.Length-5; i++)
+            {
+                UpdateLabel(i.ToString(), lbladded[i]);
+                lbladded[i].BackColor = Color.LightGreen;
+            }
+
+        }
+
+        private delegate void HandleDelegate1(string info, Label label);
+        public void UpdateLabel(string info, Label label)
+        {
+            String time = DateTime.Now.ToLongTimeString();
+           
+                if (label.InvokeRequired)
+                {
+                    label.Invoke(new HandleDelegate1(UpdateLabel), new Object[] { info, label });
+                }
+                else
+                {
+                    label.Text = info;
+
+                }
+            
+            
+        }
+
+        void LbaAddedData(List<T_PRODUCE_REPLENISHPLAN> list) 
+        {
+            for (int i = 0; i < lbladded.Length; i++)
+            {
+                lbladded[i].Text = (i + 1) + "." + list[i].CIGARETTENAME;
+            }
+        }
+
+
     }
 }

@@ -248,6 +248,7 @@
             this.BtnUpdate.Size = new System.Drawing.Size(101, 43);
             this.BtnUpdate.TabIndex = 9;
             this.BtnUpdate.UseVisualStyleBackColor = true;
+            this.BtnUpdate.Click += new System.EventHandler(this.BtnUpdate_Click);
             // 
             // BtnEnd
             // 

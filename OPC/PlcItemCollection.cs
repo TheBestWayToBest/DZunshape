@@ -11,6 +11,11 @@ namespace OPC
     {
         public static String OpcPresortServer = "S7:[UnnormalConnection]";
 
+
+        /// <summary>
+        /// 烟仓任务发送
+        /// </summary>
+        /// <returns></returns>
         public static List<string> GetOnlyDBItem()
         {
             List<string> list = new List<string>();
@@ -27,7 +32,7 @@ namespace OPC
         }
 
         /// <summary>
-        /// 监控标志位
+        /// 烟仓任务监控标志位
         /// </summary>
         /// <returns></returns>
         public static List<string> GetSpyOnlyLineItem()
@@ -39,7 +44,7 @@ namespace OPC
         }
 
         /// <summary>
-        /// 任务结束回应
+        /// 烟仓任务结束回应
         /// </summary>
         /// <returns></returns>
         public static List<string> GetOnlyLineFinishTaskItem()
@@ -52,6 +57,10 @@ namespace OPC
             return list;
         }
 
+        /// <summary>
+        /// 卧式烟仓补货任务
+        /// </summary>
+        /// <returns></returns>
         public static List<string> GetRelenishplanItem()
         {
             List<string> list = new List<string>();
@@ -65,7 +74,7 @@ namespace OPC
         }
 
         /// <summary>
-        /// 任务结束回应
+        /// 补货任务任务结束回应
         /// </summary>
         /// <returns></returns>
         public static List<string> GetReFinishTaskItem()
@@ -78,7 +87,7 @@ namespace OPC
             return list;
         }
         /// <summary>
-        /// 监控标志位
+        /// 补货任务监控标志位
         /// </summary>
         /// <returns></returns>
         public static List<string> GetReSpyOnlyLineItem()

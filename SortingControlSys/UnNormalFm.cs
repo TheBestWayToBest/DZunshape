@@ -252,5 +252,11 @@ namespace SortingControlSys
                 }
             }
         }
+
+        private void BtnUpdate_Click(object sender, EventArgs e)
+        {
+            StatusManager frm = new StatusManager();
+            frm.ShowDialog();
+        }
     }
 }

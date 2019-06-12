@@ -30,37 +30,37 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.BtnExit = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.BtnExit = new System.Windows.Forms.Button();
+            this.GBToAdd = new System.Windows.Forms.GroupBox();
+            this.LblAdd10 = new System.Windows.Forms.Label();
+            this.LblAdd9 = new System.Windows.Forms.Label();
+            this.LblAdd8 = new System.Windows.Forms.Label();
+            this.LblAdd7 = new System.Windows.Forms.Label();
+            this.LblAdd1 = new System.Windows.Forms.Label();
+            this.LblAdd2 = new System.Windows.Forms.Label();
+            this.LblAdd4 = new System.Windows.Forms.Label();
+            this.LblAdd5 = new System.Windows.Forms.Label();
+            this.LblAdd3 = new System.Windows.Forms.Label();
+            this.LblAdd6 = new System.Windows.Forms.Label();
+            this.GBAdded = new System.Windows.Forms.GroupBox();
+            this.LblAdded10 = new System.Windows.Forms.Label();
+            this.LblAdded9 = new System.Windows.Forms.Label();
+            this.LblAdded8 = new System.Windows.Forms.Label();
+            this.LblAdded7 = new System.Windows.Forms.Label();
+            this.LblAdded1 = new System.Windows.Forms.Label();
+            this.LblAdded2 = new System.Windows.Forms.Label();
+            this.LblAdded4 = new System.Windows.Forms.Label();
+            this.LblAdded5 = new System.Windows.Forms.Label();
+            this.LblAdded3 = new System.Windows.Forms.Label();
+            this.LblAdded6 = new System.Windows.Forms.Label();
             this.TRefresh = new System.Windows.Forms.Timer(this.components);
             this.BGWConn = new System.ComponentModel.BackgroundWorker();
             this.panel1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.GBToAdd.SuspendLayout();
+            this.GBAdded.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -72,288 +72,23 @@
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.BtnExit);
-            this.panel1.Controls.Add(this.groupBox2);
-            this.panel1.Controls.Add(this.groupBox1);
+            this.panel1.Controls.Add(this.GBToAdd);
+            this.panel1.Controls.Add(this.GBAdded);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(480, 378);
             this.panel1.TabIndex = 0;
             // 
-            // BtnExit
+            // button3
             // 
-            this.BtnExit.BackgroundImage = global::SmokeRelenishment.Properties.Resources.icon_exit;
-            this.BtnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BtnExit.Location = new System.Drawing.Point(455, 0);
-            this.BtnExit.Name = "BtnExit";
-            this.BtnExit.Size = new System.Drawing.Size(23, 29);
-            this.BtnExit.TabIndex = 1;
-            this.BtnExit.UseVisualStyleBackColor = true;
-            this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.BackColor = System.Drawing.Color.Transparent;
-            this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.groupBox2.ForeColor = System.Drawing.Color.Red;
-            this.groupBox2.Location = new System.Drawing.Point(243, 32);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(235, 343);
-            this.groupBox2.TabIndex = 0;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "待补";
-            // 
-            // label10
-            // 
-            this.label10.BackColor = System.Drawing.Color.White;
-            this.label10.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label10.ForeColor = System.Drawing.Color.Black;
-            this.label10.Location = new System.Drawing.Point(2, 306);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(230, 29);
-            this.label10.TabIndex = 9;
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label9
-            // 
-            this.label9.BackColor = System.Drawing.Color.White;
-            this.label9.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label9.ForeColor = System.Drawing.Color.Black;
-            this.label9.Location = new System.Drawing.Point(2, 274);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(230, 29);
-            this.label9.TabIndex = 8;
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label8
-            // 
-            this.label8.BackColor = System.Drawing.Color.White;
-            this.label8.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label8.ForeColor = System.Drawing.Color.Black;
-            this.label8.Location = new System.Drawing.Point(2, 242);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(230, 29);
-            this.label8.TabIndex = 7;
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label7
-            // 
-            this.label7.BackColor = System.Drawing.Color.White;
-            this.label7.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label7.ForeColor = System.Drawing.Color.Black;
-            this.label7.Location = new System.Drawing.Point(2, 210);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(230, 29);
-            this.label7.TabIndex = 6;
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label1
-            // 
-            this.label1.BackColor = System.Drawing.Color.White;
-            this.label1.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(2, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(230, 29);
-            this.label1.TabIndex = 0;
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label2
-            // 
-            this.label2.BackColor = System.Drawing.Color.White;
-            this.label2.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(2, 50);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(230, 29);
-            this.label2.TabIndex = 1;
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label4
-            // 
-            this.label4.BackColor = System.Drawing.Color.White;
-            this.label4.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(2, 114);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(230, 29);
-            this.label4.TabIndex = 3;
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label5
-            // 
-            this.label5.BackColor = System.Drawing.Color.White;
-            this.label5.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(2, 146);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(230, 29);
-            this.label5.TabIndex = 4;
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label3
-            // 
-            this.label3.BackColor = System.Drawing.Color.White;
-            this.label3.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(2, 82);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(230, 29);
-            this.label3.TabIndex = 2;
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label6
-            // 
-            this.label6.BackColor = System.Drawing.Color.White;
-            this.label6.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label6.ForeColor = System.Drawing.Color.Black;
-            this.label6.Location = new System.Drawing.Point(2, 178);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(230, 29);
-            this.label6.TabIndex = 5;
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.BackColor = System.Drawing.Color.Transparent;
-            this.groupBox1.Controls.Add(this.label11);
-            this.groupBox1.Controls.Add(this.label12);
-            this.groupBox1.Controls.Add(this.label13);
-            this.groupBox1.Controls.Add(this.label14);
-            this.groupBox1.Controls.Add(this.label15);
-            this.groupBox1.Controls.Add(this.label16);
-            this.groupBox1.Controls.Add(this.label17);
-            this.groupBox1.Controls.Add(this.label18);
-            this.groupBox1.Controls.Add(this.label19);
-            this.groupBox1.Controls.Add(this.label20);
-            this.groupBox1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.groupBox1.ForeColor = System.Drawing.Color.Red;
-            this.groupBox1.Location = new System.Drawing.Point(3, 32);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(235, 343);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
-            // 
-            // label11
-            // 
-            this.label11.BackColor = System.Drawing.Color.White;
-            this.label11.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label11.ForeColor = System.Drawing.Color.Black;
-            this.label11.Location = new System.Drawing.Point(2, 306);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(230, 29);
-            this.label11.TabIndex = 19;
-            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label12
-            // 
-            this.label12.BackColor = System.Drawing.Color.White;
-            this.label12.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label12.ForeColor = System.Drawing.Color.Black;
-            this.label12.Location = new System.Drawing.Point(2, 274);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(230, 29);
-            this.label12.TabIndex = 18;
-            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label13
-            // 
-            this.label13.BackColor = System.Drawing.Color.White;
-            this.label13.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label13.ForeColor = System.Drawing.Color.Black;
-            this.label13.Location = new System.Drawing.Point(2, 242);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(230, 29);
-            this.label13.TabIndex = 17;
-            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label14
-            // 
-            this.label14.BackColor = System.Drawing.Color.White;
-            this.label14.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label14.ForeColor = System.Drawing.Color.Black;
-            this.label14.Location = new System.Drawing.Point(2, 210);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(230, 29);
-            this.label14.TabIndex = 16;
-            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label15
-            // 
-            this.label15.BackColor = System.Drawing.Color.White;
-            this.label15.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label15.ForeColor = System.Drawing.Color.Black;
-            this.label15.Location = new System.Drawing.Point(2, 18);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(230, 29);
-            this.label15.TabIndex = 10;
-            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label16
-            // 
-            this.label16.BackColor = System.Drawing.Color.White;
-            this.label16.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label16.ForeColor = System.Drawing.Color.Black;
-            this.label16.Location = new System.Drawing.Point(2, 50);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(230, 29);
-            this.label16.TabIndex = 11;
-            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label17
-            // 
-            this.label17.BackColor = System.Drawing.Color.White;
-            this.label17.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label17.ForeColor = System.Drawing.Color.Black;
-            this.label17.Location = new System.Drawing.Point(2, 114);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(230, 29);
-            this.label17.TabIndex = 13;
-            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label18
-            // 
-            this.label18.BackColor = System.Drawing.Color.White;
-            this.label18.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label18.ForeColor = System.Drawing.Color.Black;
-            this.label18.Location = new System.Drawing.Point(2, 146);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(230, 29);
-            this.label18.TabIndex = 14;
-            this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label19
-            // 
-            this.label19.BackColor = System.Drawing.Color.White;
-            this.label19.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label19.ForeColor = System.Drawing.Color.Black;
-            this.label19.Location = new System.Drawing.Point(2, 82);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(230, 29);
-            this.label19.TabIndex = 12;
-            this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label20
-            // 
-            this.label20.BackColor = System.Drawing.Color.White;
-            this.label20.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label20.ForeColor = System.Drawing.Color.Black;
-            this.label20.Location = new System.Drawing.Point(2, 178);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(230, 29);
-            this.label20.TabIndex = 15;
-            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.button3.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button3.Location = new System.Drawing.Point(421, 0);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(35, 29);
+            this.button3.TabIndex = 22;
+            this.button3.Text = "刷新";
+            this.button3.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
@@ -375,15 +110,280 @@
             this.button2.Text = "件烟顺序";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // BtnExit
             // 
-            this.button3.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button3.Location = new System.Drawing.Point(421, 0);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(35, 29);
-            this.button3.TabIndex = 22;
-            this.button3.Text = "刷新";
-            this.button3.UseVisualStyleBackColor = true;
+            this.BtnExit.BackgroundImage = global::SmokeRelenishment.Properties.Resources.icon_exit;
+            this.BtnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BtnExit.Location = new System.Drawing.Point(455, 0);
+            this.BtnExit.Name = "BtnExit";
+            this.BtnExit.Size = new System.Drawing.Size(23, 29);
+            this.BtnExit.TabIndex = 1;
+            this.BtnExit.UseVisualStyleBackColor = true;
+            this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
+            // 
+            // GBToAdd
+            // 
+            this.GBToAdd.BackColor = System.Drawing.Color.Transparent;
+            this.GBToAdd.Controls.Add(this.LblAdd10);
+            this.GBToAdd.Controls.Add(this.LblAdd9);
+            this.GBToAdd.Controls.Add(this.LblAdd8);
+            this.GBToAdd.Controls.Add(this.LblAdd7);
+            this.GBToAdd.Controls.Add(this.LblAdd1);
+            this.GBToAdd.Controls.Add(this.LblAdd2);
+            this.GBToAdd.Controls.Add(this.LblAdd4);
+            this.GBToAdd.Controls.Add(this.LblAdd5);
+            this.GBToAdd.Controls.Add(this.LblAdd3);
+            this.GBToAdd.Controls.Add(this.LblAdd6);
+            this.GBToAdd.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.GBToAdd.ForeColor = System.Drawing.Color.Red;
+            this.GBToAdd.Location = new System.Drawing.Point(243, 32);
+            this.GBToAdd.Name = "GBToAdd";
+            this.GBToAdd.Size = new System.Drawing.Size(235, 343);
+            this.GBToAdd.TabIndex = 0;
+            this.GBToAdd.TabStop = false;
+            this.GBToAdd.Text = "待补";
+            // 
+            // LblAdd10
+            // 
+            this.LblAdd10.BackColor = System.Drawing.Color.White;
+            this.LblAdd10.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdd10.ForeColor = System.Drawing.Color.Black;
+            this.LblAdd10.Location = new System.Drawing.Point(2, 306);
+            this.LblAdd10.Name = "LblAdd10";
+            this.LblAdd10.Size = new System.Drawing.Size(230, 29);
+            this.LblAdd10.TabIndex = 9;
+            this.LblAdd10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LblAdd9
+            // 
+            this.LblAdd9.BackColor = System.Drawing.Color.White;
+            this.LblAdd9.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdd9.ForeColor = System.Drawing.Color.Black;
+            this.LblAdd9.Location = new System.Drawing.Point(2, 274);
+            this.LblAdd9.Name = "LblAdd9";
+            this.LblAdd9.Size = new System.Drawing.Size(230, 29);
+            this.LblAdd9.TabIndex = 8;
+            this.LblAdd9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LblAdd8
+            // 
+            this.LblAdd8.BackColor = System.Drawing.Color.White;
+            this.LblAdd8.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdd8.ForeColor = System.Drawing.Color.Black;
+            this.LblAdd8.Location = new System.Drawing.Point(2, 242);
+            this.LblAdd8.Name = "LblAdd8";
+            this.LblAdd8.Size = new System.Drawing.Size(230, 29);
+            this.LblAdd8.TabIndex = 7;
+            this.LblAdd8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LblAdd7
+            // 
+            this.LblAdd7.BackColor = System.Drawing.Color.White;
+            this.LblAdd7.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdd7.ForeColor = System.Drawing.Color.Black;
+            this.LblAdd7.Location = new System.Drawing.Point(2, 210);
+            this.LblAdd7.Name = "LblAdd7";
+            this.LblAdd7.Size = new System.Drawing.Size(230, 29);
+            this.LblAdd7.TabIndex = 6;
+            this.LblAdd7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LblAdd1
+            // 
+            this.LblAdd1.BackColor = System.Drawing.Color.White;
+            this.LblAdd1.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdd1.ForeColor = System.Drawing.Color.Black;
+            this.LblAdd1.Location = new System.Drawing.Point(2, 18);
+            this.LblAdd1.Name = "LblAdd1";
+            this.LblAdd1.Size = new System.Drawing.Size(230, 29);
+            this.LblAdd1.TabIndex = 0;
+            this.LblAdd1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LblAdd2
+            // 
+            this.LblAdd2.BackColor = System.Drawing.Color.White;
+            this.LblAdd2.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdd2.ForeColor = System.Drawing.Color.Black;
+            this.LblAdd2.Location = new System.Drawing.Point(2, 50);
+            this.LblAdd2.Name = "LblAdd2";
+            this.LblAdd2.Size = new System.Drawing.Size(230, 29);
+            this.LblAdd2.TabIndex = 1;
+            this.LblAdd2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LblAdd4
+            // 
+            this.LblAdd4.BackColor = System.Drawing.Color.White;
+            this.LblAdd4.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdd4.ForeColor = System.Drawing.Color.Black;
+            this.LblAdd4.Location = new System.Drawing.Point(2, 114);
+            this.LblAdd4.Name = "LblAdd4";
+            this.LblAdd4.Size = new System.Drawing.Size(230, 29);
+            this.LblAdd4.TabIndex = 3;
+            this.LblAdd4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LblAdd5
+            // 
+            this.LblAdd5.BackColor = System.Drawing.Color.White;
+            this.LblAdd5.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdd5.ForeColor = System.Drawing.Color.Black;
+            this.LblAdd5.Location = new System.Drawing.Point(2, 146);
+            this.LblAdd5.Name = "LblAdd5";
+            this.LblAdd5.Size = new System.Drawing.Size(230, 29);
+            this.LblAdd5.TabIndex = 4;
+            this.LblAdd5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LblAdd3
+            // 
+            this.LblAdd3.BackColor = System.Drawing.Color.White;
+            this.LblAdd3.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdd3.ForeColor = System.Drawing.Color.Black;
+            this.LblAdd3.Location = new System.Drawing.Point(2, 82);
+            this.LblAdd3.Name = "LblAdd3";
+            this.LblAdd3.Size = new System.Drawing.Size(230, 29);
+            this.LblAdd3.TabIndex = 2;
+            this.LblAdd3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LblAdd6
+            // 
+            this.LblAdd6.BackColor = System.Drawing.Color.White;
+            this.LblAdd6.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdd6.ForeColor = System.Drawing.Color.Black;
+            this.LblAdd6.Location = new System.Drawing.Point(2, 178);
+            this.LblAdd6.Name = "LblAdd6";
+            this.LblAdd6.Size = new System.Drawing.Size(230, 29);
+            this.LblAdd6.TabIndex = 5;
+            this.LblAdd6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // GBAdded
+            // 
+            this.GBAdded.BackColor = System.Drawing.Color.Transparent;
+            this.GBAdded.Controls.Add(this.LblAdded10);
+            this.GBAdded.Controls.Add(this.LblAdded9);
+            this.GBAdded.Controls.Add(this.LblAdded8);
+            this.GBAdded.Controls.Add(this.LblAdded7);
+            this.GBAdded.Controls.Add(this.LblAdded1);
+            this.GBAdded.Controls.Add(this.LblAdded2);
+            this.GBAdded.Controls.Add(this.LblAdded4);
+            this.GBAdded.Controls.Add(this.LblAdded5);
+            this.GBAdded.Controls.Add(this.LblAdded3);
+            this.GBAdded.Controls.Add(this.LblAdded6);
+            this.GBAdded.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.GBAdded.ForeColor = System.Drawing.Color.Red;
+            this.GBAdded.Location = new System.Drawing.Point(3, 32);
+            this.GBAdded.Name = "GBAdded";
+            this.GBAdded.Size = new System.Drawing.Size(235, 343);
+            this.GBAdded.TabIndex = 0;
+            this.GBAdded.TabStop = false;
+            this.GBAdded.Text = "已扫码";
+            // 
+            // LblAdded10
+            // 
+            this.LblAdded10.BackColor = System.Drawing.Color.White;
+            this.LblAdded10.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdded10.ForeColor = System.Drawing.Color.Black;
+            this.LblAdded10.Location = new System.Drawing.Point(2, 306);
+            this.LblAdded10.Name = "LblAdded10";
+            this.LblAdded10.Size = new System.Drawing.Size(230, 29);
+            this.LblAdded10.TabIndex = 19;
+            this.LblAdded10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LblAdded9
+            // 
+            this.LblAdded9.BackColor = System.Drawing.Color.White;
+            this.LblAdded9.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdded9.ForeColor = System.Drawing.Color.Black;
+            this.LblAdded9.Location = new System.Drawing.Point(2, 274);
+            this.LblAdded9.Name = "LblAdded9";
+            this.LblAdded9.Size = new System.Drawing.Size(230, 29);
+            this.LblAdded9.TabIndex = 18;
+            this.LblAdded9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LblAdded8
+            // 
+            this.LblAdded8.BackColor = System.Drawing.Color.White;
+            this.LblAdded8.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdded8.ForeColor = System.Drawing.Color.Black;
+            this.LblAdded8.Location = new System.Drawing.Point(2, 242);
+            this.LblAdded8.Name = "LblAdded8";
+            this.LblAdded8.Size = new System.Drawing.Size(230, 29);
+            this.LblAdded8.TabIndex = 17;
+            this.LblAdded8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LblAdded7
+            // 
+            this.LblAdded7.BackColor = System.Drawing.Color.White;
+            this.LblAdded7.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdded7.ForeColor = System.Drawing.Color.Black;
+            this.LblAdded7.Location = new System.Drawing.Point(2, 210);
+            this.LblAdded7.Name = "LblAdded7";
+            this.LblAdded7.Size = new System.Drawing.Size(230, 29);
+            this.LblAdded7.TabIndex = 16;
+            this.LblAdded7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LblAdded1
+            // 
+            this.LblAdded1.BackColor = System.Drawing.Color.White;
+            this.LblAdded1.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdded1.ForeColor = System.Drawing.Color.Black;
+            this.LblAdded1.Location = new System.Drawing.Point(2, 18);
+            this.LblAdded1.Name = "LblAdded1";
+            this.LblAdded1.Size = new System.Drawing.Size(230, 29);
+            this.LblAdded1.TabIndex = 10;
+            this.LblAdded1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LblAdded2
+            // 
+            this.LblAdded2.BackColor = System.Drawing.Color.White;
+            this.LblAdded2.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdded2.ForeColor = System.Drawing.Color.Black;
+            this.LblAdded2.Location = new System.Drawing.Point(2, 50);
+            this.LblAdded2.Name = "LblAdded2";
+            this.LblAdded2.Size = new System.Drawing.Size(230, 29);
+            this.LblAdded2.TabIndex = 11;
+            this.LblAdded2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LblAdded4
+            // 
+            this.LblAdded4.BackColor = System.Drawing.Color.White;
+            this.LblAdded4.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdded4.ForeColor = System.Drawing.Color.Black;
+            this.LblAdded4.Location = new System.Drawing.Point(2, 114);
+            this.LblAdded4.Name = "LblAdded4";
+            this.LblAdded4.Size = new System.Drawing.Size(230, 29);
+            this.LblAdded4.TabIndex = 13;
+            this.LblAdded4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LblAdded5
+            // 
+            this.LblAdded5.BackColor = System.Drawing.Color.White;
+            this.LblAdded5.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdded5.ForeColor = System.Drawing.Color.Black;
+            this.LblAdded5.Location = new System.Drawing.Point(2, 146);
+            this.LblAdded5.Name = "LblAdded5";
+            this.LblAdded5.Size = new System.Drawing.Size(230, 29);
+            this.LblAdded5.TabIndex = 14;
+            this.LblAdded5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LblAdded3
+            // 
+            this.LblAdded3.BackColor = System.Drawing.Color.White;
+            this.LblAdded3.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdded3.ForeColor = System.Drawing.Color.Black;
+            this.LblAdded3.Location = new System.Drawing.Point(2, 82);
+            this.LblAdded3.Name = "LblAdded3";
+            this.LblAdded3.Size = new System.Drawing.Size(230, 29);
+            this.LblAdded3.TabIndex = 12;
+            this.LblAdded3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LblAdded6
+            // 
+            this.LblAdded6.BackColor = System.Drawing.Color.White;
+            this.LblAdded6.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdded6.ForeColor = System.Drawing.Color.Black;
+            this.LblAdded6.Location = new System.Drawing.Point(2, 178);
+            this.LblAdded6.Name = "LblAdded6";
+            this.LblAdded6.Size = new System.Drawing.Size(230, 29);
+            this.LblAdded6.TabIndex = 15;
+            this.LblAdded6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // TRefresh
             // 
@@ -408,8 +408,8 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Resize += new System.EventHandler(this.SmokeRelenishment_Resize);
             this.panel1.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
+            this.GBToAdd.ResumeLayout(false);
+            this.GBAdded.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -417,29 +417,29 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox GBToAdd;
+        private System.Windows.Forms.GroupBox GBAdded;
         private System.Windows.Forms.Button BtnExit;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label LblAdd7;
+        private System.Windows.Forms.Label LblAdd1;
+        private System.Windows.Forms.Label LblAdd2;
+        private System.Windows.Forms.Label LblAdd4;
+        private System.Windows.Forms.Label LblAdd5;
+        private System.Windows.Forms.Label LblAdd3;
+        private System.Windows.Forms.Label LblAdd6;
+        private System.Windows.Forms.Label LblAdd10;
+        private System.Windows.Forms.Label LblAdd9;
+        private System.Windows.Forms.Label LblAdd8;
+        private System.Windows.Forms.Label LblAdded10;
+        private System.Windows.Forms.Label LblAdded9;
+        private System.Windows.Forms.Label LblAdded8;
+        private System.Windows.Forms.Label LblAdded7;
+        private System.Windows.Forms.Label LblAdded1;
+        private System.Windows.Forms.Label LblAdded2;
+        private System.Windows.Forms.Label LblAdded4;
+        private System.Windows.Forms.Label LblAdded5;
+        private System.Windows.Forms.Label LblAdded3;
+        private System.Windows.Forms.Label LblAdded6;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;

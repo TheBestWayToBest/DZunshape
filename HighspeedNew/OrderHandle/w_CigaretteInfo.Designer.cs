@@ -41,11 +41,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.ItemNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ItemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.件码 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Shiptype = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RowStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.长度 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.宽度 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BigBox_Bar = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Type = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.status = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.ILength = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IWidth = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.JZ_Size = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvItemInfo)).BeginInit();
@@ -132,22 +132,22 @@
             this.DgvItemInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ItemNo,
             this.ItemName,
-            this.件码,
-            this.Shiptype,
-            this.RowStatus,
-            this.长度,
-            this.宽度,
+            this.BigBox_Bar,
+            this.Type,
+            this.status,
+            this.ILength,
+            this.IWidth,
             this.JZ_Size});
             this.DgvItemInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DgvItemInfo.Location = new System.Drawing.Point(0, 33);
             this.DgvItemInfo.Name = "DgvItemInfo";
-            this.DgvItemInfo.RowHeadersVisible = false;
             this.DgvItemInfo.RowTemplate.Height = 23;
             this.DgvItemInfo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DgvItemInfo.Size = new System.Drawing.Size(1268, 345);
             this.DgvItemInfo.TabIndex = 37;
             this.DgvItemInfo.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvItemInfo_CellFormatting);
             this.DgvItemInfo.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvItemInfo_CellValueChanged);
+            this.DgvItemInfo.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.DgvItemInfo_RowPostPaint);
             // 
             // panel2
             // 
@@ -192,35 +192,39 @@
             this.ItemName.Name = "ItemName";
             this.ItemName.ReadOnly = true;
             // 
-            // 件码
+            // BigBox_Bar
             // 
-            this.件码.DataPropertyName = "BigBox_Bar";
-            this.件码.HeaderText = "件码";
-            this.件码.Name = "件码";
+            this.BigBox_Bar.DataPropertyName = "BigBox_Bar";
+            this.BigBox_Bar.HeaderText = "件码";
+            this.BigBox_Bar.Name = "BigBox_Bar";
             // 
-            // Shiptype
+            // Type
             // 
-            this.Shiptype.DataPropertyName = "Shiptype";
-            this.Shiptype.HeaderText = "卷烟类型";
-            this.Shiptype.Name = "Shiptype";
+            this.Type.HeaderText = "卷烟类型";
+            this.Type.Items.AddRange(new object[] {
+            "标准烟",
+            "异形烟"});
+            this.Type.Name = "Type";
             // 
-            // RowStatus
+            // status
             // 
-            this.RowStatus.DataPropertyName = "RowStatus";
-            this.RowStatus.HeaderText = "卷烟状态";
-            this.RowStatus.Name = "RowStatus";
+            this.status.HeaderText = "卷烟状态";
+            this.status.Items.AddRange(new object[] {
+            "正常",
+            "删除"});
+            this.status.Name = "status";
             // 
-            // 长度
+            // ILength
             // 
-            this.长度.DataPropertyName = "ILength";
-            this.长度.HeaderText = "长度";
-            this.长度.Name = "长度";
+            this.ILength.DataPropertyName = "ILength";
+            this.ILength.HeaderText = "长度";
+            this.ILength.Name = "ILength";
             // 
-            // 宽度
+            // IWidth
             // 
-            this.宽度.DataPropertyName = "IWidth";
-            this.宽度.HeaderText = "宽度";
-            this.宽度.Name = "宽度";
+            this.IWidth.DataPropertyName = "IWidth";
+            this.IWidth.HeaderText = "宽度";
+            this.IWidth.Name = "IWidth";
             // 
             // JZ_Size
             // 
@@ -262,11 +266,11 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridViewTextBoxColumn ItemNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn ItemName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 件码;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Shiptype;
-        private System.Windows.Forms.DataGridViewTextBoxColumn RowStatus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 长度;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 宽度;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BigBox_Bar;
+        private System.Windows.Forms.DataGridViewComboBoxColumn Type;
+        private System.Windows.Forms.DataGridViewComboBoxColumn status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ILength;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IWidth;
         private System.Windows.Forms.DataGridViewTextBoxColumn JZ_Size;
     }
 }
