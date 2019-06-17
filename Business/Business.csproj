@@ -51,6 +51,7 @@
     <Compile Include="BusinessClass\ChannelClass.cs" />
     <Compile Include="BusinessClass\ItemClass.cs" />
     <Compile Include="BusinessClass\RelenishimentClass.cs" />
+    <Compile Include="BusinessClass\Replan.cs" />
     <Compile Include="BusinessClass\ScheduleClass.cs" />
     <Compile Include="BusinessClass\TaskClass.cs" />
     <Compile Include="BusinessClass\UnPokeClass.cs" />

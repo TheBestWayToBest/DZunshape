@@ -28,10 +28,10 @@ namespace HighSpeed.OrderHandle
             }
             else
             {
-                
+                MessageBox.Show(rm.MessageText);
                 orderdata.DataSource = null;
             }
-            
+            this.txt_codestr.Text = "";
 
         }
         private void btn_search_Click(object sender, EventArgs e)
@@ -41,8 +41,10 @@ namespace HighSpeed.OrderHandle
 
         private void btn_recieve_Click(object sender, EventArgs e)
         {
+            decimal maxSyncseq = 0;
             try
             {
+                maxSyncseq = sc.GetSyncseqFromOrderTable().Content;
                 String codestr = this.txt_codestr.Text.Trim();
                 btn_recieve.Enabled = false;
                 if (codestr != "")
@@ -59,7 +61,7 @@ namespace HighSpeed.OrderHandle
                         Application.DoEvents();
                         if (i == 0) label2.Text = "正在接收" + code[i] + "车组订单数据...";
                         DateTime time = DateTime.Parse(datePick.Value.ToString());
-                        var re = sc.ReceiveSaleOrderToOrder(time, code[i]);//接收数据
+                        var re = sc.ReceiveSaleOrderToOrder(time, code[i], maxSyncseq);//接收数据
 
                         progressBar1.Value = ((i + 1) * 100 / len);
                         progressBar1.Refresh();
@@ -99,6 +101,32 @@ namespace HighSpeed.OrderHandle
             }
             finally
             {
+                //根据批次maxSyncseq验证是否有新品牌和客户,提示定性新品牌并设置条烟转换比例 
+                Response response = new Response();
+                String resultMsg = "";
+                //验证是否有新品牌
+                response = sc.ValidNewItem(maxSyncseq);
+                if(!response.IsSuccess){
+                    resultMsg = resultMsg + "品牌验证：" + response.MessageText;
+                    //MessageBox.Show(response.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                //验证是否有新客户
+                response = sc.ValidNewCustomer(maxSyncseq);
+                if (!response.IsSuccess)
+                {
+                    resultMsg = "\r\n" + resultMsg + "零售户验证：" + response.MessageText;
+                    //MessageBox.Show(response.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                //验证订单数量
+                response = sc.ValiOrderNum(maxSyncseq, this.datePick.Value);
+                if (!response.IsSuccess)
+                {
+                    resultMsg = "\r\n" + resultMsg + "订单数验证：" + response.MessageText;
+                    //MessageBox.Show(response.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                if (!"".Equals(resultMsg)) {
+                    MessageBox.Show(resultMsg, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
                 Bind();
             }
            

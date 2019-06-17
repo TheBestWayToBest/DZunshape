@@ -46,6 +46,8 @@
             this.异型烟补货计划ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.排程报表ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.混合道补烟顺序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.件烟补货顺序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.错误日志ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.系统管理ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.数据库设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.任务状态修改ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,8 +56,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.件烟补货顺序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.错误日志ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -149,6 +149,7 @@
             this.任务导出ToolStripMenuItem.Name = "任务导出ToolStripMenuItem";
             this.任务导出ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
             this.任务导出ToolStripMenuItem.Text = "任务导出";
+            this.任务导出ToolStripMenuItem.Click += new System.EventHandler(this.任务导出ToolStripMenuItem_Click);
             // 
             // 分拣进度ToolStripMenuItem
             // 
@@ -199,6 +200,18 @@
             this.混合道补烟顺序ToolStripMenuItem.Name = "混合道补烟顺序ToolStripMenuItem";
             this.混合道补烟顺序ToolStripMenuItem.Size = new System.Drawing.Size(183, 24);
             this.混合道补烟顺序ToolStripMenuItem.Text = "混合道补烟顺序";
+            // 
+            // 件烟补货顺序ToolStripMenuItem
+            // 
+            this.件烟补货顺序ToolStripMenuItem.Name = "件烟补货顺序ToolStripMenuItem";
+            this.件烟补货顺序ToolStripMenuItem.Size = new System.Drawing.Size(183, 24);
+            this.件烟补货顺序ToolStripMenuItem.Text = "件烟补货顺序";
+            // 
+            // 错误日志ToolStripMenuItem
+            // 
+            this.错误日志ToolStripMenuItem.Name = "错误日志ToolStripMenuItem";
+            this.错误日志ToolStripMenuItem.Size = new System.Drawing.Size(183, 24);
+            this.错误日志ToolStripMenuItem.Text = "错误日志";
             // 
             // 系统管理ToolStripMenuItem
             // 
@@ -265,18 +278,6 @@
             this.toolStripStatusLabel4.Size = new System.Drawing.Size(267, 20);
             this.toolStripStatusLabel4.Text = "toolStripStatusLabel4";
             this.toolStripStatusLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // 件烟补货顺序ToolStripMenuItem
-            // 
-            this.件烟补货顺序ToolStripMenuItem.Name = "件烟补货顺序ToolStripMenuItem";
-            this.件烟补货顺序ToolStripMenuItem.Size = new System.Drawing.Size(183, 24);
-            this.件烟补货顺序ToolStripMenuItem.Text = "件烟补货顺序";
-            // 
-            // 错误日志ToolStripMenuItem
-            // 
-            this.错误日志ToolStripMenuItem.Name = "错误日志ToolStripMenuItem";
-            this.错误日志ToolStripMenuItem.Size = new System.Drawing.Size(183, 24);
-            this.错误日志ToolStripMenuItem.Text = "错误日志";
             // 
             // w_main
             // 
