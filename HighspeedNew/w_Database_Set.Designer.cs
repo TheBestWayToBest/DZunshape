@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.BtnLogin = new System.Windows.Forms.Button();
+            this.BtnExit = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
+            this.BtnSave = new System.Windows.Forms.Button();
             this.server_pwd = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
+            this.BtnConnTest = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.server_uid = new System.Windows.Forms.TextBox();
             this.server_server = new System.Windows.Forms.TextBox();
@@ -46,12 +46,12 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.button5);
-            this.groupBox2.Controls.Add(this.button2);
+            this.groupBox2.Controls.Add(this.BtnLogin);
+            this.groupBox2.Controls.Add(this.BtnExit);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.button4);
+            this.groupBox2.Controls.Add(this.BtnSave);
             this.groupBox2.Controls.Add(this.server_pwd);
-            this.groupBox2.Controls.Add(this.button3);
+            this.groupBox2.Controls.Add(this.BtnConnTest);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.server_uid);
             this.groupBox2.Controls.Add(this.server_server);
@@ -65,23 +65,23 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "接口数据库连接配置";
             // 
-            // button5
+            // BtnLogin
             // 
-            this.button5.Location = new System.Drawing.Point(347, 145);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 37;
-            this.button5.Text = "登陆";
-            this.button5.UseVisualStyleBackColor = true;
+            this.BtnLogin.Location = new System.Drawing.Point(347, 145);
+            this.BtnLogin.Name = "BtnLogin";
+            this.BtnLogin.Size = new System.Drawing.Size(75, 23);
+            this.BtnLogin.TabIndex = 37;
+            this.BtnLogin.Text = "登录";
+            this.BtnLogin.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // BtnExit
             // 
-            this.button2.Location = new System.Drawing.Point(266, 145);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 36;
-            this.button2.Text = "退出";
-            this.button2.UseVisualStyleBackColor = true;
+            this.BtnExit.Location = new System.Drawing.Point(266, 145);
+            this.BtnExit.Name = "BtnExit";
+            this.BtnExit.Size = new System.Drawing.Size(75, 23);
+            this.BtnExit.TabIndex = 36;
+            this.BtnExit.Text = "退出";
+            this.BtnExit.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
@@ -92,14 +92,14 @@
             this.label4.TabIndex = 32;
             this.label4.Text = "密码";
             // 
-            // button4
+            // BtnSave
             // 
-            this.button4.Location = new System.Drawing.Point(178, 145);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 35;
-            this.button4.Text = "保存配置";
-            this.button4.UseVisualStyleBackColor = true;
+            this.BtnSave.Location = new System.Drawing.Point(178, 145);
+            this.BtnSave.Name = "BtnSave";
+            this.BtnSave.Size = new System.Drawing.Size(75, 23);
+            this.BtnSave.TabIndex = 35;
+            this.BtnSave.Text = "保存配置";
+            this.BtnSave.UseVisualStyleBackColor = true;
             // 
             // server_pwd
             // 
@@ -109,14 +109,15 @@
             this.server_pwd.TabIndex = 34;
             this.server_pwd.UseSystemPasswordChar = true;
             // 
-            // button3
+            // BtnConnTest
             // 
-            this.button3.Location = new System.Drawing.Point(97, 145);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 35;
-            this.button3.Text = "连接测试";
-            this.button3.UseVisualStyleBackColor = true;
+            this.BtnConnTest.Location = new System.Drawing.Point(97, 145);
+            this.BtnConnTest.Name = "BtnConnTest";
+            this.BtnConnTest.Size = new System.Drawing.Size(75, 23);
+            this.BtnConnTest.TabIndex = 35;
+            this.BtnConnTest.Text = "连接测试";
+            this.BtnConnTest.UseVisualStyleBackColor = true;
+            this.BtnConnTest.Click += new System.EventHandler(this.BtnConnTest_Click);
             // 
             // label3
             // 
@@ -187,12 +188,12 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button BtnLogin;
+        private System.Windows.Forms.Button BtnExit;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button BtnSave;
         private System.Windows.Forms.TextBox server_pwd;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button BtnConnTest;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox server_uid;
         private System.Windows.Forms.TextBox server_server;

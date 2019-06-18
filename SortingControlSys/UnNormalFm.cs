@@ -12,6 +12,7 @@ using OpcRcw.Da;
 using Tool;
 using Business;
 using Business.BusinessClass;
+using Business.Modle;
 
 namespace SortingControlSys
 {
@@ -34,6 +35,8 @@ namespace SortingControlSys
         {
             InitializeComponent();
             UpdateControlEnable(false, BtnEnd);
+            Initdata();
+            TimeToClike.Start();
             opcServer = new OPCServer();
             handle += UpdateListBox;
         }
@@ -77,8 +80,6 @@ namespace SortingControlSys
         {
             if (!opcServer.ConnectState)
             {
-   
-                
                 GetTaskInfo("正在尝试连接服务器......");
                 string[] str = opcServer.Connection();
                 if (string.IsNullOrWhiteSpace(str[0]))
@@ -101,7 +102,7 @@ namespace SortingControlSys
                     }
                 }
                 else
-                {
+                 {
                     GetTaskInfo(str[0]);
                     timerSendTask.Stop();
                     UpdateControlEnable(true, BtnStatrt);
@@ -131,6 +132,7 @@ namespace SortingControlSys
                             {
                                 WriteLog.GetLog().Write(ListLineNum[0] + "线从电控读取出口号：" + clientId[i] + ";任务号:" + tempvalue);
                                 //UnPokeService.UpdateunTask(tempvalue, 20);//根据异形烟整包任务号更新poke表中状态 
+                                UnPokeClass.UpdateunTask(tempvalue, 20);
                                 WriteLog.GetLog().Write(ListLineNum[0] + "线烟仓任务号" + tempvalue + "数据库更新完成");
 
                                 GetTaskInfo(ListLineNum[0] + "线烟仓:" + tempvalue + "号任务已完成");
@@ -257,6 +259,58 @@ namespace SortingControlSys
         {
             StatusManager frm = new StatusManager();
             frm.ShowDialog();
+        }
+
+        private void BtnRefresh_Click(object sender, EventArgs e)
+        {
+            Initdata();
+        }
+
+        public void Initdata()
+        {
+            WriteLog.GetLog().Write("initdata");
+            task_data.Rows.Clear();
+            try
+            {
+                List<TaskInfo> list = UnPokeClass.GetUNCustomer().ToList();
+                if (list != null)
+                {
+                    DataGridViewCellStyle dgvStyle = new DataGridViewCellStyle();
+                    dgvStyle.BackColor = Color.LightGreen;
+                    int i = 1;
+                    foreach (var row in list)
+                    {
+                        int index = this.task_data.Rows.Add();
+                        this.task_data.Rows[index].Cells[0].Value = i++;//序号
+                        this.task_data.Rows[index].Cells[1].Value = "长沙市烟草公司";//货主
+                        this.task_data.Rows[index].Cells[2].Value = row.ORDERDATE.Value.Date.ToString("D"); //订单日期
+                        this.task_data.Rows[index].Cells[3].Value = "批次" + row.SYNSEQ;//批次
+                        this.task_data.Rows[index].Cells[4].Value = row.REGIONCODE;//线路编号
+                        this.task_data.Rows[index].Cells[5].Value = row.REGIONCODE;//线路名称 
+                        this.task_data.Rows[index].Cells[6].Value = row.FinishCount + "/" + row.Count;
+                        this.task_data.Rows[index].Cells[7].Value = row.FinishQTY + "/" + row.QTY;
+                        this.task_data.Rows[index].Cells[9].Value = row.Rate;
+
+                        if (row.Rate == "100%")
+                        {
+                            this.task_data.Rows[index].Cells[9].Style = dgvStyle;
+                        }
+
+                    }
+                    task_data.Sort(task_data.Columns[0], ListSortDirection.Ascending);
+                }
+
+            }
+            finally
+            {
+
+            }
+        }
+
+        private void TimeToClike_Tick(object sender, EventArgs e)
+        {
+            Initdata();
+            TimeToClike.Interval = 20000;//二十秒刷新
         }
     }
 }

@@ -49,21 +49,28 @@
   <ItemGroup>
     <Compile Include="BusinessClass\BatchClass.cs" />
     <Compile Include="BusinessClass\ChannelClass.cs" />
+    <Compile Include="BusinessClass\ExportClass.cs" />
     <Compile Include="BusinessClass\ItemClass.cs" />
+    <Compile Include="BusinessClass\OrderClass.cs" />
     <Compile Include="BusinessClass\RelenishimentClass.cs" />
     <Compile Include="BusinessClass\ScheduleClass.cs" />
+    <Compile Include="BusinessClass\SpecialSmokeClass.cs" />
     <Compile Include="BusinessClass\TaskClass.cs" />
     <Compile Include="BusinessClass\UnPokeClass.cs" />
     <Compile Include="BusinessClass\ValidationClass.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="DZEntity.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DZEntity.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Modle\AllOrderData.cs" />
     <Compile Include="Modle\CigarettInfo.cs" />
+    <Compile Include="Modle\ExportInfo.cs" />
+    <Compile Include="Modle\InfoExport.cs" />
     <Compile Include="Modle\ItemInfo.cs" />
     <Compile Include="Modle\MainOrder.cs" />
+    <Compile Include="Modle\OrderData.cs" />
+    <Compile Include="Modle\PokeInfo.cs" />
     <Compile Include="Modle\Response.cs" />
     <Compile Include="Modle\TaskDetail.cs" />
     <Compile Include="Modle\TaskInfo.cs" />
@@ -77,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
+    <None Include="DZEntities.datasource" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tool\Tool.csproj">

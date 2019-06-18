@@ -33,7 +33,6 @@
             this.batchcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cuscount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btn_close = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btn_export = new System.Windows.Forms.Button();
             this.lab_showinfo = new System.Windows.Forms.Label();
@@ -99,19 +98,9 @@
             this.qty.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.qty.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // btn_close
-            // 
-            this.btn_close.Location = new System.Drawing.Point(734, 18);
-            this.btn_close.Name = "btn_close";
-            this.btn_close.Size = new System.Drawing.Size(75, 23);
-            this.btn_close.TabIndex = 7;
-            this.btn_close.Text = "关闭";
-            this.btn_close.UseVisualStyleBackColor = true;
-            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.btn_refresh);
-            this.panel1.Controls.Add(this.btn_close);
             this.panel1.Controls.Add(this.btn_export);
             this.panel1.Controls.Add(this.lab_showinfo);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -176,6 +165,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "w_Export";
             this.Text = "任务导出";
+            this.Load += new System.EventHandler(this.w_Export_Load);
             ((System.ComponentModel.ISupportInitialize)(this.orderdata)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -192,7 +182,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn batchcode;
         private System.Windows.Forms.DataGridViewTextBoxColumn cuscount;
         private System.Windows.Forms.DataGridViewTextBoxColumn qty;
-        private System.Windows.Forms.Button btn_close;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btn_export;
         private System.Windows.Forms.Label lab_showinfo;

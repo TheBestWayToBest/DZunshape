@@ -36,7 +36,7 @@
             // 
             // txtUserName
             // 
-            this.txtUserName.Location = new System.Drawing.Point(62, 65);
+            this.txtUserName.Location = new System.Drawing.Point(98, 128);
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(110, 21);
             this.txtUserName.TabIndex = 5;
@@ -45,15 +45,16 @@
             // 
             this.textBox2.BackColor = System.Drawing.Color.LightSkyBlue;
             this.textBox2.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.textBox2.Location = new System.Drawing.Point(59, 96);
+            this.textBox2.Location = new System.Drawing.Point(98, 159);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(113, 23);
+            this.textBox2.Size = new System.Drawing.Size(110, 23);
             this.textBox2.TabIndex = 6;
             this.textBox2.UseSystemPasswordChar = true;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(186, 97);
+            this.button2.BackgroundImage = global::HighspeedNew.Properties.Resources.btnCancel;
+            this.button2.Location = new System.Drawing.Point(222, 160);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(74, 22);
             this.button2.TabIndex = 8;
@@ -61,7 +62,8 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(188, 65);
+            this.button1.BackgroundImage = global::HighspeedNew.Properties.Resources.btnOk;
+            this.button1.Location = new System.Drawing.Point(224, 128);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(72, 22);
             this.button1.TabIndex = 7;
@@ -71,7 +73,8 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.ClientSize = new System.Drawing.Size(318, 184);
+            this.BackgroundImage = global::HighspeedNew.Properties.Resources.复件_login2;
+            this.ClientSize = new System.Drawing.Size(308, 207);
             this.ControlBox = false;
             this.Controls.Add(this.txtUserName);
             this.Controls.Add(this.textBox2);
@@ -84,7 +87,6 @@
             this.Name = "w_User";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "w_User";
             this.ResumeLayout(false);
             this.PerformLayout();
 

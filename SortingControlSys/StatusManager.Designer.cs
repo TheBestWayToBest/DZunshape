@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.BtnSearch = new System.Windows.Forms.Button();
             this.TxtCusID = new System.Windows.Forms.TextBox();
@@ -46,6 +46,10 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.BtnEnd = new System.Windows.Forms.Button();
+            this.BtnFirst = new System.Windows.Forms.Button();
+            this.BtnPre = new System.Windows.Forms.Button();
+            this.BtnNext = new System.Windows.Forms.Button();
             this.DgvData = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -56,10 +60,6 @@
             this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BtnNext = new System.Windows.Forms.Button();
-            this.BtnPre = new System.Windows.Forms.Button();
-            this.BtnFirst = new System.Windows.Forms.Button();
-            this.BtnEnd = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -68,6 +68,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.groupBox1.Controls.Add(this.BtnSearch);
             this.groupBox1.Controls.Add(this.TxtCusID);
             this.groupBox1.Controls.Add(this.TxtRegionCode);
@@ -75,7 +76,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Location = new System.Drawing.Point(0, 4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(1127, 47);
             this.groupBox1.TabIndex = 0;
@@ -142,6 +143,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.groupBox2.Controls.Add(this.TxtEndNum);
             this.groupBox2.Controls.Add(this.TxtStartNum);
             this.groupBox2.Controls.Add(this.BtnUpdate);
@@ -149,7 +151,7 @@
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Location = new System.Drawing.Point(0, 53);
+            this.groupBox2.Location = new System.Drawing.Point(0, 57);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(1127, 50);
             this.groupBox2.TabIndex = 0;
@@ -222,6 +224,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.groupBox3.Controls.Add(this.BtnEnd);
             this.groupBox3.Controls.Add(this.BtnFirst);
             this.groupBox3.Controls.Add(this.BtnPre);
@@ -229,17 +232,53 @@
             this.groupBox3.Controls.Add(this.DgvData);
             this.groupBox3.Location = new System.Drawing.Point(0, 109);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(1127, 619);
+            this.groupBox3.Size = new System.Drawing.Size(1127, 574);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "查询结果";
+            // 
+            // BtnEnd
+            // 
+            this.BtnEnd.Location = new System.Drawing.Point(1042, 548);
+            this.BtnEnd.Name = "BtnEnd";
+            this.BtnEnd.Size = new System.Drawing.Size(75, 23);
+            this.BtnEnd.TabIndex = 4;
+            this.BtnEnd.Text = "尾页";
+            this.BtnEnd.UseVisualStyleBackColor = true;
+            // 
+            // BtnFirst
+            // 
+            this.BtnFirst.Location = new System.Drawing.Point(552, 548);
+            this.BtnFirst.Name = "BtnFirst";
+            this.BtnFirst.Size = new System.Drawing.Size(75, 23);
+            this.BtnFirst.TabIndex = 3;
+            this.BtnFirst.Text = "首页";
+            this.BtnFirst.UseVisualStyleBackColor = true;
+            // 
+            // BtnPre
+            // 
+            this.BtnPre.Location = new System.Drawing.Point(640, 548);
+            this.BtnPre.Name = "BtnPre";
+            this.BtnPre.Size = new System.Drawing.Size(75, 23);
+            this.BtnPre.TabIndex = 2;
+            this.BtnPre.Text = "上一页";
+            this.BtnPre.UseVisualStyleBackColor = true;
+            // 
+            // BtnNext
+            // 
+            this.BtnNext.Location = new System.Drawing.Point(949, 548);
+            this.BtnNext.Name = "BtnNext";
+            this.BtnNext.Size = new System.Drawing.Size(75, 23);
+            this.BtnNext.TabIndex = 1;
+            this.BtnNext.Text = "下一页";
+            this.BtnNext.UseVisualStyleBackColor = true;
             // 
             // DgvData
             // 
             this.DgvData.AllowUserToAddRows = false;
             this.DgvData.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-            this.DgvData.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            this.DgvData.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.DgvData.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.DgvData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DgvData.BackgroundColor = System.Drawing.SystemColors.Control;
@@ -254,12 +293,12 @@
             this.Column7,
             this.Column8,
             this.Column9});
-            this.DgvData.Location = new System.Drawing.Point(0, 20);
+            this.DgvData.Location = new System.Drawing.Point(0, 17);
             this.DgvData.Name = "DgvData";
             this.DgvData.ReadOnly = true;
             this.DgvData.RowHeadersVisible = false;
             this.DgvData.RowTemplate.Height = 23;
-            this.DgvData.Size = new System.Drawing.Size(1127, 568);
+            this.DgvData.Size = new System.Drawing.Size(1127, 528);
             this.DgvData.TabIndex = 0;
             // 
             // Column1
@@ -316,53 +355,19 @@
             this.Column9.Name = "Column9";
             this.Column9.ReadOnly = true;
             // 
-            // BtnNext
-            // 
-            this.BtnNext.Location = new System.Drawing.Point(949, 594);
-            this.BtnNext.Name = "BtnNext";
-            this.BtnNext.Size = new System.Drawing.Size(75, 23);
-            this.BtnNext.TabIndex = 1;
-            this.BtnNext.Text = "下一页";
-            this.BtnNext.UseVisualStyleBackColor = true;
-            // 
-            // BtnPre
-            // 
-            this.BtnPre.Location = new System.Drawing.Point(640, 594);
-            this.BtnPre.Name = "BtnPre";
-            this.BtnPre.Size = new System.Drawing.Size(75, 23);
-            this.BtnPre.TabIndex = 2;
-            this.BtnPre.Text = "上一页";
-            this.BtnPre.UseVisualStyleBackColor = true;
-            // 
-            // BtnFirst
-            // 
-            this.BtnFirst.Location = new System.Drawing.Point(552, 594);
-            this.BtnFirst.Name = "BtnFirst";
-            this.BtnFirst.Size = new System.Drawing.Size(75, 23);
-            this.BtnFirst.TabIndex = 3;
-            this.BtnFirst.Text = "首页";
-            this.BtnFirst.UseVisualStyleBackColor = true;
-            // 
-            // BtnEnd
-            // 
-            this.BtnEnd.Location = new System.Drawing.Point(1042, 594);
-            this.BtnEnd.Name = "BtnEnd";
-            this.BtnEnd.Size = new System.Drawing.Size(75, 23);
-            this.BtnEnd.TabIndex = 4;
-            this.BtnEnd.Text = "尾页";
-            this.BtnEnd.UseVisualStyleBackColor = true;
-            // 
             // StatusManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1129, 732);
+            this.ClientSize = new System.Drawing.Size(1129, 686);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "StatusManager";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "异形烟状态管理";
+            this.Resize += new System.EventHandler(this.StatusManager_Resize);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using HighSpeed.OrderHandle;
+using HighspeedNew.OrderHandle;
 
 namespace HighSpeed
 {
@@ -18,7 +19,7 @@ namespace HighSpeed
             //this.skinEngine1.SkinFile = Application.StartupPath + @"\Skin\SportsBlack.ssk";
 
             InitializeComponent();
-            toolStripStatusLabel1.Text = "长株潭烟草物流";
+            toolStripStatusLabel1.Text = "山东德州烟草配送中心";
             toolStripStatusLabel2.Text = "当前用户：";//+ //PublicFun.PubStruserempname;
             toolStripStatusLabel3.Text = "登录时间：" + System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
@@ -73,7 +74,8 @@ namespace HighSpeed
 
         private void 数据库设置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            w_Database_Set frm = new w_Database_Set();
+            frm.ShowDialog();
         }
 
         private void 分拣批次管理ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -135,6 +137,62 @@ namespace HighSpeed
         private void 订单信息ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             w_CigaretteInfo frm = new w_CigaretteInfo();
+            if (CheckExist(frm) == true)
+            {
+                frm.Dispose();
+                frm = null;
+                return;
+            }
+            frm.MdiParent = this;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
+        private void 任务导出ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            w_Export frm = new w_Export();
+            if (CheckExist(frm) == true)
+            {
+                frm.Dispose();
+                frm = null;
+                return;
+            }
+            frm.MdiParent = this;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
+        private void 今日订单ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            w_order_Union frm = new w_order_Union();
+            if (CheckExist(frm) == true)
+            {
+                frm.Dispose();
+                frm = null;
+                return;
+            }
+            frm.MdiParent = this;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
+        private void 今日订单汇总ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            w_orderdata frm = new w_orderdata();
+            if (CheckExist(frm) == true)
+            {
+                frm.Dispose();
+                frm = null;
+                return;
+            }
+            frm.MdiParent = this;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
+        private void 排程报表ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            w_schedulereport frm = new w_schedulereport();
             if (CheckExist(frm) == true)
             {
                 frm.Dispose();

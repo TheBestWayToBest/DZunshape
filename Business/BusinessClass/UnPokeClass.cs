@@ -272,5 +272,41 @@ namespace Business.BusinessClass
                 return query;
             }
         }
+
+        /// <summary>
+        /// 校验特异形烟是否录入长宽
+        /// </summary>
+        /// <returns></returns>
+        public static string GetNullLWSomke()
+        {
+            string needInfo = null;
+            using (DZEntities data = new DZEntities())
+            {
+                var jydate = (from item in data.T_UN_POKE select item).ToList();
+                if (jydate == null || jydate.Count == 0)
+                {
+                    return "当前没有数据";
+                }
+                var query = (from item in data.T_WMS_ITEM
+                             join trough in data.T_PRODUCE_SORTTROUGH on item.ITEMNO equals trough.CIGARETTECODE
+                             join task in data.T_UN_TASKLINE on trough.CIGARETTECODE equals task.CIGARETTECODE
+                             where (trough.CIGARETTETYPE == 30 || trough.CIGARETTETYPE == 40) && trough.TROUGHTYPE == 10 && ((item.ILENGTH == null || item.IWIDTH == null) || (item.ILENGTH == 0 || item.IWIDTH == 0))
+                             group item by new { trough.CIGARETTECODE, trough.CIGARETTENAME } into g
+                             select g).ToList();
+                if (query == null || query.Count == 0)
+                {
+                    return "校验无误！";
+                }
+                else
+                {
+                    foreach (var item in query)
+                    {
+                        needInfo += item.Key.CIGARETTECODE + "|" + item.Key.CIGARETTENAME + "，";
+                    }
+                    return needInfo + "这些品牌没有录入长宽！请在分拣前录入!!";
+                }
+
+            }
+        }
     }
 }

@@ -15,5 +15,10 @@ namespace HighSpeed
         {
             InitializeComponent();
         }
+
+        private void BtnConnTest_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

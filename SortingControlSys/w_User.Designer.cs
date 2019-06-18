@@ -53,6 +53,7 @@
             // 
             // button2
             // 
+            this.button2.BackgroundImage = global::SortingControlSys.Properties.Resources.btnCancel;
             this.button2.Location = new System.Drawing.Point(222, 160);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(74, 22);
@@ -61,6 +62,7 @@
             // 
             // button1
             // 
+            this.button1.BackgroundImage = global::SortingControlSys.Properties.Resources.btnOk;
             this.button1.Location = new System.Drawing.Point(224, 128);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(72, 22);
@@ -71,7 +73,8 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.ClientSize = new System.Drawing.Size(312, 211);
+            this.BackgroundImage = global::SortingControlSys.Properties.Resources.复件_login2;
+            this.ClientSize = new System.Drawing.Size(308, 207);
             this.ControlBox = false;
             this.Controls.Add(this.txtUserName);
             this.Controls.Add(this.textBox2);

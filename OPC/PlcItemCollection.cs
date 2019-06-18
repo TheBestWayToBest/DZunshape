@@ -98,5 +98,11 @@ namespace OPC
             return list;
         }
 
+        public static List<string> GetScan() 
+        {
+            List<string> list = new List<string>() { "DB" };
+            return list;
+        }
+
     }
 }

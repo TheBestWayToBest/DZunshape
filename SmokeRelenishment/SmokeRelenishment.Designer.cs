@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.BtnRefresh = new System.Windows.Forms.Button();
+            this.BtnSearch = new System.Windows.Forms.Button();
+            this.BtnSeq = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
             this.GBToAdd = new System.Windows.Forms.GroupBox();
             this.LblAdd10 = new System.Windows.Forms.Label();
@@ -58,6 +58,7 @@
             this.LblAdded6 = new System.Windows.Forms.Label();
             this.TRefresh = new System.Windows.Forms.Timer(this.components);
             this.BGWConn = new System.ComponentModel.BackgroundWorker();
+            this.TSender = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.GBToAdd.SuspendLayout();
             this.GBAdded.SuspendLayout();
@@ -68,9 +69,9 @@
             this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.BackgroundImage = global::SmokeRelenishment.Properties.Resources.topfj;
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.panel1.Controls.Add(this.button3);
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.button2);
+            this.panel1.Controls.Add(this.BtnRefresh);
+            this.panel1.Controls.Add(this.BtnSearch);
+            this.panel1.Controls.Add(this.BtnSeq);
             this.panel1.Controls.Add(this.BtnExit);
             this.panel1.Controls.Add(this.GBToAdd);
             this.panel1.Controls.Add(this.GBAdded);
@@ -80,35 +81,36 @@
             this.panel1.Size = new System.Drawing.Size(480, 378);
             this.panel1.TabIndex = 0;
             // 
-            // button3
+            // BtnRefresh
             // 
-            this.button3.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button3.Location = new System.Drawing.Point(421, 0);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(35, 29);
-            this.button3.TabIndex = 22;
-            this.button3.Text = "刷新";
-            this.button3.UseVisualStyleBackColor = true;
+            this.BtnRefresh.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.BtnRefresh.Location = new System.Drawing.Point(421, 0);
+            this.BtnRefresh.Name = "BtnRefresh";
+            this.BtnRefresh.Size = new System.Drawing.Size(35, 29);
+            this.BtnRefresh.TabIndex = 22;
+            this.BtnRefresh.Text = "刷新";
+            this.BtnRefresh.UseVisualStyleBackColor = true;
+            this.BtnRefresh.Click += new System.EventHandler(this.BtnRefresh_Click);
             // 
-            // button1
+            // BtnSearch
             // 
-            this.button1.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button1.Location = new System.Drawing.Point(293, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(65, 29);
-            this.button1.TabIndex = 20;
-            this.button1.Text = "件烟定位";
-            this.button1.UseVisualStyleBackColor = true;
+            this.BtnSearch.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.BtnSearch.Location = new System.Drawing.Point(293, 0);
+            this.BtnSearch.Name = "BtnSearch";
+            this.BtnSearch.Size = new System.Drawing.Size(65, 29);
+            this.BtnSearch.TabIndex = 20;
+            this.BtnSearch.Text = "件烟定位";
+            this.BtnSearch.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // BtnSeq
             // 
-            this.button2.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button2.Location = new System.Drawing.Point(357, 0);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(65, 29);
-            this.button2.TabIndex = 21;
-            this.button2.Text = "件烟顺序";
-            this.button2.UseVisualStyleBackColor = true;
+            this.BtnSeq.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.BtnSeq.Location = new System.Drawing.Point(357, 0);
+            this.BtnSeq.Name = "BtnSeq";
+            this.BtnSeq.Size = new System.Drawing.Size(65, 29);
+            this.BtnSeq.TabIndex = 21;
+            this.BtnSeq.Text = "件烟顺序";
+            this.BtnSeq.UseVisualStyleBackColor = true;
             // 
             // BtnExit
             // 
@@ -394,6 +396,11 @@
             // 
             this.BGWConn.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BGWConn_DoWork);
             // 
+            // TSender
+            // 
+            this.TSender.Interval = 10000;
+            this.TSender.Tick += new System.EventHandler(this.TSender_Tick);
+            // 
             // SmokeRelenishment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -440,11 +447,12 @@
         private System.Windows.Forms.Label LblAdded5;
         private System.Windows.Forms.Label LblAdded3;
         private System.Windows.Forms.Label LblAdded6;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button BtnRefresh;
+        private System.Windows.Forms.Button BtnSearch;
+        private System.Windows.Forms.Button BtnSeq;
         private System.Windows.Forms.Timer TRefresh;
         private System.ComponentModel.BackgroundWorker BGWConn;
+        private System.Windows.Forms.Timer TSender;
     }
 }
 

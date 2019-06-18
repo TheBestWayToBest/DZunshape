@@ -54,9 +54,9 @@ namespace OPC
         /// </summary>
         PlcGroup finishOnlyGroup;
         /// <summary>
-        /// 包装机
+        /// 扫码头
         /// </summary>
-        PlcGroup PackageMachineGroup;
+        PlcGroup scanGroup;
         /// <summary>
         /// opcserver对象
         /// </summary>
@@ -73,6 +73,11 @@ namespace OPC
         /// 完成信号交互区
         /// </summary>
         public PlcGroup FinishOnlyGroup { get { return finishOnlyGroup; } set { finishOnlyGroup = value; } }
+
+        /// <summary>
+        /// 扫码头
+        /// </summary>
+        public PlcGroup ScanGroup { get { return scanGroup; } set { scanGroup = value; } }
 
         public string[] Connection()
         {
@@ -102,7 +107,7 @@ namespace OPC
             onlyTaskGroup = new PlcGroup(pIOPCServer, 1, "group1", 1, LOCALE_ID);// 任务交互区
             finishOnlyGroup = new PlcGroup(pIOPCServer, 5, "group5", 1, LOCALE_ID);// 完成信号
             spyBiaozhiGroup = new PlcGroup(pIOPCServer, 9, "group9", 1, LOCALE_ID);//监控标志位
-
+            scanGroup = new PlcGroup(pIOPCServer, 10, "group10", 1, LOCALE_ID);//监控标志位
             strmessage[0] += "";//写入校验plc连接尝试结果
             strmessage[1] = "1";
             return strmessage;

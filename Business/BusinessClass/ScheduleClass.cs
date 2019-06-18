@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 
 namespace Business.BusinessClass
 {
-    public class ScheduleClass  :ValidationClass
+    public class ScheduleClass : ValidationClass
     {
         /// <summary>
         /// 订单接收
@@ -15,16 +15,16 @@ namespace Business.BusinessClass
         public ScheduleClass() //根据车组
         {
             //获取  V_SALE_ORDER_HEAD  订单中间表主视图  V_SALE_ORDER_LINE  订单中间表明细视图
-           CreateTime   = DateTime.Now ;
+            CreateTime = DateTime.Now;
         }
         /// <summary>
         /// SortNum 序列
         /// </summary>
         const string Str_Sortnum_SEQUENCE = "select ZOOMTEL.S_PRODUCE_SORTNUM.NEXTVAL from dual ";
- 
-        
-        #region 订单接收 从数据源 到 ORDER表和ORDERLINE表中 
-         
+
+
+        #region 订单接收 从数据源 到 ORDER表和ORDERLINE表中
+
         /// <summary>
         /// 获取未接收的车组
         /// </summary>
@@ -36,8 +36,8 @@ namespace Business.BusinessClass
             {
                 List<MainOrder> mainOrder = new List<MainOrder>();//订单主表
                 var T_SALE_ORDER_HEAD = (from item in en.T_SALE_ORDER_HEAD where item.ORDERDATE == nowDate select item).ToList();//获取主表
-                var ReadyRegion = (from item in en.T_PRODUCE_ORDER select item) .GroupBy(a => a.REGIONCODE).Select(a=> new { RouteCode = a.Key}).ToList();;//获取已经接收的车组
-                var HeadGroup = T_SALE_ORDER_HEAD.GroupBy(a => a.ROUTECODE).Select(a=> new { RouteCode = a.Key}).ToList();//获取主表单个车组
+                var ReadyRegion = (from item in en.T_PRODUCE_ORDER select item).GroupBy(a => a.REGIONCODE).Select(a => new { RouteCode = a.Key }).ToList(); ;//获取已经接收的车组
+                var HeadGroup = T_SALE_ORDER_HEAD.GroupBy(a => a.ROUTECODE).Select(a => new { RouteCode = a.Key }).ToList();//获取主表单个车组
                 var exp = HeadGroup.Except(ReadyRegion);//未排程的车组
 
                 foreach (var item in exp)
@@ -45,7 +45,7 @@ namespace Business.BusinessClass
                     MainOrder mo = new MainOrder();
                     mo.RegionCode = item.RouteCode;
                     mo.OrderCount = T_SALE_ORDER_HEAD.Where(a => a.ROUTECODE == item.RouteCode).Count();//订单户数
-                    mo.OrderNum = T_SALE_ORDER_HEAD.Where(a => a.ROUTECODE == item.RouteCode).Sum(a => a.TOTALQTY)  ??0;//订单数量
+                    mo.OrderNum = T_SALE_ORDER_HEAD.Where(a => a.ROUTECODE == item.RouteCode).Sum(a => a.TOTALQTY) ?? 0;//订单数量
                     mainOrder.Add(mo);
                 }
                 if (mainOrder.Any())
@@ -54,12 +54,12 @@ namespace Business.BusinessClass
                     rm.MessageText = "数据查询成功";
                     rm.Content = mainOrder;
                     return rm;
-                    
+
                 }
                 else
                 {
                     rm.IsSuccess = false;
-                    rm.MessageText = "未找到数据"; 
+                    rm.MessageText = "未找到数据";
                     return rm;
                 }
 
@@ -84,12 +84,12 @@ namespace Business.BusinessClass
                 if (!valDate.IsSuccess)
                 {
                     return valDate;
-                } 
+                }
                 var valBatch = ValiBatchCode();//验证批次  
                 if (valBatch.IsSuccess)
                 {
                     //var V_SALE_ORDER_HEAD =  //获取订单主表 根据车组
-          
+
                     var V_SALE_ORDER_HEAD = (from item in en.T_SALE_ORDER_HEAD where item.ROUTECODE == regioncode select item).ToList();
                     if (V_SALE_ORDER_HEAD.Any())//如果包含数据
                     {
@@ -147,19 +147,19 @@ namespace Business.BusinessClass
                 else
                 {
                     return valBatch;
-                    
+
                 }
 
-            } 
+            }
         }
 
         /// <summary>
         /// 接收订单明细 根据订单
         /// </summary>
         /// <returns></returns>
-        private Response ReceiveSaleLineToOrderLine(string  billcode)
+        private Response ReceiveSaleLineToOrderLine(string billcode)
         {
-            Response re = new Response("接收订单明细异常：未能成功接收，订单号："+billcode);
+            Response re = new Response("接收订单明细异常：未能成功接收，订单号：" + billcode);
             StringBuilder sb = new StringBuilder();
             using (DZEntities en = new DZEntities())
             {
@@ -179,25 +179,25 @@ namespace Business.BusinessClass
                         t_produce_orderline.UNIT = "条";
                         t_produce_orderline.MOENY = detail.SALEAMOUNT;
                         t_produce_orderline.MULTIPLE = 1;
-                        t_produce_orderline.ALLOWSORT = "非标"; 
+                        t_produce_orderline.ALLOWSORT = "非标";
                         en.T_PRODUCE_ORDERLINE.AddObject(t_produce_orderline);//添加置实体集
                     }
                     en.SaveChanges();
                     re.IsSuccess = true;
-                    re.MessageText = "接收订单"+billcode +"明细成功";
+                    re.MessageText = "接收订单" + billcode + "明细成功";
                     return re;
 
                 }
                 else
                 {
-                    sb.AppendLine("订单号："+billcode +"未找到任何条烟明细");
+                    sb.AppendLine("订单号：" + billcode + "未找到任何条烟明细");
                     re.MessageText = sb.ToString();
                     re.IsSuccess = false;
                     return re;
                 }
 
             }
-             
+
         }
         #endregion
 
@@ -235,9 +235,9 @@ namespace Business.BusinessClass
         /// </summary>
         /// <param name="regioncode"></param>
         /// <returns></returns>
-        public Response   PreSchedule ( string regioncode )
+        public Response PreSchedule(string regioncode)
         {
-            Response re = new Response("预排程失败未找到对应的车组"+regioncode);
+            Response re = new Response("预排程失败未找到对应的车组" + regioncode);
             StringBuilder sb = new StringBuilder();
             using (DZEntities en = new DZEntities())
             {
@@ -255,7 +255,7 @@ namespace Business.BusinessClass
                         T_UN_TASK t_un_task = new T_UN_TASK();
                         //字段赋值
                         t_un_task.TASKNUM = item.SELATASKNUM ?? 0;
-                        t_un_task.LINENUM ="1";
+                        t_un_task.LINENUM = "1";
                         t_un_task.EXPORTNUM = "1";
                         t_un_task.REGIONCODE = item.REGIONCODE;
                         t_un_task.REGIONDESC = item.REGIONCODE;
@@ -267,7 +267,7 @@ namespace Business.BusinessClass
                         t_un_task.CUSTOMERCODE = item.CUSTOMERCODE;
                         t_un_task.ORDERQUANTITY = item.ORDERQUANTITY;
                         t_un_task.TASKQUANTITY = item.ORDERQUANTITY;
-                        t_un_task.PRIORITY = Convert.ToInt32( item.PRIORITY ) ;//送货顺序
+                        t_un_task.PRIORITY = Convert.ToInt32(item.PRIORITY);//送货顺序
                         t_un_task.TASKBOX = "F";
                         t_un_task.SORTSEQ = item.PRIORITY;//户序
                         t_un_task.LABLENUM = "F";
@@ -280,22 +280,22 @@ namespace Business.BusinessClass
                         t_un_task.EXISTRCD = 1;
                         t_un_task.ORDERDATE = item.ORDERDATE;
                         t_un_task.MAINBELT = 1;
-                        t_un_task.PACKAGEMACHINE = 1; 
+                        t_un_task.PACKAGEMACHINE = 1;
                         t_un_task.SORTNUM = en.ExecuteStoreQuery<decimal>(Str_Sortnum_SEQUENCE, null).FirstOrDefault();//SortNum序列 
                         t_un_task.SECSORTNUM = t_un_task.SORTNUM;
-                        var psDetail = PreScheduleDetail(en, item.BILLCODE,item.SELATASKNUM ?? 0);//添加单个订单的条烟明细到TASKLINE
+                        var psDetail = PreScheduleDetail(en, item.BILLCODE, item.SELATASKNUM ?? 0);//添加单个订单的条烟明细到TASKLINE
                         if (psDetail.IsSuccess)
                         {
                             en.T_PRODUCE_ORDER.Where(a => a.REGIONCODE == regioncode).FirstOrDefault
                                 ().STATE = "排程";
                             en.T_UN_TASK.AddObject(t_un_task);//添加到实体集 
 
-                            en.SaveChanges(); 
+                            en.SaveChanges();
                         }
                         else
                         {
                             return psDetail;
-                        } 
+                        }
                     }
                     re.IsSuccess = true;
                     re.MessageText = regioncode + "车组预排程成功！";
@@ -306,9 +306,9 @@ namespace Business.BusinessClass
                     return re.DefaultResponse;
                 }
             }
- 
 
-        } 
+
+        }
         /// <summary>
         /// 添加订单明细（ORDERLINE） 到任务明细（TASKLINE）
         /// </summary>
@@ -316,9 +316,9 @@ namespace Business.BusinessClass
         /// <param name="billcode"></param>
         /// <param name="Selatasknum"></param>
         /// <returns></returns>
-        private Response PreScheduleDetail(DZEntities en, string billcode,decimal Selatasknum =0)
+        private Response PreScheduleDetail(DZEntities en, string billcode, decimal Selatasknum = 0)
         {
-            Response re = new Response("未找到订单号："+billcode +" 条烟明细！");
+            Response re = new Response("未找到订单号：" + billcode + " 条烟明细！");
             var t_produce_ordelrine = (from item in en.T_PRODUCE_ORDERLINE
                                        where item.BILLCODE == billcode
                                        select item).ToList();//根据订单号获取该订单的条烟明细
@@ -332,8 +332,8 @@ namespace Business.BusinessClass
                     t_un_taskline.CIGARETTENAME = item.CIGARETTENAME;
                     t_un_taskline.QUANTITY = item.QUANTITY;
                     t_un_taskline.UNIT = item.UNIT;
-                    t_un_taskline.ALLOWSORT = item.ALLOWSORT; 
-                    en.T_UN_TASKLINE.AddObject(t_un_taskline); 
+                    t_un_taskline.ALLOWSORT = item.ALLOWSORT;
+                    en.T_UN_TASKLINE.AddObject(t_un_taskline);
                 }
                 if (en.SaveChanges() > 0)
                 {
@@ -344,13 +344,13 @@ namespace Business.BusinessClass
                 {
                     re.IsSuccess = false;
                     return re.DefaultResponse;
-                } 
+                }
             }
             else
             {
                 return re.DefaultResponse;
             }
-             
+
         }
 
 
@@ -394,23 +394,23 @@ namespace Business.BusinessClass
         /// 任务数据排程 直接一次性排程Task表中的所有数据
         /// </summary>
         /// <returns></returns>
-        public Response SchedulePoke() 
+        public Response SchedulePoke()
         {
             Response re = new Response("数据排程：未找对应的数据！");
             using (DZEntities en = new DZEntities())
             {
                 var t_un_taskUnionTaskline = (from item in en.T_UN_TASK
-                                              join item2 in en.T_UN_TASKLINE   on item.TASKNUM equals item2.TASKNUM
-                                              join item3 in en.T_PRODUCE_SORTTROUGH on item2.CIGARETTECODE equals item3.CIGARETTECODE 
-                                              where item3.STATE == "10"  && item.STATE == "10"//条件：1 通道必须启用， 车组间排程完毕
-                                              orderby  item.SORTNUM,item3.MACHINESEQ,item3.TROUGHNUM
+                                              join item2 in en.T_UN_TASKLINE on item.TASKNUM equals item2.TASKNUM
+                                              join item3 in en.T_PRODUCE_SORTTROUGH on item2.CIGARETTECODE equals item3.CIGARETTECODE
+                                              where item3.STATE == "10" && item.STATE == "10"//条件：1 通道必须启用， 车组间排程完毕
+                                              orderby item.SORTNUM, item3.MACHINESEQ, item3.TROUGHNUM
                                               select new
-                                              { 
+                                              {
                                                   SortNum = item.SORTNUM,
-                                                  BillCode = item.BILLCODE, 
+                                                  BillCode = item.BILLCODE,
                                                   MachineSeq = item3.MACHINESEQ,
-                                                  CigName =  item3.CIGARETTENAME,
-                                                  CigCode = item3.CIGARETTECODE, 
+                                                  CigName = item3.CIGARETTENAME,
+                                                  CigCode = item3.CIGARETTECODE,
                                                   Quantity = item2.QUANTITY,
                                                   TroughNum = item3.TROUGHNUM,
                                                   Status = 10,
@@ -418,8 +418,8 @@ namespace Business.BusinessClass
                                                   TaskNum = item.TASKNUM,
                                                   CustomerCode = item.CUSTOMERCODE,
                                                   SecSortNum = item.SORTNUM,
-                                                  Ctype = 1 ,
-                                                  PackageMachine = item.PACKAGEMACHINE, 
+                                                  Ctype = 1,
+                                                  PackageMachine = item.PACKAGEMACHINE,
                                                   LineNum = item.LINENUM,
                                               }).ToList();//任务信息表
                 decimal pokeId = GetMaxPokeId(en).Content;//获取最大POKEID
@@ -457,17 +457,17 @@ namespace Business.BusinessClass
                         if (!reUp.IsSuccess)
                         {
                             return reUp;
-                        } 
+                        }
                     }
                     re.IsSuccess = true;
                     re.MessageText = "任务数据生成成功";
-                    return re; 
+                    return re;
                 }
                 else
                 {
                     return re.DefaultResponse;
-                }  
-            } 
+                }
+            }
         }
 
 
@@ -483,8 +483,8 @@ namespace Business.BusinessClass
             if (maxPokeID.Any())
             {
                 red.IsSuccess = true;
-                red.Content = maxPokeID.Max(a => a.POKEID)+1;
-                return red; 
+                red.Content = maxPokeID.Max(a => a.POKEID) + 1;
+                return red;
             }
             else//如果不包含任何数据 初始值为0
             {
@@ -492,7 +492,7 @@ namespace Business.BusinessClass
                 red.Content = 1;
                 return red;
             }
-          
+
         }
 
         public Response UpdateTaskState(DZEntities en, decimal tasknum)
@@ -501,10 +501,10 @@ namespace Business.BusinessClass
             var query = (from item in en.T_UN_TASK where item.TASKNUM == tasknum select item).ToList();
             if (query.Any())
             {
-                query.FirstOrDefault().STATE = "15"; 
+                query.FirstOrDefault().STATE = "15";
                 en.SaveChanges();
                 re.IsSuccess = true;
-                re.MessageText =tasknum + "任务号，更新完成";
+                re.MessageText = tasknum + "任务号，更新完成";
                 return re;
             }
             else
@@ -519,5 +519,45 @@ namespace Business.BusinessClass
 
 
         #endregion
+
+
+
+        //select a.regioncode,a.cigarettecode,a.cigarettename,a.quantity,b.pokenum from(
+        //select o.regioncode, line.cigarettecode,line.cigarettename,sum(quantity) quantity from t_produce_order o,t_produce_orderline line where o.state='排程'
+        //group by o.regioncode, line.cigarettecode,line.cigarettename
+        //) a left join
+        //(
+        //select cigarettecode,sum(pokenum) pokenum,regioncode
+        //from(
+        //select s.cigarettecode,p.pokenum,t.regioncode from t_produce_poke p,t_produce_sorttrough s,t_produce_task t where t.billcode=p.billcode and p.troughnum=s.troughnum 
+        //and s.troughtype=10 and s.cigarettetype=20
+        //union all
+        //select p.cigarettecode,p.pokenum,t.regioncode  from t_un_poke p,t_produce_task t where p.billcode=t.billcode
+        //)
+        //group by  cigarettecode,regioncode
+        //) b on a.regioncode=b.regioncode and a.cigarettecode=b.cigarettecode
+
+        public static List<PokeInfo> GetAllSchdule() 
+        {
+            using (DZEntities en = new DZEntities()) 
+            {
+                List<PokeInfo> list = new List<PokeInfo>();
+                var query = en.T_PRODUCE_ORDER.Join(en.T_PRODUCE_ORDERLINE, order => order.BILLCODE, orderline => orderline.BILLCODE, (order, orderline) => new { order, orderline }).
+                    GroupBy(item => new { item.order.REGIONCODE, item.orderline.CIGARETTECODE, item.orderline.CIGARETTENAME }).Select(item => new
+                    {
+                        RegionCode = item.Key.REGIONCODE,
+                        CigaretteCode = item.Key.CIGARETTECODE,
+                        CigaretteName = item.Key.CIGARETTENAME,
+                        QTY = item.Sum(x => x.orderline.QUANTITY)
+                    });
+                var query2 = en.T_UN_POKE.Join(en.T_UN_TASK, poke => poke.TASKNUM, task => task.TASKNUM, (poke, task) => new { poke, task }).GroupBy(item => new { item.poke.CIGARETTECODE, item.task.REGIONCODE }).
+                    Select(item => new { CigaretteCode = item.Key.CIGARETTECODE, PokeNum = item.Sum(x => x.poke.POKENUM), RegionCode = item.Key.REGIONCODE });
+                list = (from a in query
+                        join b in query2 on new { RegionCode = a.RegionCode, Code = a.CigaretteCode } equals new { RegionCode = b.RegionCode, Code = b.CigaretteCode } into que
+                        from c in que.DefaultIfEmpty()
+                        select new PokeInfo { RegionCode = a.RegionCode, CigaretteCode = a.CigaretteCode, CigaretteName = a.CigaretteName, QTY = a.QTY ?? 0, PokeNum = c.PokeNum ?? 0 }).ToList();
+                return list;
+            }
+        }
     }
 }
