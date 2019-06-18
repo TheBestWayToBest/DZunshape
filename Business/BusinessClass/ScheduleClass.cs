@@ -40,12 +40,9 @@ namespace Business.BusinessClass
                 var HeadGroup = T_SALE_ORDER_HEAD.GroupBy(a => a.ROUTECODE).Select(a => new { RouteCode = a.Key }).ToList();//获取主表单个车组
                 var exp = HeadGroup.Except(ReadyRegion);//未排程的车组
 
-                int index = 0;
                 foreach (var item in exp)
                 {
                     MainOrder mo = new MainOrder();
-                    index++;
-                    mo.RowNum = index;
                     mo.RegionCode = item.RouteCode;
                     mo.OrderCount = T_SALE_ORDER_HEAD.Where(a => a.ROUTECODE == item.RouteCode).Count();//订单户数
                     mo.OrderNum = T_SALE_ORDER_HEAD.Where(a => a.ROUTECODE == item.RouteCode).Sum(a => a.TOTALQTY) ?? 0;//订单数量
@@ -76,14 +73,13 @@ namespace Business.BusinessClass
         /// </summary>
         /// <param name="regioncode">车组</param>
         /// <returns></returns>
-        public Response ReceiveSaleOrderToOrder(DateTime nowDate, string regioncode, decimal maxSyncseq)
+        public Response ReceiveSaleOrderToOrder(DateTime nowDate, string regioncode)
         {
             // V_SALE_ORDER_HEAD  订单中间表主视图 
             Response re = new Response("车组接收异常：未能成功接收，检查车组号是否正确" + regioncode);
             StringBuilder sb = new StringBuilder();
             using (DZEntities en = new DZEntities())
             {
-                en.T_PRODUCE_ORDER.Max(aa => aa.SYNSEQ);
                 var valDate = ValiDataTime(nowDate);//验证时间
                 if (!valDate.IsSuccess)
                 {
@@ -97,28 +93,26 @@ namespace Business.BusinessClass
                     var V_SALE_ORDER_HEAD = (from item in en.T_SALE_ORDER_HEAD where item.ROUTECODE == regioncode select item).ToList();
                     if (V_SALE_ORDER_HEAD.Any())//如果包含数据
                     {
-                        decimal index = 0;
                         foreach (var order in V_SALE_ORDER_HEAD)//一个车组 
                         {
-                            index++;
                             T_PRODUCE_ORDER t_produce_order = new T_PRODUCE_ORDER();//单个订单
                             //字段的赋值 
                             t_produce_order.BILLCODE = order.ORDERNO;
                             t_produce_order.COMPANYCODE = "";//公司编码
                             t_produce_order.COMPANYNAME = ""; //公司名称
                             t_produce_order.BATCHCODE = valBatch.ResultObject.ToString();
-                            t_produce_order.SYNSEQ = maxSyncseq;//批次号
+                            t_produce_order.SYNSEQ = 1;//批次号
                             t_produce_order.ORDERQUANTITY = order.TOTALQTY;
                             t_produce_order.ORDERMONEY = order.TOTALAMOUNT;
                             t_produce_order.CUSTOMERCODE = order.CUSTOMER_ID;
                             t_produce_order.ADDRESS = order.CONTACTADDRESS;
                             t_produce_order.TELEPHONE = order.CONTACTPHONE;
-                            t_produce_order.PRIORITY = index;//送货顺序（数据源未提供）
+                            t_produce_order.PRIORITY = 1;//送货顺序（数据源未提供）
                             t_produce_order.REGIONCODE = order.ROUTECODE;
                             t_produce_order.TASKBOXIES = "";
                             t_produce_order.TASKNUMBERS = "";
                             t_produce_order.STATE = "新增";
-                            t_produce_order.DEVSEQ = order.DELIVERYSEQ;//原始送货顺序
+                            t_produce_order.DEVSEQ = 1;//原始送货顺序
                             t_produce_order.CREATETIME = CreateTime;
                             t_produce_order.ORDERDATE = order.ORDERDATE;
                             t_produce_order.SELATASKNUM = 1000;
@@ -213,61 +207,23 @@ namespace Business.BusinessClass
         /// 获取新增的车组
         /// </summary>
         /// <returns></returns>
-        public Response<List<TaskInfo>> GetRouteInFO()
+        public Response<List<T_PRODUCE_ORDER>> GetRouteInFO()
         {
-            Response<List<TaskInfo>> reList = new Response<List<TaskInfo>>();
+            Response<List<T_PRODUCE_ORDER>> reList = new Response<List<T_PRODUCE_ORDER>>();
             using (DZEntities en = new DZEntities())
             {
-                List<TaskInfo> taskList = new List<TaskInfo>();//订单主表
-                //var query = (from item in en.T_PRODUCE_ORDER where item.STATE == "新增" select item).ToList();
-                var query = (from order in en.T_PRODUCE_ORDER
-                             join line in en.T_PRODUCE_ORDERLINE on order.BILLCODE equals line.BILLCODE
-                             join item in en.T_WMS_ITEM on line.CIGARETTECODE equals item.ITEMNO
-                             where order.STATE == "新增" && item.SHIPTYPE == "1"
-                             select new { regioncode=order.REGIONCODE,customercode=order.CUSTOMERCODE,qty=line.QUANTITY }
-                             //select order
-                             ).ToList();
-                var query1 = (from order in en.T_PRODUCE_ORDER
-                             join line in en.T_PRODUCE_ORDERLINE on order.BILLCODE equals line.BILLCODE
-                             join item in en.T_WMS_ITEM on line.CIGARETTECODE equals item.ITEMNO
-                             where order.STATE == "新增" && item.SHIPTYPE == "1"
-                             select order ).ToList().Distinct();
-                    //select order
-                            
-                var list = (from item in query
-                            group item by new { item.regioncode} into g
-                            select new { regioncode = g.Key.regioncode, qty = g.Sum(x => x.qty)  }).ToList();
-
-                var list1 = (from item in query1
-                            group item by new { item.REGIONCODE } into g
-                             select new { regioncode = g.Key.REGIONCODE,  ct = g.Count() }).ToList();
-                var list3 = (from item1 in list
-                            join item2 in list1 on item1.regioncode equals item2.regioncode
-                            orderby item1.regioncode select new { regioncode = item1.regioncode, ct = item2.ct, qty = item1.qty }).ToList();
-                //return null;
-
-                decimal index=0;
-                foreach (var item in list3) {
-                    TaskInfo taskInfo = new TaskInfo();
-                    index++;
-                    taskInfo.SYNSEQ = index;
-                    taskInfo.REGIONCODE = item.regioncode;
-                    taskInfo.QTY = item.qty??0;
-                    taskInfo.Count = item.ct;
-                    taskList.Add(taskInfo);
-                }
-
-                if (taskList.Any())
+                var query = (from item in en.T_PRODUCE_ORDER where item.STATE == "新增" select item).ToList();
+                if (query.Any())
                 {
                     reList.IsSuccess = true;
-                    //reList.MessageText = "找到数据了，在Content里面";
-                    reList.Content = taskList;
+                    reList.MessageText = "找到数据了，在Content里面";
+                    reList.Content = query;
                     return reList;
                 }
                 else
                 {
                     reList.IsSuccess = false;
-                    reList.MessageText = "未找到新增车组！";
+                    reList.MessageText = "为找到新增车组！";
                     return reList;
                 }
 
@@ -290,24 +246,10 @@ namespace Business.BusinessClass
                 {
                     return valBatch;
                 }
-                //var t_produce_Order = (from item in en.T_PRODUCE_ORDER where item.REGIONCODE == regioncode select item).ToList();//根据车组查询ORder表中所对应的订单
-                var t_produce_Order = (from order in en.T_PRODUCE_ORDER
-                             join line in en.T_PRODUCE_ORDERLINE on order.BILLCODE equals line.BILLCODE
-                             join item in en.T_WMS_ITEM on line.CIGARETTECODE equals item.ITEMNO
-                             where order.STATE == "新增" && item.SHIPTYPE == "1" && order.REGIONCODE == regioncode
-                             orderby order.DEVSEQ
-                             select order).Distinct().ToList();
-                //var query=(from task in en.T_UN_TASK select task.TASKNUM).Max();
-                
-                String max=DateTime.Now.ToString("yyyyMMdd")+regioncode+"000";
-                //String query = maxTaskNum+regioncode+""
-                //if (query != null&&!"".Equals(query)) maxTaskNum = query.ToString();
-                //var maxtasknum = (en.T_UN_TASK.Max(a => a.TASKNUM) ?? 0) + 1;
-                //(dzEntities.T_PRODUCE_ORDER.Max(a => a.SYNSEQ) ?? 0) + 1;
-                decimal maxTaskNum = Convert.ToDecimal(max);
+                var t_produce_Order = (from item in en.T_PRODUCE_ORDER where item.REGIONCODE == regioncode select item).ToList();//根据车组查询ORder表中所对应的订单
+
                 if (t_produce_Order.Any())
                 {
-                    int index = 0;
                     foreach (var item in t_produce_Order)
                     {
                         T_UN_TASK t_un_task = new T_UN_TASK();
@@ -327,7 +269,7 @@ namespace Business.BusinessClass
                         t_un_task.TASKQUANTITY = item.ORDERQUANTITY;
                         t_un_task.PRIORITY = Convert.ToInt32(item.PRIORITY);//送货顺序
                         t_un_task.TASKBOX = "F";
-                        t_un_task.SORTSEQ = index;//户序
+                        t_un_task.SORTSEQ = item.PRIORITY;//户序
                         t_un_task.LABLENUM = "F";
                         t_un_task.PLANTIME = CreateTime;
                         t_un_task.SORTTIME = CreateTime;
@@ -344,9 +286,8 @@ namespace Business.BusinessClass
                         var psDetail = PreScheduleDetail(en, item.BILLCODE, item.SELATASKNUM ?? 0);//添加单个订单的条烟明细到TASKLINE
                         if (psDetail.IsSuccess)
                         {
-                            en.T_PRODUCE_ORDER.Where(a => a.BILLCODE == t_un_task.BILLCODE).FirstOrDefault
+                            en.T_PRODUCE_ORDER.Where(a => a.REGIONCODE == regioncode).FirstOrDefault
                                 ().STATE = "排程";
-                            t_un_task.TASKQUANTITY = Convert.ToDecimal(psDetail.ResultObject??0);
                             en.T_UN_TASK.AddObject(t_un_task);//添加到实体集 
 
                             en.SaveChanges();
@@ -383,7 +324,6 @@ namespace Business.BusinessClass
                                        select item).ToList();//根据订单号获取该订单的条烟明细
             if (t_produce_ordelrine.Any())
             {
-                decimal taskQuantity=0;
                 foreach (var item in t_produce_ordelrine)
                 {
                     T_UN_TASKLINE t_un_taskline = new T_UN_TASKLINE();
@@ -397,7 +337,6 @@ namespace Business.BusinessClass
                 }
                 if (en.SaveChanges() > 0)
                 {
-                    re.ResultObject = taskQuantity ;
                     re.IsSuccess = true;
                     return re;
                 }
@@ -424,55 +363,25 @@ namespace Business.BusinessClass
         /// 获取任务表的数据
         /// </summary>
         /// <returns></returns>
-        public Response<List<TaskInfo>> GetTaskInfo()
+        public Response<List<T_UN_TASK>> GetTaskInfo()
         {
-            Response<List<TaskInfo>> reList = new Response<List<TaskInfo>>();
+            Response<List<T_UN_TASK>> reList = new Response<List<T_UN_TASK>>();
             using (DZEntities en = new DZEntities())
             {
-                List<TaskInfo> taskList=new List<TaskInfo>();
-                var query = (from item in en.T_UN_TASK
-                             where item.STATE == "10"
-                             group item by new { item.REGIONCODE } into g
-                             select new {regioncode= g.Key.REGIONCODE,qty=g.Sum(x=>x.TASKQUANTITY),count=g.Count()}).ToList();
-                // select new { regioncode = g.Key.regioncode, qty = g.Sum(x => x.qty)  }).ToList();
-                decimal index = 0;
-                foreach (var item in query)
-                {
-                    index++;
-                    TaskInfo task = new TaskInfo();
-                    task.SYNSEQ = index;
-                    task.REGIONCODE = item.regioncode;
-                    task.Count = item.count;
-                    task.QTY = item.qty ?? 0;
-                    taskList.Add(task);
-                }
-                if (taskList.Any())
+                var query = (from item in en.T_UN_TASK where item.STATE == "10" select item).ToList();
+                if (query.Any())
                 {
                     reList.IsSuccess = true;
-                    //reList.MessageText = "找到数据了，在Content里面";
-                    reList.Content = taskList;
+                    reList.MessageText = "找到数据了，在content里面";
+                    reList.Content = query;
                     return reList;
                 }
                 else
                 {
                     reList.IsSuccess = false;
-                    reList.MessageText = "未找到新增车组！";
+                    reList.MessageText = "未找到数据";
                     return reList;
                 }
-                
-                //if (query.Any())
-                //{
-                //    reList.IsSuccess = true;
-                //    reList.MessageText = "找到数据了，在content里面";
-                //    reList.Content = query;
-                //    return reList;
-                //}
-                //else
-                //{
-                //    reList.IsSuccess = false;
-                //    reList.MessageText = "未找到需要排程的数据！";
-                //    return reList;
-                //}
 
 
             }
@@ -504,7 +413,7 @@ namespace Business.BusinessClass
                                                   CigCode = item3.CIGARETTECODE,
                                                   Quantity = item2.QUANTITY,
                                                   TroughNum = item3.TROUGHNUM,
-                                                  Status = 0,
+                                                  Status = 10,
                                                   TaskQty = 1,
                                                   TaskNum = item.TASKNUM,
                                                   CustomerCode = item.CUSTOMERCODE,

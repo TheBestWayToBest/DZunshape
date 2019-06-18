@@ -1,6 +1,4 @@
-﻿using HighSpeed.OrderHandle;
-
-namespace HighSpeed.OrderHandle
+﻿namespace HighSpeed.OrderHandle
 {
     partial class win_trough
     {
@@ -30,7 +28,6 @@ namespace HighSpeed.OrderHandle
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btn_Add = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -42,7 +39,6 @@ namespace HighSpeed.OrderHandle
             this.box_condition = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.dgvdate = new System.Windows.Forms.DataGridView();
-            this.expressionDrawer1 = new VBprinter.ExpressionDrawer(this.components);
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvdate)).BeginInit();
             this.SuspendLayout();
@@ -60,17 +56,16 @@ namespace HighSpeed.OrderHandle
             this.panel1.Controls.Add(this.label2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1669, 110);
+            this.panel1.Size = new System.Drawing.Size(1252, 88);
             this.panel1.TabIndex = 0;
             // 
             // btn_Add
             // 
-            this.btn_Add.Location = new System.Drawing.Point(684, 26);
-            this.btn_Add.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_Add.Location = new System.Drawing.Point(513, 21);
+            this.btn_Add.Margin = new System.Windows.Forms.Padding(2);
             this.btn_Add.Name = "btn_Add";
-            this.btn_Add.Size = new System.Drawing.Size(68, 29);
+            this.btn_Add.Size = new System.Drawing.Size(51, 23);
             this.btn_Add.TabIndex = 15;
             this.btn_Add.Text = "增加";
             this.btn_Add.UseVisualStyleBackColor = true;
@@ -78,20 +73,18 @@ namespace HighSpeed.OrderHandle
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(841, 28);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Location = new System.Drawing.Point(631, 22);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(65, 29);
+            this.button1.Size = new System.Drawing.Size(49, 23);
             this.button1.TabIndex = 12;
             this.button1.Text = "验证";
             this.button1.UseVisualStyleBackColor = true;
             // 
             // btn_amend
             // 
-            this.btn_amend.Location = new System.Drawing.Point(761, 26);
-            this.btn_amend.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_amend.Location = new System.Drawing.Point(571, 21);
             this.btn_amend.Name = "btn_amend";
-            this.btn_amend.Size = new System.Drawing.Size(72, 29);
+            this.btn_amend.Size = new System.Drawing.Size(54, 23);
             this.btn_amend.TabIndex = 8;
             this.btn_amend.Text = "修改";
             this.btn_amend.UseVisualStyleBackColor = true;
@@ -99,10 +92,9 @@ namespace HighSpeed.OrderHandle
             // 
             // btn_qy
             // 
-            this.btn_qy.Location = new System.Drawing.Point(515, 26);
-            this.btn_qy.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_qy.Location = new System.Drawing.Point(386, 21);
             this.btn_qy.Name = "btn_qy";
-            this.btn_qy.Size = new System.Drawing.Size(75, 29);
+            this.btn_qy.Size = new System.Drawing.Size(56, 23);
             this.btn_qy.TabIndex = 7;
             this.btn_qy.Text = "启用";
             this.btn_qy.UseVisualStyleBackColor = true;
@@ -110,10 +102,9 @@ namespace HighSpeed.OrderHandle
             // 
             // btn_jy
             // 
-            this.btn_jy.Location = new System.Drawing.Point(599, 26);
-            this.btn_jy.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_jy.Location = new System.Drawing.Point(449, 21);
             this.btn_jy.Name = "btn_jy";
-            this.btn_jy.Size = new System.Drawing.Size(75, 29);
+            this.btn_jy.Size = new System.Drawing.Size(56, 23);
             this.btn_jy.TabIndex = 6;
             this.btn_jy.Text = "禁用";
             this.btn_jy.UseVisualStyleBackColor = true;
@@ -121,10 +112,9 @@ namespace HighSpeed.OrderHandle
             // 
             // btn_search
             // 
-            this.btn_search.Location = new System.Drawing.Point(440, 26);
-            this.btn_search.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_search.Location = new System.Drawing.Point(330, 21);
             this.btn_search.Name = "btn_search";
-            this.btn_search.Size = new System.Drawing.Size(68, 29);
+            this.btn_search.Size = new System.Drawing.Size(51, 23);
             this.btn_search.TabIndex = 5;
             this.btn_search.Text = "查询";
             this.btn_search.UseVisualStyleBackColor = true;
@@ -132,10 +122,9 @@ namespace HighSpeed.OrderHandle
             // 
             // txt_keywd
             // 
-            this.txt_keywd.Location = new System.Drawing.Point(221, 28);
-            this.txt_keywd.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txt_keywd.Location = new System.Drawing.Point(166, 22);
             this.txt_keywd.Name = "txt_keywd";
-            this.txt_keywd.Size = new System.Drawing.Size(132, 25);
+            this.txt_keywd.Size = new System.Drawing.Size(100, 21);
             this.txt_keywd.TabIndex = 4;
             this.txt_keywd.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_keywd_KeyDown);
             // 
@@ -143,20 +132,18 @@ namespace HighSpeed.OrderHandle
             // 
             this.box_condition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.box_condition.FormattingEnabled = true;
-            this.box_condition.Location = new System.Drawing.Point(80, 29);
-            this.box_condition.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.box_condition.Location = new System.Drawing.Point(60, 23);
             this.box_condition.Name = "box_condition";
-            this.box_condition.Size = new System.Drawing.Size(132, 23);
+            this.box_condition.Size = new System.Drawing.Size(100, 20);
             this.box_condition.TabIndex = 3;
             this.box_condition.SelectedIndexChanged += new System.EventHandler(this.box_condition_SelectedIndexChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(5, 32);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(4, 26);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(67, 15);
+            this.label2.Size = new System.Drawing.Size(53, 12);
             this.label2.TabIndex = 1;
             this.label2.Text = "查询条件";
             // 
@@ -164,40 +151,20 @@ namespace HighSpeed.OrderHandle
             // 
             this.dgvdate.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvdate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvdate.Location = new System.Drawing.Point(0, 110);
-            this.dgvdate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvdate.Location = new System.Drawing.Point(0, 88);
             this.dgvdate.Name = "dgvdate";
             this.dgvdate.RowTemplate.Height = 23;
-            this.dgvdate.Size = new System.Drawing.Size(1669, 589);
+            this.dgvdate.Size = new System.Drawing.Size(1252, 471);
             this.dgvdate.TabIndex = 1;
             this.dgvdate.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvdate_CellClick);
             // 
-            // expressionDrawer1
-            // 
-            this.expressionDrawer1.DisplayText = true;
-            this.expressionDrawer1.DivisionsX = 5;
-            this.expressionDrawer1.DivisionsY = 5;
-            this.expressionDrawer1.ExpressionTextFont = new System.Drawing.Font("宋体", 10F);
-            this.expressionDrawer1.ForwardX = 0D;
-            this.expressionDrawer1.ForwardY = 0D;
-            this.expressionDrawer1.GraphMode = VBprinter.GraphMode.Rectangular;
-            this.expressionDrawer1.Grids = false;
-            this.expressionDrawer1.PenWidth = 1;
-            this.expressionDrawer1.PolarSensitivity = 100;
-            this.expressionDrawer1.PrintStepX = 1;
-            this.expressionDrawer1.PrintStepY = 1;
-            this.expressionDrawer1.ScaleFont = new System.Drawing.Font("宋体", 8F);
-            this.expressionDrawer1.ScaleX = 10D;
-            this.expressionDrawer1.ScaleY = 10D;
-            // 
             // win_trough
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1669, 699);
+            this.ClientSize = new System.Drawing.Size(1252, 559);
             this.Controls.Add(this.dgvdate);
             this.Controls.Add(this.panel1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "win_trough";
             this.Text = "分拣通道管理";
             this.panel1.ResumeLayout(false);
@@ -221,6 +188,5 @@ namespace HighSpeed.OrderHandle
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btn_Add;
         private System.Windows.Forms.DataGridView dgvdate;
-        private VBprinter.ExpressionDrawer expressionDrawer1;
     }
 }

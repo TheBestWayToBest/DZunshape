@@ -7,14 +7,10 @@ namespace Business.Modle
 {
    public class MainOrder
     {
-        /// <summary>
-        /// 序号
-        /// </summary>
-        public int RowNum { get; set; }
        /// <summary>
-        /// 车组信息
-        /// </summary>
-        public string RegionCode { get; set; }
+       /// 车组信息
+       /// </summary>
+       public string RegionCode { get; set; }
        /// <summary>
        /// 订单户数
        /// </summary>
