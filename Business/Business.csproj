@@ -53,6 +53,7 @@
     <Compile Include="BusinessClass\ItemClass.cs" />
     <Compile Include="BusinessClass\OrderClass.cs" />
     <Compile Include="BusinessClass\RelenishimentClass.cs" />
+    <Compile Include="BusinessClass\Replan.cs" />
     <Compile Include="BusinessClass\ScheduleClass.cs" />
     <Compile Include="BusinessClass\SpecialSmokeClass.cs" />
     <Compile Include="BusinessClass\TaskClass.cs" />

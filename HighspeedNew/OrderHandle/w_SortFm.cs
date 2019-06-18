@@ -30,13 +30,14 @@ namespace HighSpeed.OrderHandle
             var scre = sc.GetTaskInfo();
             if (scre.IsSuccess)
             {
-                dgvSortInfo.DataSource = scre.Content.Select(a => new
-                {
-                    车组信息 = a.REGIONCODE,
-                    任务数 = scre.Content.Where(b => b.REGIONCODE == a.REGIONCODE).Sum(c => c.ORDERQUANTITY),
-                    状态 = a.STATE,
-                    订单日期 = a.ORDERDATE
-                }).ToList();
+                //dgvSortInfo.DataSource = scre.Content.GroupBy(x => new { x.REGIONCODE }).Select(x => new { 车组信息 = x.Key.REGIONCODE, 订单数量 = scre.Content.Where(a => a.REGIONCODE == x.Key.REGIONCODE).Sum(a => a.TASKQUANTITY), 订单户数 = scre.Content.Where(b => b.REGIONCODE == x.Key.REGIONCODE).GroupBy(b => b.CUSTOMERCODE).Count() }).ToList();
+                dgvSortInfo.DataSource = scre.Content.Select(x => new { synseq=x.SYNSEQ,regioncode=x.REGIONCODE,count=x.Count,qty=x.QTY}).ToList();
+                //{
+                //    车组信息 = a.REGIONCODE,
+                //    任务数 = scre.Content.Where(b => b.REGIONCODE == a.REGIONCODE).Sum(c => c.TASKQUANTITY),
+                //    状态 = a.STATE,
+                //    订单日期 = a.ORDERDATE
+                //}).ToList();
             }
             else
             {
@@ -102,5 +103,12 @@ namespace HighSpeed.OrderHandle
             }
 
         }
+
+        private void btn_replenishplan_Click(object sender, EventArgs e)
+        {
+            Replan plan = new Replan();
+            plan.AutoGenReplan();
+        }
+
     }
 }

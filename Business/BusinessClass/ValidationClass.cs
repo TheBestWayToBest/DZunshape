@@ -136,16 +136,126 @@ namespace Business.BusinessClass
        /// 验证订单数量是否与源数据一致
        /// </summary>
        /// <returns></returns>
-       public Response ValiOrderNum()
+       public Response ValiOrderNum(decimal maxSyncseq,DateTime nowDate)
        {
-           Response re = new Response();
-           using (DZEntities en = new DZEntities())
+           Response response = new Response();
+           response.IsSuccess = true;
+           using (DZEntities dzEntities = new DZEntities())
+           {
+               //订单个数
+               var regionInfo = (from region in dzEntities.T_PRODUCE_ORDER where region.SYNSEQ==maxSyncseq select region.REGIONCODE).Distinct().ToList();
+               var orderCount = (from order in dzEntities.T_PRODUCE_ORDER where order.SYNSEQ == maxSyncseq select order).ToList() ;
+               var saleOrder  = (from sale in dzEntities.T_SALE_ORDER_HEAD where sale.ORDERDATE==nowDate && regionInfo.Contains(sale.ROUTECODE) select sale).ToList();
+
+               if (orderCount.Count()!=saleOrder.Count())
+               {
+                   response.IsSuccess = false;
+                   response.MessageText = "中间表订单数：" + saleOrder.Count() + "个，接收订单数：" + orderCount.Count() + "个，两边信息不一致！";
+               }
+               //订单明细条数
+               var orderLineCount = (from order in dzEntities.T_PRODUCE_ORDER join line in dzEntities.T_PRODUCE_ORDERLINE on order.BILLCODE equals line.BILLCODE
+                                     where order.SYNSEQ == maxSyncseq select line).ToList();
+               var saleLineOrder = (from sale in dzEntities.T_SALE_ORDER_HEAD join sline in dzEntities.T_SALE_ORDER_LINE on sale.ORDERNO equals sline.ORDERNO 
+                                     where sale.ORDERDATE==nowDate && regionInfo.Contains(sale.ROUTECODE) select sline).ToList();
+               if (orderLineCount.Count() != saleLineOrder.Count())
+               {
+                   response.IsSuccess = false;
+                   response.MessageText = response.MessageText + "中间表订单明细数：" + orderLineCount.Count() + "个，接收订单明细数：" + orderLineCount.Count() + "个，两边信息不一致！";
+               }
+           }
+           return response;
+       }
+
+       /// <summary>
+       /// 验证是否有新品牌
+       /// </summary>
+       /// <returns></returns>
+       public Response ValidNewItem(decimal maxSyncseq)
+       {
+           Response response = new Response();
+           using (DZEntities dzEntities = new DZEntities())
            {
 
-               return re;
-           }
+               //正常使用的品牌信息
+               var T_WMS_ITEM = (from item in dzEntities.T_WMS_ITEM where item.ROWSTATUS == 10 select new { id = item.ID, itemno = item.ITEMNO, itemname = item.ITEMNAME }).ToList();
+               //maxSyncseq批次接收的订单信息
+               var T_WMS_ORDERITEM = (from order in dzEntities.T_PRODUCE_ORDER
+                                      join line in dzEntities.T_PRODUCE_ORDERLINE on order.BILLCODE equals line.BILLCODE
+                                      where order.SYNSEQ == maxSyncseq
+                                      select new
+                                      {
+                                          id = line.CIGARETTECODE,
+                                          itemno = line.CIGARETTECODE,
+                                          itemname = line.CIGARETTENAME
+                                      }).ToList(); ;
+               var newItem = T_WMS_ORDERITEM.Except(T_WMS_ITEM).ToList();
+               if (newItem.Count() > 0)
+               {
+                   decimal count = newItem.Count();
+                   string itemnamestr = "";
+                   foreach (var item in newItem)
+                   {
+                       
+                       var query=(from cig in dzEntities.T_WMS_ITEM where cig.ID==item.id select cig).ToList();
+                       if (query.Count() > 0)
+                       {
+                           query.FirstOrDefault().ROWSTATUS = 10;
+                       }
+                       else 
+                       {
+                           T_WMS_ITEM iteminfo = new T_WMS_ITEM();
+                           iteminfo.ID = item.id;
+                           iteminfo.ITEMNO = item.itemno;
+                           iteminfo.ITEMNAME = item.itemname;
+                           iteminfo.ROWSTATUS = 10;
+                           dzEntities.T_WMS_ITEM.AddObject(iteminfo);
+                       }
+                       
+                       dzEntities.SaveChanges();
 
+                       itemnamestr = itemnamestr + "," + item.itemname;
+                   }
+                   //dzEntities.SaveChanges();
+                   response.IsSuccess = false;
+                   response.MessageText = "订单接收发现【" + count + "】个新品牌（" + itemnamestr.Substring(1) + "），请为新品牌完善品牌信息！";
+               }
+               else
+               {
+                   response.IsSuccess = true;
+                   response.MessageText = "本次接收暂未发现新品牌！";
+               }
+
+           }
+           return response;
        }
- 
+       /// <summary>
+       /// 验证是否有新客户
+       /// </summary>
+       /// <returns></returns>
+       public Response ValidNewCustomer(decimal maxSyncseq)
+       {
+           Response response = new Response();
+           using (DZEntities dzEntities = new DZEntities())
+           {
+               var query= (from pitem in dzEntities.T_WMS_CUSTOMER where pitem.DELSTATUS==10 select pitem.ID ).ToList();
+
+               //var newCust = (from order in dzEntities.T_PRODUCE_ORDER where !query.Contains(order.CUSTOMERCODE) select order).ToList();
+
+               var newCust1 = (from order in dzEntities.T_PRODUCE_ORDER where order.SYNSEQ==maxSyncseq select order.CUSTOMERCODE).ToList();
+               var newCust= newCust1.Except(query).ToList();
+               if (newCust.Count() > 0)
+               {
+                   response.IsSuccess = false;
+                   response.MessageText = "订单接收发现【" + newCust.Count() + "】个新客户，请为同步零售户信息！";
+               }
+               else
+               {
+                   response.IsSuccess = true;
+                   response.MessageText = "本次接收暂未发现新零售户！";
+               }
+
+           }
+           return response;
+       }
     }
 }

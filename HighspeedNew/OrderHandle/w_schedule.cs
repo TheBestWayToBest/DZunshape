@@ -29,12 +29,14 @@ namespace HighSpeed.OrderHandle
             var re = sc.GetRouteInFO()  ;
             if (re.IsSuccess)
             {
-                orderdata.DataSource = re.Content.Select(a => new { 车组信息 = a.REGIONCODE, 订单户数 = re.Content.Where(b => b.REGIONCODE == a.REGIONCODE).Count(), 订单数量 = re.Content.Where(c => c.REGIONCODE == a.REGIONCODE).Sum(d => d.ORDERQUANTITY) }).ToList();
+                //orderdata.DataSource = re.Content.GroupBy(x => new { x.REGIONCODE }).Select(x => new { 车组信息 = x.Key.REGIONCODE, 订单数量 = re.Content.Where(a => a.REGIONCODE == x.Key.REGIONCODE).Sum(a => a.ORDERQUANTITY), 订单户数 = re.Content.Where(b => b.REGIONCODE == x.Key.REGIONCODE).GroupBy(b => b.CUSTOMERCODE).Count() }).ToList();
+                orderdata.DataSource = re.Content.Select(x => new { x.SYNSEQ,x.REGIONCODE,x.Count,x.QTY}).ToList();
             }
             else
             {
                 orderdata.DataSource = null;
             }
+            this.txt_codestr.Text = "";
         }
 
         private void btn_search_Click(object sender, EventArgs e)
@@ -77,7 +79,7 @@ namespace HighSpeed.OrderHandle
 
            
             String codestr = this.txt_codestr.Text.Trim();
-          string indexstr = "";
+            string indexstr = "";
             if (codestr != "")
             {
                  DialogResult MsgBoxResult = MessageBox.Show("车组排程顺序为【" + codestr.Substring(1) + "】，是否确定按照该顺序进行预排程？",//对话框的显示内容 
@@ -98,7 +100,7 @@ namespace HighSpeed.OrderHandle
                          progressBar1.Value = 0;
                          Application.DoEvents();
                          if (i == 0) label2.Text = "正在对" + code[i] + "车组订单数据进行预排程..."; 
-                        var resc =  sc.PreSchedule(code[i]); 
+                         var resc =  sc.PreSchedule(code[i]); 
                          progressBar1.Value = ((i + 1) * 100 / len);
                          progressBar1.Refresh();
                          String tmpstr = "";
@@ -133,6 +135,7 @@ namespace HighSpeed.OrderHandle
                 MessageBox.Show(ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             finally{
+                btn_schedule.Enabled = true;
                 Bind();
             }
         }
