@@ -204,19 +204,19 @@ namespace HighSpeed
             frm.Show();
         }
 
-        private void 任务导出ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            w_Export frm = new w_Export();
-            if (CheckExist(frm) == true)
-            {
-                frm.Dispose();
-                frm = null;
-                return;
-            }
-            frm.MdiParent = this;
-            frm.WindowState = FormWindowState.Maximized;
-            frm.Show();
-        }
+        //private void 任务导出ToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    w_Export frm = new w_Export();
+        //    if (CheckExist(frm) == true)
+        //    {
+        //        frm.Dispose();
+        //        frm = null;
+        //        return;
+        //    }
+        //    frm.MdiParent = this;
+        //    frm.WindowState = FormWindowState.Maximized;
+        //    frm.Show();
+        //}
 
         private void 分拣进度ToolStripMenuItem_Click(object sender, EventArgs e)
         {

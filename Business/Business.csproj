@@ -77,6 +77,7 @@
     <Compile Include="Modle\TaskDetail.cs" />
     <Compile Include="Modle\TaskInfo.cs" />
     <Compile Include="Modle\ThroughInfo.cs" />
+    <Compile Include="Modle\_1stPrjInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

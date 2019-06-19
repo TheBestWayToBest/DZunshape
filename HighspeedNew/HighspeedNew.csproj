@@ -68,6 +68,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OrderHandle\SortingProcess.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\SortingProcess.designer.cs">
+      <DependentUpon>SortingProcess.cs</DependentUpon>
+    </Compile>
     <Compile Include="OrderHandle\w_Batch.cs">
       <SubType>Form</SubType>
     </Compile>
