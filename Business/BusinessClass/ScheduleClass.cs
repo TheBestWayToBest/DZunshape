@@ -312,6 +312,7 @@ namespace Business.BusinessClass
                     {
                         T_UN_TASK t_un_task = new T_UN_TASK();
                         //字段赋值
+                        index++;
                         t_un_task.TASKNUM = item.SELATASKNUM ?? 0;
                         t_un_task.LINENUM = "1";
                         t_un_task.EXPORTNUM = "1";
@@ -377,10 +378,9 @@ namespace Business.BusinessClass
         /// <returns></returns>
         private Response PreScheduleDetail(DZEntities en, string billcode, decimal Selatasknum = 0)
         {
-            Response re = new Response("未找到订单号：" + billcode + " 条烟明细！");
-            var t_produce_ordelrine = (from item in en.T_PRODUCE_ORDERLINE
-                                       where item.BILLCODE == billcode
-                                       select item).ToList();//根据订单号获取该订单的条烟明细
+            Response re = new Response("未找到订单号："+billcode +" 条烟明细！");
+            var t_produce_ordelrine = (from line in en.T_PRODUCE_ORDERLINE join item in en.T_WMS_ITEM on line.CIGARETTECODE equals item.ITEMNO
+                                    where line.BILLCODE == billcode && item.SHIPTYPE=="1" select line).ToList();//根据订单号获取该订单的条烟明细
             if (t_produce_ordelrine.Any())
             {
                 decimal taskQuantity=0;
@@ -392,8 +392,10 @@ namespace Business.BusinessClass
                     t_un_taskline.CIGARETTENAME = item.CIGARETTENAME;
                     t_un_taskline.QUANTITY = item.QUANTITY;
                     t_un_taskline.UNIT = item.UNIT;
-                    t_un_taskline.ALLOWSORT = item.ALLOWSORT;
-                    en.T_UN_TASKLINE.AddObject(t_un_taskline);
+                    t_un_taskline.ALLOWSORT = item.ALLOWSORT; 
+                    en.T_UN_TASKLINE.AddObject(t_un_taskline); 
+
+                    taskQuantity=taskQuantity+t_un_taskline.QUANTITY??0;
                 }
                 if (en.SaveChanges() > 0)
                 {
@@ -405,7 +407,7 @@ namespace Business.BusinessClass
                 {
                     re.IsSuccess = false;
                     return re.DefaultResponse;
-                }
+                } 
             }
             else
             {
@@ -413,8 +415,6 @@ namespace Business.BusinessClass
             }
 
         }
-
-
 
         #endregion
 
@@ -491,10 +491,12 @@ namespace Business.BusinessClass
             using (DZEntities en = new DZEntities())
             {
                 var t_un_taskUnionTaskline = (from item in en.T_UN_TASK
-                                              join item2 in en.T_UN_TASKLINE on item.TASKNUM equals item2.TASKNUM
-                                              join item3 in en.T_PRODUCE_SORTTROUGH on item2.CIGARETTECODE equals item3.CIGARETTECODE
-                                              where item3.STATE == "10" && item.STATE == "10"//条件：1 通道必须启用， 车组间排程完毕
-                                              orderby item.SORTNUM, item3.MACHINESEQ, item3.TROUGHNUM
+                                              join item2 in en.T_UN_TASKLINE   on item.TASKNUM equals item2.TASKNUM
+                                              join item3 in en.T_PRODUCE_SORTTROUGH on item2.CIGARETTECODE equals item3.CIGARETTECODE 
+                                              where item3.STATE == "10"  && item.STATE == "10" 
+                                              && (item3.CIGARETTETYPE==30 ||item3.CIGARETTETYPE==40)
+                                              //&& (item3.GROUPNO==2 ||item3.GROUPNO==3)//条件：1 通道必须启用， 车组间排程完毕
+                                              orderby  item.SORTNUM,item3.MACHINESEQ,item3.TROUGHNUM 
                                               select new
                                               {
                                                   SortNum = item.SORTNUM,
@@ -607,26 +609,8 @@ namespace Business.BusinessClass
             }
         }
 
-
-
         #endregion
 
-
-
-        //select a.regioncode,a.cigarettecode,a.cigarettename,a.quantity,b.pokenum from(
-        //select o.regioncode, line.cigarettecode,line.cigarettename,sum(quantity) quantity from t_produce_order o,t_produce_orderline line where o.state='排程'
-        //group by o.regioncode, line.cigarettecode,line.cigarettename
-        //) a left join
-        //(
-        //select cigarettecode,sum(pokenum) pokenum,regioncode
-        //from(
-        //select s.cigarettecode,p.pokenum,t.regioncode from t_produce_poke p,t_produce_sorttrough s,t_produce_task t where t.billcode=p.billcode and p.troughnum=s.troughnum 
-        //and s.troughtype=10 and s.cigarettetype=20
-        //union all
-        //select p.cigarettecode,p.pokenum,t.regioncode  from t_un_poke p,t_produce_task t where p.billcode=t.billcode
-        //)
-        //group by  cigarettecode,regioncode
-        //) b on a.regioncode=b.regioncode and a.cigarettecode=b.cigarettecode
 
         public static List<PokeInfo> GetAllSchdule() 
         {
@@ -650,5 +634,196 @@ namespace Business.BusinessClass
                 return list;
             }
         }
+
+        public Response<decimal> GetSyncseqFromOrderTable()
+        {
+            using (DZEntities dzEntities = new DZEntities())
+            {
+                Response<decimal> response = new Response<decimal>();
+
+                response.IsSuccess = true;
+                response.Content = (dzEntities.T_PRODUCE_ORDER.Max(a => a.SYNSEQ) ?? 0) + 1;
+                List<T_PRODUCE_ORDER>  DZList=dzEntities.T_PRODUCE_ORDER.ToList();
+                return response;
+            }
+
+        }
+
+        #region 导出数据发送到一号工程
+
+        /// <summary>
+        /// 获取批次数据
+        /// </summary>
+        /// <returns></returns>
+        public Response<List<TaskInfo>> GetTaskInfoByBatchcode()
+        {
+            Response<List<TaskInfo>> rm = new Response<List<TaskInfo>>();
+            using (DZEntities en = new DZEntities())
+            {
+                List<TaskInfo> mainOrder = new List<TaskInfo>();//订单主表
+                var query = (from item in en.T_UN_TASK
+                             where item.STATE == "15"
+                             group item by new { item.BATCHCODE, item.SYNSEQ } into g
+                             select new { SYNSEQ = g.Key.SYNSEQ, BATCHCODE = g.Key.BATCHCODE, qty = g.Sum(x => x.TASKQUANTITY), count = g.Count() }).ToList();
+
+                int index = 0;
+                foreach (var item in query)
+                {
+                    TaskInfo mo = new TaskInfo();
+                    index++;
+                    mo.SYNSEQ = item.SYNSEQ ?? 0;
+                    mo.BATCHODE = item.BATCHCODE;
+                    mo.QTY = item.qty ?? 0;
+                    mo.Count = item.count;//订单户数
+                    mainOrder.Add(mo);
+                }
+                if (mainOrder.Any())
+                {
+                    rm.IsSuccess = true;
+                    rm.MessageText = "数据查询成功";
+                    rm.Content = mainOrder;
+                    return rm;
+
+                }
+                else
+                {
+                    rm.IsSuccess = false;
+                    rm.MessageText = "暂未查询到相关的订单数据！";
+                    return rm;
+                }
+
+
+            }
+        }
+
+        public Response<List<_1stPrjInfo>> Get1stPrjInfo(decimal synSeq)
+        {
+            Response<List<_1stPrjInfo>> infoList = new Response<List<_1stPrjInfo>>();
+
+            using (DZEntities dzEntities = new DZEntities())
+            {
+                List<_1stPrjInfo> mainList = new List<_1stPrjInfo>();//订单主表
+                var query = (from task in dzEntities.T_UN_TASK
+                             join poke in dzEntities.T_UN_POKE on task.TASKNUM equals poke.TASKNUM
+                             join trough in dzEntities.T_PRODUCE_SORTTROUGH on poke.TROUGHNUM equals trough.TROUGHNUM
+                             where trough.TROUGHTYPE == 10 && (trough.CIGARETTETYPE == 30 || trough.CIGARETTETYPE == 40)
+                             && trough.STATE == "10" && task.SYNSEQ == synSeq
+                             orderby task.SORTNUM, trough.MACHINESEQ
+                             select new
+                             {
+                                 //custCode=task.CUSTOMERCODE,
+                                 //custName=task.CUSTOMERNAME,
+                                 //cigCode=trough.CIGARETTECODE,
+                                 //cigName=trough.CIGARETTENAME,
+                                 //sortNum=task.SORTNUM,
+                                 //machineSeq=poke.MACHINESEQ,
+                                 //quantity=poke.POKENUM,
+                                 //orderDate=String.Format("yyyy-mm-dd",task.ORDERDATE),
+                                 //pokeNum=poke.POKENUM,
+                                 //regioncode=task.REGIONCODE,
+                                 x = task,
+                                 y = trough,
+                                 z = poke
+                             }).ToList();
+                foreach (var item in query)
+                {
+                    _1stPrjInfo info = new _1stPrjInfo();
+                    info.machineSeq = item.z.MACHINESEQ ?? 0;
+                    info.custCode = item.x.CUSTOMERCODE;
+                    info.custName = item.x.CUSTOMERNAME;
+                    info.cigCode = item.y.CIGARETTECODE;
+                    info.cigName = item.y.CIGARETTENAME;
+                    info.sortNum = item.x.SORTNUM ?? 0;
+                    info.machineSeq = item.z.MACHINESEQ ?? 0;
+                    info.quantity = item.z.POKENUM ?? 0;
+                    info.orderDate = String.Format("yyyy-mm-dd", item.x.ORDERDATE);
+                    info.pokeNum = item.z.POKENUM ?? 0;
+                    info.regionCode = item.x.REGIONCODE;
+
+                    mainList.Add(info);
+                }
+                if (query.Any())
+                {
+                    infoList.IsSuccess = true;
+                    infoList.Content = mainList;
+                    infoList.MessageText = "一号工程数据查询成功！";
+                }
+                else
+                {
+                    infoList.IsSuccess = false;
+                    infoList.MessageText = "暂无未发送的一号工程数据！";
+                }
+            }
+
+            return infoList;
+        }
+
+        #endregion
+
+        #region 分拣进度取数
+        public Response<List<TaskInfo>> GetSortingProcess()
+        {
+
+            Response<List<TaskInfo>> response = new Response<List<TaskInfo>>();
+            using (DZEntities dzEntities = new DZEntities())
+            {
+                var allList = (from all in dzEntities.T_UN_TASK
+                               group all by new { all.REGIONCODE } into x
+                               select new { x.Key.REGIONCODE, count = x.Count(), qty = x.Sum(g => g.TASKQUANTITY) }).ToList();
+                var finishList = (from finish in dzEntities.T_UN_TASK
+                                  where finish.STATE == "30"
+                                  group finish by new { finish.REGIONCODE } into x
+                                  select new { x.Key.REGIONCODE, finishcount = x.Count(), finishqty = x.Sum(g => g.TASKQUANTITY) }).ToList();
+                var resultList = (from all in allList
+                                  join finish in finishList on all.REGIONCODE equals finish.REGIONCODE
+                                  into tmp
+                                  from last in tmp.DefaultIfEmpty()
+                                  orderby all.REGIONCODE
+                                  select new { x = all, y = last }).ToList();
+                List<TaskInfo> taskList = new List<TaskInfo>();
+                if (resultList.Any())
+                {
+                    decimal index = 0;
+                    foreach (var item in resultList)
+                    {
+                        index++;
+                        TaskInfo task = new TaskInfo();
+                        task.SYNSEQ = index;
+                        task.REGIONCODE = item.x.REGIONCODE;
+                        task.Count = item.x.count;
+                        task.QTY = item.x.qty ?? 0;
+                        var obj = item.y;
+                        if (obj != null)
+                        {
+                            task.FinishCount = item.y.finishcount;
+                            task.FinishQTY = item.y.finishqty ?? 0;
+                        }
+                        else
+                        {
+                            task.FinishCount = 0;
+                            task.FinishQTY = 0;
+                        }
+
+                        task.FinishCountStr = task.FinishCount + " / " + task.Count;
+                        task.FinishQtyStr = task.FinishQTY + " / " + task.QTY;
+                        task.Rate = Math.Round((task.FinishQTY / task.QTY * 100), 2) + "%";
+                        taskList.Add(task);
+                    }
+                    if (taskList.Any())
+                    {
+                        response.IsSuccess = true;
+                        response.Content = taskList;
+                        response.MessageText = "分拣数据查询成功！";
+                    }
+                    else
+                    {
+                        response.IsSuccess = false;
+                        response.MessageText = "暂无分拣进度数据！";
+                    }
+                }
+            }
+            return response;
+        }
+        #endregion
     }
 }
