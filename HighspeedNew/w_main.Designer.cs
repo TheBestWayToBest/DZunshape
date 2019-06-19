@@ -103,7 +103,7 @@
             this.品牌尾数维护ToolStripMenuItem.Name = "品牌尾数维护ToolStripMenuItem";
             this.品牌尾数维护ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.品牌尾数维护ToolStripMenuItem.Text = "品牌尾数维护";
-            this.品牌尾数维护ToolStripMenuItem.Click += new System.EventHandler(this.品牌尾数维护ToolStripMenuItem_Click);
+            //this.品牌尾数维护ToolStripMenuItem.Click += new System.EventHandler(this.品牌尾数维护ToolStripMenuItem_Click);
             // 
             // 分拣通道管理ToolStripMenuItem
             // 
@@ -191,7 +191,6 @@
             this.异型烟补货计划ToolStripMenuItem.Name = "异型烟补货计划ToolStripMenuItem";
             this.异型烟补货计划ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.异型烟补货计划ToolStripMenuItem.Text = "今日异型烟汇总";
-            this.异型烟补货计划ToolStripMenuItem.Click += new System.EventHandler(this.异型烟补货计划ToolStripMenuItem_Click);
             // 
             // 排程报表ToolStripMenuItem
             // 
@@ -205,14 +204,12 @@
             this.混合道补烟顺序ToolStripMenuItem.Name = "混合道补烟顺序ToolStripMenuItem";
             this.混合道补烟顺序ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.混合道补烟顺序ToolStripMenuItem.Text = "混合道补烟顺序";
-            this.混合道补烟顺序ToolStripMenuItem.Click += new System.EventHandler(this.混合道补烟顺序ToolStripMenuItem_Click);
             // 
             // 件烟补货顺序ToolStripMenuItem
             // 
             this.件烟补货顺序ToolStripMenuItem.Name = "件烟补货顺序ToolStripMenuItem";
             this.件烟补货顺序ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.件烟补货顺序ToolStripMenuItem.Text = "件烟补货顺序";
-            this.件烟补货顺序ToolStripMenuItem.Click += new System.EventHandler(this.件烟补货顺序ToolStripMenuItem_Click);
             // 
             // 错误日志ToolStripMenuItem
             // 
