@@ -146,11 +146,23 @@
     <Compile Include="OrderHandle\w_SortFm.Designer.cs">
       <DependentUpon>w_SortFm.cs</DependentUpon>
     </Compile>
+    <Compile Include="OrderHandle\w_Through.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_Through.Designer.cs">
+      <DependentUpon>w_Through.cs</DependentUpon>
+    </Compile>
     <Compile Include="OrderHandle\w_trough.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="OrderHandle\w_trough.designer.cs">
       <DependentUpon>w_trough.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderHandle\w_UnnormalData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_UnnormalData.Designer.cs">
+      <DependentUpon>w_UnnormalData.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -212,8 +224,14 @@
     <EmbeddedResource Include="OrderHandle\w_SortFm.resx">
       <DependentUpon>w_SortFm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_Through.resx">
+      <DependentUpon>w_Through.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_trough.resx">
       <DependentUpon>w_trough.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_UnnormalData.resx">
+      <DependentUpon>w_UnnormalData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

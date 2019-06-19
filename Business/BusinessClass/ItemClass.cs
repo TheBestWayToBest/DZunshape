@@ -64,5 +64,20 @@ namespace Business.BusinessClass
                 return false;
             }
         }
+
+        //"  SELECT ROWNUM AS num, cigarettecode,cigarettename,ccount ,orderqty  FROM" +
+        //"(SELECT line.cigarettecode,line.cigarettename,count(*) as ccount,SUM(line.quantity)AS orderqty FROM t_produce_orderline line " +
+        //" WHERE line.allowsort='非标' GROUP BY line.cigarettecode,line.cigarettename ORDER BY orderqty desc)";
+
+        public static List<AllOrderData> GetUnCig() 
+        {
+            using (DZEntities en = new DZEntities()) 
+            {
+                List<AllOrderData> list = new List<AllOrderData>();
+                list = en.T_PRODUCE_ORDERLINE.Where(item => item.ALLOWSORT == "非标").GroupBy(item => new { item.CIGARETTECODE, item.CIGARETTENAME }).
+                    Select(item => new AllOrderData { CigaretteCode = item.Key.CIGARETTECODE, CigaretteName = item.Key.CIGARETTENAME, Count = item.Count(), QTY = item.Sum(x => x.QUANTITY)??0 }).OrderByDescending(item => item.QTY).ToList();
+                return list;
+            }
+        }
     }
 }
