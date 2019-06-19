@@ -20,7 +20,7 @@ namespace Business.BusinessClass
         /// <summary>
         /// SortNum 序列
         /// </summary>
-        const string Str_Sortnum_SEQUENCE = "select ZOOMTEL.S_PRODUCE_SORTNUM.NEXTVAL from dual ";
+        const string Str_Sortnum_SEQUENCE = "select ZOOMTELDZ.S_PRODUCE_SORTNUM.NEXTVAL from dual ";
 
 
         #region 订单接收 从数据源 到 ORDER表和ORDERLINE表中
@@ -38,7 +38,7 @@ namespace Business.BusinessClass
                 var T_SALE_ORDER_HEAD = (from item in en.T_SALE_ORDER_HEAD where item.ORDERDATE == nowDate select item).ToList();//获取主表
                 var ReadyRegion = (from item in en.T_PRODUCE_ORDER select item).GroupBy(a => a.REGIONCODE).Select(a => new { RouteCode = a.Key }).ToList(); ;//获取已经接收的车组
                 var HeadGroup = T_SALE_ORDER_HEAD.GroupBy(a => a.ROUTECODE).Select(a => new { RouteCode = a.Key }).ToList();//获取主表单个车组
-                var exp = HeadGroup.Except(ReadyRegion);//未排程的车组
+                var exp = HeadGroup.Except(ReadyRegion).OrderBy(z=>z.RouteCode);//未排程的车组
 
                 int index = 0;
                 foreach (var item in exp)
@@ -223,14 +223,14 @@ namespace Business.BusinessClass
                 var query = (from order in en.T_PRODUCE_ORDER
                              join line in en.T_PRODUCE_ORDERLINE on order.BILLCODE equals line.BILLCODE
                              join item in en.T_WMS_ITEM on line.CIGARETTECODE equals item.ITEMNO
-                             where order.STATE == "新增" && item.SHIPTYPE == "1"
+                             where order.STATE == "新增" && item.SHIPTYPE == "1" && item.ROWSTATUS==10
                              select new { regioncode=order.REGIONCODE,customercode=order.CUSTOMERCODE,qty=line.QUANTITY }
                              //select order
                              ).ToList();
                 var query1 = (from order in en.T_PRODUCE_ORDER
                              join line in en.T_PRODUCE_ORDERLINE on order.BILLCODE equals line.BILLCODE
                              join item in en.T_WMS_ITEM on line.CIGARETTECODE equals item.ITEMNO
-                             where order.STATE == "新增" && item.SHIPTYPE == "1"
+                              where order.STATE == "新增" && item.SHIPTYPE == "1" && item.ROWSTATUS == 10
                              select order ).ToList().Distinct();
                     //select order
                             
@@ -281,7 +281,7 @@ namespace Business.BusinessClass
         /// <returns></returns>
         public Response PreSchedule(string regioncode)
         {
-            Response re = new Response("预排程失败未找到对应的车组" + regioncode);
+            Response re = new Response("预排程失败，未找到对应的车组" + regioncode);
             StringBuilder sb = new StringBuilder();
             using (DZEntities en = new DZEntities())
             {
@@ -292,14 +292,14 @@ namespace Business.BusinessClass
                 }
                 //var t_produce_Order = (from item in en.T_PRODUCE_ORDER where item.REGIONCODE == regioncode select item).ToList();//根据车组查询ORder表中所对应的订单
                 var t_produce_Order = (from order in en.T_PRODUCE_ORDER
-                             join line in en.T_PRODUCE_ORDERLINE on order.BILLCODE equals line.BILLCODE
-                             join item in en.T_WMS_ITEM on line.CIGARETTECODE equals item.ITEMNO
-                             where order.STATE == "新增" && item.SHIPTYPE == "1" && order.REGIONCODE == regioncode
-                             orderby order.DEVSEQ
-                             select order).Distinct().ToList();
+                                       join line in en.T_PRODUCE_ORDERLINE on order.BILLCODE equals line.BILLCODE
+                                       join item in en.T_WMS_ITEM on line.CIGARETTECODE equals item.ITEMNO
+                                       where order.STATE == "新增" && item.SHIPTYPE == "1" && order.REGIONCODE == regioncode
+                                       orderby order.DEVSEQ
+                                       select order).Distinct().ToList();
                 //var query=(from task in en.T_UN_TASK select task.TASKNUM).Max();
-                
-                String max=DateTime.Now.ToString("yyyyMMdd")+regioncode+"000";
+
+                String max = DateTime.Now.ToString("yyyyMMdd") + regioncode + "000";
                 //String query = maxTaskNum+regioncode+""
                 //if (query != null&&!"".Equals(query)) maxTaskNum = query.ToString();
                 //var maxtasknum = (en.T_UN_TASK.Max(a => a.TASKNUM) ?? 0) + 1;
@@ -313,7 +313,7 @@ namespace Business.BusinessClass
                         T_UN_TASK t_un_task = new T_UN_TASK();
                         //字段赋值
                         index++;
-                        t_un_task.TASKNUM = item.SELATASKNUM ?? 0;
+                        t_un_task.TASKNUM = maxTaskNum + index;
                         t_un_task.LINENUM = "1";
                         t_un_task.EXPORTNUM = "1";
                         t_un_task.REGIONCODE = item.REGIONCODE;
@@ -342,12 +342,12 @@ namespace Business.BusinessClass
                         t_un_task.PACKAGEMACHINE = 1;
                         t_un_task.SORTNUM = en.ExecuteStoreQuery<decimal>(Str_Sortnum_SEQUENCE, null).FirstOrDefault();//SortNum序列 
                         t_un_task.SECSORTNUM = t_un_task.SORTNUM;
-                        var psDetail = PreScheduleDetail(en, item.BILLCODE, item.SELATASKNUM ?? 0);//添加单个订单的条烟明细到TASKLINE
+                        var psDetail = PreScheduleDetail(en, t_un_task.BILLCODE, t_un_task.TASKNUM);//添加单个订单的条烟明细到TASKLINE
                         if (psDetail.IsSuccess)
                         {
                             en.T_PRODUCE_ORDER.Where(a => a.BILLCODE == t_un_task.BILLCODE).FirstOrDefault
                                 ().STATE = "排程";
-                            t_un_task.TASKQUANTITY = Convert.ToDecimal(psDetail.ResultObject??0);
+                            t_un_task.TASKQUANTITY = Convert.ToDecimal(psDetail.ResultObject ?? 0);
                             en.T_UN_TASK.AddObject(t_un_task);//添加到实体集 
 
                             en.SaveChanges();
@@ -369,7 +369,7 @@ namespace Business.BusinessClass
 
 
         }
-        /// <summary>
+        ///<summary>
         /// 添加订单明细（ORDERLINE） 到任务明细（TASKLINE）
         /// </summary>
         /// <param name="en"></param>
@@ -378,12 +378,14 @@ namespace Business.BusinessClass
         /// <returns></returns>
         private Response PreScheduleDetail(DZEntities en, string billcode, decimal Selatasknum = 0)
         {
-            Response re = new Response("未找到订单号："+billcode +" 条烟明细！");
-            var t_produce_ordelrine = (from line in en.T_PRODUCE_ORDERLINE join item in en.T_WMS_ITEM on line.CIGARETTECODE equals item.ITEMNO
-                                    where line.BILLCODE == billcode && item.SHIPTYPE=="1" select line).ToList();//根据订单号获取该订单的条烟明细
+            Response re = new Response("未找到订单号：" + billcode + " 条烟明细！");
+            var t_produce_ordelrine = (from line in en.T_PRODUCE_ORDERLINE
+                                       join item in en.T_WMS_ITEM on line.CIGARETTECODE equals item.ITEMNO
+                                       where line.BILLCODE == billcode && item.SHIPTYPE == "1"
+                                       select line).ToList();//根据订单号获取该订单的条烟明细
             if (t_produce_ordelrine.Any())
             {
-                decimal taskQuantity=0;
+                decimal taskQuantity = 0;
                 foreach (var item in t_produce_ordelrine)
                 {
                     T_UN_TASKLINE t_un_taskline = new T_UN_TASKLINE();
@@ -392,14 +394,14 @@ namespace Business.BusinessClass
                     t_un_taskline.CIGARETTENAME = item.CIGARETTENAME;
                     t_un_taskline.QUANTITY = item.QUANTITY;
                     t_un_taskline.UNIT = item.UNIT;
-                    t_un_taskline.ALLOWSORT = item.ALLOWSORT; 
-                    en.T_UN_TASKLINE.AddObject(t_un_taskline); 
+                    t_un_taskline.ALLOWSORT = item.ALLOWSORT;
+                    en.T_UN_TASKLINE.AddObject(t_un_taskline);
 
-                    taskQuantity=taskQuantity+t_un_taskline.QUANTITY??0;
+                    taskQuantity = taskQuantity + t_un_taskline.QUANTITY ?? 0;
                 }
                 if (en.SaveChanges() > 0)
                 {
-                    re.ResultObject = taskQuantity ;
+                    re.ResultObject = taskQuantity;
                     re.IsSuccess = true;
                     return re;
                 }
@@ -407,7 +409,7 @@ namespace Business.BusinessClass
                 {
                     re.IsSuccess = false;
                     return re.DefaultResponse;
-                } 
+                }
             }
             else
             {

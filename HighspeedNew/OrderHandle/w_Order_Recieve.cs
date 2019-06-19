@@ -50,7 +50,7 @@ namespace HighSpeed.OrderHandle
                 if (codestr != "")
                 {
                     String[] code = codestr.Substring(1).Split(',');
-                    int len = code.Length;
+                    int len = code.Length, sucCount = 0;
                     string indexstr = "";
                     for (int i = 0; i < len; i++)
                     {
@@ -74,6 +74,7 @@ namespace HighSpeed.OrderHandle
                             label2.Text = code[i] + "车组订单数据接收完毕..." + tmpstr;
                             label2.Refresh();
                             indexstr = indexstr + "," + code[i];
+                            sucCount++;
                         }
                         else
                         {
@@ -86,7 +87,7 @@ namespace HighSpeed.OrderHandle
                     panel2.Visible = false;
                     label2.Visible = false;
                     progressBar1.Visible = false;
-                    MessageBox.Show("接收成功！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(sucCount + "个车组的订单数据接收成功！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {

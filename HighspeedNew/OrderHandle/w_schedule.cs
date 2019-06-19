@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Threading; 
 using Business.BusinessClass;
 using Business;
+using Business.Modle;
 
 namespace HighSpeed.OrderHandle
 {
@@ -34,7 +35,10 @@ namespace HighSpeed.OrderHandle
             }
             else
             {
-                orderdata.DataSource = null;
+                if (orderdata.DataSource != null)
+                { orderdata.DataSource = null; }
+                orderdata.AutoGenerateColumns = false;
+                orderdata.DataSource = new List<TaskInfo>() { };
             }
             this.txt_codestr.Text = "";
         }
@@ -132,6 +136,9 @@ namespace HighSpeed.OrderHandle
             }
             catch (Exception ex )
             {
+                panel2.Visible = false;
+                label2.Visible = false;
+                progressBar1.Visible = false;
                 MessageBox.Show(ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             finally{

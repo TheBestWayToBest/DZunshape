@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Business.BusinessClass;
 using Business;
+using Business.Modle;
 namespace HighSpeed.OrderHandle
 {
     public partial class w_SortFm : Form
@@ -41,7 +42,10 @@ namespace HighSpeed.OrderHandle
             }
             else
             {
-                dgvSortInfo.DataSource = null;
+                if (dgvSortInfo.DataSource != null)
+                { dgvSortInfo.DataSource = null; }
+                dgvSortInfo.AutoGenerateColumns = false;
+                dgvSortInfo.DataSource = new List<TaskInfo>() { } ;
             }
         }
         int times;
@@ -60,7 +64,7 @@ namespace HighSpeed.OrderHandle
 
             HandleSort task = Sort; //新的
             task.BeginInvoke(null, null);
-            label2.Text = "正在对分拣车组任务数据进重新排序";
+            label2.Text = "正在对分拣车组任务数据进排程";
         }
         void Sort()
         {
@@ -75,8 +79,8 @@ namespace HighSpeed.OrderHandle
                     progressBar1.Value = progressBar1.Maximum;
                     TimerByTime.Stop();// 计时结束;
                     btnSort.Enabled = true;
-                    lblInFO.Text = "分拣车组任务排序成功！" + "\r\n" + "所用时间:" + times + "秒";
-                    MessageBox.Show("分拣车组任务排序成功！" + "\r\n" + "所用时间:" + times + "秒", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information); 
+                    lblInFO.Text = "分拣车组任务排程成功！" + "\r\n" + "所用时间:" + times + "秒";
+                    MessageBox.Show("分拣车组任务排程成功！" + "\r\n" + "所用时间:" + times + "秒", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information); 
                 }
                 else
                 {
