@@ -279,6 +279,8 @@ namespace Business.BusinessClass
         /// </summary>
         /// <param name="regioncode"></param>
         /// <returns></returns>
+        /// 
+         
         public Response PreSchedule(string regioncode)
         {
             Response re = new Response("预排程失败，未找到对应的车组" + regioncode);
@@ -299,12 +301,17 @@ namespace Business.BusinessClass
                                        select order).Distinct().ToList();
                 //var query=(from task in en.T_UN_TASK select task.TASKNUM).Max();
 
-                String max = DateTime.Now.ToString("yyyyMMdd") + regioncode + "000";
+                //取目前车组最大的Tasknum,如果没有,则给默认任务号
+                decimal maxTaskNum = GetMaxTaskNumByRegioncode(regioncode).Content;
+                if (maxTaskNum == 0) {
+                    String max = DateTime.Now.ToString("yyyyMMdd") + regioncode + "000";
+                    maxTaskNum = Convert.ToDecimal(max);
+                } 
+                
                 //String query = maxTaskNum+regioncode+""
                 //if (query != null&&!"".Equals(query)) maxTaskNum = query.ToString();
                 //var maxtasknum = (en.T_UN_TASK.Max(a => a.TASKNUM) ?? 0) + 1;
                 //(dzEntities.T_PRODUCE_ORDER.Max(a => a.SYNSEQ) ?? 0) + 1;
-                decimal maxTaskNum = Convert.ToDecimal(max);
                 if (t_produce_Order.Any())
                 {
                     int index = 0;
@@ -516,6 +523,7 @@ namespace Business.BusinessClass
                                                   Ctype = 1,
                                                   PackageMachine = item.PACKAGEMACHINE,
                                                   LineNum = item.LINENUM,
+                                                  GroupNo = item3.GROUPNO
                                               }).ToList();//任务信息表
                 decimal pokeId = GetMaxPokeId(en).Content;//获取最大POKEID
                 if (t_un_taskUnionTaskline.Any())
@@ -540,7 +548,8 @@ namespace Business.BusinessClass
                             t_un_poke.SORTNUM = item.SortNum;
                             t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
                             t_un_poke.BILLCODE = item.BillCode;
-                            t_un_poke.CTYPE = 1;
+                            if (item.GroupNo == 3) t_un_poke.CTYPE = 2;
+                            else t_un_poke.CTYPE = 1;
                             t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
                             t_un_poke.STORENUM = 0;//暂时无用
                             t_un_poke.GRIDNUM = 0;//暂时无用
@@ -827,5 +836,19 @@ namespace Business.BusinessClass
             return response;
         }
         #endregion
+
+        public Response<decimal> GetMaxTaskNumByRegioncode(String regioncode)
+        {
+            using (DZEntities dzEntities = new DZEntities())
+            {
+                Response<decimal> response = new Response<decimal>();
+
+                response.IsSuccess = true;
+                response.Content = dzEntities.T_UN_TASK.Max(x => x.TASKNUM); 
+                List<T_UN_TASK> DZList = dzEntities.T_UN_TASK.ToList();
+                return response;
+            }
+
+        }
     }
 }
