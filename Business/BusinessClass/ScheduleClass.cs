@@ -353,7 +353,7 @@ namespace Business.BusinessClass
                         if (psDetail.IsSuccess)
                         {
                             en.T_PRODUCE_ORDER.Where(a => a.BILLCODE == t_un_task.BILLCODE).FirstOrDefault
-                                ().STATE = "排程";
+                                ().UNSTATE = "排程";
                             t_un_task.TASKQUANTITY = Convert.ToDecimal(psDetail.ResultObject ?? 0);
                             en.T_UN_TASK.AddObject(t_un_task);//添加到实体集 
 

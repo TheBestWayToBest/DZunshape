@@ -116,6 +116,10 @@
     <Compile Include="OrderHandle\w_Export.Designer.cs">
       <DependentUpon>w_Export.cs</DependentUpon>
     </Compile>
+    <Compile Include="OrderHandle\w_Export_N.cs" />
+    <Compile Include="OrderHandle\w_Export_N.Designer.cs">
+      <DependentUpon>w_Export_N.cs</DependentUpon>
+    </Compile>
     <Compile Include="OrderHandle\w_orderdata.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -211,6 +215,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_Export.resx">
       <DependentUpon>w_Export.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_Export_N.resx">
+      <DependentUpon>w_Export_N.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_orderdata.resx">
       <DependentUpon>w_orderdata.cs</DependentUpon>
