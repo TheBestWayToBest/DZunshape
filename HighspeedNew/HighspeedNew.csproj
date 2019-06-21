@@ -116,7 +116,9 @@
     <Compile Include="OrderHandle\w_Export.Designer.cs">
       <DependentUpon>w_Export.cs</DependentUpon>
     </Compile>
-    <Compile Include="OrderHandle\w_Export_N.cs" />
+    <Compile Include="OrderHandle\w_Export_N.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="OrderHandle\w_Export_N.Designer.cs">
       <DependentUpon>w_Export_N.cs</DependentUpon>
     </Compile>
