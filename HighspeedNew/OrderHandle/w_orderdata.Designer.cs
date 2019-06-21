@@ -29,14 +29,13 @@
         private void InitializeComponent()
         {
             this.orderdata = new System.Windows.Forms.DataGridView();
-            this.num = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btn_print = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.cigarettecode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cigarettename = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.orderqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ccount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btn_print = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.orderdata)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -47,7 +46,6 @@
             this.orderdata.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.orderdata.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.orderdata.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.num,
             this.cigarettecode,
             this.cigarettename,
             this.orderqty,
@@ -60,41 +58,7 @@
             this.orderdata.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.orderdata.Size = new System.Drawing.Size(1017, 283);
             this.orderdata.TabIndex = 3;
-            // 
-            // num
-            // 
-            this.num.DataPropertyName = "num";
-            this.num.HeaderText = "序号";
-            this.num.Name = "num";
-            this.num.ReadOnly = true;
-            // 
-            // cigarettecode
-            // 
-            this.cigarettecode.DataPropertyName = "cigarettecode";
-            this.cigarettecode.HeaderText = "品牌代码";
-            this.cigarettecode.Name = "cigarettecode";
-            this.cigarettecode.ReadOnly = true;
-            // 
-            // cigarettename
-            // 
-            this.cigarettename.DataPropertyName = "cigarettename";
-            this.cigarettename.HeaderText = "品牌名称";
-            this.cigarettename.Name = "cigarettename";
-            this.cigarettename.ReadOnly = true;
-            // 
-            // orderqty
-            // 
-            this.orderqty.DataPropertyName = "orderqty";
-            this.orderqty.HeaderText = "订货数量";
-            this.orderqty.Name = "orderqty";
-            this.orderqty.ReadOnly = true;
-            // 
-            // ccount
-            // 
-            this.ccount.DataPropertyName = "ccount";
-            this.ccount.HeaderText = "订单户数";
-            this.ccount.Name = "ccount";
-            this.ccount.ReadOnly = true;
+            this.orderdata.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.orderdata_RowPostPaint);
             // 
             // btn_print
             // 
@@ -126,6 +90,34 @@
             this.panel1.Size = new System.Drawing.Size(1017, 43);
             this.panel1.TabIndex = 2;
             // 
+            // cigarettecode
+            // 
+            this.cigarettecode.DataPropertyName = "CigaretteCode";
+            this.cigarettecode.HeaderText = "品牌代码";
+            this.cigarettecode.Name = "cigarettecode";
+            this.cigarettecode.ReadOnly = true;
+            // 
+            // cigarettename
+            // 
+            this.cigarettename.DataPropertyName = "CigaretteName";
+            this.cigarettename.HeaderText = "品牌名称";
+            this.cigarettename.Name = "cigarettename";
+            this.cigarettename.ReadOnly = true;
+            // 
+            // orderqty
+            // 
+            this.orderqty.DataPropertyName = "QTY";
+            this.orderqty.HeaderText = "订货数量";
+            this.orderqty.Name = "orderqty";
+            this.orderqty.ReadOnly = true;
+            // 
+            // ccount
+            // 
+            this.ccount.DataPropertyName = "Count";
+            this.ccount.HeaderText = "订单户数";
+            this.ccount.Name = "ccount";
+            this.ccount.ReadOnly = true;
+            // 
             // w_orderdata
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -144,13 +136,12 @@
         #endregion
 
         private System.Windows.Forms.DataGridView orderdata;
-        private System.Windows.Forms.DataGridViewTextBoxColumn num;
+        private System.Windows.Forms.Button btn_print;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridViewTextBoxColumn cigarettecode;
         private System.Windows.Forms.DataGridViewTextBoxColumn cigarettename;
         private System.Windows.Forms.DataGridViewTextBoxColumn orderqty;
         private System.Windows.Forms.DataGridViewTextBoxColumn ccount;
-        private System.Windows.Forms.Button btn_print;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Panel panel1;
     }
 }

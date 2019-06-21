@@ -55,6 +55,9 @@
             // orderdata
             // 
             this.orderdata.AllowUserToAddRows = false;
+            this.orderdata.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.orderdata.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.orderdata.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.orderdata.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -62,7 +65,6 @@
             this.dpid,
             this.count_hs,
             this.order_qty});
-            this.orderdata.Dock = System.Windows.Forms.DockStyle.Left;
             this.orderdata.Location = new System.Drawing.Point(0, 60);
             this.orderdata.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.orderdata.Name = "orderdata";
@@ -237,21 +239,21 @@
             // 
             // dpid
             // 
-            this.dpid.DataPropertyName = "routecode";
+            this.dpid.DataPropertyName = "RegionCode";
             this.dpid.HeaderText = "车组信息";
             this.dpid.Name = "dpid";
             this.dpid.ReadOnly = true;
             // 
             // count_hs
             // 
-            this.count_hs.DataPropertyName = "count_hs";
+            this.count_hs.DataPropertyName = "Count";
             this.count_hs.HeaderText = "订货户数";
             this.count_hs.Name = "count_hs";
             this.count_hs.ReadOnly = true;
             // 
             // order_qty
             // 
-            this.order_qty.DataPropertyName = "order_qty";
+            this.order_qty.DataPropertyName = "QTY";
             this.order_qty.HeaderText = "订货量";
             this.order_qty.Name = "order_qty";
             this.order_qty.ReadOnly = true;

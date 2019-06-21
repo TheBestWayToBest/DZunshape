@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using HighSpeed.OrderHandle;
 using HighspeedNew.OrderHandle;
+using HighSpeedNew.OrderHandle;
 
 namespace HighSpeed
 {
@@ -150,7 +151,7 @@ namespace HighSpeed
 
         private void 任务导出ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            w_Export frm = new w_Export();
+            w_Export_N frm = new w_Export_N();
             if (CheckExist(frm) == true)
             {
                 frm.Dispose();
@@ -207,6 +208,20 @@ namespace HighSpeed
         private void 分拣进度ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SortingProcess frm = new SortingProcess();
+            if (CheckExist(frm) == true)
+            {
+                frm.Dispose();
+                frm = null;
+                return;
+            }
+            frm.MdiParent = this;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
+        private void 件烟补货顺序ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            w_relenishment frm = new w_relenishment();
             if (CheckExist(frm) == true)
             {
                 frm.Dispose();
