@@ -228,7 +228,7 @@
             // 
             // JZ_Size
             // 
-            this.JZ_Size.DataPropertyName = "JZ_Size";
+            this.JZ_Size.DataPropertyName = "JT_Size";
             this.JZ_Size.HeaderText = "条/件换算";
             this.JZ_Size.Name = "JZ_Size";
             // 

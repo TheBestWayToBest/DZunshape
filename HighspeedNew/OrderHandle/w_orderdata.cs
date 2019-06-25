@@ -60,5 +60,20 @@ namespace HighspeedNew.OrderHandle
         {
             //dgVprint2.ExportDGVToExcel2(this.orderdata, "今日订单汇总", "orderinfo.xls", true);
         }
+
+        private void orderdata_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            //自动编号，与数据无关
+            Rectangle rectangle = new Rectangle(e.RowBounds.Location.X,
+               e.RowBounds.Location.Y,
+               orderdata.RowHeadersWidth - 4,
+               e.RowBounds.Height);
+            TextRenderer.DrawText(e.Graphics,
+                  (e.RowIndex + 1).ToString(),
+                   orderdata.RowHeadersDefaultCellStyle.Font,
+                   rectangle,
+                   orderdata.RowHeadersDefaultCellStyle.ForeColor,
+                   TextFormatFlags.VerticalCenter | TextFormatFlags.Right);
+        }
     }
 }

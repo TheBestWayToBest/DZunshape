@@ -32,12 +32,12 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
             this.task_data = new System.Windows.Forms.DataGridView();
-            this.dgVprint1 = new VBprinter.DGVprint(this.components);
             this.synseq = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.regioncode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.replenishnum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgVprint1 = new VBprinter.DGVprint(this.components);
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.task_data)).BeginInit();
             this.SuspendLayout();
@@ -47,17 +47,15 @@
             this.panel1.Controls.Add(this.button1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1360, 60);
+            this.panel1.Size = new System.Drawing.Size(1020, 48);
             this.panel1.TabIndex = 0;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(17, 16);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Location = new System.Drawing.Point(13, 13);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 29);
+            this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
             this.button1.Text = "刷新";
             this.button1.UseVisualStyleBackColor = true;
@@ -66,6 +64,7 @@
             // task_data
             // 
             this.task_data.AllowUserToAddRows = false;
+            this.task_data.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.task_data.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.task_data.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.synseq,
@@ -74,13 +73,42 @@
             this.replenishnum,
             this.Column2});
             this.task_data.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.task_data.Location = new System.Drawing.Point(0, 60);
-            this.task_data.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.task_data.Location = new System.Drawing.Point(0, 48);
             this.task_data.Name = "task_data";
             this.task_data.RowTemplate.Height = 23;
             this.task_data.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.task_data.Size = new System.Drawing.Size(1360, 510);
+            this.task_data.Size = new System.Drawing.Size(1020, 408);
             this.task_data.TabIndex = 1;
+            // 
+            // synseq
+            // 
+            this.synseq.DataPropertyName = "synseq";
+            this.synseq.HeaderText = "序号";
+            this.synseq.Name = "synseq";
+            // 
+            // regioncode
+            // 
+            this.regioncode.DataPropertyName = "regioncode";
+            this.regioncode.HeaderText = "线路编号";
+            this.regioncode.Name = "regioncode";
+            // 
+            // Column3
+            // 
+            this.Column3.DataPropertyName = "finishcountstr";
+            this.Column3.HeaderText = "客户数";
+            this.Column3.Name = "Column3";
+            // 
+            // replenishnum
+            // 
+            this.replenishnum.DataPropertyName = "finishqtystr";
+            this.replenishnum.HeaderText = "完成量";
+            this.replenishnum.Name = "replenishnum";
+            // 
+            // Column2
+            // 
+            this.Column2.DataPropertyName = "rate";
+            this.Column2.HeaderText = "完成百分比";
+            this.Column2.Name = "Column2";
             // 
             // dgVprint1
             // 
@@ -204,47 +232,13 @@
             this.dgVprint1.ZDXType = VBprinter.DGVprint.TheZDXTYPE.LEFT;
             this.dgVprint1.ZoomToPaperWidth = true;
             // 
-            // synseq
-            // 
-            this.synseq.DataPropertyName = "synseq";
-            this.synseq.HeaderText = "序号";
-            this.synseq.Name = "synseq";
-            this.synseq.Width = 80;
-            // 
-            // regioncode
-            // 
-            this.regioncode.DataPropertyName = "regioncode";
-            this.regioncode.HeaderText = "线路编号";
-            this.regioncode.Name = "regioncode";
-            this.regioncode.Width = 80;
-            // 
-            // Column3
-            // 
-            this.Column3.DataPropertyName = "finishcountstr";
-            this.Column3.HeaderText = "客户数";
-            this.Column3.Name = "Column3";
-            // 
-            // replenishnum
-            // 
-            this.replenishnum.DataPropertyName = "finishqtystr";
-            this.replenishnum.HeaderText = "完成量";
-            this.replenishnum.Name = "replenishnum";
-            this.replenishnum.Width = 120;
-            // 
-            // Column2
-            // 
-            this.Column2.DataPropertyName = "rate";
-            this.Column2.HeaderText = "完成百分比";
-            this.Column2.Name = "Column2";
-            // 
             // SortingProcess
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1360, 570);
+            this.ClientSize = new System.Drawing.Size(1020, 456);
             this.Controls.Add(this.task_data);
             this.Controls.Add(this.panel1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "SortingProcess";
             this.Text = "任务打印";
             this.panel1.ResumeLayout(false);

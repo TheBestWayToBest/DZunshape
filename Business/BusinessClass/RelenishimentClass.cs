@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Business.Modle;
 
 namespace Business.BusinessClass
 {
@@ -104,6 +105,29 @@ namespace Business.BusinessClass
                 if (rows > 0)
                     return true;
                 return false;
+            }
+        }
+
+        public static List<ReplenishInfo> GetReplenish(decimal condition)
+        {
+            using (DZEntities en = new DZEntities())
+            {
+                Func<T_PRODUCE_REPLENISHPLAN, bool> fun;
+                if (condition == 0)
+                    fun = item => true;
+                else
+                    fun = item => item.STATUS == condition;
+
+                List<ReplenishInfo> list = new List<ReplenishInfo>();
+                list = en.T_PRODUCE_REPLENISHPLAN.Where(fun).Select(item => new ReplenishInfo
+                {
+                    ThroughNum = item.TROUGHNUM,
+                    CigaretteName = item.CIGARETTENAME,
+                    JYCode = item.JYCODE,
+                    ReplenishQTY = item.REPLENISHQTY ?? 0,
+                    TaskNum = item.TASKNUM
+                }).OrderBy(item => item.TaskNum).ToList();
+                return list;
             }
         }
     }

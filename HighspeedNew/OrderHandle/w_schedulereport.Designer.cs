@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.orderdata = new System.Windows.Forms.DataGridView();
+            this.btn_print = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.车组号 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cigarettecode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cigarettename = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.orderqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.排程数量 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btn_print = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.orderdata)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -60,41 +60,6 @@
             this.orderdata.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.orderdata.Size = new System.Drawing.Size(1017, 283);
             this.orderdata.TabIndex = 3;
-            // 
-            // 车组号
-            // 
-            this.车组号.DataPropertyName = "regioncode";
-            this.车组号.HeaderText = "车组号";
-            this.车组号.Name = "车组号";
-            this.车组号.ReadOnly = true;
-            // 
-            // cigarettecode
-            // 
-            this.cigarettecode.DataPropertyName = "cigarettecode";
-            this.cigarettecode.HeaderText = "品牌代码";
-            this.cigarettecode.Name = "cigarettecode";
-            this.cigarettecode.ReadOnly = true;
-            // 
-            // cigarettename
-            // 
-            this.cigarettename.DataPropertyName = "cigarettename";
-            this.cigarettename.HeaderText = "品牌名称";
-            this.cigarettename.Name = "cigarettename";
-            this.cigarettename.ReadOnly = true;
-            // 
-            // orderqty
-            // 
-            this.orderqty.DataPropertyName = "quantity";
-            this.orderqty.HeaderText = "订货数量";
-            this.orderqty.Name = "orderqty";
-            this.orderqty.ReadOnly = true;
-            // 
-            // 排程数量
-            // 
-            this.排程数量.DataPropertyName = "pokenum";
-            this.排程数量.HeaderText = "排程数量";
-            this.排程数量.Name = "排程数量";
-            this.排程数量.ReadOnly = true;
             // 
             // btn_print
             // 
@@ -126,6 +91,41 @@
             this.panel1.Size = new System.Drawing.Size(1017, 43);
             this.panel1.TabIndex = 2;
             // 
+            // 车组号
+            // 
+            this.车组号.DataPropertyName = "regioncode";
+            this.车组号.HeaderText = "车组号";
+            this.车组号.Name = "车组号";
+            this.车组号.ReadOnly = true;
+            // 
+            // cigarettecode
+            // 
+            this.cigarettecode.DataPropertyName = "cigarettecode";
+            this.cigarettecode.HeaderText = "品牌代码";
+            this.cigarettecode.Name = "cigarettecode";
+            this.cigarettecode.ReadOnly = true;
+            // 
+            // cigarettename
+            // 
+            this.cigarettename.DataPropertyName = "cigarettename";
+            this.cigarettename.HeaderText = "品牌名称";
+            this.cigarettename.Name = "cigarettename";
+            this.cigarettename.ReadOnly = true;
+            // 
+            // orderqty
+            // 
+            this.orderqty.DataPropertyName = "QTY";
+            this.orderqty.HeaderText = "订货数量";
+            this.orderqty.Name = "orderqty";
+            this.orderqty.ReadOnly = true;
+            // 
+            // 排程数量
+            // 
+            this.排程数量.DataPropertyName = "pokenum";
+            this.排程数量.HeaderText = "排程数量";
+            this.排程数量.Name = "排程数量";
+            this.排程数量.ReadOnly = true;
+            // 
             // w_schedulereport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -144,13 +144,13 @@
         #endregion
 
         private System.Windows.Forms.DataGridView orderdata;
+        private System.Windows.Forms.Button btn_print;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridViewTextBoxColumn 车组号;
         private System.Windows.Forms.DataGridViewTextBoxColumn cigarettecode;
         private System.Windows.Forms.DataGridViewTextBoxColumn cigarettename;
         private System.Windows.Forms.DataGridViewTextBoxColumn orderqty;
         private System.Windows.Forms.DataGridViewTextBoxColumn 排程数量;
-        private System.Windows.Forms.Button btn_print;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Panel panel1;
     }
 }
