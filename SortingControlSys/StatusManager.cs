@@ -17,18 +17,32 @@ namespace SortingControlSys
         public StatusManager()
         {
             InitializeComponent();
+            try
+            {
+                pageNum = 1;
+                Pagers();
+            }
+            catch
+            {
+                WriteLog.GetLog().Write("状态修改异常");
+            }
+
             CmbState.SelectedIndex = 0;
             X = this.Width;//获取窗体的宽度
             Y = this.Height;//获取窗体的高度
             SetTag(this);//调用方法
+            this.WindowState = FormWindowState.Maximized;
         }
-
+        int count = 0;
+        int pageCount = 0;
+        int pageNum = 1;
+        List<TaskDetail> list = new List<TaskDetail>();
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-
             try
             {
-                Bind();
+                pageNum = 1;
+                Pagers();
             }
             catch
             {
@@ -88,13 +102,13 @@ namespace SortingControlSys
         }
         #endregion
 
-        void Bind() 
+        void Bind(List<TaskDetail> lists)
         {
-            int sortNum = 0;
-            bool a = int.TryParse(TxtSortNum.Text, out sortNum);
-            List<TaskDetail> list = UnPokeClass.GetDataAll(1, sortNum, TxtRegionCode.Text, TxtCusID.Text);
-            foreach (var item in list)
+            //DgvData.DataSource = null;
+            DgvData.Rows.Clear();
+            foreach (var item in lists)
             {
+
                 DataGridViewCellStyle dgvStyle = new DataGridViewCellStyle();
                 dgvStyle.BackColor = Color.LightGreen;
                 // 存了状态值  
@@ -104,31 +118,33 @@ namespace SortingControlSys
                 this.DgvData.Rows[index].Cells[1].Value = item.SortNum; //分拣任务号
 
                 this.DgvData.Rows[index].Cells[2].Value = item.RegionCode;//车组号
-                this.DgvData.Rows[index].Cells[3].Value = item.CusName;//客户名称
-                this.DgvData.Rows[index].Cells[4].Value = item.CigCode;//香烟编号
-                this.DgvData.Rows[index].Cells[5].Value = item.CigName;//香烟名称
-                //this.DgvData.Rows[index].Cells[8].Value = item.POKENUM;//抓烟数量
-                this.DgvData.Rows[index].Cells[6].Value = item.Status;//状态位
-                this.DgvData.Rows[index].Cells[7].Value = item.ThroughNum;//物理通道号
-                this.DgvData.Rows[index].Cells[8].Value = item.BillCode;//订单号
+                this.DgvData.Rows[index].Cells[3].Value = item.CusCode;//抓烟数量
+                this.DgvData.Rows[index].Cells[4].Value = item.CusName;//客户名称
+                this.DgvData.Rows[index].Cells[5].Value = item.CigCode;//香烟编号
+                this.DgvData.Rows[index].Cells[6].Value = item.CigName;//香烟名称
 
-                if (item.Status == 10)
+                this.DgvData.Rows[index].Cells[7].Value = item.Status;//状态位
+                this.DgvData.Rows[index].Cells[8].Value = item.ThroughNum;//物理通道号
+                this.DgvData.Rows[index].Cells[9].Value = item.BillCode;//订单号
+
+                switch ((int)item.Status)
                 {
-                    status = "新增";
+                    case 10:
+                        status = "新增";
+                        break;
+                    case 12:
+                        status = "已计算";
+                        break;
+                    case 15:
+                        status = "已发送";
+                        break;
+                    default:
+                        status = "完成";
+                        break;
                 }
-                else if (item.Status == 12)
-                {
-                    status = "已计算";
-                }
-                else if (item.Status == 15)
-                {
-                    status = "已发送";
-                }
-                else
-                {
-                    status = "完成";
-                }
-                this.DgvData.Rows[index].Cells[9].Value = status;//状态位
+
+
+
 
                 if (status == "完成")
                 {
@@ -183,7 +199,15 @@ namespace SortingControlSys
                 {
                     UnPokeClass.UpdateTask(start, end, status);
                     WriteLog.GetLog().Write("任务号从：" + txtStart + "任务号到：" + txtEnd + "，修改状态为：" + status + "，修改包装机为" + "，任务更新完成!");
-                    Bind();
+
+                    int sortNum = 0;
+                    bool a = int.TryParse(TxtSortNum.Text, out sortNum);
+
+                    list = UnPokeClass.GetDataAll(pageNum, out count, sortNum, TxtRegionCode.Text, TxtCusID.Text);
+                    lblCount.Text = "共" + count + "条记录";
+                    pageCount = (int)Math.Floor(count / 50.0);
+                    lblPageCount.Text = "共" + pageCount + "页";
+                    Bind(list);
                 }
                 else
                 {
@@ -193,5 +217,100 @@ namespace SortingControlSys
             }
         }
 
+        private void BtnFirst_Click(object sender, EventArgs e)
+        {
+            pageNum = 1;
+            Pagers();
+        }
+
+        private void BtnPre_Click(object sender, EventArgs e)
+        {
+
+            if (pageNum == 1)
+                MessageBox.Show("当前是第一页");
+            else
+            {
+                pageNum--;
+                Pagers();
+            }
+
+        }
+
+        private void BtnNext_Click(object sender, EventArgs e)
+        {
+
+            if (pageNum == pageCount)
+                MessageBox.Show("当前是最后一页");
+            else
+            {
+                pageNum++;
+                Pagers();
+            }
+        }
+
+        private void BtnEnd_Click(object sender, EventArgs e)
+        {
+            pageNum = pageCount;
+            Pagers();
+        }
+
+        private void TxtIndex_TextChanged(object sender, EventArgs e)
+        {
+            int pageIndex = 0;
+            if (int.TryParse(TxtIndex.Text, out pageIndex))
+            {
+                if (pageIndex >= pageCount)
+                {
+                    TxtIndex.Text = pageCount.ToString();
+                    pageNum = pageCount;
+                }
+                else
+                    pageNum = pageIndex;
+            }
+            else
+            {
+                TxtIndex.Text = "";
+            }
+        }
+
+        private void BtnJump_Click(object sender, EventArgs e)
+        {
+            Pagers();
+        }
+
+        void Pagers()
+        {
+            int sortNum = 0;
+            bool a = int.TryParse(TxtSortNum.Text, out sortNum);
+            list = new List<TaskDetail>();
+            list = UnPokeClass.GetDataAll(pageNum, out count, sortNum, TxtRegionCode.Text, TxtCusID.Text);
+            if (count == 0)
+            {
+                lblCount.Text = "共0条记录";
+                lblPageCount.Text = "共0页";
+                TxtIndex.Text = "";
+                BtnFirst.Enabled = false;
+                BtnEnd.Enabled = false;
+                BtnPre.Enabled = false;
+                BtnNext.Enabled = false;
+                BtnJump.Enabled = false;
+                TxtIndex.ReadOnly = true;
+            }
+            else
+            {
+                BtnFirst.Enabled = true;
+                BtnEnd.Enabled = true;
+                BtnPre.Enabled = true;
+                BtnNext.Enabled = true;
+                BtnJump.Enabled = true;
+                TxtIndex.ReadOnly = false;
+                lblCount.Text = "共" + count + "条记录";
+                pageCount = (int)Math.Ceiling(count / 50.0);
+                lblPageCount.Text = "共" + pageCount + "页";
+                TxtIndex.Text = pageNum.ToString();
+                Bind(list);
+            }
+
+        }
     }
 }

@@ -111,7 +111,7 @@ namespace Business.BusinessClass
             }
         }
 
-        public static List<TaskDetail> GetDataAll(int pageNum, int sortNum = 0, string regionCode = "0", string cusCode = "0")
+        public static List<TaskDetail> GetDataAll(int pageNum, out int sumCount, int sortNum = 0, string regionCode = "0", string cusCode = "0")
         {
             //ORA-00904: "Extent1"."CLEARTHRESHOLD": 标识符无效
 
@@ -142,7 +142,7 @@ namespace Business.BusinessClass
                 }
                 if (cusCode != "0" && cusCode != "")
                 {
-                    exCusCode = item => item.CusName.Contains(cusCode);
+                    exCusCode = item => item.CusCode.Contains(cusCode);
                 }
                 else
                 {
@@ -186,6 +186,24 @@ namespace Business.BusinessClass
                 //      CigName = through.CIGARETTENAME
                 //  })/*.OrderBy(item => item.SortNum).Skip(pageNum * 50).Take(50)*/.ToList();
                 #endregion
+
+                int count = (from poke in en.T_UN_POKE
+                             join task in en.T_UN_TASK on poke.TASKNUM equals task.TASKNUM
+                             join through in en.T_PRODUCE_SORTTROUGH on poke.TROUGHNUM equals through.TROUGHNUM
+                             select new TaskDetail
+                             {
+                                 SortSeq = task.SORTSEQ,
+                                 SortNum = poke.SORTNUM,
+                                 RegionCode = task.REGIONCODE,
+                                 CusName = task.CUSTOMERNAME,
+                                 CigCode = poke.CIGARETTECODE,
+                                 Status = poke.STATUS,
+                                 ThroughNum = poke.TROUGHNUM,
+                                 BillCode = task.BILLCODE,
+                                 CigName = through.CIGARETTENAME,
+                                 Num = poke.POKENUM ?? 0,
+                                 CusCode=poke.CUSTOMERCODE
+                             }).Where(exSortNum).Where(exCode).Where(exCusCode).OrderBy(item => item.SortNum).Count();
                 var data = (from poke in en.T_UN_POKE
                             join task in en.T_UN_TASK on poke.TASKNUM equals task.TASKNUM
                             join through in en.T_PRODUCE_SORTTROUGH on poke.TROUGHNUM equals through.TROUGHNUM
@@ -200,8 +218,9 @@ namespace Business.BusinessClass
                                 ThroughNum = poke.TROUGHNUM,
                                 BillCode = task.BILLCODE,
                                 CigName = through.CIGARETTENAME,
-                                Num = poke.POKENUM??0
-                            }).Where(exSortNum).Where(exCode).Where(exCusCode).OrderBy(item => item.SortNum).Skip(pageNum * 50).Take(50).ToList();
+                                Num = poke.POKENUM ?? 0
+                            }).Where(exSortNum).Where(exCode).Where(exCusCode).OrderBy(item => item.SortNum).OrderBy(item=>item.SortSeq).Skip((pageNum - 1) * 50).Take(50).ToList();
+                sumCount = count;
                 return data;
             }
         }
@@ -266,7 +285,7 @@ namespace Business.BusinessClass
                 {
                     foreach (var item in query)
                     {
-                        item.Rate = Math.Round((item.FinishCount / item.Count), 2) + "%";
+                        item.Rate = Math.Round((item.FinishCount / item.Count), 2).ToString("P"); /*+ "%"*/;
                     }
                 }
                 return query;

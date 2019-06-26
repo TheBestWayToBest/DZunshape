@@ -126,35 +126,35 @@
             // TSM_OrderReceive
             // 
             this.TSM_OrderReceive.Name = "TSM_OrderReceive";
-            this.TSM_OrderReceive.Size = new System.Drawing.Size(152, 22);
+            this.TSM_OrderReceive.Size = new System.Drawing.Size(124, 22);
             this.TSM_OrderReceive.Text = "订单接收";
             this.TSM_OrderReceive.Click += new System.EventHandler(this.TSM_OrderReceive_Click);
             // 
             // 预排程ToolStripMenuItem
             // 
             this.预排程ToolStripMenuItem.Name = "预排程ToolStripMenuItem";
-            this.预排程ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.预排程ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.预排程ToolStripMenuItem.Text = "预排程";
             this.预排程ToolStripMenuItem.Click += new System.EventHandler(this.预排程ToolStripMenuItem_Click);
             // 
             // 任务排程ToolStripMenuItem1
             // 
             this.任务排程ToolStripMenuItem1.Name = "任务排程ToolStripMenuItem1";
-            this.任务排程ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.任务排程ToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
             this.任务排程ToolStripMenuItem1.Text = "任务排程";
             this.任务排程ToolStripMenuItem1.Click += new System.EventHandler(this.任务排程ToolStripMenuItem1_Click);
             // 
             // 任务导出ToolStripMenuItem
             // 
             this.任务导出ToolStripMenuItem.Name = "任务导出ToolStripMenuItem";
-            this.任务导出ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.任务导出ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.任务导出ToolStripMenuItem.Text = "任务导出";
             this.任务导出ToolStripMenuItem.Click += new System.EventHandler(this.任务导出ToolStripMenuItem_Click);
             // 
             // 分拣进度ToolStripMenuItem
             // 
             this.分拣进度ToolStripMenuItem.Name = "分拣进度ToolStripMenuItem";
-            this.分拣进度ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.分拣进度ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.分拣进度ToolStripMenuItem.Text = "分拣进度";
             this.分拣进度ToolStripMenuItem.Click += new System.EventHandler(this.分拣进度ToolStripMenuItem_Click);
             // 

@@ -12,19 +12,26 @@ namespace Business.Modle
         public decimal MachineSeq { get; set; }
         public string CigaretteCode { get; set; }
         public string CigaretteName { get; set; }
+
+        string _state;
         public string State
         {
-            get { return State; }
+            get
+            {
+                return _state;
+            }
             set
             {
                 if (value == "10")
-                    State = "正常";
+                    _state = "正常";
+                else if (value == "0")
+                    _state = "禁用";
                 else
-                    State = "禁用";
+                    _state = "";
             }
         }
        
-        public string ThroughType { get; set; }
-        public string CigeretteType { get; set; }
+        public decimal ThroughType { get; set; }
+        public decimal CigaretteType { get; set; }
     }
 }

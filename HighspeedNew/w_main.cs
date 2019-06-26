@@ -95,7 +95,7 @@ namespace HighSpeed
 
         private void 分拣通道管理ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            win_trough frm = new win_trough();
+            w_Through frm = new w_Through();
             if (CheckExist(frm) == true)
             {
                 frm.Dispose();

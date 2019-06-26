@@ -47,5 +47,7 @@ namespace Business.Modle
         /// 抓烟数量
         /// </summary>
         public decimal Num { get; set; }
+
+        public string CusCode { get; set; }
     }
 }

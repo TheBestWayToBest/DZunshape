@@ -13,6 +13,8 @@ namespace HighspeedNew.OrderHandle
 {
     public partial class w_Through : Form
     {
+        public string sign;
+        public string amend_id;
         public w_Through()
         {
             InitializeComponent();
@@ -82,12 +84,17 @@ namespace HighspeedNew.OrderHandle
             int count = this.troughdata.SelectedRows.Count;
             if (count > 0) 
             {
+                if (troughdata.CurrentRow.Cells["State"].Value.ToString() == "正常") 
+                {
+                    MessageBox.Show("该通道已是启用状态");
+                    return;
+                }
                 ThroughInfo info = new ThroughInfo();
                 info.ID = (decimal)this.troughdata.SelectedRows[0].Cells["ID"].Value;
                 //string desc = this.troughdata.SelectedRows[0].Cells[9].Value.ToString();
                 info.CigaretteCode = this.troughdata.SelectedRows[0].Cells["CigaretteCode"].Value.ToString();
-                info.CigeretteType = this.troughdata.CurrentRow.Cells["CigeretteType"].Value + "";
-                info.ThroughType = this.troughdata.CurrentRow.Cells["ThroughType"].Value + "";
+                info.CigaretteType = decimal.Parse(this.troughdata.CurrentRow.Cells["CigaretteType"].Value + "");
+                info.ThroughType = decimal.Parse(this.troughdata.CurrentRow.Cells["ThroughType"].Value + "");
                 info.MachineSeq = (decimal)this.troughdata.SelectedRows[0].Cells["MachineSeq"].Value;
                 info.ThroughNum = this.troughdata.SelectedRows[0].Cells["ThroughNum"].Value.ToString();
                 DialogResult MsgBoxResult = MessageBox.Show("确定启用【设备号：" + info.MachineSeq + "/通道号：" + info.ThroughNum + "】通道吗？",//对话框的显示内容 
@@ -97,7 +104,7 @@ namespace HighspeedNew.OrderHandle
                                                             MessageBoxDefaultButton.Button2);//定义对话框的按钮式样
                 if (MsgBoxResult == DialogResult.Yes)
                 {
-                    if (info.ThroughType == "10" || info.ThroughType == "20")
+                    if (info.ThroughType == 10 || info.ThroughType == 20)
                     {
                         if (info.CigaretteCode == null || info.CigaretteCode == "")
                         {
@@ -136,8 +143,8 @@ namespace HighspeedNew.OrderHandle
                 info.ID = (decimal)this.troughdata.SelectedRows[0].Cells["ID"].Value;
                 //string desc = this.troughdata.SelectedRows[0].Cells[9].Value.ToString();
                 info.CigaretteCode = this.troughdata.SelectedRows[0].Cells["CigaretteCode"].Value.ToString();
-                info.CigeretteType = this.troughdata.CurrentRow.Cells["CigeretteType"].Value + "";
-                info.ThroughType = this.troughdata.CurrentRow.Cells["ThroughType"].Value + "";
+                info.CigaretteType = decimal.Parse(this.troughdata.CurrentRow.Cells["CigeretteType"].Value + "");
+                info.ThroughType = decimal.Parse(this.troughdata.CurrentRow.Cells["ThroughType"].Value + "");
                 info.MachineSeq = (decimal)this.troughdata.SelectedRows[0].Cells["MachineSeq"].Value;
                 info.ThroughNum = this.troughdata.SelectedRows[0].Cells["ThroughNum"].Value.ToString();
                 DialogResult MsgBoxResult = MessageBox.Show("确定禁用【设备号：" + info.MachineSeq + "/通道号：" + info.ThroughNum + "】通道吗？",//对话框的显示内容 
@@ -165,6 +172,74 @@ namespace HighspeedNew.OrderHandle
             else
             {
                 MessageBox.Show("请点击选择您要禁用的分拣通道!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            w_Through_Handle trough_handle = new w_Through_Handle("0", "0", "30", "10");
+            trough_handle.WindowState = FormWindowState.Normal;
+            trough_handle.StartPosition = FormStartPosition.CenterScreen;
+            trough_handle.ShowDialog();
+        }
+
+        private void btn_amend_Click(object sender, EventArgs e)
+        {
+            int count = this.troughdata.SelectedRows.Count;
+            if (count > 0)
+            {
+
+                String type = this.troughdata.CurrentRow.Cells["ThroughType"].Value + "";
+                if (type.Equals("30") || type.Equals("40"))
+                {
+                    return;
+                }
+
+                amend_id = this.troughdata.SelectedRows[0].Cells["id"].Value.ToString();
+                sign = "1";
+                String cigarettetype = this.troughdata.CurrentRow.Cells["cigarettetype"].Value + "";
+
+                String type1 = this.troughdata.CurrentRow.Cells["ThroughType"].Value + "";
+
+                w_Through_Handle trough_handle = new w_Through_Handle(sign, amend_id, cigarettetype, type1);
+                trough_handle.WindowState = FormWindowState.Normal;
+                trough_handle.StartPosition = FormStartPosition.CenterScreen;
+                trough_handle.ShowDialog();
+                Bind();
+            }
+            else
+            {
+                MessageBox.Show("请点击选择您要修改的设备通道!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+        
+        private void troughdata_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex > -1)
+            {
+                String status = this.troughdata.CurrentRow.Cells["state"].Value + "";
+                String type = this.troughdata.CurrentRow.Cells["type"].Value + "";
+                String cigarettetype = this.troughdata.CurrentRow.Cells["ctype"].Value + "";
+                //String groupno = this.troughdata.CurrentRow.Cells["groupno"].Value + "";
+                //MessageBox.Show("===" + troughdata.RowCount);
+                if (status == "10")
+                {
+                    this.btn_qy.Enabled = false;
+                    this.btn_jy.Enabled = true;
+                }
+                else
+                {
+                    this.btn_qy.Enabled = true;
+                    this.btn_jy.Enabled = false;
+                }
+                if (type == "20" || type == "30" || type == "40")//|| (type == "10" && cigarettetype != "20" && groupno == "3")  //移除三线烟仓（原异型烟烟柜）无法修改问题
+                {
+                    this.btn_amend.Enabled = false;
+                }
+                else
+                {
+                    this.btn_amend.Enabled = true;
+                }
             }
         }
     }

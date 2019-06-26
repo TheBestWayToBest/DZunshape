@@ -30,10 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.button4 = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnsyncData = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.btn_toexcel = new System.Windows.Forms.Button();
@@ -47,28 +43,21 @@
             this.label2 = new System.Windows.Forms.Label();
             this.dgVprint1 = new VBprinter.DGVprint(this.components);
             this.troughdata = new System.Windows.Forms.DataGridView();
-            this.num = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.troughnum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.machineseq = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cigarettecode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cigarettename = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cigarettetype = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.通道类型 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ThroughType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.state = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ctype = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.groupno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.troughdata)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.button4);
-            this.panel1.Controls.Add(this.groupBox1);
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.btn_toexcel);
@@ -80,49 +69,10 @@
             this.panel1.Controls.Add(this.txt_keywd);
             this.panel1.Controls.Add(this.box_condition);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1252, 88);
             this.panel1.TabIndex = 2;
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(998, 55);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(102, 23);
-            this.button4.TabIndex = 18;
-            this.button4.Text = "重新排序混合道";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.btnsyncData);
-            this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Location = new System.Drawing.Point(1106, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(143, 65);
-            this.groupBox1.TabIndex = 2;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "同步与互换";
-            // 
-            // btnsyncData
-            // 
-            this.btnsyncData.Location = new System.Drawing.Point(15, 25);
-            this.btnsyncData.Name = "btnsyncData";
-            this.btnsyncData.Size = new System.Drawing.Size(48, 23);
-            this.btnsyncData.TabIndex = 18;
-            this.btnsyncData.Text = "烟柜";
-            this.btnsyncData.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(86, 25);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(48, 23);
-            this.button3.TabIndex = 19;
-            this.button3.Text = "烟仓";
-            this.button3.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
@@ -133,6 +83,7 @@
             this.button2.TabIndex = 15;
             this.button2.Text = "增加";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button1
             // 
@@ -169,6 +120,7 @@
             this.btn_amend.TabIndex = 8;
             this.btn_amend.Text = "修改";
             this.btn_amend.UseVisualStyleBackColor = true;
+            this.btn_amend.Click += new System.EventHandler(this.btn_amend_Click);
             // 
             // btn_qy
             // 
@@ -352,22 +304,19 @@
             this.troughdata.AllowUserToAddRows = false;
             this.troughdata.AllowUserToDeleteRows = false;
             this.troughdata.AllowUserToOrderColumns = true;
+            this.troughdata.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.troughdata.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.troughdata.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.troughdata.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.num,
             this.troughnum,
             this.machineseq,
             this.cigarettecode,
             this.cigarettename,
             this.cigarettetype,
-            this.通道类型,
-            this.status,
-            this.state,
-            this.type,
-            this.ctype,
-            this.id,
-            this.groupno});
+            this.ThroughType,
+            this.status});
             this.troughdata.Location = new System.Drawing.Point(0, 94);
             this.troughdata.MultiSelect = false;
             this.troughdata.Name = "troughdata";
@@ -377,24 +326,12 @@
             this.troughdata.Size = new System.Drawing.Size(1252, 464);
             this.troughdata.TabIndex = 1;
             // 
-            // num
-            // 
-            this.num.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.num.DataPropertyName = "ID";
-            this.num.HeaderText = "序号";
-            this.num.Name = "num";
-            this.num.ReadOnly = true;
-            this.num.Visible = false;
-            this.num.Width = 54;
-            // 
             // troughnum
             // 
-            this.troughnum.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
             this.troughnum.DataPropertyName = "ThroughNum";
             this.troughnum.HeaderText = "烟道编号";
             this.troughnum.Name = "troughnum";
             this.troughnum.ReadOnly = true;
-            this.troughnum.Width = 78;
             // 
             // machineseq
             // 
@@ -412,12 +349,10 @@
             // 
             // cigarettename
             // 
-            this.cigarettename.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.cigarettename.DataPropertyName = "CigaretteName";
             this.cigarettename.HeaderText = "品牌名称";
             this.cigarettename.Name = "cigarettename";
             this.cigarettename.ReadOnly = true;
-            this.cigarettename.Width = 78;
             // 
             // cigarettetype
             // 
@@ -426,61 +361,19 @@
             this.cigarettetype.Name = "cigarettetype";
             this.cigarettetype.ReadOnly = true;
             // 
-            // 通道类型
+            // ThroughType
             // 
-            this.通道类型.DataPropertyName = "ThroughType";
-            this.通道类型.HeaderText = "通道类型";
-            this.通道类型.Name = "通道类型";
-            this.通道类型.ReadOnly = true;
+            this.ThroughType.DataPropertyName = "ThroughType";
+            this.ThroughType.HeaderText = "通道类型";
+            this.ThroughType.Name = "ThroughType";
+            this.ThroughType.ReadOnly = true;
             // 
             // status
             // 
-            this.status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
             this.status.DataPropertyName = "State";
             this.status.HeaderText = "使用状态";
             this.status.Name = "status";
             this.status.ReadOnly = true;
-            this.status.Width = 78;
-            // 
-            // state
-            // 
-            this.state.DataPropertyName = "state";
-            this.state.HeaderText = "state";
-            this.state.Name = "state";
-            this.state.ReadOnly = true;
-            this.state.Visible = false;
-            // 
-            // type
-            // 
-            this.type.DataPropertyName = "type";
-            this.type.HeaderText = "type";
-            this.type.Name = "type";
-            this.type.ReadOnly = true;
-            this.type.Visible = false;
-            // 
-            // ctype
-            // 
-            this.ctype.DataPropertyName = "ctype";
-            this.ctype.HeaderText = "ctype";
-            this.ctype.Name = "ctype";
-            this.ctype.ReadOnly = true;
-            this.ctype.Visible = false;
-            // 
-            // id
-            // 
-            this.id.DataPropertyName = "id";
-            this.id.HeaderText = "id";
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
-            this.id.Visible = false;
-            // 
-            // groupno
-            // 
-            this.groupno.DataPropertyName = "groupno";
-            this.groupno.HeaderText = "groupno";
-            this.groupno.Name = "groupno";
-            this.groupno.ReadOnly = true;
-            this.groupno.Visible = false;
             // 
             // w_Through
             // 
@@ -493,7 +386,6 @@
             this.Text = "w_Through";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.troughdata)).EndInit();
             this.ResumeLayout(false);
 
@@ -502,10 +394,6 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button btnsyncData;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btn_toexcel;
@@ -519,18 +407,12 @@
         private System.Windows.Forms.Label label2;
         private VBprinter.DGVprint dgVprint1;
         private System.Windows.Forms.DataGridView troughdata;
-        private System.Windows.Forms.DataGridViewTextBoxColumn num;
         private System.Windows.Forms.DataGridViewTextBoxColumn troughnum;
         private System.Windows.Forms.DataGridViewTextBoxColumn machineseq;
         private System.Windows.Forms.DataGridViewTextBoxColumn cigarettecode;
         private System.Windows.Forms.DataGridViewTextBoxColumn cigarettename;
         private System.Windows.Forms.DataGridViewTextBoxColumn cigarettetype;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 通道类型;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ThroughType;
         private System.Windows.Forms.DataGridViewTextBoxColumn status;
-        private System.Windows.Forms.DataGridViewTextBoxColumn state;
-        private System.Windows.Forms.DataGridViewTextBoxColumn type;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ctype;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn groupno;
     }
 }

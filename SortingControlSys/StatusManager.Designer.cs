@@ -60,6 +60,12 @@
             this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.TxtIndex = new System.Windows.Forms.TextBox();
+            this.BtnJump = new System.Windows.Forms.Button();
+            this.lblPageCount = new System.Windows.Forms.Label();
+            this.lblCount = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -225,6 +231,12 @@
             // groupBox3
             // 
             this.groupBox3.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.groupBox3.Controls.Add(this.lblCount);
+            this.groupBox3.Controls.Add(this.lblPageCount);
+            this.groupBox3.Controls.Add(this.BtnJump);
+            this.groupBox3.Controls.Add(this.TxtIndex);
+            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.BtnEnd);
             this.groupBox3.Controls.Add(this.BtnFirst);
             this.groupBox3.Controls.Add(this.BtnPre);
@@ -239,39 +251,43 @@
             // 
             // BtnEnd
             // 
-            this.BtnEnd.Location = new System.Drawing.Point(1042, 548);
+            this.BtnEnd.Location = new System.Drawing.Point(843, 550);
             this.BtnEnd.Name = "BtnEnd";
             this.BtnEnd.Size = new System.Drawing.Size(75, 23);
             this.BtnEnd.TabIndex = 4;
             this.BtnEnd.Text = "尾页";
             this.BtnEnd.UseVisualStyleBackColor = true;
+            this.BtnEnd.Click += new System.EventHandler(this.BtnEnd_Click);
             // 
             // BtnFirst
             // 
-            this.BtnFirst.Location = new System.Drawing.Point(552, 548);
+            this.BtnFirst.Location = new System.Drawing.Point(353, 550);
             this.BtnFirst.Name = "BtnFirst";
             this.BtnFirst.Size = new System.Drawing.Size(75, 23);
             this.BtnFirst.TabIndex = 3;
             this.BtnFirst.Text = "首页";
             this.BtnFirst.UseVisualStyleBackColor = true;
+            this.BtnFirst.Click += new System.EventHandler(this.BtnFirst_Click);
             // 
             // BtnPre
             // 
-            this.BtnPre.Location = new System.Drawing.Point(640, 548);
+            this.BtnPre.Location = new System.Drawing.Point(441, 550);
             this.BtnPre.Name = "BtnPre";
             this.BtnPre.Size = new System.Drawing.Size(75, 23);
             this.BtnPre.TabIndex = 2;
             this.BtnPre.Text = "上一页";
             this.BtnPre.UseVisualStyleBackColor = true;
+            this.BtnPre.Click += new System.EventHandler(this.BtnPre_Click);
             // 
             // BtnNext
             // 
-            this.BtnNext.Location = new System.Drawing.Point(949, 548);
+            this.BtnNext.Location = new System.Drawing.Point(750, 550);
             this.BtnNext.Name = "BtnNext";
             this.BtnNext.Size = new System.Drawing.Size(75, 23);
             this.BtnNext.TabIndex = 1;
             this.BtnNext.Text = "下一页";
             this.BtnNext.UseVisualStyleBackColor = true;
+            this.BtnNext.Click += new System.EventHandler(this.BtnNext_Click);
             // 
             // DgvData
             // 
@@ -355,6 +371,60 @@
             this.Column9.Name = "Column9";
             this.Column9.ReadOnly = true;
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(542, 555);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(17, 12);
+            this.label7.TabIndex = 5;
+            this.label7.Text = "第";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(614, 555);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(17, 12);
+            this.label8.TabIndex = 6;
+            this.label8.Text = "页";
+            // 
+            // TxtIndex
+            // 
+            this.TxtIndex.Location = new System.Drawing.Point(565, 552);
+            this.TxtIndex.Name = "TxtIndex";
+            this.TxtIndex.Size = new System.Drawing.Size(40, 21);
+            this.TxtIndex.TabIndex = 7;
+            this.TxtIndex.TextChanged += new System.EventHandler(this.TxtIndex_TextChanged);
+            // 
+            // BtnJump
+            // 
+            this.BtnJump.Location = new System.Drawing.Point(648, 550);
+            this.BtnJump.Name = "BtnJump";
+            this.BtnJump.Size = new System.Drawing.Size(75, 23);
+            this.BtnJump.TabIndex = 8;
+            this.BtnJump.Text = "跳转";
+            this.BtnJump.UseVisualStyleBackColor = true;
+            this.BtnJump.Click += new System.EventHandler(this.BtnJump_Click);
+            // 
+            // lblPageCount
+            // 
+            this.lblPageCount.AutoSize = true;
+            this.lblPageCount.Location = new System.Drawing.Point(933, 555);
+            this.lblPageCount.Name = "lblPageCount";
+            this.lblPageCount.Size = new System.Drawing.Size(53, 12);
+            this.lblPageCount.TabIndex = 9;
+            this.lblPageCount.Text = "共0000页";
+            // 
+            // lblCount
+            // 
+            this.lblCount.AutoSize = true;
+            this.lblCount.Location = new System.Drawing.Point(1010, 555);
+            this.lblCount.Name = "lblCount";
+            this.lblCount.Size = new System.Drawing.Size(89, 12);
+            this.lblCount.TabIndex = 10;
+            this.lblCount.Text = "共000000条记录";
+            // 
             // StatusManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -373,6 +443,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvData)).EndInit();
             this.ResumeLayout(false);
 
@@ -411,6 +482,12 @@
         private System.Windows.Forms.Button BtnFirst;
         private System.Windows.Forms.Button BtnPre;
         private System.Windows.Forms.Button BtnNext;
+        private System.Windows.Forms.Label lblCount;
+        private System.Windows.Forms.Label lblPageCount;
+        private System.Windows.Forms.Button BtnJump;
+        private System.Windows.Forms.TextBox TxtIndex;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
 
     }
 }

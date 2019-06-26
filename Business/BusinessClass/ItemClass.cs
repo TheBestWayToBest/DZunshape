@@ -79,5 +79,60 @@ namespace Business.BusinessClass
                 return list;
             }
         }
+
+
+        public static List<ItemInfo> GetCig(int index,string condition) 
+        {
+            using (DZEntities en = new DZEntities()) 
+            {
+                List<ItemInfo> list = new List<ItemInfo>();
+                if (condition == "")
+                {
+                    list = en.T_WMS_ITEM.Where(item => true).Select(item => new ItemInfo
+                    {
+                        ItemNo = item.ITEMNO,
+                        ItemName = item.ITEMNAME,
+                        BigBox_Bar = item.SHORTNAME,
+                        ILength = 0,
+                        IWidth = 0,
+                        JT_Size = 0,
+                        RowStatus = 0,
+                        Shiptype = ""
+                    }).ToList();
+                }
+                else 
+                {
+                    if (index == 0)
+                    {
+                        list = en.T_WMS_ITEM.Where(item => item.ITEMNO.Contains(condition)).Select(item => new ItemInfo
+                        {
+                            ItemNo = item.ITEMNO,
+                            ItemName = item.ITEMNAME,
+                            BigBox_Bar = item.SHORTNAME,
+                            ILength = 0,
+                            IWidth = 0,
+                            JT_Size = 0,
+                            RowStatus = 0,
+                            Shiptype = ""
+                        }).ToList();
+                    }
+                    else 
+                    {
+                        list = en.T_WMS_ITEM.Where(item => item.ITEMNAME.Contains(condition)).Select(item => new ItemInfo
+                        {
+                            ItemNo = item.ITEMNO,
+                            ItemName = item.ITEMNAME,
+                            BigBox_Bar = item.SHORTNAME,
+                            ILength = 0,
+                            IWidth = 0,
+                            JT_Size = 0,
+                            RowStatus = 0,
+                            Shiptype = ""
+                        }).ToList();
+                    }
+                }
+                return list;
+            }
+        }
     }
 }

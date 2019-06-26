@@ -289,11 +289,11 @@ namespace SortingControlSys
                         this.task_data.Rows[index].Cells[5].Value = row.REGIONCODE;//线路名称 
                         this.task_data.Rows[index].Cells[6].Value = row.FinishCount + "/" + row.Count;
                         this.task_data.Rows[index].Cells[7].Value = row.FinishQTY + "/" + row.QTY;
-                        this.task_data.Rows[index].Cells[9].Value = row.Rate;
+                        this.task_data.Rows[index].Cells[8].Value = row.Rate;
 
-                        if (row.Rate == "100%")
+                        if (row.Rate == "100.00%")
                         {
-                            this.task_data.Rows[index].Cells[9].Style = dgvStyle;
+                            this.task_data.Rows[index].Cells[8].Style = dgvStyle;
                         }
 
                     }
