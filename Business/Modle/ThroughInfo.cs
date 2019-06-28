@@ -33,5 +33,8 @@ namespace Business.Modle
        
         public decimal ThroughType { get; set; }
         public decimal CigaretteType { get; set; }
+        public decimal ActCount { get; set; }
+        public string SecThroughnum { get; set; }
+        public decimal SecMachineSeq { get; set; }
     }
 }
