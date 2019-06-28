@@ -506,32 +506,52 @@ namespace Business.BusinessClass
                 //普通双通
                 //var normal_two = (from trough in en.T_PRODUCE_SORTTROUGH where  select trough).ToList();
                 //六通道双通
-                var trough1 = (from trough in en.T_PRODUCE_SORTTROUGH
-                               where trough.STATE == "10" && trough.GROUPNO == 3
-                               select trough).ToList();
-                var trough2 = (from trough in en.T_PRODUCE_SORTTROUGH
-                               where trough.STATE == "10" && trough.GROUPNO == 2
-                               select trough).ToList();
-                var special_two = (from special in trough1
-                                   join normal in trough2 on special.CIGARETTECODE equals normal.CIGARETTECODE
-                                       into tmp
-                                   from last in tmp.DefaultIfEmpty()
-                                   select new { x = special, y = last });
+                //var trough1 = (from trough in en.T_PRODUCE_SORTTROUGH
+                //               where trough.STATE == "10" && trough.GROUPNO == 3 
+                //               select trough).ToList();
+                //var trough2 = (from trough in en.T_PRODUCE_SORTTROUGH
+                //               where trough.STATE == "10" && trough.GROUPNO == 2
+                //               select trough).ToList();
+                //var special_two = (from special in trough1
+                //                   join normal in trough2 on special.CIGARETTECODE equals normal.CIGARETTECODE
+                //                       into tmp
+                //                   from last in tmp.DefaultIfEmpty()
+                //                   select new { x = special, y = last });
+                var special_two = (from trough in en.T_PRODUCE_SORTTROUGH
+                                   where trough.STATE == "10" && trough.GROUPNO == 3 && trough.ACTCOUNT == 2
+                                   orderby trough.CIGARETTECODE select trough).ToList();
                 Dictionary<string, ThroughInfo> special_dic = new Dictionary<string, ThroughInfo>();
                 if (special_two.Any())
                 {
                     foreach (var item in special_two)
                     {
+                        //两个卧式
+                        string cigcode = item.CIGARETTECODE;
                         ThroughInfo through = new ThroughInfo();
-                        through.CigaretteCode = item.x.CIGARETTECODE;
-                        through.ActCount = item.x.ACTCOUNT ?? 0;
-                        through.ThroughNum = item.x.TROUGHNUM;
-                        var obj = item.y;
-                        if (through.ActCount == 2 && obj != null)
+                        if (special_dic.ContainsKey(cigcode))
                         {
-                            through.SecThroughnum = item.y.TROUGHNUM;
+                            through = special_dic[cigcode];
+                            through.SecThroughnum = item.TROUGHNUM;
                         }
-                        special_dic.Add(through.CigaretteCode, through);
+                        else
+                        {
+                            through.CigaretteCode = item.CIGARETTECODE;
+                            through.ActCount = item.ACTCOUNT ?? 0;
+                            through.ThroughNum = item.TROUGHNUM;
+                            special_dic.Add(through.CigaretteCode, through);
+                        }
+                        
+                        //卧式带立式 (5+1)
+                        //ThroughInfo through = new ThroughInfo();
+                        //through.CigaretteCode = item.x.CIGARETTECODE;
+                        //through.ActCount = item.x.ACTCOUNT ?? 0;
+                        //through.ThroughNum = item.x.TROUGHNUM;
+                        //var obj = item.y;
+                        //if (through.ActCount == 2 && obj != null)
+                        //{
+                        //    through.SecThroughnum = item.y.TROUGHNUM;
+                        //}
+                        //special_dic.Add(through.CigaretteCode, through);
                     }
                 }
                 var t_un_taskUnionTaskline = (from item in en.T_UN_TASK
@@ -564,35 +584,44 @@ namespace Business.BusinessClass
                 decimal pokeId = GetMaxPokeId(en).Content;//获取最大POKEID
                 if (t_un_taskUnionTaskline.Any())
                 {
+                    ThroughInfo through=new ThroughInfo();
                     foreach (var item in t_un_taskUnionTaskline)
                     {
                         decimal quantity = item.Quantity ?? 0;
-                        decimal len = quantity;
+                        decimal qty = quantity;
                         //是否是双通道的烟 均分
                         if (special_dic.ContainsKey(item.CigCode))
                         {
+                            through=special_dic[item.CigCode];
+                            if (through.ThroughNum == item.TroughNum)
+                            {
+                                qty = Math.Ceiling(quantity / 2);
+                            }
+                            else {
+                                qty = Math.Floor(quantity / 2);
+                            }
                             //判断是五拨还是单拨
                             //五拨和单拨都有
-                            if (item.ActCount == 2)
-                            {
-                                if (item.GroupNo == 3) len = Math.Ceiling(quantity / 2);
-                                else len = Math.Floor(quantity / 2);
-                                //len =  quantity - quantity % 5;
+                            //if (item.ActCount == 2)
+                            //{
+                            //    if (item.GroupNo == 3) len = Math.Ceiling(quantity / 2);
+                            //    else len = Math.Floor(quantity / 2);
+                            //    //len =  quantity - quantity % 5;
 
-                            }
-                            //只有五拨
-                            else
-                            {
-                                //len = quantity % 5;
-                                len = quantity;
-                            }
+                            //}
+                            ////只有五拨
+                            //else
+                            //{
+                            //    //len = quantity % 5;
+                            //    len = quantity;
+                            //}
                         }
-                        for (int i = 1; i <= len; i++)//根据条烟数量拆分成单条数据
-                        {
+                        //for (int i = 1; i <= len; i++)//根据条烟数量拆分成单条数据
+                        if(qty>0){
                             T_UN_POKE t_un_poke = new T_UN_POKE();
                             t_un_poke.POKEID = pokeId++;
                             t_un_poke.TROUGHNUM = item.TroughNum;
-                            t_un_poke.POKENUM = 1;
+                            t_un_poke.POKENUM = qty;
                             t_un_poke.STATUS = item.Status;
                             t_un_poke.TASKNUM = item.TaskNum;
                             t_un_poke.TASKQTY = item.TaskQty;
