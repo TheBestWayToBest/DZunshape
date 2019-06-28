@@ -29,7 +29,10 @@ namespace Business.BusinessClass
             using (DZEntities en = new DZEntities())
             {
                 List<T_UN_POKE> list = new List<T_UN_POKE>();
-                var query = en.T_UN_POKE.Where(item => item.LINENUM == linenum && item.STATUS == status).OrderBy(item => item.SORTNUM).OrderBy(item => item.SENDTASKNUM).FirstOrDefault();
+                
+                decimal ts = en.T_PRODUCE_SORTTROUGH.Where(item => item.GROUPNO == 1 && item.CIGARETTETYPE == 40).Select(item => item.MACHINESEQ ?? 0).FirstOrDefault();
+                
+                var query = en.T_UN_POKE.Where(item => item.LINENUM == linenum).OrderBy(item => item.SORTNUM).OrderBy(item => item.SENDTASKNUM).FirstOrDefault();
                 if (query == null)
                 {
                     outStr = null;
@@ -44,9 +47,12 @@ namespace Business.BusinessClass
                 decimal machineseq = 0;
                 foreach (var item in list.GroupBy(item => item.MACHINESEQ).Select(item => new { MACHINESEQ = item.Key, QTY = item.Sum(x => x.POKENUM) }).ToList())
                 {
-                    machineseq = (item.MACHINESEQ ?? 0) - 1000;
-                    values[(int)machineseq + 1] = item.QTY;
-                    sb.AppendLine(linenum + "线 " + machineseq + " 号烟仓，出烟数量：" + item.QTY);
+                    if (machineseq != ts) 
+                    {
+                        machineseq = (item.MACHINESEQ ?? 0) - 1000;
+                        values[(int)machineseq + 1] = item.QTY;
+                        sb.AppendLine(linenum + "线 " + machineseq + " 号烟仓，出烟数量：" + item.QTY);
+                    }
                 }
                 values[98] = list.Sum(item => item.POKENUM);
                 values[99] = 0;
@@ -202,7 +208,7 @@ namespace Business.BusinessClass
                                  BillCode = task.BILLCODE,
                                  CigName = through.CIGARETTENAME,
                                  Num = poke.POKENUM ?? 0,
-                                 CusCode=poke.CUSTOMERCODE
+                                 CusCode = poke.CUSTOMERCODE
                              }).Where(exSortNum).Where(exCode).Where(exCusCode).OrderBy(item => item.SortNum).Count();
                 var data = (from poke in en.T_UN_POKE
                             join task in en.T_UN_TASK on poke.TASKNUM equals task.TASKNUM
@@ -218,8 +224,9 @@ namespace Business.BusinessClass
                                 ThroughNum = poke.TROUGHNUM,
                                 BillCode = task.BILLCODE,
                                 CigName = through.CIGARETTENAME,
-                                Num = poke.POKENUM ?? 0
-                            }).Where(exSortNum).Where(exCode).Where(exCusCode).OrderBy(item => item.SortNum).OrderBy(item=>item.SortSeq).Skip((pageNum - 1) * 50).Take(50).ToList();
+                                Num = poke.POKENUM ?? 0,
+                                CusCode = poke.CUSTOMERCODE
+                            }).Where(exSortNum).Where(exCode).Where(exCusCode).OrderBy(item => item.SortNum).OrderBy(item => item.SortSeq).Skip((pageNum - 1) * 50).Take(50).ToList();
                 sumCount = count;
                 return data;
             }

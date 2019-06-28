@@ -11,9 +11,9 @@ namespace Business.BusinessClass
         //"with lst as (SELECT routecode,SUM(totalqty)as order_qty,count(1) as count_hs FROM t_wms_shiporder " +
         //"WHERE   orderdate=to_date('" + time + "','yyyy-mm-dd') GROUP BY routecode) select rownum,lst.* from lst";
 
-        public static List<OrderData> GetOrderByDate(DateTime date) 
+        public static List<OrderData> GetOrderByDate(DateTime date)
         {
-            using (DZEntities en = new DZEntities()) 
+            using (DZEntities en = new DZEntities())
             {
                 List<OrderData> list = new List<OrderData>();
                 list = en.T_PRODUCE_ORDER.Where(item => item.ORDERDATE == date).GroupBy(item => item.REGIONCODE).Select(item =>
@@ -24,12 +24,29 @@ namespace Business.BusinessClass
         }
         //"select rownum as num  , cigarettecode,cigarettename,  ccount,  orderqty  from (SELECT  cigarettecode,cigarettename,count(*) as ccount,SUM(quantity) AS orderqty   
         //FROM t_produce_orderline GROUP BY cigarettecode,cigarettename ORDER BY orderqty   desc)"
-        public static List<AllOrderData> GetAllOrder() 
+        public static List<AllOrderData> GetAllOrder()
         {
-            using (DZEntities en = new DZEntities()) 
+            using (DZEntities en = new DZEntities())
             {
                 List<AllOrderData> list = new List<AllOrderData>();
                 list = en.T_PRODUCE_ORDERLINE.GroupBy(item => new { item.CIGARETTECODE, item.CIGARETTENAME }).OrderByDescending(item => item.Sum(x => x.QUANTITY)).Select(item =>
+                    new AllOrderData { CigaretteCode = item.Key.CIGARETTECODE, CigaretteName = item.Key.CIGARETTENAME, Count = item.Count(), QTY = item.Sum(x => x.QUANTITY) ?? 0 }).ToList();
+                return list;
+            }
+        }
+
+        //"  SELECT ROWNUM AS num, cigarettecode,cigarettename,ccount ,orderqty  FROM" +
+        //                    "(SELECT line.cigarettecode,line.cigarettename,count(*) as ccount,SUM(line.quantity)AS orderqty FROM t_produce_orderline line " +
+        //                   " WHERE line.allowsort='非标' GROUP BY line.cigarettecode,line.cigarettename ORDER BY orderqty desc)"
+
+        public static List<AllOrderData> GetUnnormalCig()
+        {
+            using (DZEntities en = new DZEntities())
+            {
+                List<AllOrderData> list = new List<AllOrderData>();
+                string str="非标";
+
+                list = en.T_PRODUCE_ORDERLINE.Where(item => item.ALLOWSORT == str).GroupBy(item => new { item.CIGARETTECODE, item.CIGARETTENAME }).OrderByDescending(item => item.Sum(x => x.QUANTITY)).Select(item =>
                     new AllOrderData { CigaretteCode = item.Key.CIGARETTECODE, CigaretteName = item.Key.CIGARETTENAME, Count = item.Count(), QTY = item.Sum(x => x.QUANTITY) ?? 0 }).ToList();
                 return list;
             }

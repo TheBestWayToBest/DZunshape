@@ -42,13 +42,17 @@
             this.label2 = new System.Windows.Forms.Label();
             this.dgVprint1 = new VBprinter.DGVprint(this.components);
             this.troughdata = new System.Windows.Forms.DataGridView();
-            this.troughnum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ThroughNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.machineseq = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cigarettecode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cigarettename = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cigarettetype = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ThroughType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.State = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.troughdata)).BeginInit();
             this.SuspendLayout();
@@ -299,13 +303,17 @@
             this.troughdata.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.troughdata.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.troughdata.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.troughnum,
+            this.ThroughNum,
+            this.ID,
             this.machineseq,
             this.cigarettecode,
             this.cigarettename,
             this.cigarettetype,
             this.ThroughType,
-            this.status});
+            this.State,
+            this.Column1,
+            this.Column2,
+            this.Column3});
             this.troughdata.Location = new System.Drawing.Point(0, 94);
             this.troughdata.MultiSelect = false;
             this.troughdata.Name = "troughdata";
@@ -315,12 +323,19 @@
             this.troughdata.Size = new System.Drawing.Size(1252, 464);
             this.troughdata.TabIndex = 1;
             // 
-            // troughnum
+            // ThroughNum
             // 
-            this.troughnum.DataPropertyName = "ThroughNum";
-            this.troughnum.HeaderText = "烟道编号";
-            this.troughnum.Name = "troughnum";
-            this.troughnum.ReadOnly = true;
+            this.ThroughNum.DataPropertyName = "ThroughNum";
+            this.ThroughNum.HeaderText = "烟道编号";
+            this.ThroughNum.Name = "ThroughNum";
+            this.ThroughNum.ReadOnly = true;
+            // 
+            // ID
+            // 
+            this.ID.DataPropertyName = "ID";
+            this.ID.HeaderText = "ID";
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
             // 
             // machineseq
             // 
@@ -357,12 +372,36 @@
             this.ThroughType.Name = "ThroughType";
             this.ThroughType.ReadOnly = true;
             // 
-            // status
+            // State
             // 
-            this.status.DataPropertyName = "State";
-            this.status.HeaderText = "使用状态";
-            this.status.Name = "status";
-            this.status.ReadOnly = true;
+            this.State.DataPropertyName = "State";
+            this.State.HeaderText = "使用状态";
+            this.State.Name = "State";
+            this.State.ReadOnly = true;
+            // 
+            // Column1
+            // 
+            this.Column1.DataPropertyName = "ActCount";
+            this.Column1.HeaderText = "Column1";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.Visible = false;
+            // 
+            // Column2
+            // 
+            this.Column2.DataPropertyName = "SecThroughnum";
+            this.Column2.HeaderText = "Column2";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            this.Column2.Visible = false;
+            // 
+            // Column3
+            // 
+            this.Column3.DataPropertyName = "SecMachineSeq";
+            this.Column3.HeaderText = "Column3";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            this.Column3.Visible = false;
             // 
             // w_Through
             // 
@@ -395,12 +434,16 @@
         private System.Windows.Forms.Label label2;
         private VBprinter.DGVprint dgVprint1;
         private System.Windows.Forms.DataGridView troughdata;
-        private System.Windows.Forms.DataGridViewTextBoxColumn troughnum;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ThroughNum;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn machineseq;
         private System.Windows.Forms.DataGridViewTextBoxColumn cigarettecode;
         private System.Windows.Forms.DataGridViewTextBoxColumn cigarettename;
         private System.Windows.Forms.DataGridViewTextBoxColumn cigarettetype;
         private System.Windows.Forms.DataGridViewTextBoxColumn ThroughType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn State;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
     }
 }

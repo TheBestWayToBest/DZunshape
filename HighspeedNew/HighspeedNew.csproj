@@ -128,6 +128,12 @@
     <Compile Include="OrderHandle\w_Export_N.Designer.cs">
       <DependentUpon>w_Export_N.cs</DependentUpon>
     </Compile>
+    <Compile Include="OrderHandle\w_HunheReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_HunheReport.Designer.cs">
+      <DependentUpon>w_HunheReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="OrderHandle\w_orderdata.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -188,6 +194,12 @@
     <Compile Include="OrderHandle\w_trough.designer.cs">
       <DependentUpon>w_trough.cs</DependentUpon>
     </Compile>
+    <Compile Include="OrderHandle\w_Unnormal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_Unnormal.Designer.cs">
+      <DependentUpon>w_Unnormal.cs</DependentUpon>
+    </Compile>
     <Compile Include="OrderHandle\w_UnnormalData.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -245,6 +257,9 @@
     <EmbeddedResource Include="OrderHandle\w_Export_N.resx">
       <DependentUpon>w_Export_N.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_HunheReport.resx">
+      <DependentUpon>w_HunheReport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_orderdata.resx">
       <DependentUpon>w_orderdata.cs</DependentUpon>
     </EmbeddedResource>
@@ -274,6 +289,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_trough.resx">
       <DependentUpon>w_trough.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_Unnormal.resx">
+      <DependentUpon>w_Unnormal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_UnnormalData.resx">
       <DependentUpon>w_UnnormalData.cs</DependentUpon>

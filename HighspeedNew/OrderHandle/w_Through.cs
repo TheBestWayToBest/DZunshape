@@ -143,7 +143,7 @@ namespace HighspeedNew.OrderHandle
                 info.ID = (decimal)this.troughdata.SelectedRows[0].Cells["ID"].Value;
                 //string desc = this.troughdata.SelectedRows[0].Cells[9].Value.ToString();
                 info.CigaretteCode = this.troughdata.SelectedRows[0].Cells["CigaretteCode"].Value.ToString();
-                info.CigaretteType = decimal.Parse(this.troughdata.CurrentRow.Cells["CigeretteType"].Value + "");
+                info.CigaretteType = decimal.Parse(this.troughdata.CurrentRow.Cells["CigaretteType"].Value + "");
                 info.ThroughType = decimal.Parse(this.troughdata.CurrentRow.Cells["ThroughType"].Value + "");
                 info.MachineSeq = (decimal)this.troughdata.SelectedRows[0].Cells["MachineSeq"].Value;
                 info.ThroughNum = this.troughdata.SelectedRows[0].Cells["ThroughNum"].Value.ToString();

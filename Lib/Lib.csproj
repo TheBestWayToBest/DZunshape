@@ -53,6 +53,7 @@
     <Content Include="office.dll" />
     <Content Include="opcrcw.comn.dll" />
     <Content Include="opcrcw.da.dll" />
+    <Content Include="Oracle.DataAccess.dll" />
     <Content Include="WHC.Pager.WinControlEx.dll" />
   </ItemGroup>
   <ItemGroup>

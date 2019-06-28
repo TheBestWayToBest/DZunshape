@@ -123,7 +123,7 @@ namespace SortingControlSys
                 this.DgvData.Rows[index].Cells[5].Value = item.CigCode;//香烟编号
                 this.DgvData.Rows[index].Cells[6].Value = item.CigName;//香烟名称
 
-                this.DgvData.Rows[index].Cells[7].Value = item.Status;//状态位
+                
                 this.DgvData.Rows[index].Cells[8].Value = item.ThroughNum;//物理通道号
                 this.DgvData.Rows[index].Cells[9].Value = item.BillCode;//订单号
 
@@ -143,7 +143,7 @@ namespace SortingControlSys
                         break;
                 }
 
-
+                this.DgvData.Rows[index].Cells[7].Value = status;//状态位
 
 
                 if (status == "完成")

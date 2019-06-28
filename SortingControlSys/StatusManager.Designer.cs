@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.BtnSearch = new System.Windows.Forms.Button();
             this.TxtCusID = new System.Windows.Forms.TextBox();
@@ -46,6 +46,12 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lblCount = new System.Windows.Forms.Label();
+            this.lblPageCount = new System.Windows.Forms.Label();
+            this.BtnJump = new System.Windows.Forms.Button();
+            this.TxtIndex = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.BtnEnd = new System.Windows.Forms.Button();
             this.BtnFirst = new System.Windows.Forms.Button();
             this.BtnPre = new System.Windows.Forms.Button();
@@ -54,18 +60,13 @@
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.TxtIndex = new System.Windows.Forms.TextBox();
-            this.BtnJump = new System.Windows.Forms.Button();
-            this.lblPageCount = new System.Windows.Forms.Label();
-            this.lblCount = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -249,6 +250,60 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "查询结果";
             // 
+            // lblCount
+            // 
+            this.lblCount.AutoSize = true;
+            this.lblCount.Location = new System.Drawing.Point(1010, 555);
+            this.lblCount.Name = "lblCount";
+            this.lblCount.Size = new System.Drawing.Size(89, 12);
+            this.lblCount.TabIndex = 10;
+            this.lblCount.Text = "共000000条记录";
+            // 
+            // lblPageCount
+            // 
+            this.lblPageCount.AutoSize = true;
+            this.lblPageCount.Location = new System.Drawing.Point(933, 555);
+            this.lblPageCount.Name = "lblPageCount";
+            this.lblPageCount.Size = new System.Drawing.Size(53, 12);
+            this.lblPageCount.TabIndex = 9;
+            this.lblPageCount.Text = "共0000页";
+            // 
+            // BtnJump
+            // 
+            this.BtnJump.Location = new System.Drawing.Point(648, 550);
+            this.BtnJump.Name = "BtnJump";
+            this.BtnJump.Size = new System.Drawing.Size(75, 23);
+            this.BtnJump.TabIndex = 8;
+            this.BtnJump.Text = "跳转";
+            this.BtnJump.UseVisualStyleBackColor = true;
+            this.BtnJump.Click += new System.EventHandler(this.BtnJump_Click);
+            // 
+            // TxtIndex
+            // 
+            this.TxtIndex.Location = new System.Drawing.Point(565, 552);
+            this.TxtIndex.Name = "TxtIndex";
+            this.TxtIndex.Size = new System.Drawing.Size(40, 21);
+            this.TxtIndex.TabIndex = 7;
+            this.TxtIndex.TextChanged += new System.EventHandler(this.TxtIndex_TextChanged);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(614, 555);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(17, 12);
+            this.label8.TabIndex = 6;
+            this.label8.Text = "页";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(542, 555);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(17, 12);
+            this.label7.TabIndex = 5;
+            this.label7.Text = "第";
+            // 
             // BtnEnd
             // 
             this.BtnEnd.Location = new System.Drawing.Point(843, 550);
@@ -293,8 +348,8 @@
             // 
             this.DgvData.AllowUserToAddRows = false;
             this.DgvData.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-            this.DgvData.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            this.DgvData.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.DgvData.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.DgvData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DgvData.BackgroundColor = System.Drawing.SystemColors.Control;
@@ -303,6 +358,7 @@
             this.Column1,
             this.Column2,
             this.Column3,
+            this.Column10,
             this.Column4,
             this.Column5,
             this.Column6,
@@ -334,6 +390,12 @@
             this.Column3.HeaderText = "车组号";
             this.Column3.Name = "Column3";
             this.Column3.ReadOnly = true;
+            // 
+            // Column10
+            // 
+            this.Column10.HeaderText = "客户编码";
+            this.Column10.Name = "Column10";
+            this.Column10.ReadOnly = true;
             // 
             // Column4
             // 
@@ -370,60 +432,6 @@
             this.Column9.HeaderText = "订单号";
             this.Column9.Name = "Column9";
             this.Column9.ReadOnly = true;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(542, 555);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(17, 12);
-            this.label7.TabIndex = 5;
-            this.label7.Text = "第";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(614, 555);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(17, 12);
-            this.label8.TabIndex = 6;
-            this.label8.Text = "页";
-            // 
-            // TxtIndex
-            // 
-            this.TxtIndex.Location = new System.Drawing.Point(565, 552);
-            this.TxtIndex.Name = "TxtIndex";
-            this.TxtIndex.Size = new System.Drawing.Size(40, 21);
-            this.TxtIndex.TabIndex = 7;
-            this.TxtIndex.TextChanged += new System.EventHandler(this.TxtIndex_TextChanged);
-            // 
-            // BtnJump
-            // 
-            this.BtnJump.Location = new System.Drawing.Point(648, 550);
-            this.BtnJump.Name = "BtnJump";
-            this.BtnJump.Size = new System.Drawing.Size(75, 23);
-            this.BtnJump.TabIndex = 8;
-            this.BtnJump.Text = "跳转";
-            this.BtnJump.UseVisualStyleBackColor = true;
-            this.BtnJump.Click += new System.EventHandler(this.BtnJump_Click);
-            // 
-            // lblPageCount
-            // 
-            this.lblPageCount.AutoSize = true;
-            this.lblPageCount.Location = new System.Drawing.Point(933, 555);
-            this.lblPageCount.Name = "lblPageCount";
-            this.lblPageCount.Size = new System.Drawing.Size(53, 12);
-            this.lblPageCount.TabIndex = 9;
-            this.lblPageCount.Text = "共0000页";
-            // 
-            // lblCount
-            // 
-            this.lblCount.AutoSize = true;
-            this.lblCount.Location = new System.Drawing.Point(1010, 555);
-            this.lblCount.Name = "lblCount";
-            this.lblCount.Size = new System.Drawing.Size(89, 12);
-            this.lblCount.TabIndex = 10;
-            this.lblCount.Text = "共000000条记录";
             // 
             // StatusManager
             // 
@@ -469,15 +477,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.DataGridView DgvData;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.Button BtnEnd;
         private System.Windows.Forms.Button BtnFirst;
         private System.Windows.Forms.Button BtnPre;
@@ -488,6 +487,16 @@
         private System.Windows.Forms.TextBox TxtIndex;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
 
     }
 }

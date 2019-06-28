@@ -233,5 +233,33 @@ namespace HighSpeed
             frm.Show();
         }
 
+        private void 异型烟补货计划ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            w_Unnormal frm = new w_Unnormal();
+            if (CheckExist(frm) == true)
+            {
+                frm.Dispose();
+                frm = null;
+                return;
+            }
+            frm.MdiParent = this;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
+        private void 混合道补烟顺序ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            w_HunheReport frm = new w_HunheReport();
+            if (CheckExist(frm) == true)
+            {
+                frm.Dispose();
+                frm = null;
+                return;
+            }
+            frm.MdiParent = this;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
     }
 }
