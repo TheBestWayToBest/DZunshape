@@ -73,6 +73,7 @@
     <Compile Include="Modle\MainOrder.cs" />
     <Compile Include="Modle\OrderData.cs" />
     <Compile Include="Modle\PokeInfo.cs" />
+    <Compile Include="Modle\Replenish.cs" />
     <Compile Include="Modle\ReplenishInfo.cs" />
     <Compile Include="Modle\Response.cs" />
     <Compile Include="Modle\TaskDetail.cs" />

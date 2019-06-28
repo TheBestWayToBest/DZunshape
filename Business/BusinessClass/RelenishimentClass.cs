@@ -10,7 +10,7 @@ namespace Business.BusinessClass
     {
         public static List<T_PRODUCE_REPLENISHPLAN> GetReplenishplan()
         {
-            using (DZEntities en = new DZEntities()) 
+            using (DZEntities en = new DZEntities())
             {
                 List<T_PRODUCE_REPLENISHPLAN> list = new List<T_PRODUCE_REPLENISHPLAN>();
                 list = en.T_PRODUCE_REPLENISHPLAN.Where(item => item.ISCOMPLETED == 10).ToList();
@@ -18,7 +18,7 @@ namespace Business.BusinessClass
             }
         }
 
-        public static object[] GetSendTask(decimal status, out StringBuilder outStr) 
+        public static object[] GetSendTask(decimal status, out StringBuilder outStr)
         {
             using (DZEntities en = new DZEntities())
             {
@@ -46,9 +46,9 @@ namespace Business.BusinessClass
         /// </summary>
         /// <param name="taskNum"></param>
         /// <returns></returns>
-        public static List<T_PRODUCE_REPLENISHPLAN> GetFinishedReplenishplan(string tasknum) 
+        public static List<T_PRODUCE_REPLENISHPLAN> GetFinishedReplenishplan(string tasknum)
         {
-            using (DZEntities en = new DZEntities()) 
+            using (DZEntities en = new DZEntities())
             {
                 List<T_PRODUCE_REPLENISHPLAN> list = new List<T_PRODUCE_REPLENISHPLAN>();
                 list = en.T_PRODUCE_REPLENISHPLAN.Where(item => Convert.ToDecimal(item.TASKNUM) <= Convert.ToDecimal(tasknum) && item.ISCOMPLETED == 15).ToList();
@@ -56,25 +56,25 @@ namespace Business.BusinessClass
             }
         }
 
-        public static bool IsCompleted(string taskNum) 
+        public static bool IsCompleted(string taskNum)
         {
-            using (DZEntities en = new DZEntities()) 
+            using (DZEntities en = new DZEntities())
             {
                 var data = en.T_PRODUCE_REPLENISHPLAN.Where(item => item.TASKNUM == taskNum).ToList();
                 foreach (var item in data)
                 {
                     item.ISCOMPLETED = 15;
                 }
-               
+
                 int rows = en.SaveChanges();
                 if (rows > 0)
                     return true;
                 return false;
             }
         }
-        public static bool Completed(string taskNum) 
+        public static bool Completed(string taskNum)
         {
-            using (DZEntities en = new DZEntities()) 
+            using (DZEntities en = new DZEntities())
             {
                 var data = en.T_PRODUCE_REPLENISHPLAN.Where(item => item.TASKNUM == taskNum).ToList();
                 foreach (var item in data)
@@ -82,7 +82,7 @@ namespace Business.BusinessClass
                     item.ISCOMPLETED = 20;
                     item.FINISHTIME = DateTime.Now;
                 }
-                
+
                 //var task = en.T_UN_TASK.Where(item => item.TASKNUM == Convert.ToDecimal(taskNum)).FirstOrDefault();
                 var taskFirst = data.FirstOrDefault();
                 if (taskFirst != null)
@@ -127,6 +127,64 @@ namespace Business.BusinessClass
                     ReplenishQTY = item.REPLENISHQTY ?? 0,
                     TaskNum = item.TASKNUM
                 }).OrderBy(item => item.TaskNum).ToList();
+                return list;
+            }
+        }
+
+        public static List<Replenish> GetReplenishByCusNameOrCigName(int index, string condition)
+        {
+            using (DZEntities en = new DZEntities())
+            {
+                List<Replenish> list = new List<Replenish>();
+                string sqlStr = "";
+                if (condition == "")
+                {
+                    sqlStr = "select tt.TASKNUM,tr.CIGARETTECODE,tr.CIGARETTENAME,tt.CUSTOMERNAME,tr.JYCODE,tr.REPLENISHQTY,tt.REGIONCODE,tr.STATUS,tr.TROUGHNUM " +
+                             "from T_PRODUCE_REPLENISHPLAN tr,T_UN_TASK tt where tt.TASKNUM=tr.TASKNUM order by TASKNUM,TROUGHNUM";
+                }
+                else
+                {
+                    if (index == 0)
+                    {
+                        sqlStr = "select tt.TASKNUM,tr.CIGARETTECODE,tr.CIGARETTENAME,tt.CUSTOMERNAME,tr.JYCODE,tr.REPLENISHQTY,tt.REGIONCODE,tr.STATUS,tr.TROUGHNUM " +
+                             "from T_PRODUCE_REPLENISHPLAN tr,T_UN_TASK tt where tt.TASKNUM=tr.TASKNUM and tr.CIGARETTENAME like '%" + condition + "%' order by TASKNUM,TROUGHNUM";
+                    }
+                    else
+                    {
+                        sqlStr = "select tt.TASKNUM,tr.CIGARETTECODE,tr.CIGARETTENAME,tt.CUSTOMERNAME,tr.JYCODE,tr.REPLENISHQTY,tt.REGIONCODE,tr.STATUS,tr.TROUGHNUM " +
+                             "from T_PRODUCE_REPLENISHPLAN tr,T_UN_TASK tt where tt.TASKNUM=tr.TASKNUM  and tt.CUSTOMERNAME like '%" + condition + "%'order by TASKNUM,TROUGHNUM";
+                    }
+                }
+                list = en.ExecuteStoreQuery<Replenish>(sqlStr).ToList();
+                return list;
+            }
+        }
+
+        public static List<Replenish> GetReplenishByCigName(int index, string condition)
+        {
+            using (DZEntities en = new DZEntities())
+            {
+                List<Replenish> list = new List<Replenish>();
+                string sqlStr = "";
+                if (condition == "")
+                {
+                    sqlStr = "select tr.TASKNUM,tr.CIGARETTECODE,tr.CIGARETTENAME,tr.JYCODE,tr.REPLENISHQTY,tr.STATUS,tr.TROUGHNUM " +
+                             "from T_PRODUCE_REPLENISHPLAN tr order by TASKNUM,TROUGHNUM";
+                }
+                else
+                {
+                    if (index == 0)
+                    {
+                        sqlStr = "select tr.TASKNUM,tr.CIGARETTECODE,tr.CIGARETTENAME,tr.JYCODE,tr.REPLENISHQTY,tr.STATUS,tr.TROUGHNUM " +
+                             "from T_PRODUCE_REPLENISHPLAN tr where  tr.CIGARETTENAME like '" + condition + "%' order by TASKNUM,TROUGHNUM";
+                    }
+                    else
+                    {
+                        sqlStr = "select tr.TASKNUM,tr.CIGARETTECODE,tr.CIGARETTENAME,tr.JYCODE,tr.REPLENISHQTY,tr.STATUS,tr.TROUGHNUM " +
+                             "from T_PRODUCE_REPLENISHPLAN tr where  tr.JYCODE like '" + condition + "%' order by TASKNUM,TROUGHNUM";
+                    }
+                }
+                list = en.ExecuteStoreQuery<Replenish>(sqlStr).ToList();
                 return list;
             }
         }

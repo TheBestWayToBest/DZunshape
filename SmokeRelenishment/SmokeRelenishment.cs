@@ -417,5 +417,16 @@ namespace SmokeRelenishment
             WriteLog.GetLog().Write("手动刷新");
             GetData(true);
         }
+
+        private void BtnSearch_Click(object sender, EventArgs e)
+        {
+            SearchCustomer sc = new SearchCustomer();
+            sc.Show();
+        }
+
+        private void BtnSeq_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

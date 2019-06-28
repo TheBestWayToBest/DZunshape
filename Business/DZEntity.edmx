@@ -660,7 +660,7 @@
           <Property Name="FINISHTIME" Type="DateTime" />
           <Property Name="JYCODE" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="TYPE" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="TASKNUM" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="TASKNUM" Type="String" />
           <Property Name="MANTISSA" Type="Decimal" Precision="38" Scale="0" />
           <Property Name="SCANTIME" Type="DateTime" />
           <Property Name="SEQ" Type="Decimal" Precision="38" Scale="0" />

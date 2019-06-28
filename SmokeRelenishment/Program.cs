@@ -15,7 +15,7 @@ namespace SmokeRelenishment
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SmokeRelenishment());
+            Application.Run(new SearchCustomer());
         }
     }
 }

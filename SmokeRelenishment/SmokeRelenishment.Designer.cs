@@ -101,6 +101,7 @@
             this.BtnSearch.TabIndex = 20;
             this.BtnSearch.Text = "件烟定位";
             this.BtnSearch.UseVisualStyleBackColor = true;
+            this.BtnSearch.Click += new System.EventHandler(this.BtnSearch_Click);
             // 
             // BtnSeq
             // 
@@ -111,6 +112,7 @@
             this.BtnSeq.TabIndex = 21;
             this.BtnSeq.Text = "件烟顺序";
             this.BtnSeq.UseVisualStyleBackColor = true;
+            this.BtnSeq.Click += new System.EventHandler(this.BtnSeq_Click);
             // 
             // BtnExit
             // 

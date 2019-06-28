@@ -56,6 +56,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NowView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NowView.Designer.cs">
+      <DependentUpon>NowView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SearchCustomer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SearchCustomer.Designer.cs">
+      <DependentUpon>SearchCustomer.cs</DependentUpon>
+    </Compile>
     <Compile Include="SmokeRelenishment.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -64,6 +76,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="NowView.resx">
+      <DependentUpon>NowView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchCustomer.resx">
+      <DependentUpon>SearchCustomer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SmokeRelenishment.resx">
       <DependentUpon>SmokeRelenishment.cs</DependentUpon>
     </EmbeddedResource>
