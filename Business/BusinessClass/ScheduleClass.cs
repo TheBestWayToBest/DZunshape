@@ -38,7 +38,7 @@ namespace Business.BusinessClass
                 var T_SALE_ORDER_HEAD = (from item in en.T_SALE_ORDER_HEAD where item.ORDERDATE == nowDate select item).ToList();//获取主表
                 var ReadyRegion = (from item in en.T_PRODUCE_ORDER select item).GroupBy(a => a.REGIONCODE).Select(a => new { RouteCode = a.Key }).ToList(); ;//获取已经接收的车组
                 var HeadGroup = T_SALE_ORDER_HEAD.GroupBy(a => a.ROUTECODE).Select(a => new { RouteCode = a.Key }).ToList();//获取主表单个车组
-                var exp = HeadGroup.Except(ReadyRegion).OrderBy(z=>z.RouteCode);//未排程的车组
+                var exp = HeadGroup.Except(ReadyRegion).OrderBy(z => z.RouteCode);//未排程的车组
 
                 int index = 0;
                 foreach (var item in exp)
@@ -118,6 +118,7 @@ namespace Business.BusinessClass
                             t_produce_order.TASKBOXIES = "";
                             t_produce_order.TASKNUMBERS = "";
                             t_produce_order.STATE = "新增";
+                            t_produce_order.UNSTATE = "新增";
                             t_produce_order.DEVSEQ = order.DELIVERYSEQ;//原始送货顺序
                             t_produce_order.CREATETIME = CreateTime;
                             t_produce_order.ORDERDATE = order.ORDERDATE;
@@ -223,36 +224,38 @@ namespace Business.BusinessClass
                 var query = (from order in en.T_PRODUCE_ORDER
                              join line in en.T_PRODUCE_ORDERLINE on order.BILLCODE equals line.BILLCODE
                              join item in en.T_WMS_ITEM on line.CIGARETTECODE equals item.ITEMNO
-                             where order.STATE == "新增" && item.SHIPTYPE == "1" && item.ROWSTATUS==10
-                             select new { regioncode=order.REGIONCODE,customercode=order.CUSTOMERCODE,qty=line.QUANTITY }
-                             //select order
+                             where order.UNSTATE == "新增" && item.SHIPTYPE == "1" && item.ROWSTATUS == 10
+                             select new { regioncode = order.REGIONCODE, customercode = order.CUSTOMERCODE, qty = line.QUANTITY }
+                    //select order
                              ).ToList();
                 var query1 = (from order in en.T_PRODUCE_ORDER
-                             join line in en.T_PRODUCE_ORDERLINE on order.BILLCODE equals line.BILLCODE
-                             join item in en.T_WMS_ITEM on line.CIGARETTECODE equals item.ITEMNO
-                              where order.STATE == "新增" && item.SHIPTYPE == "1" && item.ROWSTATUS == 10
-                             select order ).ToList().Distinct();
-                    //select order
-                            
+                              join line in en.T_PRODUCE_ORDERLINE on order.BILLCODE equals line.BILLCODE
+                              join item in en.T_WMS_ITEM on line.CIGARETTECODE equals item.ITEMNO
+                              where order.UNSTATE == "新增" && item.SHIPTYPE == "1" && item.ROWSTATUS == 10
+                              select order).ToList().Distinct();
+                //select order
+
                 var list = (from item in query
-                            group item by new { item.regioncode} into g
-                            select new { regioncode = g.Key.regioncode, qty = g.Sum(x => x.qty)  }).ToList();
+                            group item by new { item.regioncode } into g
+                            select new { regioncode = g.Key.regioncode, qty = g.Sum(x => x.qty) }).ToList();
 
                 var list1 = (from item in query1
-                            group item by new { item.REGIONCODE } into g
-                             select new { regioncode = g.Key.REGIONCODE,  ct = g.Count() }).ToList();
+                             group item by new { item.REGIONCODE } into g
+                             select new { regioncode = g.Key.REGIONCODE, ct = g.Count() }).ToList();
                 var list3 = (from item1 in list
-                            join item2 in list1 on item1.regioncode equals item2.regioncode
-                            orderby item1.regioncode select new { regioncode = item1.regioncode, ct = item2.ct, qty = item1.qty }).ToList();
+                             join item2 in list1 on item1.regioncode equals item2.regioncode
+                             orderby item1.regioncode
+                             select new { regioncode = item1.regioncode, ct = item2.ct, qty = item1.qty }).ToList();
                 //return null;
 
-                decimal index=0;
-                foreach (var item in list3) {
+                decimal index = 0;
+                foreach (var item in list3)
+                {
                     TaskInfo taskInfo = new TaskInfo();
                     index++;
                     taskInfo.SYNSEQ = index;
                     taskInfo.REGIONCODE = item.regioncode;
-                    taskInfo.QTY = item.qty??0;
+                    taskInfo.QTY = item.qty ?? 0;
                     taskInfo.Count = item.ct;
                     taskList.Add(taskInfo);
                 }
@@ -280,7 +283,7 @@ namespace Business.BusinessClass
         /// <param name="regioncode"></param>
         /// <returns></returns>
         /// 
-         
+
         public Response PreSchedule(string regioncode)
         {
             Response re = new Response("预排程失败，未找到对应的车组" + regioncode);
@@ -303,11 +306,12 @@ namespace Business.BusinessClass
 
                 //取目前车组最大的Tasknum,如果没有,则给默认任务号
                 decimal maxTaskNum = GetMaxTaskNumByRegioncode(regioncode).Content;
-                if (maxTaskNum == 0) {
+                if (maxTaskNum == 0)
+                {
                     String max = DateTime.Now.ToString("yyyyMMdd") + regioncode + "000";
                     maxTaskNum = Convert.ToDecimal(max);
-                } 
-                
+                }
+
                 //String query = maxTaskNum+regioncode+""
                 //if (query != null&&!"".Equals(query)) maxTaskNum = query.ToString();
                 //var maxtasknum = (en.T_UN_TASK.Max(a => a.TASKNUM) ?? 0) + 1;
@@ -438,11 +442,11 @@ namespace Business.BusinessClass
             Response<List<TaskInfo>> reList = new Response<List<TaskInfo>>();
             using (DZEntities en = new DZEntities())
             {
-                List<TaskInfo> taskList=new List<TaskInfo>();
+                List<TaskInfo> taskList = new List<TaskInfo>();
                 var query = (from item in en.T_UN_TASK
                              where item.STATE == "10"
                              group item by new { item.REGIONCODE } into g
-                             select new {regioncode= g.Key.REGIONCODE,qty=g.Sum(x=>x.TASKQUANTITY),count=g.Count()}).ToList();
+                             select new { regioncode = g.Key.REGIONCODE, qty = g.Sum(x => x.TASKQUANTITY), count = g.Count() }).ToList();
                 // select new { regioncode = g.Key.regioncode, qty = g.Sum(x => x.qty)  }).ToList();
                 decimal index = 0;
                 foreach (var item in query)
@@ -468,7 +472,7 @@ namespace Business.BusinessClass
                     reList.MessageText = "未找到新增车组！";
                     return reList;
                 }
-                
+
                 //if (query.Any())
                 //{
                 //    reList.IsSuccess = true;
@@ -499,13 +503,44 @@ namespace Business.BusinessClass
             Response re = new Response("数据排程：未找对应的数据！");
             using (DZEntities en = new DZEntities())
             {
+                //普通双通
+                //var normal_two = (from trough in en.T_PRODUCE_SORTTROUGH where  select trough).ToList();
+                //六通道双通
+                var trough1 = (from trough in en.T_PRODUCE_SORTTROUGH
+                               where trough.STATE == "10" && trough.GROUPNO == 3
+                               select trough).ToList();
+                var trough2 = (from trough in en.T_PRODUCE_SORTTROUGH
+                               where trough.STATE == "10" && trough.GROUPNO == 2
+                               select trough).ToList();
+                var special_two = (from special in trough1
+                                   join normal in trough2 on special.CIGARETTECODE equals normal.CIGARETTECODE
+                                       into tmp
+                                   from last in tmp.DefaultIfEmpty()
+                                   select new { x = special, y = last });
+                Dictionary<string, ThroughInfo> special_dic = new Dictionary<string, ThroughInfo>();
+                if (special_two.Any())
+                {
+                    foreach (var item in special_two)
+                    {
+                        ThroughInfo through = new ThroughInfo();
+                        through.CigaretteCode = item.x.CIGARETTECODE;
+                        through.ActCount = item.x.ACTCOUNT ?? 0;
+                        through.ThroughNum = item.x.TROUGHNUM;
+                        var obj = item.y;
+                        if (through.ActCount == 2 && obj != null)
+                        {
+                            through.SecThroughnum = item.y.TROUGHNUM;
+                        }
+                        special_dic.Add(through.CigaretteCode, through);
+                    }
+                }
                 var t_un_taskUnionTaskline = (from item in en.T_UN_TASK
-                                              join item2 in en.T_UN_TASKLINE   on item.TASKNUM equals item2.TASKNUM
-                                              join item3 in en.T_PRODUCE_SORTTROUGH on item2.CIGARETTECODE equals item3.CIGARETTECODE 
-                                              where item3.STATE == "10"  && item.STATE == "10" 
-                                              && (item3.CIGARETTETYPE==30 ||item3.CIGARETTETYPE==40)
+                                              join item2 in en.T_UN_TASKLINE on item.TASKNUM equals item2.TASKNUM
+                                              join item3 in en.T_PRODUCE_SORTTROUGH on item2.CIGARETTECODE equals item3.CIGARETTECODE
+                                              where item3.STATE == "10" && item.STATE == "10"
+                                              && (item3.CIGARETTETYPE == 30 || item3.CIGARETTETYPE == 40)
                                               //&& (item3.GROUPNO==2 ||item3.GROUPNO==3)//条件：1 通道必须启用， 车组间排程完毕
-                                              orderby  item.SORTNUM,item3.MACHINESEQ,item3.TROUGHNUM 
+                                              orderby item.SORTNUM, item3.MACHINESEQ, item3.TROUGHNUM
                                               select new
                                               {
                                                   SortNum = item.SORTNUM,
@@ -523,15 +558,36 @@ namespace Business.BusinessClass
                                                   Ctype = 1,
                                                   PackageMachine = item.PACKAGEMACHINE,
                                                   LineNum = item.LINENUM,
-                                                  GroupNo = item3.GROUPNO
+                                                  GroupNo = item3.GROUPNO,
+                                                  ActCount = item3.ACTCOUNT
                                               }).ToList();//任务信息表
                 decimal pokeId = GetMaxPokeId(en).Content;//获取最大POKEID
                 if (t_un_taskUnionTaskline.Any())
                 {
                     foreach (var item in t_un_taskUnionTaskline)
                     {
+                        decimal quantity = item.Quantity ?? 0;
+                        decimal len = quantity;
+                        //是否是双通道的烟 均分
+                        if (special_dic.ContainsKey(item.CigCode))
+                        {
+                            //判断是五拨还是单拨
+                            //五拨和单拨都有
+                            if (item.ActCount == 2)
+                            {
+                                if (item.GroupNo == 3) len = Math.Ceiling(quantity / 2);
+                                else len = Math.Floor(quantity / 2);
+                                //len =  quantity - quantity % 5;
 
-                        for (int i = 1; i <= item.Quantity; i++)//根据条烟数量拆分成单条数据
+                            }
+                            //只有五拨
+                            else
+                            {
+                                //len = quantity % 5;
+                                len = quantity;
+                            }
+                        }
+                        for (int i = 1; i <= len; i++)//根据条烟数量拆分成单条数据
                         {
                             T_UN_POKE t_un_poke = new T_UN_POKE();
                             t_un_poke.POKEID = pokeId++;
@@ -623,9 +679,9 @@ namespace Business.BusinessClass
         #endregion
 
 
-        public static List<PokeInfo> GetAllSchdule() 
+        public static List<PokeInfo> GetAllSchdule()
         {
-            using (DZEntities en = new DZEntities()) 
+            using (DZEntities en = new DZEntities())
             {
                 List<PokeInfo> list = new List<PokeInfo>();
                 var query = en.T_PRODUCE_ORDER.Join(en.T_PRODUCE_ORDERLINE, order => order.BILLCODE, orderline => orderline.BILLCODE, (order, orderline) => new { order, orderline }).
@@ -654,7 +710,7 @@ namespace Business.BusinessClass
 
                 response.IsSuccess = true;
                 response.Content = (dzEntities.T_PRODUCE_ORDER.Max(a => a.SYNSEQ) ?? 0) + 1;
-                List<T_PRODUCE_ORDER>  DZList=dzEntities.T_PRODUCE_ORDER.ToList();
+                List<T_PRODUCE_ORDER> DZList = dzEntities.T_PRODUCE_ORDER.ToList();
                 return response;
             }
 
@@ -842,9 +898,13 @@ namespace Business.BusinessClass
             using (DZEntities dzEntities = new DZEntities())
             {
                 Response<decimal> response = new Response<decimal>();
-
                 response.IsSuccess = true;
-                response.Content = dzEntities.T_UN_TASK.Max(x => x.TASKNUM); 
+                decimal tasknum = 0;
+                if (dzEntities.T_UN_TASK.Where(x => x.REGIONCODE == regioncode).Count() > 0)
+                {
+                    tasknum = dzEntities.T_UN_TASK.Where(x => x.REGIONCODE == regioncode).Max(x => x.TASKNUM);
+                }
+                response.Content = tasknum;
                 List<T_UN_TASK> DZList = dzEntities.T_UN_TASK.ToList();
                 return response;
             }
