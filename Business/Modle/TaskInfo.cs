@@ -26,6 +26,9 @@ namespace Business.Modle
         public string CUSTOMERNAME { get; set; }//货主
         public DateTime? ORDERDATE { get; set; }//订单日期
 
+        //linenum区分特异型烟和烟仓
+        public string LINENUM { get; set; }
+
         //显示分拣进度
         public string FinishCountStr { get; set; }//完成户数/总户数
         public string FinishQtyStr { get; set; }//完成数量/总条数

@@ -30,8 +30,7 @@ namespace Business.BusinessClass
 
                var t_batch = (from item in en.T_PRODUCE_BATCH
                               orderby item.BATCHCODE descending
-                              select
-                                  item).ToList();
+                              select item).ToList();
                if (t_batch.Any())
                {
                    response.IsSuccess = true;

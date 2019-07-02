@@ -35,7 +35,7 @@ namespace HighSpeedNew.OrderHandle
             var rm = sc.GetTaskInfoByBatchcode();
             if (rm.IsSuccess)
             {
-                orderdata.DataSource = rm.Content.Select(x => new { synseq=x.SYNSEQ,batchcode=x.BATCHODE,qty=x.QTY,count=x.Count}).OrderBy(x=>x.synseq).ToList();
+                orderdata.DataSource = rm.Content.Select(x => new { synseq = x.SYNSEQ, linenum = x.LINENUM, batchcode = x.BATCHODE, qty = x.QTY, count = x.Count }).OrderBy(x => new { x.synseq,x.linenum}).ToList();
             }
             else
             {
@@ -45,7 +45,7 @@ namespace HighSpeedNew.OrderHandle
 
         }
 
-        private void export(string synseq, string lineno)//lineno打码机编号
+        private void export(string synseq, string linenum, string lineno)//lineno打码机编号  linenum区分特异型烟和烟仓
         {
             this.btn_export.Enabled = false;
             panel2.Visible = true;
@@ -57,7 +57,7 @@ namespace HighSpeedNew.OrderHandle
             String tasknum = "", cuscode = "", cusname = "", itemno = "", itemname = "", quantity = "", regioncode = "", orderdate = "", cuscodetmp = "";
             
             //取数据
-            var result = sc.Get1stPrjInfo(Convert.ToDecimal(synseq));
+            var result = sc.Get1stPrjInfo(Convert.ToDecimal(synseq), linenum);
             List<_1stPrjInfo>list = result.Content.ToList();
             if (list.Any())
             {
@@ -236,7 +236,8 @@ namespace HighSpeedNew.OrderHandle
             if (count > 0)
             {
                 String synseq = this.orderdata.SelectedRows[0].Cells["synseq"].Value + "";
-                export(synseq, "01");
+                String linenum = this.orderdata.SelectedRows[0].Cells["linenum"].Value + "";
+                export(synseq,linenum, "01");
             }
             else
             {

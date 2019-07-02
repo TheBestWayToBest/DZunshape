@@ -9,10 +9,13 @@ using System.Windows.Forms;
 using Business.BusinessClass;
 using Business.Modle;
 
-namespace HighSpeed.OrderHandle
+
+using Business;namespace HighSpeed.OrderHandle
 {
     public partial class w_Batch : Form
     {
+        
+        List<T_PRODUCE_BATCH>batch;
         public w_Batch()
         {
             InitializeComponent();
@@ -28,8 +31,8 @@ namespace HighSpeed.OrderHandle
         void Refsh()
         {
             cc.GetSortTroughInfo("s", 1);
-            var data = bc.GetBatchDetail() ;
-            batchdata.DataSource = data.Content;
+            batch = bc.GetBatchDetail().Content;
+            batchdata.DataSource = batch;
           //  batchdata.DataSource = bc.GetBatchDetail().ResultObject;
         }
 
@@ -46,6 +49,41 @@ namespace HighSpeed.OrderHandle
             else
             {
                 MessageBox.Show(re.MessageText);
+            }
+        }
+
+        private void batchdata_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            //自动编号，与数据无关
+            Rectangle rectangle = new Rectangle(e.RowBounds.Location.X,
+               e.RowBounds.Location.Y,
+               batchdata.RowHeadersWidth - 4,
+               e.RowBounds.Height);
+            TextRenderer.DrawText(e.Graphics,
+                  (e.RowIndex + 1).ToString(),
+                   batchdata.RowHeadersDefaultCellStyle.Font,
+                   rectangle,
+                   batchdata.RowHeadersDefaultCellStyle.ForeColor,
+                   TextFormatFlags.VerticalCenter | TextFormatFlags.Right);
+        }
+
+        private void batchdata_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.ColumnIndex == 4) {
+                if (batch[e.RowIndex].BATCHTYPE == 20) {
+                    e.Value = "异型烟";
+                }
+            }
+            if (e.ColumnIndex == 3)
+            {
+                if (batch[e.RowIndex].STATE == 10)
+                {
+                    e.Value = "正常";
+                }
+                else 
+                {
+                    e.Value = "关闭";
+                }
             }
         }
     }
