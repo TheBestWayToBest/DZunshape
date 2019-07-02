@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Business.Modle;
 using System.Data.SqlClient;
+using System.Data;
+using Oracle.ManagedDataAccess.Client;
 
 namespace Business.BusinessClass
 {
@@ -757,13 +759,36 @@ namespace Business.BusinessClass
             using (DZEntities en = new DZEntities())
             {
                 List<TaskInfo> mainOrder = new List<TaskInfo>();//订单主表
-                var query = (from item in en.T_UN_TASK
-                             where item.STATE == "15"
-                             group item by new { item.BATCHCODE, item.SYNSEQ } into g
-                             select new { SYNSEQ = g.Key.SYNSEQ, BATCHCODE = g.Key.BATCHCODE, qty = g.Sum(x => x.TASKQUANTITY), count = g.Count() }).ToList();
+                //var query = (from item in en.T_UN_TASK
+                //             //where item.STATE == "15"
+                //             where item.STATE == "20"
+                //             group item by new { item.BATCHCODE, item.SYNSEQ ,item.LINENUM} into g
+                //             select new { SYNSEQ = g.Key.SYNSEQ, BATCHCODE = g.Key.BATCHCODE,LINENUM=g.Key.LINENUM, qty = g.Sum(x => x.TASKQUANTITY), count = g.Count() }).ToList();
 
+                var query = (from task in en.T_UN_TASK
+                             join poke in en.T_UN_POKE on task.TASKNUM equals poke.TASKNUM
+                             join trough in en.T_PRODUCE_SORTTROUGH on poke.TROUGHNUM equals trough.TROUGHNUM
+                             where trough.TROUGHTYPE == 10 && (trough.CIGARETTETYPE == 30 || trough.CIGARETTETYPE == 40)
+                             && trough.STATE == "10" 
+                             select  new {
+                                 x =task,
+                                 y = trough,
+                                 z = poke
+                             }).ToList();
+                var query1 = (from item in query
+                              group item by new { item.x.SYNSEQ, item.x.BATCHCODE, item.y.LINENUM } into g
+                              select new
+                              {
+                                  g.Key.SYNSEQ,
+                                  g.Key.BATCHCODE,
+                                  g.Key.LINENUM,
+                                  qty = g.Sum(x => x.z.POKENUM),
+                                  count = g.Count()
+                                  //(from ct in query
+                                  //         select )
+                              }).ToList();//count有问题
                 int index = 0;
-                foreach (var item in query)
+                foreach (var item in query1)
                 {
                     TaskInfo mo = new TaskInfo();
                     index++;
@@ -792,7 +817,7 @@ namespace Business.BusinessClass
             }
         }
 
-        public Response<List<_1stPrjInfo>> Get1stPrjInfo(decimal synSeq)
+        public Response<List<_1stPrjInfo>> Get1stPrjInfo(decimal synSeq,string linenum)
         {
             Response<List<_1stPrjInfo>> infoList = new Response<List<_1stPrjInfo>>();
 
@@ -803,7 +828,7 @@ namespace Business.BusinessClass
                              join poke in dzEntities.T_UN_POKE on task.TASKNUM equals poke.TASKNUM
                              join trough in dzEntities.T_PRODUCE_SORTTROUGH on poke.TROUGHNUM equals trough.TROUGHNUM
                              where trough.TROUGHTYPE == 10 && (trough.CIGARETTETYPE == 30 || trough.CIGARETTETYPE == 40)
-                             && trough.STATE == "10" && task.SYNSEQ == synSeq
+                             && trough.STATE == "10" && task.SYNSEQ == synSeq && trough.LINENUM == linenum
                              orderby task.SORTNUM, trough.MACHINESEQ
                              select new
                              {
@@ -938,6 +963,37 @@ namespace Business.BusinessClass
                 return response;
             }
 
+        }
+
+        public Response RemoveHistoryData()
+        {
+            using (DZEntities dzEntities = new DZEntities())
+            {
+                Response response = new Response();
+                response.IsSuccess = true;
+                OracleParameter[] sqlpara = new OracleParameter[3];
+                sqlpara[0] = new OracleParameter("bz", "0");
+                sqlpara[1] = new OracleParameter("p_ErrCode", OracleDbType.Varchar2, 30);
+                sqlpara[2] = new OracleParameter("p_ErrMsg", OracleDbType.Varchar2, 1000);
+
+                sqlpara[0].Direction = ParameterDirection.Input;
+                sqlpara[1].Direction = ParameterDirection.Output;
+                sqlpara[2].Direction = ParameterDirection.Output;
+
+                dzEntities.ExecuteStoreCommand("P_UN_REMOVE", sqlpara);
+
+                if (sqlpara[1].Value.ToString() == "1")
+                {
+                    response.IsSuccess = true;
+                    response.MessageText = sqlpara[2].Value.ToString();
+                }
+                else 
+                {
+                    response.IsSuccess = false;
+                    response.MessageText = sqlpara[2].Value.ToString();
+                }
+                return response;
+            }
         }
     }
 }
