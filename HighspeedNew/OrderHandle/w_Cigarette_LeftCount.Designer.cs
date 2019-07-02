@@ -31,23 +31,19 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.button3 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.打印 = new System.Windows.Forms.Button();
             this.codedata = new System.Windows.Forms.DataGridView();
-            this.num = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.label1 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.cigarettecode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cigarettename = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.machineseq = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mantissa = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.阀值 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.托盘出库件数 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.启用上层烟柜清空 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.启用烟柜量最少 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.THRESHOLD = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.codedata)).BeginInit();
             this.panel2.SuspendLayout();
@@ -55,13 +51,14 @@
             // 
             // panel1
             // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.button3);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.comboBox1);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.打印);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(904, 39);
@@ -76,6 +73,7 @@
             this.button3.TabIndex = 5;
             this.button3.Text = "修改";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button1
             // 
@@ -86,28 +84,7 @@
             this.button1.TabIndex = 4;
             this.button1.Text = "查询";
             this.button1.UseVisualStyleBackColor = true;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "分拣标准通道",
-            "重力式货架"});
-            this.comboBox1.Location = new System.Drawing.Point(91, 13);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(105, 20);
-            this.comboBox1.TabIndex = 3;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 19);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(71, 12);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "请选择类型:";
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -130,101 +107,27 @@
             // codedata
             // 
             this.codedata.AllowUserToAddRows = false;
-            this.codedata.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.codedata.AllowUserToDeleteRows = false;
+            this.codedata.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.codedata.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.codedata.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.codedata.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.codedata.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.num,
             this.cigarettecode,
             this.cigarettename,
             this.machineseq,
             this.mantissa,
-            this.阀值,
-            this.托盘出库件数,
-            this.启用上层烟柜清空,
-            this.启用烟柜量最少});
+            this.THRESHOLD});
             this.codedata.Location = new System.Drawing.Point(0, 45);
+            this.codedata.MultiSelect = false;
             this.codedata.Name = "codedata";
             this.codedata.RowHeadersWidth = 30;
             this.codedata.RowTemplate.Height = 23;
+            this.codedata.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.codedata.Size = new System.Drawing.Size(904, 447);
             this.codedata.TabIndex = 2;
-            // 
-            // num
-            // 
-            this.num.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.num.DataPropertyName = "num";
-            this.num.HeaderText = "序号";
-            this.num.Name = "num";
-            this.num.ReadOnly = true;
-            this.num.Width = 51;
-            // 
-            // cigarettecode
-            // 
-            this.cigarettecode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.cigarettecode.DataPropertyName = "cigarettecode";
-            this.cigarettecode.HeaderText = "品牌代码";
-            this.cigarettecode.Name = "cigarettecode";
-            this.cigarettecode.ReadOnly = true;
-            this.cigarettecode.Width = 61;
-            // 
-            // cigarettename
-            // 
-            this.cigarettename.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.cigarettename.DataPropertyName = "cigarettename";
-            this.cigarettename.HeaderText = "品牌名称";
-            this.cigarettename.Name = "cigarettename";
-            this.cigarettename.ReadOnly = true;
-            this.cigarettename.Width = 61;
-            // 
-            // machineseq
-            // 
-            this.machineseq.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.machineseq.DataPropertyName = "machineseq";
-            this.machineseq.HeaderText = "烟道号";
-            this.machineseq.Name = "machineseq";
-            this.machineseq.ReadOnly = true;
-            this.machineseq.Width = 61;
-            // 
-            // mantissa
-            // 
-            this.mantissa.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.mantissa.DataPropertyName = "mantissa";
-            this.mantissa.HeaderText = "尾数";
-            this.mantissa.Name = "mantissa";
-            this.mantissa.ReadOnly = true;
-            this.mantissa.Width = 51;
-            // 
-            // 阀值
-            // 
-            this.阀值.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.阀值.DataPropertyName = "THRESHOLD";
-            this.阀值.HeaderText = "阀值";
-            this.阀值.Name = "阀值";
-            this.阀值.ReadOnly = true;
-            this.阀值.Width = 51;
-            // 
-            // 托盘出库件数
-            // 
-            this.托盘出库件数.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.托盘出库件数.DataPropertyName = "BOXCOUNT";
-            this.托盘出库件数.HeaderText = "托盘出库件数";
-            this.托盘出库件数.Name = "托盘出库件数";
-            this.托盘出库件数.ReadOnly = true;
-            this.托盘出库件数.Width = 72;
-            // 
-            // 启用上层烟柜清空
-            // 
-            this.启用上层烟柜清空.DataPropertyName = "clearup";
-            this.启用上层烟柜清空.HeaderText = "启用上层烟柜清空";
-            this.启用上层烟柜清空.Name = "启用上层烟柜清空";
-            this.启用上层烟柜清空.Width = 83;
-            // 
-            // 启用烟柜量最少
-            // 
-            this.启用烟柜量最少.DataPropertyName = "maintissaless";
-            this.启用烟柜量最少.HeaderText = "启用烟柜量最少";
-            this.启用烟柜量最少.Name = "启用烟柜量最少";
-            this.启用烟柜量最少.Width = 83;
             // 
             // panel2
             // 
@@ -254,6 +157,63 @@
             this.progressBar1.TabIndex = 0;
             this.progressBar1.Visible = false;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(9, 19);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(71, 12);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "请选择类型:";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "立式烟仓",
+            "卧式烟仓"});
+            this.comboBox1.Location = new System.Drawing.Point(91, 13);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(105, 20);
+            this.comboBox1.TabIndex = 3;
+            // 
+            // cigarettecode
+            // 
+            this.cigarettecode.DataPropertyName = "cigarettecode";
+            this.cigarettecode.HeaderText = "品牌代码";
+            this.cigarettecode.Name = "cigarettecode";
+            this.cigarettecode.ReadOnly = true;
+            // 
+            // cigarettename
+            // 
+            this.cigarettename.DataPropertyName = "cigarettename";
+            this.cigarettename.HeaderText = "品牌名称";
+            this.cigarettename.Name = "cigarettename";
+            this.cigarettename.ReadOnly = true;
+            // 
+            // machineseq
+            // 
+            this.machineseq.DataPropertyName = "machineseq";
+            this.machineseq.HeaderText = "烟道号";
+            this.machineseq.Name = "machineseq";
+            this.machineseq.ReadOnly = true;
+            // 
+            // mantissa
+            // 
+            this.mantissa.DataPropertyName = "mantissa";
+            this.mantissa.HeaderText = "尾数";
+            this.mantissa.Name = "mantissa";
+            this.mantissa.ReadOnly = true;
+            // 
+            // THRESHOLD
+            // 
+            this.THRESHOLD.DataPropertyName = "THRESHOLD";
+            this.THRESHOLD.HeaderText = "阀值";
+            this.THRESHOLD.Name = "THRESHOLD";
+            this.THRESHOLD.ReadOnly = true;
+            // 
             // w_Cigarette_LeftCount
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -278,22 +238,18 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button 打印;
         private System.Windows.Forms.DataGridView codedata;
-        private System.Windows.Forms.DataGridViewTextBoxColumn num;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridViewTextBoxColumn cigarettecode;
         private System.Windows.Forms.DataGridViewTextBoxColumn cigarettename;
         private System.Windows.Forms.DataGridViewTextBoxColumn machineseq;
         private System.Windows.Forms.DataGridViewTextBoxColumn mantissa;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 阀值;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 托盘出库件数;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 启用上层烟柜清空;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 启用烟柜量最少;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn THRESHOLD;
     }
 }

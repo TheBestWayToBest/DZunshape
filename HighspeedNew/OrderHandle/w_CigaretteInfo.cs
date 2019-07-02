@@ -73,8 +73,9 @@ namespace HighSpeed.OrderHandle
 
                         if (ItemClass.UpdateItemInfo(item))
                         {
-                            DgvItemInfo.DataSource = null;
+                            
                             itemInfos = new List<ItemInfo>();
+                            DgvItemInfo.DataSource = itemInfos;
                             itemInfos = ItemClass.GetItemInfo(0, "");
                             DgvItemInfo.AutoGenerateColumns = false;
                             DgvItemInfo.DataSource = itemInfos;

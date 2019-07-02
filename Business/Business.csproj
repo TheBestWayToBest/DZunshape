@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="BusinessClass\BatchClass.cs" />
     <Compile Include="BusinessClass\ChannelClass.cs" />
+    <Compile Include="BusinessClass\CigarreteLeftCountClass.cs" />
     <Compile Include="BusinessClass\ExportClass.cs" />
     <Compile Include="BusinessClass\HunheClass.cs" />
     <Compile Include="BusinessClass\ItemClass.cs" />
@@ -68,6 +69,7 @@
     </Compile>
     <Compile Include="Modle\AllOrderData.cs" />
     <Compile Include="Modle\CigarettInfo.cs" />
+    <Compile Include="Modle\CigarreteLeftCountInfo.cs" />
     <Compile Include="Modle\ExportInfo.cs" />
     <Compile Include="Modle\HunheInfo.cs" />
     <Compile Include="Modle\InfoExport.cs" />

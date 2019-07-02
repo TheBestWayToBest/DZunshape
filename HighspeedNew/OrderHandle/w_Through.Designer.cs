@@ -156,6 +156,9 @@
             // 
             this.box_condition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.box_condition.FormattingEnabled = true;
+            this.box_condition.Items.AddRange(new object[] {
+            "卷烟编码",
+            "卷烟名称"});
             this.box_condition.Location = new System.Drawing.Point(60, 23);
             this.box_condition.Name = "box_condition";
             this.box_condition.Size = new System.Drawing.Size(100, 20);

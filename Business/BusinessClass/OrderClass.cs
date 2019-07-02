@@ -8,9 +8,6 @@ namespace Business.BusinessClass
 {
     public class OrderClass
     {
-        //"with lst as (SELECT routecode,SUM(totalqty)as order_qty,count(1) as count_hs FROM t_wms_shiporder " +
-        //"WHERE   orderdate=to_date('" + time + "','yyyy-mm-dd') GROUP BY routecode) select rownum,lst.* from lst";
-
         public static List<OrderData> GetOrderByDate(DateTime date)
         {
             using (DZEntities en = new DZEntities())
@@ -22,8 +19,7 @@ namespace Business.BusinessClass
 
             }
         }
-        //"select rownum as num  , cigarettecode,cigarettename,  ccount,  orderqty  from (SELECT  cigarettecode,cigarettename,count(*) as ccount,SUM(quantity) AS orderqty   
-        //FROM t_produce_orderline GROUP BY cigarettecode,cigarettename ORDER BY orderqty   desc)"
+        
         public static List<AllOrderData> GetAllOrder()
         {
             using (DZEntities en = new DZEntities())
@@ -34,10 +30,6 @@ namespace Business.BusinessClass
                 return list;
             }
         }
-
-        //"  SELECT ROWNUM AS num, cigarettecode,cigarettename,ccount ,orderqty  FROM" +
-        //                    "(SELECT line.cigarettecode,line.cigarettename,count(*) as ccount,SUM(line.quantity)AS orderqty FROM t_produce_orderline line " +
-        //                   " WHERE line.allowsort='非标' GROUP BY line.cigarettecode,line.cigarettename ORDER BY orderqty desc)"
 
         public static List<AllOrderData> GetUnnormalCig()
         {

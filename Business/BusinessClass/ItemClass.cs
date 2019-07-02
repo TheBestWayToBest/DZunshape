@@ -56,6 +56,7 @@ namespace Business.BusinessClass
                     ite.JT_SIZE = item.JT_Size;
                     ite.ROWSTATUS = item.RowStatus;
                     ite.SHIPTYPE = item.Shiptype;
+                    ite.BIGBOX_BAR = item.BigBox_Bar;
                     ///gogos
                     rows += en.SaveChanges();
                 }

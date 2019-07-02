@@ -92,6 +92,12 @@
     <Compile Include="OrderHandle\w_CigaretteChoose.Designer.cs">
       <DependentUpon>w_CigaretteChoose.cs</DependentUpon>
     </Compile>
+    <Compile Include="OrderHandle\w_CigaretteHandle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_CigaretteHandle.Designer.cs">
+      <DependentUpon>w_CigaretteHandle.cs</DependentUpon>
+    </Compile>
     <Compile Include="OrderHandle\w_CigaretteInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -238,6 +244,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_CigaretteChoose.resx">
       <DependentUpon>w_CigaretteChoose.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_CigaretteHandle.resx">
+      <DependentUpon>w_CigaretteHandle.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_CigaretteInfo.resx">
       <DependentUpon>w_CigaretteInfo.cs</DependentUpon>

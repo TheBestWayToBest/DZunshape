@@ -261,5 +261,19 @@ namespace HighSpeed
             frm.Show();
         }
 
+        private void 品牌尾数维护ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            w_Cigarette_LeftCount frm = new w_Cigarette_LeftCount();
+            if (CheckExist(frm) == true)
+            {
+                frm.Dispose();
+                frm = null;
+                return;
+            }
+            frm.MdiParent = this;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
     }
 }
