@@ -22,6 +22,7 @@ namespace HighSpeedNew.OrderHandle
     public partial class w_Export_N : Form
     {
         Socket socketClient;
+        List<TaskInfo> list;
         public w_Export_N()
         {
             InitializeComponent();
@@ -33,9 +34,18 @@ namespace HighSpeedNew.OrderHandle
             //String strsql = "SELECT batchcode,sum(t.taskquantity) as qty,COUNT(*)as cuscount,t.synseq,count(distinct regioncode) as regioncodecount from t_produce_task t where t.state=15 group BY t.batchcode,t.synseq order by synseq ";
             //scre.Content.Select(x => new { synseq = x.SYNSEQ, regioncode = x.REGIONCODE, count = x.Count, qty = x.QTY }).ToList();
             var rm = sc.GetTaskInfoByBatchcode();
+            list = rm.Content;
             if (rm.IsSuccess)
             {
-                orderdata.DataSource = rm.Content.Select(x => new { synseq = x.SYNSEQ, linenum = x.LINENUM, batchcode = x.BATCHODE, qty = x.QTY, count = x.Count }).OrderBy(x => new { x.synseq,x.linenum}).ToList();
+                orderdata.DataSource = list.Select(x => new
+                {
+                    synseq = x.SYNSEQ,
+                    linenum = x.LINENUM,
+                    batchcode = x.BATCHODE,
+                    qty = x.QTY,
+                    count = x.Count
+                }).ToList();
+                    //OrderBy(x => new { x.synseq,x.linenum}).ToList();
             }
             else
             {
@@ -56,6 +66,10 @@ namespace HighSpeedNew.OrderHandle
             int taskseq = 0, seq = 1;
             String tasknum = "", cuscode = "", cusname = "", itemno = "", itemname = "", quantity = "", regioncode = "", orderdate = "", cuscodetmp = "";
             
+            //根据类型给打码机编号赋值
+            if (linenum == "1") lineno = "DZ01";
+            else lineno = "DZ02";
+
             //取数据
             var result = sc.Get1stPrjInfo(Convert.ToDecimal(synseq), linenum);
             List<_1stPrjInfo>list = result.Content.ToList();
@@ -64,10 +78,10 @@ namespace HighSpeedNew.OrderHandle
                 //取一号工程批次号
                 Business.DZEntities en = new Business.DZEntities();
                 String batchcodesql = "select S_PRODUCE_1STPRJINFO.Nextval from dual";
-                string batchcode = en.ExecuteStoreQuery<string>(batchcodesql, null).FirstOrDefault();
+                string batchcode = en.ExecuteStoreQuery<decimal>(batchcodesql, null).FirstOrDefault().ToString();
 
                 //创建通讯链接
-                InitSocket();
+                //InitSocket();
                 //创建到处目录
                 String folder = "HighSpeedExportData";
                 if (!Directory.Exists("D:\\" + folder))
@@ -94,7 +108,7 @@ namespace HighSpeedNew.OrderHandle
                     regioncode = prjInfo.regionCode;
                     orderdate = prjInfo.orderDate;
                     //lineno = row["SORTNAME"].ToString();
-                    lineno = "1";
+                    //lineno = "1";
                     taskseq++;
                     rowCcount = rowCcount + 1;
 
@@ -130,7 +144,7 @@ namespace HighSpeedNew.OrderHandle
                             //将之前的记录信息导出
                             DateTime dt = DateTime.Now;
                             String time = string.Format("{0:yyyyMMddHHmmssfff}", dt);
-                            String filename = "RetailerOrder-" + time + "-" + synseq + "-" + fileSeq;
+                            String filename = "RetailerOrder-" + time + "-" + synseq + "-" + linenum + "-" + fileSeq;
                             fileNameStr = fileNameStr + "," + filename + ".zip";
                             StreamWriter sw = new StreamWriter("D:\\HighSpeedExportData\\" + filename + ".Order", false, Encoding.UTF8);
                             sw.WriteLine(info.Substring(0, info.Length - 1));
@@ -173,7 +187,7 @@ namespace HighSpeedNew.OrderHandle
                             label2.Refresh();
                             DateTime dt = DateTime.Now;
                             String time = string.Format("{0:yyyyMMddHHmmssfff}", dt);
-                            String filename = "RetailerOrder-" + time + "-" + synseq + "-" + fileSeq;
+                            String filename = "RetailerOrder-" + time + "-" + synseq + "-" + linenum + "-" + fileSeq;
                             fileNameStr = fileNameStr + "," + filename + ".zip";
                             StreamWriter sw = new StreamWriter("D:\\HighSpeedExportData\\" + filename + ".Order", false, Encoding.UTF8);
                             sw.WriteLine(info.Substring(0, info.Length - 1));
@@ -202,32 +216,32 @@ namespace HighSpeedNew.OrderHandle
                         tmpInfo = "";
                         rowCcount = 0;
                     }
-                    //在弹窗前关闭控件
-                    panel2.Visible = false;
-                    label2.Visible = false;
-                    progressBar1.Visible = false;
-
-                    String msg = "成功导出" + fileSeq + "个文件，成功发送" + succCount + "个文件！";
-                    //导出的文件的所有文件名
-                    if (!"".Equals(fileNameStr)) fileNameStr = fileNameStr.Substring(1);
-                    //发送失败的所有文件名
-                    if (!"".Equals(unSuccFile))
-                    {
-                        unSuccFile = unSuccFile.Substring(1);
-                        msg = msg + "其中发送失败文件为(" + unSuccFile + ")！";
-                    }
-                    else
-                    {
-                        msg = msg + "文件名为(" + fileNameStr + ")！";
-                    }
-
-                    MessageBox.Show(msg, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    socketClient.Disconnect(false);
-                    socketClient.Close();
                 }
-                this.btn_export.Enabled = true;
+                //在弹窗前关闭控件
+                panel2.Visible = false;
+                label2.Visible = false;
+                progressBar1.Visible = false;
+
+                String msg = "成功导出" + fileSeq + "个文件，成功发送" + succCount + "个文件！";
+                //导出的文件的所有文件名
+                if (!"".Equals(fileNameStr)) fileNameStr = fileNameStr.Substring(1);
+                //发送失败的所有文件名
+                if (!"".Equals(unSuccFile))
+                {
+                    unSuccFile = unSuccFile.Substring(1);
+                    msg = msg + "其中发送失败文件为(" + unSuccFile + ")！";
+                }
+                else
+                {
+                    msg = msg + "文件名为(" + fileNameStr + ")！";
+                }
+
+                MessageBox.Show(msg, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                socketClient.Disconnect(false);
+                socketClient.Close();
             }
+            this.btn_export.Enabled = true;
         }
 
         private void btn_export_Click(object sender, EventArgs e)
@@ -349,6 +363,21 @@ namespace HighSpeedNew.OrderHandle
         {
             this.Close();
             orderdata.ClearSelection();
+        }
+
+        private void orderdata_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.ColumnIndex == 1)
+            {
+                if (list[e.RowIndex].LINENUM == "1")
+                {
+                    e.Value = "烟仓";
+                }
+                else
+                {
+                    e.Value = "特异型烟";
+                }
+            }
         }
     }
 }

@@ -42,7 +42,7 @@
             // btn_save
             // 
             this.btn_save.Location = new System.Drawing.Point(207, 80);
-            this.btn_save.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_save.Margin = new System.Windows.Forms.Padding(4);
             this.btn_save.Name = "btn_save";
             this.btn_save.Size = new System.Drawing.Size(100, 29);
             this.btn_save.TabIndex = 0;
@@ -53,7 +53,7 @@
             // btn_close
             // 
             this.btn_close.Location = new System.Drawing.Point(365, 80);
-            this.btn_close.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_close.Margin = new System.Windows.Forms.Padding(4);
             this.btn_close.Name = "btn_close";
             this.btn_close.Size = new System.Drawing.Size(100, 29);
             this.btn_close.TabIndex = 1;
@@ -64,7 +64,7 @@
             // txt_batchcode
             // 
             this.txt_batchcode.Location = new System.Drawing.Point(111, 25);
-            this.txt_batchcode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txt_batchcode.Margin = new System.Windows.Forms.Padding(4);
             this.txt_batchcode.Name = "txt_batchcode";
             this.txt_batchcode.Size = new System.Drawing.Size(132, 25);
             this.txt_batchcode.TabIndex = 2;
@@ -74,7 +74,7 @@
             this.starttime.CustomFormat = "yyyy-MM-dd HH:mm:ss";
             this.starttime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.starttime.Location = new System.Drawing.Point(421, 25);
-            this.starttime.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.starttime.Margin = new System.Windows.Forms.Padding(4);
             this.starttime.Name = "starttime";
             this.starttime.Size = new System.Drawing.Size(265, 25);
             this.starttime.TabIndex = 3;
@@ -104,7 +104,7 @@
             // 
             this.panel1.Controls.Add(this.lab_showinfo);
             this.panel1.Location = new System.Drawing.Point(158, 72);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(373, 49);
             this.panel1.TabIndex = 6;
@@ -132,7 +132,7 @@
             this.Controls.Add(this.txt_batchcode);
             this.Controls.Add(this.btn_close);
             this.Controls.Add(this.btn_save);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "win_batch_new";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "创建批次";

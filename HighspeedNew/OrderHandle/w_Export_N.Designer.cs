@@ -30,6 +30,11 @@
         {
             this.btn_refresh = new System.Windows.Forms.Button();
             this.orderdata = new System.Windows.Forms.DataGridView();
+            this.synseq = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LINENUM = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.batchcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cuscount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btn_close = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btn_export = new System.Windows.Forms.Button();
@@ -37,11 +42,6 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.synseq = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LINENUM = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.batchcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cuscount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.orderdata)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -50,7 +50,7 @@
             // btn_refresh
             // 
             this.btn_refresh.Location = new System.Drawing.Point(671, 22);
-            this.btn_refresh.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_refresh.Margin = new System.Windows.Forms.Padding(4);
             this.btn_refresh.Name = "btn_refresh";
             this.btn_refresh.Size = new System.Drawing.Size(100, 29);
             this.btn_refresh.TabIndex = 8;
@@ -71,88 +71,14 @@
             this.qty});
             this.orderdata.Dock = System.Windows.Forms.DockStyle.Fill;
             this.orderdata.Location = new System.Drawing.Point(0, 65);
-            this.orderdata.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.orderdata.Margin = new System.Windows.Forms.Padding(4);
             this.orderdata.MultiSelect = false;
             this.orderdata.Name = "orderdata";
             this.orderdata.RowTemplate.Height = 23;
             this.orderdata.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.orderdata.Size = new System.Drawing.Size(1176, 263);
             this.orderdata.TabIndex = 3;
-            // 
-            // btn_close
-            // 
-            this.btn_close.Location = new System.Drawing.Point(979, 22);
-            this.btn_close.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btn_close.Name = "btn_close";
-            this.btn_close.Size = new System.Drawing.Size(100, 29);
-            this.btn_close.TabIndex = 7;
-            this.btn_close.Text = "关闭";
-            this.btn_close.UseVisualStyleBackColor = true;
-            this.btn_close.Click += new System.EventHandler(this.btn_close_Click);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.btn_refresh);
-            this.panel1.Controls.Add(this.btn_close);
-            this.panel1.Controls.Add(this.btn_export);
-            this.panel1.Controls.Add(this.lab_showinfo);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1176, 65);
-            this.panel1.TabIndex = 2;
-            // 
-            // btn_export
-            // 
-            this.btn_export.Location = new System.Drawing.Point(871, 22);
-            this.btn_export.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btn_export.Name = "btn_export";
-            this.btn_export.Size = new System.Drawing.Size(100, 29);
-            this.btn_export.TabIndex = 6;
-            this.btn_export.Text = "发送";
-            this.btn_export.UseVisualStyleBackColor = true;
-            this.btn_export.Click += new System.EventHandler(this.btn_export_Click);
-            // 
-            // lab_showinfo
-            // 
-            this.lab_showinfo.AutoSize = true;
-            this.lab_showinfo.Location = new System.Drawing.Point(16, 29);
-            this.lab_showinfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lab_showinfo.Name = "lab_showinfo";
-            this.lab_showinfo.Size = new System.Drawing.Size(607, 15);
-            this.lab_showinfo.TabIndex = 3;
-            this.lab_showinfo.Text = "选择批次订单数据，点击“发送”按钮，可以将批次订单信息导出并自动发送到一号工程。";
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.label2);
-            this.panel2.Controls.Add(this.progressBar1);
-            this.panel2.Location = new System.Drawing.Point(137, 152);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(884, 111);
-            this.panel2.TabIndex = 5;
-            this.panel2.Visible = false;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(41, 19);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(121, 15);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "正在读取数据...";
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(44, 52);
-            this.progressBar1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(796, 29);
-            this.progressBar1.TabIndex = 0;
-            this.progressBar1.Visible = false;
+            this.orderdata.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.orderdata_CellFormatting);
             // 
             // synseq
             // 
@@ -193,6 +119,81 @@
             this.qty.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.qty.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // btn_close
+            // 
+            this.btn_close.Location = new System.Drawing.Point(979, 22);
+            this.btn_close.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_close.Name = "btn_close";
+            this.btn_close.Size = new System.Drawing.Size(100, 29);
+            this.btn_close.TabIndex = 7;
+            this.btn_close.Text = "关闭";
+            this.btn_close.UseVisualStyleBackColor = true;
+            this.btn_close.Click += new System.EventHandler(this.btn_close_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btn_refresh);
+            this.panel1.Controls.Add(this.btn_close);
+            this.panel1.Controls.Add(this.btn_export);
+            this.panel1.Controls.Add(this.lab_showinfo);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1176, 65);
+            this.panel1.TabIndex = 2;
+            // 
+            // btn_export
+            // 
+            this.btn_export.Location = new System.Drawing.Point(871, 22);
+            this.btn_export.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_export.Name = "btn_export";
+            this.btn_export.Size = new System.Drawing.Size(100, 29);
+            this.btn_export.TabIndex = 6;
+            this.btn_export.Text = "发送";
+            this.btn_export.UseVisualStyleBackColor = true;
+            this.btn_export.Click += new System.EventHandler(this.btn_export_Click);
+            // 
+            // lab_showinfo
+            // 
+            this.lab_showinfo.AutoSize = true;
+            this.lab_showinfo.Location = new System.Drawing.Point(16, 29);
+            this.lab_showinfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lab_showinfo.Name = "lab_showinfo";
+            this.lab_showinfo.Size = new System.Drawing.Size(607, 15);
+            this.lab_showinfo.TabIndex = 3;
+            this.lab_showinfo.Text = "选择批次订单数据，点击“发送”按钮，可以将批次订单信息导出并自动发送到一号工程。";
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.label2);
+            this.panel2.Controls.Add(this.progressBar1);
+            this.panel2.Location = new System.Drawing.Point(137, 152);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(884, 111);
+            this.panel2.TabIndex = 5;
+            this.panel2.Visible = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(41, 19);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(121, 15);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "正在读取数据...";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(44, 52);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(4);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(796, 29);
+            this.progressBar1.TabIndex = 0;
+            this.progressBar1.Visible = false;
+            // 
             // w_Export_N
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -201,7 +202,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.orderdata);
             this.Controls.Add(this.panel1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "w_Export_N";
             this.Text = "任务导出";
             ((System.ComponentModel.ISupportInitialize)(this.orderdata)).EndInit();

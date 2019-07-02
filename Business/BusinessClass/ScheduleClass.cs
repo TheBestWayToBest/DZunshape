@@ -6,6 +6,7 @@ using Business.Modle;
 using System.Data.SqlClient;
 using System.Data;
 using Oracle.ManagedDataAccess.Client;
+using System.Data.Common;
 
 namespace Business.BusinessClass
 {
@@ -776,16 +777,15 @@ namespace Business.BusinessClass
                                  z = poke
                              }).ToList();
                 var query1 = (from item in query
-                              group item by new { item.x.SYNSEQ, item.x.BATCHCODE, item.y.LINENUM } into g
+                              group item by new { item.x.SYNSEQ, item.x.BATCHCODE, item.y.LINENUM } 
+                              into g orderby g.Key.SYNSEQ,g.Key.LINENUM
                               select new
                               {
                                   g.Key.SYNSEQ,
                                   g.Key.BATCHCODE,
                                   g.Key.LINENUM,
                                   qty = g.Sum(x => x.z.POKENUM),
-                                  count = g.Count()
-                                  //(from ct in query
-                                  //         select )
+                                  count = (from ct in g select ct.x.TASKNUM).Distinct().Count()
                               }).ToList();//count有问题
                 int index = 0;
                 foreach (var item in query1)
@@ -796,6 +796,7 @@ namespace Business.BusinessClass
                     mo.BATCHODE = item.BATCHCODE;
                     mo.QTY = item.qty ?? 0;
                     mo.Count = item.count;//订单户数
+                    mo.LINENUM = item.LINENUM;
                     mainOrder.Add(mo);
                 }
                 if (mainOrder.Any())
@@ -857,7 +858,8 @@ namespace Business.BusinessClass
                     info.sortNum = item.x.SORTNUM ?? 0;
                     info.machineSeq = item.z.MACHINESEQ ?? 0;
                     info.quantity = item.z.POKENUM ?? 0;
-                    info.orderDate = String.Format("yyyy-mm-dd", item.x.ORDERDATE);
+                    DateTime orderdate = item.x.ORDERDATE??new DateTime();
+                    info.orderDate = orderdate.ToShortDateString();
                     info.pokeNum = item.z.POKENUM ?? 0;
                     info.regionCode = item.x.REGIONCODE;
 
@@ -971,6 +973,40 @@ namespace Business.BusinessClass
             {
                 Response response = new Response();
                 response.IsSuccess = true;
+                //OracleParameter[] sqlpara = new OracleParameter[3];
+                //sqlpara[0] = new OracleParameter("bz", "0");
+                //sqlpara[1] = new OracleParameter("p_ErrCode", OracleDbType.Varchar2, 30);
+                //sqlpara[2] = new OracleParameter("p_ErrMsg", OracleDbType.Varchar2, 1000);
+
+                //sqlpara[0].Direction = ParameterDirection.Input;
+                //sqlpara[1].Direction = ParameterDirection.Output;
+                //sqlpara[2].Direction = ParameterDirection.Output;
+
+                //dzEntities.ExecuteStoreCommand("P_UN_REMOVE", sqlpara);
+
+                System.Data.EntityClient.EntityConnection entityConnection = (System.Data.EntityClient.EntityConnection)dzEntities.Connection;
+                entityConnection.Open();
+                System.Data.Common.DbConnection storeConnection = entityConnection.StoreConnection;
+                System.Data.Common.DbCommand cmd = storeConnection.CreateCommand();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandText = "P_UN_REMOVE";
+
+                //DbParameter inPara = cmd.CreateParameter();
+                //inPara.Direction = ParameterDirection.Input;
+                //inPara.ParameterName = "bz";
+                //inPara.Value = "0";
+                //inPara.DbType = DbType.Object;
+
+                //DbParameter outPara1 = cmd.CreateParameter();
+                //outPara1.Direction = ParameterDirection.Output;
+                //outPara1.ParameterName = "p_ErrCode";
+                //outPara1.DbType = DbType.Object;
+
+                //DbParameter outPara2 = cmd.CreateParameter();
+                //outPara2.Direction = ParameterDirection.Output;
+                //outPara2.ParameterName = "p_ErrMsg";
+                //outPara2.DbType = OracleDbType.Varchar2;
+
                 OracleParameter[] sqlpara = new OracleParameter[3];
                 sqlpara[0] = new OracleParameter("bz", "0");
                 sqlpara[1] = new OracleParameter("p_ErrCode", OracleDbType.Varchar2, 30);
@@ -980,18 +1016,24 @@ namespace Business.BusinessClass
                 sqlpara[1].Direction = ParameterDirection.Output;
                 sqlpara[2].Direction = ParameterDirection.Output;
 
-                dzEntities.ExecuteStoreCommand("P_UN_REMOVE", sqlpara);
+                cmd.Parameters.Add(sqlpara[0]);
+                cmd.Parameters.Add(sqlpara[1]);
+                cmd.Parameters.Add(sqlpara[2]);
 
-                if (sqlpara[1].Value.ToString() == "1")
+                cmd.ExecuteNonQuery();
+                
+
+                if (cmd.Parameters[1].Value.ToString() == "1")
                 {
                     response.IsSuccess = true;
-                    response.MessageText = sqlpara[2].Value.ToString();
+                    response.MessageText = cmd.Parameters[2].Value.ToString();
                 }
                 else 
                 {
                     response.IsSuccess = false;
-                    response.MessageText = sqlpara[2].Value.ToString();
+                    response.MessageText = cmd.Parameters[2].Value.ToString();
                 }
+                cmd.Dispose();
                 return response;
             }
         }
