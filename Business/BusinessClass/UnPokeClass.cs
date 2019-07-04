@@ -20,7 +20,7 @@ namespace Business.BusinessClass
         /// <returns></returns>
         public static object[] GetOneDateBaseTask(decimal status, string linenum, out StringBuilder outStr)
         {
-            object[] values = new object[102];
+            object[] values = new object[104];
             for (int i = 0; i < values.Length; i++)
             {
                 values[i] = 0;
@@ -32,32 +32,35 @@ namespace Business.BusinessClass
                 
                 decimal ts = en.T_PRODUCE_SORTTROUGH.Where(item => item.GROUPNO == 1 && item.CIGARETTETYPE == 40).Select(item => item.MACHINESEQ ?? 0).FirstOrDefault();
                 
-                var query = en.T_UN_POKE.Where(item => item.LINENUM == linenum).OrderBy(item => item.SORTNUM).OrderBy(item => item.SENDTASKNUM).FirstOrDefault();
+                var query = en.T_UN_POKE.Where(item => item.LINENUM == linenum).OrderBy(item => item.SORTNUM).FirstOrDefault();
                 if (query == null)
                 {
                     outStr = null;
                     return values;
                 }
-                list = en.T_UN_POKE.Where(item => item.SENDTASKNUM == query.SENDTASKNUM && item.STATUS == status).OrderBy(item => item.SORTNUM).ToList();
+                list = en.T_UN_POKE.Where(item => item.SORTNUM == query.SORTNUM && item.STATUS == status && item.MACHINESEQ != ts).OrderBy(item => item.SORTNUM).ToList();
 
                 //混合道+++
 
                 values[0] = query.SORTNUM;
                 values[1] = query.SENDTASKNUM;
                 decimal machineseq = 0;
-                foreach (var item in list.GroupBy(item => item.MACHINESEQ).Select(item => new { MACHINESEQ = item.Key, QTY = item.Sum(x => x.POKENUM) }).ToList())
+                foreach (var item in list.GroupBy(item => new { item.MACHINESEQ, item.CTYPE }).Select(item => new { MACHINESEQ = item.Key.MACHINESEQ, CTYPE = item.Key.CTYPE, QTY = item.Sum(x => x.POKENUM) }).OrderBy(ite => new { ite.CTYPE, ite.MACHINESEQ }).ToList())
                 {
-                    if (machineseq != ts) 
+                    if (machineseq != ts)
                     {
-                        machineseq = (item.MACHINESEQ ?? 0) - 1000;
+                        machineseq = item.MACHINESEQ??0;
                         values[(int)machineseq + 1] = item.QTY;
                         sb.AppendLine(linenum + "线 " + machineseq + " 号烟仓，出烟数量：" + item.QTY);
                     }
                 }
-                values[98] = list.Sum(item => item.POKENUM);
-                values[99] = 0;
-                values[100] = 0;
-                values[101] = 1;
+                values[98] = list.Where(item => item.CTYPE == 2 && item.MACHINESEQ > 30 && item.MACHINESEQ < 91).Sum(item => item.POKENUM);
+                values[99] = list.Where(item => item.CTYPE == 3).Sum(item => item.POKENUM);
+                values[100] = list.Where(item => item.CTYPE == 2 && item.MACHINESEQ > 0 && item.MACHINESEQ < 31).Sum(item => item.POKENUM);
+
+                values[101] = 0;
+                values[102] = 0;
+                values[103] = 1;
                 sb.AppendLine("烟仓出烟数量：" + values[98] + "，任务发送标志位：" + values[101]);
                 outStr = sb;
                 return values;

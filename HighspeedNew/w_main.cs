@@ -123,7 +123,7 @@ namespace HighSpeed
 
         private void 任务排程ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            w_SortFm frm = new w_SortFm();
+            w_SortFm_New frm = new w_SortFm_New();
             if (CheckExist(frm) == true)
             {
                 frm.Dispose();

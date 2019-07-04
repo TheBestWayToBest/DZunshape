@@ -66,6 +66,7 @@ namespace HighspeedNew.OrderHandle
             {
                 infolst.Add(cigarettecode);
                 infolst.Add(cigarettename);
+
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }

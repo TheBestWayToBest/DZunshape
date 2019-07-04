@@ -48,30 +48,34 @@ namespace HighSpeed.OrderHandle
 
         private void orderdata_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 0)
+            if (orderdata.Rows.Count > 0) 
             {
-                if (orderdata.RowCount > 0)
+                if (e.ColumnIndex == 0)
                 {
-                    bool obj = (bool)this.orderdata.CurrentRow.Cells[0].EditedFormattedValue;
-                    //MessageBox.Show(obj);
+                    if (orderdata.RowCount > 0)
+                    {
+                        bool obj = (bool)this.orderdata.CurrentRow.Cells[0].EditedFormattedValue;
+                        //MessageBox.Show(obj);
 
-                    String czcode = this.orderdata.CurrentRow.Cells[2].Value + "";
-                    //MessageBox.Show(obj.ToString());
-                    String czcodestr = this.txt_codestr.Text;
-                    if (obj)
-                    {
-                        if (!czcodestr.Contains(czcode))
+                        String czcode = this.orderdata.CurrentRow.Cells[2].Value + "";
+                        //MessageBox.Show(obj.ToString());
+                        String czcodestr = this.txt_codestr.Text;
+                        if (obj)
                         {
-                            czcodestr = czcodestr + "," + czcode;
+                            if (!czcodestr.Contains(czcode))
+                            {
+                                czcodestr = czcodestr + "," + czcode;
+                            }
                         }
+                        else
+                        {
+                            czcodestr = czcodestr.Replace("," + czcode, "");
+                        }
+                        this.txt_codestr.Text = czcodestr;
                     }
-                    else
-                    {
-                        czcodestr = czcodestr.Replace("," + czcode, "");
-                    }
-                    this.txt_codestr.Text = czcodestr;
                 }
             }
+            
         }
 
         private void btn_schedule_Click(object sender, EventArgs e)

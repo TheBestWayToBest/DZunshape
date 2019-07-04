@@ -201,6 +201,8 @@ namespace HighspeedNew.OrderHandle
 
                 String type1 = this.troughdata.CurrentRow.Cells["ThroughType"].Value + "";
 
+                String id = this.troughdata.CurrentRow.Cells["ID"].Value + "";
+                
                 w_Through_Handle trough_handle = new w_Through_Handle(sign, amend_id, cigarettetype, type1);
                 trough_handle.WindowState = FormWindowState.Normal;
                 trough_handle.StartPosition = FormStartPosition.CenterScreen;

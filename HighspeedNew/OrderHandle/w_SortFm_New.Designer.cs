@@ -1,6 +1,6 @@
-﻿namespace HighSpeed.OrderHandle
+﻿namespace HighspeedNew.OrderHandle
 {
-    partial class w_SortFm
+    partial class w_SortFm_New
     {
         /// <summary>
         /// Required designer variable.
@@ -30,24 +30,23 @@
         {
             this.components = new System.ComponentModel.Container();
             this.TimerByTime = new System.Windows.Forms.Timer(this.components);
+            this.btnRef = new System.Windows.Forms.Button();
+            this.btn_replenishplan = new System.Windows.Forms.Button();
+            this.lblInFO = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.lblTime = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.btnTransfor = new System.Windows.Forms.Button();
             this.btnVid = new System.Windows.Forms.Button();
             this.btnPokeSeq = new System.Windows.Forms.Button();
-            this.btnRef = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.btn_replenishplan = new System.Windows.Forms.Button();
-            this.lblInFO = new System.Windows.Forms.Label();
             this.btnSort = new System.Windows.Forms.Button();
             this.dgvSortInfo = new System.Windows.Forms.DataGridView();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.pbLoading = new System.Windows.Forms.PictureBox();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.lblTime = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.synseq = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.regioncode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.count = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -58,23 +57,114 @@
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSortInfo)).BeginInit();
-            this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbLoading)).BeginInit();
+            this.Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSortInfo)).BeginInit();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLoading)).BeginInit();
             this.SuspendLayout();
             // 
             // TimerByTime
             // 
             this.TimerByTime.Interval = 1000;
-            this.TimerByTime.Tick += new System.EventHandler(this.TimerByTime_Tick);
+            // 
+            // btnRef
+            // 
+            this.btnRef.Location = new System.Drawing.Point(387, 8);
+            this.btnRef.Name = "btnRef";
+            this.btnRef.Size = new System.Drawing.Size(75, 23);
+            this.btnRef.TabIndex = 3;
+            this.btnRef.Text = "刷 新";
+            this.btnRef.UseVisualStyleBackColor = true;
+            this.btnRef.Click += new System.EventHandler(this.btnRef_Click);
+            // 
+            // btn_replenishplan
+            // 
+            this.btn_replenishplan.Location = new System.Drawing.Point(583, 8);
+            this.btn_replenishplan.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_replenishplan.Name = "btn_replenishplan";
+            this.btn_replenishplan.Size = new System.Drawing.Size(74, 23);
+            this.btn_replenishplan.TabIndex = 7;
+            this.btn_replenishplan.Text = "补货计划";
+            this.btn_replenishplan.UseVisualStyleBackColor = true;
+            this.btn_replenishplan.Click += new System.EventHandler(this.btn_replenishplan_Click);
+            // 
+            // lblInFO
+            // 
+            this.lblInFO.AutoSize = true;
+            this.lblInFO.Font = new System.Drawing.Font("宋体", 9F);
+            this.lblInFO.Location = new System.Drawing.Point(12, 12);
+            this.lblInFO.Name = "lblInFO";
+            this.lblInFO.Size = new System.Drawing.Size(0, 12);
+            this.lblInFO.TabIndex = 1;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.lblTime);
+            this.panel2.Controls.Add(this.panel3);
+            this.panel2.Controls.Add(this.label2);
+            this.panel2.Controls.Add(this.progressBar1);
+            this.panel2.Location = new System.Drawing.Point(14, 66);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(797, 89);
+            this.panel2.TabIndex = 32;
+            this.panel2.Visible = false;
+            // 
+            // lblTime
+            // 
+            this.lblTime.AutoSize = true;
+            this.lblTime.Font = new System.Drawing.Font("宋体", 11F);
+            this.lblTime.Location = new System.Drawing.Point(31, 14);
+            this.lblTime.Name = "lblTime";
+            this.lblTime.Size = new System.Drawing.Size(75, 15);
+            this.lblTime.TabIndex = 2;
+            this.lblTime.Text = "已用时间:";
+            // 
+            // panel3
+            // 
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel3.Controls.Add(this.label1);
+            this.panel3.Controls.Add(this.pbLoading);
+            this.panel3.Font = new System.Drawing.Font("宋体", 11F);
+            this.panel3.Location = new System.Drawing.Point(173, 53);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(359, 100);
+            this.panel3.TabIndex = 9;
+            this.panel3.Visible = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(210, 17);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(142, 15);
+            this.label1.TabIndex = 28;
+            this.label1.Text = "条烟顺序生成中。。";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("宋体", 11F);
+            this.label2.Location = new System.Drawing.Point(184, 14);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(115, 15);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "正在排程......";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(33, 42);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(741, 23);
+            this.progressBar1.TabIndex = 0;
+            this.progressBar1.Visible = false;
             // 
             // btnTransfor
             // 
@@ -106,51 +196,6 @@
             this.btnPokeSeq.UseVisualStyleBackColor = true;
             this.btnPokeSeq.Visible = false;
             // 
-            // btnRef
-            // 
-            this.btnRef.Location = new System.Drawing.Point(387, 8);
-            this.btnRef.Name = "btnRef";
-            this.btnRef.Size = new System.Drawing.Size(75, 23);
-            this.btnRef.TabIndex = 3;
-            this.btnRef.Text = "刷 新";
-            this.btnRef.UseVisualStyleBackColor = true;
-            this.btnRef.Click += new System.EventHandler(this.btnRef_Click);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.btn_replenishplan);
-            this.panel1.Controls.Add(this.btnTransfor);
-            this.panel1.Controls.Add(this.btnVid);
-            this.panel1.Controls.Add(this.btnPokeSeq);
-            this.panel1.Controls.Add(this.btnRef);
-            this.panel1.Controls.Add(this.lblInFO);
-            this.panel1.Controls.Add(this.btnSort);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1012, 48);
-            this.panel1.TabIndex = 7;
-            // 
-            // btn_replenishplan
-            // 
-            this.btn_replenishplan.Location = new System.Drawing.Point(583, 8);
-            this.btn_replenishplan.Margin = new System.Windows.Forms.Padding(2);
-            this.btn_replenishplan.Name = "btn_replenishplan";
-            this.btn_replenishplan.Size = new System.Drawing.Size(74, 23);
-            this.btn_replenishplan.TabIndex = 7;
-            this.btn_replenishplan.Text = "补货计划";
-            this.btn_replenishplan.UseVisualStyleBackColor = true;
-            this.btn_replenishplan.Click += new System.EventHandler(this.btn_replenishplan_Click);
-            // 
-            // lblInFO
-            // 
-            this.lblInFO.AutoSize = true;
-            this.lblInFO.Font = new System.Drawing.Font("宋体", 9F);
-            this.lblInFO.Location = new System.Drawing.Point(12, 12);
-            this.lblInFO.Name = "lblInFO";
-            this.lblInFO.Size = new System.Drawing.Size(0, 12);
-            this.lblInFO.TabIndex = 1;
-            // 
             // btnSort
             // 
             this.btnSort.Font = new System.Drawing.Font("宋体", 9F);
@@ -169,7 +214,6 @@
             this.dgvSortInfo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgvSortInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.synseq,
-            this.Column15,
             this.regioncode,
             this.count,
             this.qty,
@@ -180,12 +224,13 @@
             this.Column5,
             this.Column6,
             this.Column7,
-            this.Column9,
+            this.Column8,
             this.Column10,
             this.Column11,
             this.Column12,
             this.Column13,
-            this.Column14});
+            this.Column14,
+            this.Column15});
             this.dgvSortInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvSortInfo.Location = new System.Drawing.Point(0, 48);
             this.dgvSortInfo.MultiSelect = false;
@@ -194,28 +239,22 @@
             this.dgvSortInfo.RowTemplate.Height = 23;
             this.dgvSortInfo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSortInfo.Size = new System.Drawing.Size(1012, 551);
-            this.dgvSortInfo.TabIndex = 8;
+            this.dgvSortInfo.TabIndex = 31;
             // 
-            // panel3
+            // panel1
             // 
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel3.Controls.Add(this.label1);
-            this.panel3.Controls.Add(this.pbLoading);
-            this.panel3.Font = new System.Drawing.Font("宋体", 11F);
-            this.panel3.Location = new System.Drawing.Point(173, 53);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(359, 100);
-            this.panel3.TabIndex = 9;
-            this.panel3.Visible = false;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(210, 17);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(142, 15);
-            this.label1.TabIndex = 28;
-            this.label1.Text = "条烟顺序生成中。。";
+            this.panel1.Controls.Add(this.btn_replenishplan);
+            this.panel1.Controls.Add(this.btnTransfor);
+            this.panel1.Controls.Add(this.btnVid);
+            this.panel1.Controls.Add(this.btnPokeSeq);
+            this.panel1.Controls.Add(this.btnRef);
+            this.panel1.Controls.Add(this.lblInFO);
+            this.panel1.Controls.Add(this.btnSort);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1012, 48);
+            this.panel1.TabIndex = 30;
             // 
             // pbLoading
             // 
@@ -226,60 +265,12 @@
             this.pbLoading.TabIndex = 27;
             this.pbLoading.TabStop = false;
             // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.lblTime);
-            this.panel2.Controls.Add(this.panel3);
-            this.panel2.Controls.Add(this.label2);
-            this.panel2.Controls.Add(this.progressBar1);
-            this.panel2.Location = new System.Drawing.Point(14, 66);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(797, 89);
-            this.panel2.TabIndex = 29;
-            this.panel2.Visible = false;
-            // 
-            // lblTime
-            // 
-            this.lblTime.AutoSize = true;
-            this.lblTime.Font = new System.Drawing.Font("宋体", 11F);
-            this.lblTime.Location = new System.Drawing.Point(31, 14);
-            this.lblTime.Name = "lblTime";
-            this.lblTime.Size = new System.Drawing.Size(75, 15);
-            this.lblTime.TabIndex = 2;
-            this.lblTime.Text = "已用时间:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("宋体", 11F);
-            this.label2.Location = new System.Drawing.Point(184, 14);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(115, 15);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "正在排程......";
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(33, 42);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(741, 23);
-            this.progressBar1.TabIndex = 0;
-            this.progressBar1.Visible = false;
-            // 
             // synseq
             // 
             this.synseq.DataPropertyName = "SYNSEQ";
             this.synseq.HeaderText = "序号";
             this.synseq.Name = "synseq";
             this.synseq.ReadOnly = true;
-            // 
-            // Column15
-            // 
-            this.Column15.DataPropertyName = "FinishiQty";
-            this.Column15.HeaderText = "Column15";
-            this.Column15.Name = "Column15";
-            this.Column15.ReadOnly = true;
-            this.Column15.Visible = false;
             // 
             // regioncode
             // 
@@ -304,7 +295,7 @@
             // 
             // Column1
             // 
-            this.Column1.DataPropertyName = "FinishCount";
+            this.Column1.DataPropertyName = "FinishQTY";
             this.Column1.HeaderText = "Column1";
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
@@ -312,7 +303,7 @@
             // 
             // Column2
             // 
-            this.Column2.DataPropertyName = "Rate";
+            this.Column2.DataPropertyName = "FinishCount";
             this.Column2.HeaderText = "Column2";
             this.Column2.Name = "Column2";
             this.Column2.ReadOnly = true;
@@ -320,7 +311,7 @@
             // 
             // Column3
             // 
-            this.Column3.DataPropertyName = "Machineseq";
+            this.Column3.DataPropertyName = "Rate";
             this.Column3.HeaderText = "Column3";
             this.Column3.Name = "Column3";
             this.Column3.ReadOnly = true;
@@ -328,7 +319,7 @@
             // 
             // Column4
             // 
-            this.Column4.DataPropertyName = "GroupNo";
+            this.Column4.DataPropertyName = "MACHINESEQ";
             this.Column4.HeaderText = "Column4";
             this.Column4.Name = "Column4";
             this.Column4.ReadOnly = true;
@@ -336,7 +327,7 @@
             // 
             // Column5
             // 
-            this.Column5.DataPropertyName = "PokeNum";
+            this.Column5.DataPropertyName = "GROUPNO";
             this.Column5.HeaderText = "Column5";
             this.Column5.Name = "Column5";
             this.Column5.ReadOnly = true;
@@ -344,7 +335,7 @@
             // 
             // Column6
             // 
-            this.Column6.DataPropertyName = "UnionTaskNum";
+            this.Column6.DataPropertyName = "POKENUM";
             this.Column6.HeaderText = "Column6";
             this.Column6.Name = "Column6";
             this.Column6.ReadOnly = true;
@@ -352,23 +343,23 @@
             // 
             // Column7
             // 
-            this.Column7.DataPropertyName = "TroughNum";
+            this.Column7.DataPropertyName = "UNIONTASKNUM";
             this.Column7.HeaderText = "Column7";
             this.Column7.Name = "Column7";
             this.Column7.ReadOnly = true;
             this.Column7.Visible = false;
             // 
-            // Column9
+            // Column8
             // 
-            this.Column9.DataPropertyName = "Batchode";
-            this.Column9.HeaderText = "Column9";
-            this.Column9.Name = "Column9";
-            this.Column9.ReadOnly = true;
-            this.Column9.Visible = false;
+            this.Column8.DataPropertyName = "TROUGHNUM";
+            this.Column8.HeaderText = "Column8";
+            this.Column8.Name = "Column8";
+            this.Column8.ReadOnly = true;
+            this.Column8.Visible = false;
             // 
             // Column10
             // 
-            this.Column10.DataPropertyName = "CUSTOMERNAME";
+            this.Column10.DataPropertyName = "BATCHODE";
             this.Column10.HeaderText = "Column10";
             this.Column10.Name = "Column10";
             this.Column10.ReadOnly = true;
@@ -376,7 +367,7 @@
             // 
             // Column11
             // 
-            this.Column11.DataPropertyName = "OrderDate";
+            this.Column11.DataPropertyName = "CUSTOMERNAME";
             this.Column11.HeaderText = "Column11";
             this.Column11.Name = "Column11";
             this.Column11.ReadOnly = true;
@@ -384,7 +375,7 @@
             // 
             // Column12
             // 
-            this.Column12.DataPropertyName = "LineNum";
+            this.Column12.DataPropertyName = "ORDERDATE";
             this.Column12.HeaderText = "Column12";
             this.Column12.Name = "Column12";
             this.Column12.ReadOnly = true;
@@ -392,7 +383,7 @@
             // 
             // Column13
             // 
-            this.Column13.DataPropertyName = "FinishCountStr";
+            this.Column13.DataPropertyName = "LINENUM";
             this.Column13.HeaderText = "Column13";
             this.Column13.Name = "Column13";
             this.Column13.ReadOnly = true;
@@ -400,13 +391,21 @@
             // 
             // Column14
             // 
-            this.Column14.DataPropertyName = "FinishQtyStr";
+            this.Column14.DataPropertyName = "FinishCountStr";
             this.Column14.HeaderText = "Column14";
             this.Column14.Name = "Column14";
             this.Column14.ReadOnly = true;
             this.Column14.Visible = false;
             // 
-            // w_SortFm
+            // Column15
+            // 
+            this.Column15.DataPropertyName = "FinishQtyStr";
+            this.Column15.HeaderText = "Column15";
+            this.Column15.Name = "Column15";
+            this.Column15.ReadOnly = true;
+            this.Column15.Visible = false;
+            // 
+            // w_SortFm_New
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -414,17 +413,16 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.dgvSortInfo);
             this.Controls.Add(this.panel1);
-            this.DoubleBuffered = true;
-            this.Name = "w_SortFm";
-            this.Text = "任务排序";
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSortInfo)).EndInit();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbLoading)).EndInit();
+            this.Name = "w_SortFm_New";
+            this.Text = "w_SortFm_New";
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSortInfo)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLoading)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -432,24 +430,23 @@
         #endregion
 
         private System.Windows.Forms.Timer TimerByTime;
-        private System.Windows.Forms.Button btnTransfor;
-        private System.Windows.Forms.Button btnVid;
-        private System.Windows.Forms.Button btnPokeSeq;
         private System.Windows.Forms.Button btnRef;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button btnSort;
-        private System.Windows.Forms.DataGridView dgvSortInfo;
+        private System.Windows.Forms.Button btn_replenishplan;
+        private System.Windows.Forms.Label lblInFO;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label lblTime;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pbLoading;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label lblTime;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Label lblInFO;
-        private System.Windows.Forms.Button btn_replenishplan;
+        private System.Windows.Forms.Button btnTransfor;
+        private System.Windows.Forms.Button btnVid;
+        private System.Windows.Forms.Button btnPokeSeq;
+        private System.Windows.Forms.Button btnSort;
+        private System.Windows.Forms.DataGridView dgvSortInfo;
+        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridViewTextBoxColumn synseq;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column15;
         private System.Windows.Forms.DataGridViewTextBoxColumn regioncode;
         private System.Windows.Forms.DataGridViewTextBoxColumn count;
         private System.Windows.Forms.DataGridViewTextBoxColumn qty;
@@ -460,11 +457,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column14;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column15;
     }
 }

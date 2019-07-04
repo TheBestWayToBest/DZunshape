@@ -78,6 +78,7 @@ namespace SortingControlSys
         }
         public void startFenJian()
         {
+            //PlcItemCollection.GetOnlyDBItem();
             if (!opcServer.ConnectState)
             {
                 GetTaskInfo("正在尝试连接服务器......");

@@ -21,13 +21,16 @@ namespace OPC
             List<string> list = new List<string>();
             list.Add(OpcPresortServer + "DB1,DINT0");
             list.Add(OpcPresortServer + "DB1,DINT4");
-            for (int i = 0; i <= 192; i += 2)
+            for (int i = 8; i <= 198; i += 2)
             {
-                list.Add(OpcPresortServer + "DB1,W" + i + 8);//为烟柜内部皮带的条烟总数
+                list.Add(OpcPresortServer + "DB1,W" + i);//为烟柜内部皮带的条烟总数
             }
-            list.Add(OpcPresortServer + "DB1,DINT204");//立式烟仓与卧式烟仓总条烟数
-            list.Add(OpcPresortServer + "DB1,W208");
-            list.Add(OpcPresortServer + "DB1,W210");
+            list.Add(OpcPresortServer + "DB1,W200");//2#立式烟仓总条数
+            list.Add(OpcPresortServer + "DB1,W202");//卧式烟仓总条数
+            list.Add(OpcPresortServer + "DB1,W204");//1#立式烟仓总条数
+            list.Add(OpcPresortServer + "DB1,DINT206");//预留
+            list.Add(OpcPresortServer + "DB1,W210");//
+            list.Add(OpcPresortServer + "DB1,W212");//接收标志
             return list;
         }
 
@@ -39,7 +42,7 @@ namespace OPC
         {
             List<string> list = new List<string>();
 
-            list.Add(OpcPresortServer + "DB1,W210");// 交互标志 0
+            list.Add(OpcPresortServer + "DB1,W212");// 交互标志 0
             return list;
         }
 
@@ -50,7 +53,7 @@ namespace OPC
         public static List<string> GetOnlyLineFinishTaskItem()
         {
             List<string> list = new List<string>();
-            for (int i = 0; i < 10; i += 4)
+            for (int i = 0; i < 40; i += 4)
             {
                 list.Add(OpcPresortServer + "DB30,DINT" + i);
             }

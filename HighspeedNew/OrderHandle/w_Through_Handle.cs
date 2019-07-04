@@ -102,6 +102,7 @@ namespace HighspeedNew.OrderHandle
             }
             else 
             {
+                tps.ID = Convert.ToDecimal(id);
                 string msg = ThroughClass.UpdateThrough(tps);
                 MessageBox.Show(msg);
             }

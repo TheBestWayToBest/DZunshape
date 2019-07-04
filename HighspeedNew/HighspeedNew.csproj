@@ -182,6 +182,12 @@
     <Compile Include="OrderHandle\w_SortFm.Designer.cs">
       <DependentUpon>w_SortFm.cs</DependentUpon>
     </Compile>
+    <Compile Include="OrderHandle\w_SortFm_New.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_SortFm_New.Designer.cs">
+      <DependentUpon>w_SortFm_New.cs</DependentUpon>
+    </Compile>
     <Compile Include="OrderHandle\w_Through.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -289,6 +295,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_SortFm.resx">
       <DependentUpon>w_SortFm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_SortFm_New.resx">
+      <DependentUpon>w_SortFm_New.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_Through.resx">
       <DependentUpon>w_Through.cs</DependentUpon>
