@@ -110,7 +110,11 @@ namespace HighspeedNew.OrderHandle
 
         private void button1_Click(object sender, EventArgs e)
         {
+            dgVprint1.MainTitle = "今日订单烟预汇总";
 
+            dgVprint1.TableHeaderLeft = "山东德州烟草配送中心";
+            dgVprint1.TableHeaderRight = "分拣日期：" + DateTime.Now.Date.ToShortDateString();
+            //dgVprint1.PaperLandscape = true;//用横向打印，默认是纵向哦
         }
 
         private void orderdata_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)

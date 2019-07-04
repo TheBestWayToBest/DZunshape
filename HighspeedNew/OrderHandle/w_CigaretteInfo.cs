@@ -31,12 +31,16 @@ namespace HighSpeed.OrderHandle
 
         private void BtnExport_Click(object sender, EventArgs e)
         {
-
+            dgVprint1.ExportDGVToExcel2(DgvItemInfo, "卷烟基础信息", "cigaretteInfo.xls", true);
         }
 
         private void BtnPrint_Click(object sender, EventArgs e)
         {
-
+            
+            dgVprint1.MainTitle = "卷烟信息表";
+            // dgVprint1.SubTitle = "这是子标题，当然也可以不设的";
+            dgVprint1.PaperLandscape = true;//用横向打印，默认是纵向哦
+            dgVprint1.Print(DgvItemInfo);
         }
 
         private void DgvItemInfo_CellValueChanged(object sender, DataGridViewCellEventArgs e)

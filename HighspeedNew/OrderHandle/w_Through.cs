@@ -242,5 +242,19 @@ namespace HighspeedNew.OrderHandle
                 }
             }
         }
+
+        private void btn_print_Click(object sender, EventArgs e)
+        {
+            dgVprint1.MainTitle = "分拣通道信息";
+            //dgVprint1.SubTitle = "这是子标题，当然也可以不设的";
+            dgVprint1.PaperLandscape = true;//用横向打印，默认是纵向
+
+            dgVprint1.Print(troughdata);
+        }
+
+        private void btn_toexcel_Click(object sender, EventArgs e)
+        {
+            dgVprint1.ExportDGVToExcel2(this.troughdata, "设备通道信息", "sorttroughInfo.xls", true);
+        }
     }
 }

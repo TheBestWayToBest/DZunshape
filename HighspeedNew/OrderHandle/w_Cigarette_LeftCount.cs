@@ -52,5 +52,19 @@ namespace HighSpeed.OrderHandle
                 codedata.DataSource = list;
             }
         }
+
+        private void BtnPrint_Click(object sender, EventArgs e)
+        {
+            dgVprint1.MainTitle = "品牌尾数信息";
+            //dgVprint1.SubTitle = "这是子标题，当然也可以不设的";
+            dgVprint1.PaperLandscape = false;//用横向打印，默认是纵向
+
+            dgVprint1.Print(codedata);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            dgVprint1.ExportDGVToExcel2(this.codedata, "品牌尾数", "leftcount.xls", true);
+        }
     }
 }

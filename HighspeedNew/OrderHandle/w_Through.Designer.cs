@@ -95,6 +95,7 @@
             this.btn_toexcel.TabIndex = 11;
             this.btn_toexcel.Text = "导出";
             this.btn_toexcel.UseVisualStyleBackColor = true;
+            this.btn_toexcel.Click += new System.EventHandler(this.btn_toexcel_Click);
             // 
             // btn_print
             // 
@@ -104,6 +105,7 @@
             this.btn_print.TabIndex = 10;
             this.btn_print.Text = "打印";
             this.btn_print.UseVisualStyleBackColor = true;
+            this.btn_print.Click += new System.EventHandler(this.btn_print_Click);
             // 
             // btn_amend
             // 

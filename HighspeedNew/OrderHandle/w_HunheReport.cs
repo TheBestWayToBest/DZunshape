@@ -64,5 +64,14 @@ namespace HighspeedNew.OrderHandle
             }
             task_data.DataSource = list;
         }
+
+        private void btn_print_Click(object sender, EventArgs e)
+        {
+            dgVprint1.MainTitle = cmbTroughnum.SelectedItem + "混合道补货顺序";
+            //dgVprint1.SubTitle = "这是子标题，当然也可以不设的";
+            // dgVprint1.PaperLandscape = true;//用横向打印，默认是纵向
+
+            dgVprint1.Print(task_data);
+        }
     }
 }
