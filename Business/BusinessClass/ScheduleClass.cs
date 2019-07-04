@@ -637,8 +637,9 @@ namespace Business.BusinessClass
                             t_un_poke.SORTNUM = item.SortNum;
                             t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
                             t_un_poke.BILLCODE = item.BillCode;
-                            if (item.GroupNo == 3) t_un_poke.CTYPE = 2;
-                            else t_un_poke.CTYPE = 1;
+                            //if (item.GroupNo == 3) t_un_poke.CTYPE = 2;
+                            //else t_un_poke.CTYPE = 1;
+                            t_un_poke.CTYPE = item.GroupNo;
                             t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
                             t_un_poke.STORENUM = 0;//暂时无用
                             t_un_poke.GRIDNUM = 0;//暂时无用

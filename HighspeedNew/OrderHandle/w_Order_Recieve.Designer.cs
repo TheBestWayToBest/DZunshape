@@ -37,6 +37,7 @@
             this.txt_codestr = new System.Windows.Forms.TextBox();
             this.btn_all = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnSync = new System.Windows.Forms.Button();
             this.orderdata = new System.Windows.Forms.DataGridView();
             this.checkbox = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -46,7 +47,6 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.btnSync = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.orderdata)).BeginInit();
@@ -144,6 +144,17 @@
             this.panel1.Size = new System.Drawing.Size(1587, 52);
             this.panel1.TabIndex = 3;
             // 
+            // btnSync
+            // 
+            this.btnSync.Location = new System.Drawing.Point(599, 10);
+            this.btnSync.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.btnSync.Name = "btnSync";
+            this.btnSync.Size = new System.Drawing.Size(119, 28);
+            this.btnSync.TabIndex = 10;
+            this.btnSync.Text = "营销接口同步";
+            this.btnSync.UseVisualStyleBackColor = true;
+            this.btnSync.Click += new System.EventHandler(this.btnSync_Click);
+            // 
             // orderdata
             // 
             this.orderdata.AllowUserToAddRows = false;
@@ -228,20 +239,8 @@
             this.progressBar1.TabIndex = 0;
             this.progressBar1.Visible = false;
             // 
-            // btnSync
-            // 
-            this.btnSync.Location = new System.Drawing.Point(599, 10);
-            this.btnSync.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.btnSync.Name = "btnSync";
-            this.btnSync.Size = new System.Drawing.Size(119, 28);
-            this.btnSync.TabIndex = 10;
-            this.btnSync.Text = "营销接口同步";
-            this.btnSync.UseVisualStyleBackColor = true;
-            this.btnSync.Click += new System.EventHandler(this.btnSync_Click);
-            // 
             // timer1
             // 
-            this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // w_Order_Recieve
@@ -284,6 +283,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn OrderCount;
         private System.Windows.Forms.DataGridViewTextBoxColumn OrderNum;
         private System.Windows.Forms.Button btnSync;
-        private System.Windows.Forms.Timer timer1;
+        public System.Windows.Forms.Timer timer1;
     }
 }

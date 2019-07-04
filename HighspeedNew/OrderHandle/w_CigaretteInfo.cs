@@ -63,6 +63,7 @@ namespace HighSpeed.OrderHandle
                         item.ItemName = DgvItemInfo.CurrentRow.Cells["ItemName"].Value.ToString();
                         item.ILength = Convert.ToDecimal(DgvItemInfo.CurrentRow.Cells["ILength"].Value);
                         item.IWidth = Convert.ToDecimal(DgvItemInfo.CurrentRow.Cells["IWidth"].Value);
+                        item.IHeight = Convert.ToDecimal(DgvItemInfo.CurrentRow.Cells["IHEIGHT"].Value);
                         item.BigBox_Bar = DgvItemInfo.CurrentRow.Cells["BigBox_Bar"].Value.ToString();
                         item.JT_Size = Convert.ToDecimal(DgvItemInfo.CurrentRow.Cells["JZ_Size"].Value);
 

@@ -6197,6 +6197,78 @@ namespace Business
         private Nullable<global::System.DateTime> _INSERTTIME;
         partial void OnINSERTTIMEChanging(Nullable<global::System.DateTime> value);
         partial void OnINSERTTIMEChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ADDRESS
+        {
+            get
+            {
+                return _ADDRESS;
+            }
+            set
+            {
+                OnADDRESSChanging(value);
+                ReportPropertyChanging("ADDRESS");
+                _ADDRESS = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ADDRESS");
+                OnADDRESSChanged();
+            }
+        }
+        private global::System.String _ADDRESS;
+        partial void OnADDRESSChanging(global::System.String value);
+        partial void OnADDRESSChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String TELEPHONE
+        {
+            get
+            {
+                return _TELEPHONE;
+            }
+            set
+            {
+                OnTELEPHONEChanging(value);
+                ReportPropertyChanging("TELEPHONE");
+                _TELEPHONE = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("TELEPHONE");
+                OnTELEPHONEChanged();
+            }
+        }
+        private global::System.String _TELEPHONE;
+        partial void OnTELEPHONEChanging(global::System.String value);
+        partial void OnTELEPHONEChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String CONTACT
+        {
+            get
+            {
+                return _CONTACT;
+            }
+            set
+            {
+                OnCONTACTChanging(value);
+                ReportPropertyChanging("CONTACT");
+                _CONTACT = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("CONTACT");
+                OnCONTACTChanged();
+            }
+        }
+        private global::System.String _CONTACT;
+        partial void OnCONTACTChanging(global::System.String value);
+        partial void OnCONTACTChanged();
 
         #endregion
 

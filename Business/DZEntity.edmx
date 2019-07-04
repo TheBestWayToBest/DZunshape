@@ -88,6 +88,9 @@
       "T_UN_TASK_H"."PACKAGEMACHINE" AS "PACKAGEMACHINE", 
       "T_UN_TASK_H"."SORTNUM" AS "SORTNUM", 
       "T_UN_TASK_H"."SECSORTNUM" AS "SECSORTNUM", 
+      "T_UN_TASK_H"."ADDRESS" AS "ADDRESS", 
+      "T_UN_TASK_H"."TELEPHONE" AS "TELEPHONE", 
+      "T_UN_TASK_H"."CONTACT" AS "CONTACT", 
       "T_UN_TASK_H"."INSERTTIME" AS "INSERTTIME"
       FROM "ZOOMTELDZ"."T_UN_TASK_H" "T_UN_TASK_H"</DefiningQuery>
           </EntitySet>
@@ -208,7 +211,7 @@
           <Property Name="TROUGHDESC" Type="varchar2" MaxLength="30" />
           <Property Name="ACTCOUNT" Type="number" />
           <Property Name="MACHINESEQ" Type="number" />
-          <Property Name="CIGARETTECODE" Type="varchar2" MaxLength="10" />
+          <Property Name="CIGARETTECODE" Type="varchar2" MaxLength="50" />
           <Property Name="CIGARETTENAME" Type="varchar2" MaxLength="30" />
           <Property Name="STATE" Type="varchar2" MaxLength="10" />
           <Property Name="MANTISSA" Type="number" />
@@ -412,6 +415,9 @@
           <Property Name="PACKAGEMACHINE" Type="number" />
           <Property Name="SORTNUM" Type="number" />
           <Property Name="SECSORTNUM" Type="number" />
+          <Property Name="ADDRESS" Type="nvarchar2" MaxLength="200" />
+          <Property Name="TELEPHONE" Type="varchar2" MaxLength="20" />
+          <Property Name="CONTACT" Type="varchar2" MaxLength="50" />
           <Property Name="INSERTTIME" Type="date" />
         </EntityType>
         <EntityType Name="T_UN_TASKLINE">
@@ -818,6 +824,9 @@
           <Property Name="SORTNUM" Type="Decimal" Precision="38" Scale="0" />
           <Property Name="SECSORTNUM" Type="Decimal" Precision="38" Scale="0" />
           <Property Name="INSERTTIME" Type="DateTime" />
+          <Property Type="String" Name="ADDRESS" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TELEPHONE" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CONTACT" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="T_UN_TASKLINE">
           <Key>
@@ -993,7 +1002,7 @@
           <Property Type="String" Name="TROUGHDESC" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Type="Decimal" Name="ACTCOUNT" Precision="38" Scale="0" />
           <Property Type="Decimal" Name="MACHINESEQ" Precision="38" Scale="0" />
-          <Property Type="String" Name="CIGARETTECODE" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CIGARETTECODE" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="CIGARETTENAME" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="STATE" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Type="Decimal" Name="MANTISSA" Precision="38" Scale="0" />
@@ -1220,6 +1229,9 @@
           <EntitySetMapping Name="T_UN_TASK_H">
             <EntityTypeMapping TypeName="Model.T_UN_TASK_H">
               <MappingFragment StoreEntitySet="T_UN_TASK_H">
+                <ScalarProperty Name="CONTACT" ColumnName="CONTACT" />
+                <ScalarProperty Name="TELEPHONE" ColumnName="TELEPHONE" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
                 <ScalarProperty Name="TASKNUM" ColumnName="TASKNUM" />
                 <ScalarProperty Name="LINENUM" ColumnName="LINENUM" />
                 <ScalarProperty Name="EXPORTNUM" ColumnName="EXPORTNUM" />

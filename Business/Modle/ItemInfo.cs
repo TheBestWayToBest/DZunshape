@@ -43,6 +43,11 @@ namespace Business.Modle
         public decimal IWidth { get; set; }
 
         /// <summary>
+        /// 高度
+        /// </summary>
+        public decimal IHeight { get; set; }
+
+        /// <summary>
         /// 件条转化率
         /// </summary>
         public decimal JT_Size { get; set; }

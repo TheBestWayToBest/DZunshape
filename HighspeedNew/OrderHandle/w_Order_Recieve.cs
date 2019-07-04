@@ -16,6 +16,8 @@ namespace HighSpeed.OrderHandle
         {
             InitializeComponent();
             this.datePick.Value = DateTime.Today;
+
+            
             //Bind();
         }
         ScheduleClass sc = new ScheduleClass();
@@ -168,35 +170,43 @@ namespace HighSpeed.OrderHandle
             }
             this.txt_codestr.Text = czcodestr;
         }
-
+        int times = 1;
         private void btnSync_Click(object sender, EventArgs e)
         {
             panel2.Visible = true;
             label2.Visible = true;
+            progressBar1.Maximum = 100;
             progressBar1.Visible = true;
-            progressBar1.Value = 0;
-            progressBar1.Refresh();
+            progressBar1.Value = 5;
+            //progressBar1.Refresh();
+            timer1.Enabled = true;
             timer1.Start();
-            Application.DoEvents();
+
+            times = 1;//时间重置 
+            timer1.Start();// = true;//启动时间记录
+
             label2.Text = "正在从营销中心同步订单数据，请耐心等候...";
             
             string orderDateStr=datePick.Value.ToString("yyyyMMdd");
             ScheduleClass sc = new ScheduleClass();
             Response response=sc.SyncOrderDataFromInspur(orderDateStr);
 
+            progressBar1.Value = progressBar1.Maximum;
             panel2.Visible = false;
             label2.Visible = false;
             progressBar1.Visible = false;
             timer1.Stop();
+            
             MessageBox.Show(response.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             if (response.IsSuccess) Bind();
+            
         }
-        int time = 1;
+        
         private void timer1_Tick(object sender, EventArgs e)
         {
-
-            progressBar1.Value = Convert.ToInt32(((time++) / 20.0) * 100);
+            times++;
+            progressBar1.Value = (times * 100 / 20);
             progressBar1.Refresh();
         }
     }

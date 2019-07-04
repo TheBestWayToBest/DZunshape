@@ -37,6 +37,10 @@
             this.BtnPrint = new System.Windows.Forms.Button();
             this.BtnSearch = new System.Windows.Forms.Button();
             this.DgvItemInfo = new System.Windows.Forms.DataGridView();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.label2 = new System.Windows.Forms.Label();
+            this.dgVprint1 = new VBprinter.DGVprint(this.components);
             this.ItemNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ItemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BigBox_Bar = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,11 +48,8 @@
             this.status = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.ILength = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IWidth = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IHEIGHT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.JZ_Size = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.label2 = new System.Windows.Forms.Label();
-            this.dgVprint1 = new VBprinter.DGVprint(this.components);
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvItemInfo)).BeginInit();
             this.panel2.SuspendLayout();
@@ -72,7 +73,7 @@
             // 
             this.txt_keywd.Location = new System.Drawing.Point(185, 6);
             this.txt_keywd.Name = "txt_keywd";
-            this.txt_keywd.Size = new System.Drawing.Size(100, 21);
+            this.txt_keywd.Size = new System.Drawing.Size(100, 25);
             this.txt_keywd.TabIndex = 8;
             // 
             // box_type
@@ -84,7 +85,7 @@
             "卷烟名称"});
             this.box_type.Location = new System.Drawing.Point(81, 7);
             this.box_type.Name = "box_type";
-            this.box_type.Size = new System.Drawing.Size(98, 20);
+            this.box_type.Size = new System.Drawing.Size(98, 23);
             this.box_type.TabIndex = 9;
             // 
             // label1
@@ -92,7 +93,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(22, 11);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 12);
+            this.label1.Size = new System.Drawing.Size(67, 15);
             this.label1.TabIndex = 7;
             this.label1.Text = "条件选择";
             // 
@@ -139,6 +140,7 @@
             this.status,
             this.ILength,
             this.IWidth,
+            this.IHEIGHT,
             this.JZ_Size});
             this.DgvItemInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DgvItemInfo.Location = new System.Drawing.Point(0, 33);
@@ -150,60 +152,6 @@
             this.DgvItemInfo.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvItemInfo_CellFormatting);
             this.DgvItemInfo.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvItemInfo_CellValueChanged);
             this.DgvItemInfo.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.DgvItemInfo_RowPostPaint);
-            // 
-            // ItemNo
-            // 
-            this.ItemNo.DataPropertyName = "ItemNo";
-            this.ItemNo.HeaderText = "卷烟编号";
-            this.ItemNo.Name = "ItemNo";
-            this.ItemNo.ReadOnly = true;
-            // 
-            // ItemName
-            // 
-            this.ItemName.DataPropertyName = "ItemName";
-            this.ItemName.HeaderText = "名称";
-            this.ItemName.Name = "ItemName";
-            this.ItemName.ReadOnly = true;
-            // 
-            // BigBox_Bar
-            // 
-            this.BigBox_Bar.DataPropertyName = "BigBox_Bar";
-            this.BigBox_Bar.HeaderText = "件码";
-            this.BigBox_Bar.Name = "BigBox_Bar";
-            // 
-            // Type
-            // 
-            this.Type.HeaderText = "卷烟类型";
-            this.Type.Items.AddRange(new object[] {
-            "标准烟",
-            "异形烟"});
-            this.Type.Name = "Type";
-            // 
-            // status
-            // 
-            this.status.HeaderText = "卷烟状态";
-            this.status.Items.AddRange(new object[] {
-            "正常",
-            "删除"});
-            this.status.Name = "status";
-            // 
-            // ILength
-            // 
-            this.ILength.DataPropertyName = "ILength";
-            this.ILength.HeaderText = "长度";
-            this.ILength.Name = "ILength";
-            // 
-            // IWidth
-            // 
-            this.IWidth.DataPropertyName = "IWidth";
-            this.IWidth.HeaderText = "宽度";
-            this.IWidth.Name = "IWidth";
-            // 
-            // JZ_Size
-            // 
-            this.JZ_Size.DataPropertyName = "JT_Size";
-            this.JZ_Size.HeaderText = "条/件换算";
-            this.JZ_Size.Name = "JZ_Size";
             // 
             // panel2
             // 
@@ -229,7 +177,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(34, 19);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(95, 12);
+            this.label2.Size = new System.Drawing.Size(121, 15);
             this.label2.TabIndex = 0;
             this.label2.Text = "正在读取数据...";
             this.label2.Visible = false;
@@ -356,6 +304,66 @@
             this.dgVprint1.ZDXType = VBprinter.DGVprint.TheZDXTYPE.LEFT;
             this.dgVprint1.ZoomToPaperWidth = true;
             // 
+            // ItemNo
+            // 
+            this.ItemNo.DataPropertyName = "ItemNo";
+            this.ItemNo.HeaderText = "卷烟编号";
+            this.ItemNo.Name = "ItemNo";
+            this.ItemNo.ReadOnly = true;
+            // 
+            // ItemName
+            // 
+            this.ItemName.DataPropertyName = "ItemName";
+            this.ItemName.HeaderText = "名称";
+            this.ItemName.Name = "ItemName";
+            this.ItemName.ReadOnly = true;
+            // 
+            // BigBox_Bar
+            // 
+            this.BigBox_Bar.DataPropertyName = "BigBox_Bar";
+            this.BigBox_Bar.HeaderText = "件码";
+            this.BigBox_Bar.Name = "BigBox_Bar";
+            // 
+            // Type
+            // 
+            this.Type.HeaderText = "卷烟类型";
+            this.Type.Items.AddRange(new object[] {
+            "标准烟",
+            "异形烟"});
+            this.Type.Name = "Type";
+            // 
+            // status
+            // 
+            this.status.HeaderText = "卷烟状态";
+            this.status.Items.AddRange(new object[] {
+            "正常",
+            "删除"});
+            this.status.Name = "status";
+            // 
+            // ILength
+            // 
+            this.ILength.DataPropertyName = "ILength";
+            this.ILength.HeaderText = "长度";
+            this.ILength.Name = "ILength";
+            // 
+            // IWidth
+            // 
+            this.IWidth.DataPropertyName = "IWidth";
+            this.IWidth.HeaderText = "宽度";
+            this.IWidth.Name = "IWidth";
+            // 
+            // IHEIGHT
+            // 
+            this.IHEIGHT.DataPropertyName = "IHEIGHT";
+            this.IHEIGHT.HeaderText = "高度";
+            this.IHEIGHT.Name = "IHEIGHT";
+            // 
+            // JZ_Size
+            // 
+            this.JZ_Size.DataPropertyName = "JT_Size";
+            this.JZ_Size.HeaderText = "条/件换算";
+            this.JZ_Size.Name = "JZ_Size";
+            // 
             // w_CigaretteInfo
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -388,6 +396,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label label2;
+        private VBprinter.DGVprint dgVprint1;
         private System.Windows.Forms.DataGridViewTextBoxColumn ItemNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn ItemName;
         private System.Windows.Forms.DataGridViewTextBoxColumn BigBox_Bar;
@@ -395,7 +404,7 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn status;
         private System.Windows.Forms.DataGridViewTextBoxColumn ILength;
         private System.Windows.Forms.DataGridViewTextBoxColumn IWidth;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IHEIGHT;
         private System.Windows.Forms.DataGridViewTextBoxColumn JZ_Size;
-        private VBprinter.DGVprint dgVprint1;
     }
 }

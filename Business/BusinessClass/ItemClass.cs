@@ -25,7 +25,7 @@ namespace Business.BusinessClass
                 {
                     fCondition = item => true;
                 }
-                var query = en.T_WMS_ITEM.Where(item => item.ITEMNO.Length == 7).Where(fCondition).Select(item =>
+                var query = en.T_WMS_ITEM.Where(fCondition).Select(item =>
                     new ItemInfo
                     {
                         ItemNo = item.ITEMNO,
@@ -33,10 +33,11 @@ namespace Business.BusinessClass
                         BigBox_Bar = item.BIGBOX_BAR,
                         ILength = item.ILENGTH ?? 0,
                         IWidth = item.IWIDTH ?? 0,
+                        IHeight = item.IHEIGHT??0,
                         JT_Size = item.JT_SIZE ?? 50,
                         RowStatus = item.ROWSTATUS??0,
                         Shiptype = item.SHIPTYPE
-                    }).ToList();
+                    }).OrderBy(x=>x.ItemNo).ToList();
                 return query;
             }
         }
@@ -53,6 +54,7 @@ namespace Business.BusinessClass
                     ite.ITEMNAME = item.ItemName;
                     ite.ILENGTH = item.ILength;
                     ite.IWIDTH = item.IWidth;
+                    ite.IHEIGHT = item.IHeight;
                     ite.JT_SIZE = item.JT_Size;
                     ite.ROWSTATUS = item.RowStatus;
                     ite.SHIPTYPE = item.Shiptype;

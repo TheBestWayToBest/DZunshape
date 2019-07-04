@@ -71,6 +71,7 @@ namespace Business.BusinessClass
                        else
                        {
                            old_batch.ForEach(a => a.STATE = 0);//更新批次为关闭
+                           old_batch.ForEach(a => a.ENDTIME = DateTime.Now);//更新批次为关闭
                            response.IsSuccess = true;
                            response.MessageText = "批次：关闭批次成功！";
                            en.SaveChanges();
