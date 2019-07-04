@@ -16,7 +16,7 @@ namespace HighSpeed.OrderHandle
         {
             InitializeComponent();
             this.datePick.Value = DateTime.Today;
-            Bind();
+            //Bind();
         }
         ScheduleClass sc = new ScheduleClass();
         void Bind()
@@ -29,7 +29,9 @@ namespace HighSpeed.OrderHandle
             else
             {
                 MessageBox.Show(rm.MessageText);
-                orderdata.DataSource = null;
+                //orderdata.DataSource = null;
+                orderdata.AutoGenerateColumns = false;
+                orderdata.DataSource = new List<MainOrder>();
             }
             this.txt_codestr.Text = "";
 
@@ -112,12 +114,12 @@ namespace HighSpeed.OrderHandle
                     //MessageBox.Show(response.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 //验证是否有新客户
-                response = sc.ValidNewCustomer(maxSyncseq);
-                if (!response.IsSuccess)
-                {
-                    resultMsg = "\r\n" + resultMsg + "零售户验证：" + response.MessageText;
-                    //MessageBox.Show(response.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                /*response = sc.ValidNewCustomer(maxSyncseq);
+                    if (!response.IsSuccess)
+                    {
+                        resultMsg = "\r\n" + resultMsg + "零售户验证：" + response.MessageText;
+                        //MessageBox.Show(response.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }*/
                 //验证订单数量
                 response = sc.ValiOrderNum(maxSyncseq, this.datePick.Value);
                 if (!response.IsSuccess)

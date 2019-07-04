@@ -42,10 +42,8 @@ namespace HighSpeed.OrderHandle
             }
             else
             {
-                if (dgvSortInfo.DataSource != null)
-                { dgvSortInfo.DataSource = null; }
                 dgvSortInfo.AutoGenerateColumns = false;
-                dgvSortInfo.DataSource = new List<TaskInfo>() { } ;
+                dgvSortInfo.DataSource = new List<TaskInfo>();
             }
         }
         int times;
@@ -61,7 +59,7 @@ namespace HighSpeed.OrderHandle
             progressBar1.Visible = true;
             times = 1;//时间重置 
             TimerByTime.Start();// = true;//启动时间记录
-
+            lblTime.Text = "已用时间:0秒";
             HandleSort task = Sort; //新的
             task.BeginInvoke(null, null);
             label2.Text = "正在对分拣车组任务数据进排程";
@@ -99,7 +97,7 @@ namespace HighSpeed.OrderHandle
             }
             finally
             { 
-                times = 1;
+                //times = 1;
                 Bind();
                 panel2.Visible = false;
                 TimerByTime.Stop();// 计时结束;
@@ -120,6 +118,12 @@ namespace HighSpeed.OrderHandle
             {
                 MessageBox.Show("补货计划生成失败，请联系系统管理员！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void TimerByTime_Tick(object sender, EventArgs e)
+        {
+            times = times + 1;
+            lblTime.Text = "已用时间:" + times + "秒";
         }
 
     }

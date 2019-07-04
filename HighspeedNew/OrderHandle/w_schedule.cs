@@ -35,10 +35,8 @@ namespace HighSpeed.OrderHandle
             }
             else
             {
-                if (orderdata.DataSource != null)
-                { orderdata.DataSource = null; }
                 orderdata.AutoGenerateColumns = false;
-                orderdata.DataSource = new List<TaskInfo>() { };
+                orderdata.DataSource = new List<TaskInfo>();
             }
             this.txt_codestr.Text = "";
         }

@@ -211,7 +211,7 @@ namespace Business.BusinessClass
                            dzEntities.T_WMS_ITEM.AddObject(iteminfo);
                        }
                        
-                       dzEntities.SaveChanges();
+                       int count1=dzEntities.SaveChanges();
 
                        itemnamestr = itemnamestr + "," + item.itemname;
                    }

@@ -60,12 +60,14 @@
             // TimerByTime
             // 
             this.TimerByTime.Interval = 1000;
+            this.TimerByTime.Tick += new System.EventHandler(this.TimerByTime_Tick);
             // 
             // btnTransfor
             // 
-            this.btnTransfor.Location = new System.Drawing.Point(853, 12);
+            this.btnTransfor.Location = new System.Drawing.Point(1137, 15);
+            this.btnTransfor.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnTransfor.Name = "btnTransfor";
-            this.btnTransfor.Size = new System.Drawing.Size(75, 23);
+            this.btnTransfor.Size = new System.Drawing.Size(100, 29);
             this.btnTransfor.TabIndex = 6;
             this.btnTransfor.Text = "订单拆分";
             this.btnTransfor.UseVisualStyleBackColor = true;
@@ -73,9 +75,10 @@
             // 
             // btnVid
             // 
-            this.btnVid.Location = new System.Drawing.Point(941, 12);
+            this.btnVid.Location = new System.Drawing.Point(1255, 15);
+            this.btnVid.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnVid.Name = "btnVid";
-            this.btnVid.Size = new System.Drawing.Size(98, 23);
+            this.btnVid.Size = new System.Drawing.Size(131, 29);
             this.btnVid.TabIndex = 5;
             this.btnVid.Text = "验证下游数据";
             this.btnVid.UseVisualStyleBackColor = true;
@@ -83,9 +86,10 @@
             // 
             // btnPokeSeq
             // 
-            this.btnPokeSeq.Location = new System.Drawing.Point(756, 12);
+            this.btnPokeSeq.Location = new System.Drawing.Point(1008, 15);
+            this.btnPokeSeq.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnPokeSeq.Name = "btnPokeSeq";
-            this.btnPokeSeq.Size = new System.Drawing.Size(75, 23);
+            this.btnPokeSeq.Size = new System.Drawing.Size(100, 29);
             this.btnPokeSeq.TabIndex = 4;
             this.btnPokeSeq.Text = "条烟顺序";
             this.btnPokeSeq.UseVisualStyleBackColor = true;
@@ -93,9 +97,10 @@
             // 
             // btnRef
             // 
-            this.btnRef.Location = new System.Drawing.Point(387, 8);
+            this.btnRef.Location = new System.Drawing.Point(516, 10);
+            this.btnRef.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnRef.Name = "btnRef";
-            this.btnRef.Size = new System.Drawing.Size(75, 23);
+            this.btnRef.Size = new System.Drawing.Size(100, 29);
             this.btnRef.TabIndex = 3;
             this.btnRef.Text = "刷 新";
             this.btnRef.UseVisualStyleBackColor = true;
@@ -112,16 +117,17 @@
             this.panel1.Controls.Add(this.btnSort);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1012, 48);
+            this.panel1.Size = new System.Drawing.Size(1349, 60);
             this.panel1.TabIndex = 7;
             // 
             // btn_replenishplan
             // 
-            this.btn_replenishplan.Location = new System.Drawing.Point(583, 8);
-            this.btn_replenishplan.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btn_replenishplan.Location = new System.Drawing.Point(777, 10);
+            this.btn_replenishplan.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_replenishplan.Name = "btn_replenishplan";
-            this.btn_replenishplan.Size = new System.Drawing.Size(74, 23);
+            this.btn_replenishplan.Size = new System.Drawing.Size(99, 29);
             this.btn_replenishplan.TabIndex = 7;
             this.btn_replenishplan.Text = "补货计划";
             this.btn_replenishplan.UseVisualStyleBackColor = true;
@@ -131,17 +137,19 @@
             // 
             this.lblInFO.AutoSize = true;
             this.lblInFO.Font = new System.Drawing.Font("宋体", 9F);
-            this.lblInFO.Location = new System.Drawing.Point(12, 12);
+            this.lblInFO.Location = new System.Drawing.Point(16, 15);
+            this.lblInFO.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblInFO.Name = "lblInFO";
-            this.lblInFO.Size = new System.Drawing.Size(0, 12);
+            this.lblInFO.Size = new System.Drawing.Size(0, 15);
             this.lblInFO.TabIndex = 1;
             // 
             // btnSort
             // 
             this.btnSort.Font = new System.Drawing.Font("宋体", 9F);
-            this.btnSort.Location = new System.Drawing.Point(487, 8);
+            this.btnSort.Location = new System.Drawing.Point(649, 10);
+            this.btnSort.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnSort.Name = "btnSort";
-            this.btnSort.Size = new System.Drawing.Size(75, 23);
+            this.btnSort.Size = new System.Drawing.Size(100, 29);
             this.btnSort.TabIndex = 0;
             this.btnSort.Text = "排  程";
             this.btnSort.UseVisualStyleBackColor = true;
@@ -162,13 +170,14 @@
             this.count,
             this.qty});
             this.dgvSortInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvSortInfo.Location = new System.Drawing.Point(0, 48);
+            this.dgvSortInfo.Location = new System.Drawing.Point(0, 60);
+            this.dgvSortInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dgvSortInfo.MultiSelect = false;
             this.dgvSortInfo.Name = "dgvSortInfo";
             this.dgvSortInfo.ReadOnly = true;
             this.dgvSortInfo.RowTemplate.Height = 23;
             this.dgvSortInfo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSortInfo.Size = new System.Drawing.Size(1012, 551);
+            this.dgvSortInfo.Size = new System.Drawing.Size(1349, 689);
             this.dgvSortInfo.TabIndex = 8;
             // 
             // synseq
@@ -205,26 +214,29 @@
             this.panel3.Controls.Add(this.label1);
             this.panel3.Controls.Add(this.pbLoading);
             this.panel3.Font = new System.Drawing.Font("宋体", 11F);
-            this.panel3.Location = new System.Drawing.Point(173, 53);
+            this.panel3.Location = new System.Drawing.Point(231, 66);
+            this.panel3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(359, 100);
+            this.panel3.Size = new System.Drawing.Size(477, 124);
             this.panel3.TabIndex = 9;
             this.panel3.Visible = false;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(210, 17);
+            this.label1.Location = new System.Drawing.Point(280, 21);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(142, 15);
+            this.label1.Size = new System.Drawing.Size(180, 19);
             this.label1.TabIndex = 28;
             this.label1.Text = "条烟顺序生成中。。";
             // 
             // pbLoading
             // 
-            this.pbLoading.Location = new System.Drawing.Point(-2, -2);
+            this.pbLoading.Location = new System.Drawing.Point(-3, -2);
+            this.pbLoading.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pbLoading.Name = "pbLoading";
-            this.pbLoading.Size = new System.Drawing.Size(206, 100);
+            this.pbLoading.Size = new System.Drawing.Size(275, 125);
             this.pbLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbLoading.TabIndex = 27;
             this.pbLoading.TabStop = false;
@@ -235,9 +247,10 @@
             this.panel2.Controls.Add(this.panel3);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.progressBar1);
-            this.panel2.Location = new System.Drawing.Point(14, 66);
+            this.panel2.Location = new System.Drawing.Point(19, 82);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(797, 89);
+            this.panel2.Size = new System.Drawing.Size(1063, 111);
             this.panel2.TabIndex = 29;
             this.panel2.Visible = false;
             // 
@@ -245,9 +258,10 @@
             // 
             this.lblTime.AutoSize = true;
             this.lblTime.Font = new System.Drawing.Font("宋体", 11F);
-            this.lblTime.Location = new System.Drawing.Point(31, 14);
+            this.lblTime.Location = new System.Drawing.Point(41, 18);
+            this.lblTime.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTime.Name = "lblTime";
-            this.lblTime.Size = new System.Drawing.Size(75, 15);
+            this.lblTime.Size = new System.Drawing.Size(95, 19);
             this.lblTime.TabIndex = 2;
             this.lblTime.Text = "已用时间:";
             // 
@@ -255,29 +269,32 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 11F);
-            this.label2.Location = new System.Drawing.Point(184, 14);
+            this.label2.Location = new System.Drawing.Point(245, 18);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(115, 15);
+            this.label2.Size = new System.Drawing.Size(145, 19);
             this.label2.TabIndex = 1;
             this.label2.Text = "正在排程......";
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(33, 42);
+            this.progressBar1.Location = new System.Drawing.Point(44, 52);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(741, 23);
+            this.progressBar1.Size = new System.Drawing.Size(988, 29);
             this.progressBar1.TabIndex = 0;
             this.progressBar1.Visible = false;
             // 
             // w_SortFm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1012, 599);
+            this.ClientSize = new System.Drawing.Size(1349, 749);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.dgvSortInfo);
             this.Controls.Add(this.panel1);
             this.DoubleBuffered = true;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "w_SortFm";
             this.Text = "任务排序";
             this.panel1.ResumeLayout(false);

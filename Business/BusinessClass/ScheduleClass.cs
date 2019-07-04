@@ -114,6 +114,7 @@ namespace Business.BusinessClass
                             t_produce_order.ORDERQUANTITY = order.TOTALQTY;
                             t_produce_order.ORDERMONEY = order.TOTALAMOUNT;
                             t_produce_order.CUSTOMERCODE = order.CUSTOMER_ID;
+                            t_produce_order.CUSTOMERNAME = order.CUSTOMER_NAME;
                             t_produce_order.ADDRESS = order.CONTACTADDRESS;
                             t_produce_order.TELEPHONE = order.CONTACTPHONE;
                             t_produce_order.PRIORITY = index;//送货顺序（数据源未提供）
