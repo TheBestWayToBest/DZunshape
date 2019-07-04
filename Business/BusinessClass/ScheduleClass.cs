@@ -1038,5 +1038,50 @@ namespace Business.BusinessClass
                 return response;
             }
         }
+
+        public Response SyncOrderDataFromInspur(string orderDateStr)
+        {
+            using (DZEntities dzEntities = new DZEntities())
+            {
+                Response response = new Response();
+                response.IsSuccess = true;
+                
+                System.Data.EntityClient.EntityConnection entityConnection = (System.Data.EntityClient.EntityConnection)dzEntities.Connection;
+                entityConnection.Open();
+                System.Data.Common.DbConnection storeConnection = entityConnection.StoreConnection;
+                System.Data.Common.DbCommand cmd = storeConnection.CreateCommand();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandText = "PSALE_WMS_RECEIVE";
+
+                OracleParameter[] sqlpara = new OracleParameter[3];
+                sqlpara[0] = new OracleParameter("p_time", orderDateStr);
+                sqlpara[1] = new OracleParameter("p_ErrCode", OracleDbType.Varchar2, 30);
+                sqlpara[2] = new OracleParameter("p_ErrMsg", OracleDbType.Varchar2, 1000);
+
+                sqlpara[0].Direction = ParameterDirection.Input;
+                sqlpara[1].Direction = ParameterDirection.Output;
+                sqlpara[2].Direction = ParameterDirection.Output;
+
+                cmd.Parameters.Add(sqlpara[0]);
+                cmd.Parameters.Add(sqlpara[1]);
+                cmd.Parameters.Add(sqlpara[2]);
+
+                cmd.ExecuteNonQuery();
+
+
+                if (cmd.Parameters[1].Value.ToString() == "1")
+                {
+                    response.IsSuccess = true;
+                    response.MessageText = cmd.Parameters[2].Value.ToString();
+                }
+                else
+                {
+                    response.IsSuccess = false;
+                    response.MessageText = cmd.Parameters[2].Value.ToString();
+                }
+                cmd.Dispose();
+                return response;
+            }
+        }
     }
 }

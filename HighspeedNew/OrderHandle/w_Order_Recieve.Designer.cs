@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.datePick = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.lab_showinfo = new System.Windows.Forms.Label();
@@ -37,14 +38,16 @@
             this.btn_all = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.orderdata = new System.Windows.Forms.DataGridView();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.checkbox = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RegionCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OrderCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OrderNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.btnSync = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.orderdata)).BeginInit();
             this.panel2.SuspendLayout();
@@ -74,7 +77,7 @@
             // lab_showinfo
             // 
             this.lab_showinfo.AutoSize = true;
-            this.lab_showinfo.Location = new System.Drawing.Point(621, 12);
+            this.lab_showinfo.Location = new System.Drawing.Point(726, 18);
             this.lab_showinfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lab_showinfo.Name = "lab_showinfo";
             this.lab_showinfo.Size = new System.Drawing.Size(742, 15);
@@ -94,7 +97,7 @@
             // 
             // btn_recieve
             // 
-            this.btn_recieve.Location = new System.Drawing.Point(491, 10);
+            this.btn_recieve.Location = new System.Drawing.Point(490, 10);
             this.btn_recieve.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.btn_recieve.Name = "btn_recieve";
             this.btn_recieve.Size = new System.Drawing.Size(100, 28);
@@ -126,6 +129,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnSync);
             this.panel1.Controls.Add(this.btn_all);
             this.panel1.Controls.Add(this.txt_codestr);
             this.panel1.Controls.Add(this.btn_recieve);
@@ -161,36 +165,6 @@
             this.orderdata.TabIndex = 4;
             this.orderdata.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.orderdata_CellEndEdit);
             // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.label2);
-            this.panel2.Controls.Add(this.progressBar1);
-            this.panel2.Location = new System.Drawing.Point(243, 132);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1101, 112);
-            this.panel2.TabIndex = 5;
-            this.panel2.Visible = false;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(41, 18);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(121, 15);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "正在读取数据...";
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(44, 52);
-            this.progressBar1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(988, 28);
-            this.progressBar1.TabIndex = 0;
-            this.progressBar1.Visible = false;
-            // 
             // checkbox
             // 
             this.checkbox.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -224,6 +198,52 @@
             this.OrderNum.HeaderText = "订单量";
             this.OrderNum.Name = "OrderNum";
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.label2);
+            this.panel2.Controls.Add(this.progressBar1);
+            this.panel2.Location = new System.Drawing.Point(243, 132);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1101, 112);
+            this.panel2.TabIndex = 5;
+            this.panel2.Visible = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(41, 18);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(121, 15);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "正在读取数据...";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(44, 52);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(988, 28);
+            this.progressBar1.TabIndex = 0;
+            this.progressBar1.Visible = false;
+            // 
+            // btnSync
+            // 
+            this.btnSync.Location = new System.Drawing.Point(599, 10);
+            this.btnSync.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.btnSync.Name = "btnSync";
+            this.btnSync.Size = new System.Drawing.Size(119, 28);
+            this.btnSync.TabIndex = 10;
+            this.btnSync.Text = "营销接口同步";
+            this.btnSync.UseVisualStyleBackColor = true;
+            this.btnSync.Click += new System.EventHandler(this.btnSync_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // w_Order_Recieve
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -232,7 +252,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.orderdata);
             this.Controls.Add(this.panel1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "w_Order_Recieve";
             this.Text = "订单接收";
             this.panel1.ResumeLayout(false);
@@ -263,5 +283,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn RegionCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn OrderCount;
         private System.Windows.Forms.DataGridViewTextBoxColumn OrderNum;
+        private System.Windows.Forms.Button btnSync;
+        private System.Windows.Forms.Timer timer1;
     }
 }
