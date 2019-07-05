@@ -15,19 +15,26 @@ namespace HighspeedNew.OrderHandle
     {
         String handle_sign = "", id = "";
         string type = "", troughtype = "";
+        string machine = "";
+        decimal groupNo = 0;
         public List<string> list = new List<string>();
-        public w_Through_Handle(String sign, String amend_id, string type, string troughtype)
+        public w_Through_Handle(String sign, String amend_id, string type, string troughtype, string machineSeq,decimal groupNo)
         {
             InitializeComponent();
             this.type = type;
             this.troughtype = troughtype;
             handle_sign = sign;
-            init(handle_sign, amend_id);
-            if (handle_sign == "0") this.Text = "分拣通道--新增";
+            this.machine = machineSeq;
+            this.groupNo = groupNo;
+            if (handle_sign == "0")
+            {
+                init(40);
+                this.Text = "分拣通道--新增";
+            }
             else
             {
                 this.Text = "分拣通道--修改";
-
+                init(0);
                 txt_troughdesc.Enabled = false;
                 this.box_actcount.Enabled = false;
 
@@ -35,13 +42,36 @@ namespace HighspeedNew.OrderHandle
 
             id = amend_id;
         }
-        public void init(String sign, String amend_id)
+        public void init(decimal type)
         {
             decimal machineseq = new decimal();
-            machineseq = ThroughClass.GetMachineseqByType(40, 2);
-            this.cbthroughnum.Items.Add(machineseq);
-            this.cbthroughnum.SelectedIndex = 0;
-            lbltype.Text = "异型";
+            if (type == 40)
+            {
+                List<string> list = ThroughClass.GetMachineseqByType(40);
+                foreach (var item in list)
+                {
+                    string[] str = item.Split(',');
+                    if (str[0] == "2")
+                    {
+                        this.cbthroughnum.Items.Add("立式烟仓混合道(" + str[1] + ")");
+                    }
+                    else
+                    {
+                        this.cbthroughnum.Items.Add("特异形烟道(" + str[1] + ")");
+                    }
+                }
+                this.cbthroughnum.SelectedIndex = 0;
+            }
+
+            else
+            {
+                machineseq = decimal.Parse(machine);
+
+                this.cbthroughnum.Items.Add(machineseq);
+                this.cbthroughnum.SelectedIndex = 0;
+            }
+                
+            lbltype.Text = "异形烟";
             lbllineNum.Text = "异形烟分拣线";
             cbthroughnum.Enabled = false;
             txt_troughdesc.Visible = false;
@@ -74,12 +104,12 @@ namespace HighspeedNew.OrderHandle
         private void btn_save_Click(object sender, EventArgs e)
         {
             T_PRODUCE_SORTTROUGH tps = new T_PRODUCE_SORTTROUGH();
-            tps.MACHINESEQ = Convert.ToDecimal(this.cbthroughnum.Text.Trim());//设备物理号编号:获取选择下拉框内的通道编号
+            //tps.MACHINESEQ = Convert.ToDecimal(this.cbthroughnum.Text.Trim());//设备物理号编号:获取选择下拉框内的通道编号
             tps.TROUGHDESC = this.txt_troughdesc.Text.Trim();
             tps.CIGARETTECODE = this.txt_itemno.Text;
             tps.CIGARETTENAME = this.txt_itemname.Text;
             tps.SEQ = 2;
-            tps.GROUPNO = 0;
+            tps.GROUPNO = groupNo;
             tps.TROUGHTYPE = 10;
             tps.CIGARETTETYPE = Convert.ToDecimal(type);
             tps.MANTISSA = 0;
@@ -97,11 +127,15 @@ namespace HighspeedNew.OrderHandle
             }
             if (handle_sign == "0")
             {
+                tps.MACHINESEQ = Convert.ToDecimal(this.cbthroughnum.Text.Trim().Split(',')[1]);
                 string msg = ThroughClass.InsertThrough(tps);
+                
                 MessageBox.Show(msg);
+                this.Close();
             }
-            else 
+            else
             {
+                tps.MACHINESEQ = Convert.ToDecimal(this.cbthroughnum.Text.Trim());
                 tps.ID = Convert.ToDecimal(id);
                 string msg = ThroughClass.UpdateThrough(tps);
                 MessageBox.Show(msg);

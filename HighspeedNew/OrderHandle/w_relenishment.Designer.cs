@@ -324,7 +324,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "w_relenishment";
-            this.Text = "w_relenishment";
+            this.Text = "件烟补货报表";
             ((System.ComponentModel.ISupportInitialize)(this.dgvReplenish)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();

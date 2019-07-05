@@ -30,6 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.CBGroup2 = new System.Windows.Forms.CheckBox();
+            this.CBGroup3 = new System.Windows.Forms.CheckBox();
+            this.CBGroup1 = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
             this.btn_toexcel = new System.Windows.Forms.Button();
             this.btn_print = new System.Windows.Forms.Button();
@@ -47,9 +50,9 @@
             this.machineseq = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cigarettecode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cigarettename = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cigarettetype = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ThroughType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.State = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cigarettetype = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -61,6 +64,9 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.CBGroup2);
+            this.panel1.Controls.Add(this.CBGroup3);
+            this.panel1.Controls.Add(this.CBGroup1);
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.btn_toexcel);
             this.panel1.Controls.Add(this.btn_print);
@@ -73,8 +79,40 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1252, 88);
+            this.panel1.Size = new System.Drawing.Size(1252, 60);
             this.panel1.TabIndex = 2;
+            // 
+            // CBGroup2
+            // 
+            this.CBGroup2.AutoSize = true;
+            this.CBGroup2.Checked = true;
+            this.CBGroup2.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CBGroup2.Location = new System.Drawing.Point(294, 28);
+            this.CBGroup2.Name = "CBGroup2";
+            this.CBGroup2.Size = new System.Drawing.Size(72, 16);
+            this.CBGroup2.TabIndex = 18;
+            this.CBGroup2.Text = "立式烟仓";
+            this.CBGroup2.UseVisualStyleBackColor = true;
+            // 
+            // CBGroup3
+            // 
+            this.CBGroup3.AutoSize = true;
+            this.CBGroup3.Location = new System.Drawing.Point(378, 28);
+            this.CBGroup3.Name = "CBGroup3";
+            this.CBGroup3.Size = new System.Drawing.Size(72, 16);
+            this.CBGroup3.TabIndex = 17;
+            this.CBGroup3.Text = "卧式烟仓";
+            this.CBGroup3.UseVisualStyleBackColor = true;
+            // 
+            // CBGroup1
+            // 
+            this.CBGroup1.AutoSize = true;
+            this.CBGroup1.Location = new System.Drawing.Point(462, 28);
+            this.CBGroup1.Name = "CBGroup1";
+            this.CBGroup1.Size = new System.Drawing.Size(84, 16);
+            this.CBGroup1.TabIndex = 16;
+            this.CBGroup1.Text = "特异形烟道";
+            this.CBGroup1.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
@@ -302,6 +340,8 @@
             this.troughdata.AllowUserToAddRows = false;
             this.troughdata.AllowUserToDeleteRows = false;
             this.troughdata.AllowUserToOrderColumns = true;
+            this.troughdata.AllowUserToResizeColumns = false;
+            this.troughdata.AllowUserToResizeRows = false;
             this.troughdata.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
@@ -313,20 +353,22 @@
             this.machineseq,
             this.cigarettecode,
             this.cigarettename,
-            this.cigarettetype,
-            this.ThroughType,
+            this.groupNo,
             this.State,
+            this.cigarettetype,
             this.Column1,
             this.Column2,
             this.Column3});
-            this.troughdata.Location = new System.Drawing.Point(0, 94);
+            this.troughdata.Location = new System.Drawing.Point(0, 66);
             this.troughdata.MultiSelect = false;
             this.troughdata.Name = "troughdata";
             this.troughdata.ReadOnly = true;
+            this.troughdata.RowHeadersVisible = false;
             this.troughdata.RowTemplate.Height = 23;
             this.troughdata.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.troughdata.Size = new System.Drawing.Size(1252, 464);
+            this.troughdata.Size = new System.Drawing.Size(1252, 492);
             this.troughdata.TabIndex = 1;
+            this.troughdata.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.troughdata_CellFormatting);
             // 
             // ThroughNum
             // 
@@ -363,19 +405,12 @@
             this.cigarettename.Name = "cigarettename";
             this.cigarettename.ReadOnly = true;
             // 
-            // cigarettetype
+            // groupNo
             // 
-            this.cigarettetype.DataPropertyName = "CigaretteType";
-            this.cigarettetype.HeaderText = "品牌类型";
-            this.cigarettetype.Name = "cigarettetype";
-            this.cigarettetype.ReadOnly = true;
-            // 
-            // ThroughType
-            // 
-            this.ThroughType.DataPropertyName = "ThroughType";
-            this.ThroughType.HeaderText = "通道类型";
-            this.ThroughType.Name = "ThroughType";
-            this.ThroughType.ReadOnly = true;
+            this.groupNo.DataPropertyName = "groupNo";
+            this.groupNo.HeaderText = "通道类型";
+            this.groupNo.Name = "groupNo";
+            this.groupNo.ReadOnly = true;
             // 
             // State
             // 
@@ -383,6 +418,14 @@
             this.State.HeaderText = "使用状态";
             this.State.Name = "State";
             this.State.ReadOnly = true;
+            // 
+            // cigarettetype
+            // 
+            this.cigarettetype.DataPropertyName = "CigaretteType";
+            this.cigarettetype.HeaderText = "品牌类型";
+            this.cigarettetype.Name = "cigarettetype";
+            this.cigarettetype.ReadOnly = true;
+            this.cigarettetype.Visible = false;
             // 
             // Column1
             // 
@@ -416,7 +459,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.troughdata);
             this.Name = "w_Through";
-            this.Text = "w_Through";
+            this.Text = "分拣通道管理";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.troughdata)).EndInit();
@@ -439,14 +482,17 @@
         private System.Windows.Forms.Label label2;
         private VBprinter.DGVprint dgVprint1;
         private System.Windows.Forms.DataGridView troughdata;
+        private System.Windows.Forms.CheckBox CBGroup2;
+        private System.Windows.Forms.CheckBox CBGroup3;
+        private System.Windows.Forms.CheckBox CBGroup1;
         private System.Windows.Forms.DataGridViewTextBoxColumn ThroughNum;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn machineseq;
         private System.Windows.Forms.DataGridViewTextBoxColumn cigarettecode;
         private System.Windows.Forms.DataGridViewTextBoxColumn cigarettename;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cigarettetype;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ThroughType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn groupNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn State;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cigarettetype;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;

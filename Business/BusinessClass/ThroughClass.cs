@@ -8,14 +8,21 @@ namespace Business.BusinessClass
 {
     public class ThroughClass
     {
-        public static List<ThroughInfo> GetThroughInfo(int index, string condition) 
+        public static List<ThroughInfo> GetThroughInfo(int index, List<decimal> groupNo, string condition) 
         {
             using (DZEntities en = new DZEntities()) 
             {
+                Func<T_PRODUCE_SORTTROUGH,bool> func;
+                if (groupNo.Count == 1)
+                    func = item => item.GROUPNO == groupNo[0];
+                else if (groupNo.Count == 2)
+                    func = item => (item.GROUPNO == groupNo[0] || item.GROUPNO == groupNo[1]);
+                else
+                    func = item => (item.GROUPNO == groupNo[0] || item.GROUPNO == groupNo[1] || item.GROUPNO == groupNo[1]);
                 List<ThroughInfo> list = new List<ThroughInfo>();
                 if (condition == "")
                 {
-                    list = en.T_PRODUCE_SORTTROUGH.Where(item => true).Select(item => new ThroughInfo
+                    list = en.T_PRODUCE_SORTTROUGH.Where(func).Select(item => new ThroughInfo
                     {
                         ThroughNum = item.TROUGHNUM,
                         ID = item.ID,
@@ -23,15 +30,15 @@ namespace Business.BusinessClass
                         CigaretteCode = item.CIGARETTECODE,
                         CigaretteName = item.CIGARETTENAME,
                         State = item.STATE,
-                        ThroughType = item.TROUGHTYPE ?? 0,
+                        GroupNo = item.GROUPNO ?? 0,
                         CigaretteType = item.CIGARETTETYPE ?? 0
-                    }).ToList();
+                    }).OrderBy(item=>item.ThroughNum).OrderBy(item=>item.MachineSeq).ToList();
                 }
                 else 
                 {
                     if (index == 0)
                     {
-                        list = en.T_PRODUCE_SORTTROUGH.Where(item => item.CIGARETTECODE.Contains(condition)).Select(item => new ThroughInfo
+                        list = en.T_PRODUCE_SORTTROUGH.Where(item => item.CIGARETTECODE.Contains(condition)).Where(func).Select(item => new ThroughInfo
                         {
                             ThroughNum = item.TROUGHNUM,
                             ID = item.ID,
@@ -39,13 +46,13 @@ namespace Business.BusinessClass
                             CigaretteCode = item.CIGARETTECODE,
                             CigaretteName = item.CIGARETTENAME,
                             State = item.STATE,
-                            ThroughType = item.TROUGHTYPE ?? 0,
+                            GroupNo = item.GROUPNO ?? 0,
                             CigaretteType = item.CIGARETTETYPE ?? 0
-                        }).ToList();
+                        }).OrderBy(item => item.ThroughNum).OrderBy(item => item.MachineSeq).ToList();
                     }
                     else if (index == 1)
                     {
-                        list = en.T_PRODUCE_SORTTROUGH.Where(item => item.CIGARETTENAME.Contains(condition)).Select(item => new ThroughInfo
+                        list = en.T_PRODUCE_SORTTROUGH.Where(item => item.CIGARETTENAME.Contains(condition)).Where(func).Select(item => new ThroughInfo
                         {
                             ThroughNum = item.TROUGHNUM,
                             ID = item.ID,
@@ -53,9 +60,9 @@ namespace Business.BusinessClass
                             CigaretteCode = item.CIGARETTECODE,
                             CigaretteName = item.CIGARETTENAME,
                             State = item.STATE,
-                            ThroughType = item.TROUGHTYPE ?? 0,
+                            GroupNo = item.GROUPNO ?? 0,
                             CigaretteType = item.CIGARETTETYPE ?? 0
-                        }).ToList();
+                        }).OrderBy(item => item.ThroughNum).OrderBy(item => item.MachineSeq).ToList();
                     }
                 }
                 
@@ -69,9 +76,9 @@ namespace Business.BusinessClass
             {
                
                 decimal CigType = Convert.ToDecimal(info.CigaretteType);
-                decimal tType = Convert.ToDecimal(info.ThroughType);
+                decimal tType = Convert.ToDecimal(info.GroupNo);
                 T_PRODUCE_SORTTROUGH infos = new T_PRODUCE_SORTTROUGH();
-                infos = en.T_PRODUCE_SORTTROUGH.Where(item => item.ID == info.ID && item.CIGARETTETYPE == CigType && item.TROUGHTYPE == tType).FirstOrDefault();
+                infos = en.T_PRODUCE_SORTTROUGH.Where(item => item.ID == info.ID && item.CIGARETTETYPE == CigType && item.GROUPNO == tType).FirstOrDefault();
                 if (info.State == "禁用")
                     infos.STATE = "0";
                 else
@@ -80,12 +87,16 @@ namespace Business.BusinessClass
             }
         }
 
-        public static decimal GetMachineseqByType(decimal type, decimal groupNo) 
+        public static List<string> GetMachineseqByType(decimal type) 
         {
             using (DZEntities en = new DZEntities()) 
             {
-                decimal list = new decimal();
-                list = en.T_PRODUCE_SORTTROUGH.Where(item => item.CIGARETTETYPE == type && item.GROUPNO == groupNo).Select(item => item.MACHINESEQ ?? 0).FirstOrDefault();
+                List<string> list = new List<string>();
+                var query = en.T_PRODUCE_SORTTROUGH.Where(item => item.CIGARETTETYPE == type).Select(item => new { machinseq = item.MACHINESEQ ?? 0, groupNo = item.GROUPNO }).ToList();
+                foreach (var item in query)
+                {
+                    list.Add(item.groupNo.ToString() + "," + item.machinseq.ToString());
+                }
                 return list;
             }
         }

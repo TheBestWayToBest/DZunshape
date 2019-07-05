@@ -36,7 +36,6 @@
             this.order_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.datePick = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
-            this.lab_showinfo = new System.Windows.Forms.Label();
             this.btn_search = new System.Windows.Forms.Button();
             this.txt_codestr = new System.Windows.Forms.TextBox();
             this.btn_all = new System.Windows.Forms.Button();
@@ -49,6 +48,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.dgVprint1 = new VBprinter.DGVprint(this.components);
+            this.lab_showinfo = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.orderdata)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -125,15 +125,6 @@
             this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 1;
             this.label1.Text = "订单日期";
-            // 
-            // lab_showinfo
-            // 
-            this.lab_showinfo.AutoSize = true;
-            this.lab_showinfo.Location = new System.Drawing.Point(3, 45);
-            this.lab_showinfo.Name = "lab_showinfo";
-            this.lab_showinfo.Size = new System.Drawing.Size(365, 12);
-            this.lab_showinfo.TabIndex = 2;
-            this.lab_showinfo.Text = "勾选要接收的订单数据，点击“汇总”按钮，进行订单查询操作。  ";
             // 
             // btn_search
             // 
@@ -382,6 +373,16 @@
             this.dgVprint1.ZDXType = VBprinter.DGVprint.TheZDXTYPE.LEFT;
             this.dgVprint1.ZoomToPaperWidth = true;
             // 
+            // lab_showinfo
+            // 
+            this.lab_showinfo.AutoSize = true;
+            this.lab_showinfo.Location = new System.Drawing.Point(3, 45);
+            this.lab_showinfo.Name = "lab_showinfo";
+            this.lab_showinfo.Size = new System.Drawing.Size(365, 12);
+            this.lab_showinfo.TabIndex = 2;
+            this.lab_showinfo.Text = "勾选要接收的订单数据，点击“汇总”按钮，进行订单查询操作。  ";
+            this.lab_showinfo.Visible = false;
+            // 
             // w_order_Union
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -391,7 +392,7 @@
             this.Controls.Add(this.orderdata);
             this.Controls.Add(this.panel1);
             this.Name = "w_order_Union";
-            this.Text = "w_order_Union";
+            this.Text = "今日订单";
             ((System.ComponentModel.ISupportInitialize)(this.orderdata)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -406,7 +407,6 @@
         private System.Windows.Forms.DataGridView orderdata;
         private System.Windows.Forms.DateTimePicker datePick;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lab_showinfo;
         private System.Windows.Forms.Button btn_search;
         private System.Windows.Forms.TextBox txt_codestr;
         private System.Windows.Forms.Button btn_all;
@@ -423,6 +423,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn count_hs;
         private System.Windows.Forms.DataGridViewTextBoxColumn order_qty;
         private VBprinter.DGVprint dgVprint1;
+        private System.Windows.Forms.Label lab_showinfo;
 
     }
 }

@@ -21,12 +21,25 @@ namespace HighSpeed.OrderHandle
             InitializeComponent();
             box_type.SelectedIndex = 0;
         }
-
-        private void BtnSearch_Click(object sender, EventArgs e)
+        void Bind() 
         {
-            itemInfos = ItemClass.GetItemInfo(box_type.SelectedIndex, txt_keywd.Text.Trim());
+            string shipType = "1";
+            decimal status = 10;
+            if (RB0.Checked)
+                status = 0;
+            else
+                status = 10;
+            if (RBUnnormal.Checked)
+                shipType = "1";
+            else
+                shipType = "0";
+            itemInfos = ItemClass.GetItemInfo(box_type.SelectedIndex,shipType,status, txt_keywd.Text.Trim());
             DgvItemInfo.AutoGenerateColumns = false;
             DgvItemInfo.DataSource = itemInfos;
+        }
+        private void BtnSearch_Click(object sender, EventArgs e)
+        {
+            Bind(); 
         }
 
         private void BtnExport_Click(object sender, EventArgs e)
@@ -81,9 +94,7 @@ namespace HighSpeed.OrderHandle
                             
                             itemInfos = new List<ItemInfo>();
                             DgvItemInfo.DataSource = itemInfos;
-                            itemInfos = ItemClass.GetItemInfo(0, "");
-                            DgvItemInfo.AutoGenerateColumns = false;
-                            DgvItemInfo.DataSource = itemInfos;
+                            Bind(); 
                             MessageBox.Show("卷烟品牌信息修改成功!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                     }
@@ -105,9 +116,19 @@ namespace HighSpeed.OrderHandle
 
                     e.Value = "标准烟";
                 }
-                else
+                else if (itemInfos[e.RowIndex].Shiptype == "1")
                 {
                     e.Value = "异型烟";
+                }
+                else 
+                {
+                    DataGridViewCellStyle dgvStyle = new DataGridViewCellStyle();
+                    dgvStyle.BackColor = Color.Yellow;
+                    e.Value = "";
+                    for (int i = 0; i < DgvItemInfo.Rows[e.RowIndex].Cells.Count; i++)
+                    {
+                        DgvItemInfo.Rows[e.RowIndex].Cells[i].Style = dgvStyle;
+                    }
                 }
             }
             if (e.ColumnIndex == 4)

@@ -45,12 +45,21 @@ namespace Business.BusinessClass
                 values[0] = query.SORTNUM;
                 values[1] = query.SENDTASKNUM;
                 decimal machineseq = 0;
-                foreach (var item in list.GroupBy(item => new { item.MACHINESEQ, item.CTYPE }).Select(item => new { MACHINESEQ = item.Key.MACHINESEQ, CTYPE = item.Key.CTYPE, QTY = item.Sum(x => x.POKENUM) }).OrderBy(ite => new { ite.CTYPE, ite.MACHINESEQ }).ToList())
+                foreach (var item in list.Where(ite => ite.CTYPE == 2).GroupBy(item => item.MACHINESEQ).Select(item => new { MACHINESEQ = item.Key, QTY = item.Sum(x => x.POKENUM) }).OrderBy(ite => ite.MACHINESEQ).ToList())
                 {
                     if (machineseq != ts)
                     {
                         machineseq = item.MACHINESEQ??0;
                         values[(int)machineseq + 1] = item.QTY;
+                        sb.AppendLine(linenum + "线 " + machineseq + " 号烟仓，出烟数量：" + item.QTY);
+                    }
+                }
+                foreach (var item in list.Where(ite => ite.CTYPE == 3).GroupBy(item => item.MACHINESEQ).Select(item => new { MACHINESEQ = item.Key, QTY = item.Sum(x => x.POKENUM) }).OrderBy(ite => ite.MACHINESEQ).ToList())
+                {
+                    if (machineseq != ts)
+                    {
+                        machineseq = item.MACHINESEQ ?? 0;
+                        values[(int)machineseq + 1 + 90] = item.QTY;
                         sb.AppendLine(linenum + "线 " + machineseq + " 号烟仓，出烟数量：" + item.QTY);
                     }
                 }

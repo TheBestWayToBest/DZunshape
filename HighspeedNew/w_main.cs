@@ -22,7 +22,7 @@ namespace HighSpeed
             InitializeComponent();
             toolStripStatusLabel1.Text = "山东德州烟草配送中心";
             toolStripStatusLabel2.Text = "当前用户：";//+ //PublicFun.PubStruserempname;
-            toolStripStatusLabel3.Text = "登录时间：" + System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            toolStripStatusLabel3.Text = "系统时间：" + System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
         private void TSM_OrderReceive_Click(object sender, EventArgs e)
@@ -273,6 +273,25 @@ namespace HighSpeed
             frm.MdiParent = this;
             frm.WindowState = FormWindowState.Maximized;
             frm.Show();
+        }
+
+        private void 件烟补货汇总ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            w_PlanReport frm = new w_PlanReport();
+            if (CheckExist(frm) == true)
+            {
+                frm.Dispose();
+                frm = null;
+                return;
+            }
+            frm.MdiParent = this;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            toolStripStatusLabel3.Text = "系统时间：" + System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
     }

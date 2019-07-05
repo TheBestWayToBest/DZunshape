@@ -37,10 +37,6 @@
             this.BtnPrint = new System.Windows.Forms.Button();
             this.BtnSearch = new System.Windows.Forms.Button();
             this.DgvItemInfo = new System.Windows.Forms.DataGridView();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.label2 = new System.Windows.Forms.Label();
-            this.dgVprint1 = new VBprinter.DGVprint(this.components);
             this.ItemNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ItemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BigBox_Bar = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -50,13 +46,27 @@
             this.IWidth = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IHEIGHT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.JZ_Size = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.label2 = new System.Windows.Forms.Label();
+            this.dgVprint1 = new VBprinter.DGVprint(this.components);
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.RBUnnormal = new System.Windows.Forms.RadioButton();
+            this.RBNormal = new System.Windows.Forms.RadioButton();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.RB0 = new System.Windows.Forms.RadioButton();
+            this.RB10 = new System.Windows.Forms.RadioButton();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvItemInfo)).BeginInit();
             this.panel2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.groupBox2);
+            this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.txt_keywd);
             this.panel1.Controls.Add(this.box_type);
             this.panel1.Controls.Add(this.label1);
@@ -66,14 +76,14 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1268, 33);
+            this.panel1.Size = new System.Drawing.Size(1268, 62);
             this.panel1.TabIndex = 36;
             // 
             // txt_keywd
             // 
-            this.txt_keywd.Location = new System.Drawing.Point(185, 6);
+            this.txt_keywd.Location = new System.Drawing.Point(185, 18);
             this.txt_keywd.Name = "txt_keywd";
-            this.txt_keywd.Size = new System.Drawing.Size(100, 25);
+            this.txt_keywd.Size = new System.Drawing.Size(100, 21);
             this.txt_keywd.TabIndex = 8;
             // 
             // box_type
@@ -83,23 +93,23 @@
             this.box_type.Items.AddRange(new object[] {
             "卷烟编码",
             "卷烟名称"});
-            this.box_type.Location = new System.Drawing.Point(81, 7);
+            this.box_type.Location = new System.Drawing.Point(81, 19);
             this.box_type.Name = "box_type";
-            this.box_type.Size = new System.Drawing.Size(98, 23);
+            this.box_type.Size = new System.Drawing.Size(98, 20);
             this.box_type.TabIndex = 9;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(22, 11);
+            this.label1.Location = new System.Drawing.Point(22, 23);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 15);
+            this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 7;
             this.label1.Text = "条件选择";
             // 
             // BtnExport
             // 
-            this.BtnExport.Location = new System.Drawing.Point(879, 4);
+            this.BtnExport.Location = new System.Drawing.Point(1011, 14);
             this.BtnExport.Name = "BtnExport";
             this.BtnExport.Size = new System.Drawing.Size(75, 27);
             this.BtnExport.TabIndex = 6;
@@ -109,7 +119,7 @@
             // 
             // BtnPrint
             // 
-            this.BtnPrint.Location = new System.Drawing.Point(708, 2);
+            this.BtnPrint.Location = new System.Drawing.Point(896, 14);
             this.BtnPrint.Name = "BtnPrint";
             this.BtnPrint.Size = new System.Drawing.Size(75, 27);
             this.BtnPrint.TabIndex = 5;
@@ -119,7 +129,7 @@
             // 
             // BtnSearch
             // 
-            this.BtnSearch.Location = new System.Drawing.Point(530, 4);
+            this.BtnSearch.Location = new System.Drawing.Point(773, 14);
             this.BtnSearch.Name = "BtnSearch";
             this.BtnSearch.Size = new System.Drawing.Size(75, 27);
             this.BtnSearch.TabIndex = 0;
@@ -143,15 +153,75 @@
             this.IHEIGHT,
             this.JZ_Size});
             this.DgvItemInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DgvItemInfo.Location = new System.Drawing.Point(0, 33);
+            this.DgvItemInfo.Location = new System.Drawing.Point(0, 62);
             this.DgvItemInfo.Name = "DgvItemInfo";
             this.DgvItemInfo.RowTemplate.Height = 23;
             this.DgvItemInfo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DgvItemInfo.Size = new System.Drawing.Size(1268, 345);
+            this.DgvItemInfo.Size = new System.Drawing.Size(1268, 316);
             this.DgvItemInfo.TabIndex = 37;
             this.DgvItemInfo.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvItemInfo_CellFormatting);
             this.DgvItemInfo.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvItemInfo_CellValueChanged);
             this.DgvItemInfo.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.DgvItemInfo_RowPostPaint);
+            // 
+            // ItemNo
+            // 
+            this.ItemNo.DataPropertyName = "ItemNo";
+            this.ItemNo.HeaderText = "卷烟编号";
+            this.ItemNo.Name = "ItemNo";
+            this.ItemNo.ReadOnly = true;
+            // 
+            // ItemName
+            // 
+            this.ItemName.DataPropertyName = "ItemName";
+            this.ItemName.HeaderText = "名称";
+            this.ItemName.Name = "ItemName";
+            this.ItemName.ReadOnly = true;
+            // 
+            // BigBox_Bar
+            // 
+            this.BigBox_Bar.DataPropertyName = "BigBox_Bar";
+            this.BigBox_Bar.HeaderText = "件码";
+            this.BigBox_Bar.Name = "BigBox_Bar";
+            // 
+            // Type
+            // 
+            this.Type.HeaderText = "卷烟类型";
+            this.Type.Items.AddRange(new object[] {
+            "标准烟",
+            "异形烟"});
+            this.Type.Name = "Type";
+            // 
+            // status
+            // 
+            this.status.HeaderText = "卷烟状态";
+            this.status.Items.AddRange(new object[] {
+            "正常",
+            "删除"});
+            this.status.Name = "status";
+            // 
+            // ILength
+            // 
+            this.ILength.DataPropertyName = "ILength";
+            this.ILength.HeaderText = "长度";
+            this.ILength.Name = "ILength";
+            // 
+            // IWidth
+            // 
+            this.IWidth.DataPropertyName = "IWidth";
+            this.IWidth.HeaderText = "宽度";
+            this.IWidth.Name = "IWidth";
+            // 
+            // IHEIGHT
+            // 
+            this.IHEIGHT.DataPropertyName = "IHEIGHT";
+            this.IHEIGHT.HeaderText = "高度";
+            this.IHEIGHT.Name = "IHEIGHT";
+            // 
+            // JZ_Size
+            // 
+            this.JZ_Size.DataPropertyName = "JT_Size";
+            this.JZ_Size.HeaderText = "条/件换算";
+            this.JZ_Size.Name = "JZ_Size";
             // 
             // panel2
             // 
@@ -177,7 +247,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(34, 19);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(121, 15);
+            this.label2.Size = new System.Drawing.Size(95, 12);
             this.label2.TabIndex = 0;
             this.label2.Text = "正在读取数据...";
             this.label2.Visible = false;
@@ -304,65 +374,71 @@
             this.dgVprint1.ZDXType = VBprinter.DGVprint.TheZDXTYPE.LEFT;
             this.dgVprint1.ZoomToPaperWidth = true;
             // 
-            // ItemNo
+            // groupBox1
             // 
-            this.ItemNo.DataPropertyName = "ItemNo";
-            this.ItemNo.HeaderText = "卷烟编号";
-            this.ItemNo.Name = "ItemNo";
-            this.ItemNo.ReadOnly = true;
+            this.groupBox1.Controls.Add(this.RBNormal);
+            this.groupBox1.Controls.Add(this.RBUnnormal);
+            this.groupBox1.Location = new System.Drawing.Point(302, 5);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(148, 40);
+            this.groupBox1.TabIndex = 10;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "卷烟类型";
             // 
-            // ItemName
+            // RBUnnormal
             // 
-            this.ItemName.DataPropertyName = "ItemName";
-            this.ItemName.HeaderText = "名称";
-            this.ItemName.Name = "ItemName";
-            this.ItemName.ReadOnly = true;
+            this.RBUnnormal.AutoSize = true;
+            this.RBUnnormal.Checked = true;
+            this.RBUnnormal.Location = new System.Drawing.Point(10, 15);
+            this.RBUnnormal.Name = "RBUnnormal";
+            this.RBUnnormal.Size = new System.Drawing.Size(59, 16);
+            this.RBUnnormal.TabIndex = 0;
+            this.RBUnnormal.TabStop = true;
+            this.RBUnnormal.Text = "异形烟";
+            this.RBUnnormal.UseVisualStyleBackColor = true;
             // 
-            // BigBox_Bar
+            // RBNormal
             // 
-            this.BigBox_Bar.DataPropertyName = "BigBox_Bar";
-            this.BigBox_Bar.HeaderText = "件码";
-            this.BigBox_Bar.Name = "BigBox_Bar";
+            this.RBNormal.AutoSize = true;
+            this.RBNormal.Location = new System.Drawing.Point(81, 15);
+            this.RBNormal.Name = "RBNormal";
+            this.RBNormal.Size = new System.Drawing.Size(59, 16);
+            this.RBNormal.TabIndex = 1;
+            this.RBNormal.Text = "标准烟";
+            this.RBNormal.UseVisualStyleBackColor = true;
             // 
-            // Type
+            // groupBox2
             // 
-            this.Type.HeaderText = "卷烟类型";
-            this.Type.Items.AddRange(new object[] {
-            "标准烟",
-            "异形烟"});
-            this.Type.Name = "Type";
+            this.groupBox2.Controls.Add(this.RB0);
+            this.groupBox2.Controls.Add(this.RB10);
+            this.groupBox2.Location = new System.Drawing.Point(468, 5);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(128, 40);
+            this.groupBox2.TabIndex = 11;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "卷烟状态";
             // 
-            // status
+            // RB0
             // 
-            this.status.HeaderText = "卷烟状态";
-            this.status.Items.AddRange(new object[] {
-            "正常",
-            "删除"});
-            this.status.Name = "status";
+            this.RB0.AutoSize = true;
+            this.RB0.Location = new System.Drawing.Point(69, 15);
+            this.RB0.Name = "RB0";
+            this.RB0.Size = new System.Drawing.Size(47, 16);
+            this.RB0.TabIndex = 1;
+            this.RB0.Text = "弃用";
+            this.RB0.UseVisualStyleBackColor = true;
             // 
-            // ILength
+            // RB10
             // 
-            this.ILength.DataPropertyName = "ILength";
-            this.ILength.HeaderText = "长度";
-            this.ILength.Name = "ILength";
-            // 
-            // IWidth
-            // 
-            this.IWidth.DataPropertyName = "IWidth";
-            this.IWidth.HeaderText = "宽度";
-            this.IWidth.Name = "IWidth";
-            // 
-            // IHEIGHT
-            // 
-            this.IHEIGHT.DataPropertyName = "IHEIGHT";
-            this.IHEIGHT.HeaderText = "高度";
-            this.IHEIGHT.Name = "IHEIGHT";
-            // 
-            // JZ_Size
-            // 
-            this.JZ_Size.DataPropertyName = "JT_Size";
-            this.JZ_Size.HeaderText = "条/件换算";
-            this.JZ_Size.Name = "JZ_Size";
+            this.RB10.AutoSize = true;
+            this.RB10.Checked = true;
+            this.RB10.Location = new System.Drawing.Point(11, 15);
+            this.RB10.Name = "RB10";
+            this.RB10.Size = new System.Drawing.Size(47, 16);
+            this.RB10.TabIndex = 0;
+            this.RB10.TabStop = true;
+            this.RB10.Text = "正常";
+            this.RB10.UseVisualStyleBackColor = true;
             // 
             // w_CigaretteInfo
             // 
@@ -379,6 +455,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.DgvItemInfo)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -406,5 +486,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn IWidth;
         private System.Windows.Forms.DataGridViewTextBoxColumn IHEIGHT;
         private System.Windows.Forms.DataGridViewTextBoxColumn JZ_Size;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton RBNormal;
+        private System.Windows.Forms.RadioButton RBUnnormal;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.RadioButton RB0;
+        private System.Windows.Forms.RadioButton RB10;
     }
 }

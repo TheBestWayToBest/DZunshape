@@ -322,7 +322,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.task_data);
             this.Name = "w_HunheReport";
-            this.Text = "w_HunheReport";
+            this.Text = "混合道补烟报表";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.task_data)).EndInit();

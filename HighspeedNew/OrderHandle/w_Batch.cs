@@ -86,5 +86,11 @@ using Business;namespace HighSpeed.OrderHandle
                 }
             }
         }
+
+        private void btn_close_Click(object sender, EventArgs e)
+        {
+            Response response = bc.OperationBatch();
+            MessageBox.Show(response.MessageText);
+        }
     }
 }

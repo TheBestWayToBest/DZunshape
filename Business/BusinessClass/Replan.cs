@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Business;
+using Business.Modle;
 namespace Business.BusinessClass
 {
     public class Replan
@@ -72,6 +73,17 @@ namespace Business.BusinessClass
                 }
 
                 return flag;
+            }
+        }
+
+        public static List<PlanInfo> GetPlan() 
+        {
+            using (DZEntities en = new DZEntities()) 
+            {
+                List<PlanInfo> list = new List<PlanInfo>();
+                list = en.T_PRODUCE_REPLENISHPLAN.GroupBy(item => new { item.CIGARETTECODE,item
+                .CIGARETTENAME ,item.JYCODE}).Select(item => new PlanInfo { CigaretteCode = item.Key.CIGARETTECODE, CigaretteName = item.Key.CIGARETTENAME, JYCode = item.Key.JYCODE, QTY = item.Sum(x=>x.REPLENISHQTY)??0 }).OrderByDescending(item => item.QTY).ToList();
+                return list;
             }
         }
     }

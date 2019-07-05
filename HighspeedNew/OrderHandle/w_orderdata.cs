@@ -55,7 +55,7 @@ namespace HighspeedNew.OrderHandle
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //dgVprint2.ExportDGVToExcel2(this.orderdata, "今日订单汇总", "orderinfo.xls", true);
+            dgVprint1.ExportDGVToExcel2(this.orderdata, "今日订单汇总", "orderinfo.xls", true);
         }
 
         private void orderdata_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)

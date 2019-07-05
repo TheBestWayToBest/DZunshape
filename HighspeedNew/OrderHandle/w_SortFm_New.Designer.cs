@@ -37,6 +37,7 @@
             this.lblTime = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.pbLoading = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.btnTransfor = new System.Windows.Forms.Button();
@@ -44,8 +45,6 @@
             this.btnPokeSeq = new System.Windows.Forms.Button();
             this.btnSort = new System.Windows.Forms.Button();
             this.dgvSortInfo = new System.Windows.Forms.DataGridView();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.pbLoading = new System.Windows.Forms.PictureBox();
             this.synseq = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.regioncode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.count = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -64,11 +63,12 @@
             this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLoading)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSortInfo)).BeginInit();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbLoading)).BeginInit();
             this.SuspendLayout();
             // 
             // TimerByTime
@@ -147,6 +147,15 @@
             this.label1.Size = new System.Drawing.Size(142, 15);
             this.label1.TabIndex = 28;
             this.label1.Text = "条烟顺序生成中。。";
+            // 
+            // pbLoading
+            // 
+            this.pbLoading.Location = new System.Drawing.Point(-2, -2);
+            this.pbLoading.Name = "pbLoading";
+            this.pbLoading.Size = new System.Drawing.Size(206, 100);
+            this.pbLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbLoading.TabIndex = 27;
+            this.pbLoading.TabStop = false;
             // 
             // label2
             // 
@@ -240,30 +249,6 @@
             this.dgvSortInfo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSortInfo.Size = new System.Drawing.Size(1012, 551);
             this.dgvSortInfo.TabIndex = 31;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.btn_replenishplan);
-            this.panel1.Controls.Add(this.btnTransfor);
-            this.panel1.Controls.Add(this.btnVid);
-            this.panel1.Controls.Add(this.btnPokeSeq);
-            this.panel1.Controls.Add(this.btnRef);
-            this.panel1.Controls.Add(this.lblInFO);
-            this.panel1.Controls.Add(this.btnSort);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1012, 48);
-            this.panel1.TabIndex = 30;
-            // 
-            // pbLoading
-            // 
-            this.pbLoading.Location = new System.Drawing.Point(-2, -2);
-            this.pbLoading.Name = "pbLoading";
-            this.pbLoading.Size = new System.Drawing.Size(206, 100);
-            this.pbLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbLoading.TabIndex = 27;
-            this.pbLoading.TabStop = false;
             // 
             // synseq
             // 
@@ -405,6 +390,21 @@
             this.Column15.ReadOnly = true;
             this.Column15.Visible = false;
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btn_replenishplan);
+            this.panel1.Controls.Add(this.btnTransfor);
+            this.panel1.Controls.Add(this.btnVid);
+            this.panel1.Controls.Add(this.btnPokeSeq);
+            this.panel1.Controls.Add(this.btnRef);
+            this.panel1.Controls.Add(this.lblInFO);
+            this.panel1.Controls.Add(this.btnSort);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1012, 48);
+            this.panel1.TabIndex = 30;
+            // 
             // w_SortFm_New
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -414,15 +414,15 @@
             this.Controls.Add(this.dgvSortInfo);
             this.Controls.Add(this.panel1);
             this.Name = "w_SortFm_New";
-            this.Text = "w_SortFm_New";
+            this.Text = "任务排程";
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLoading)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSortInfo)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbLoading)).EndInit();
             this.ResumeLayout(false);
 
         }

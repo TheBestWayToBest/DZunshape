@@ -8,24 +8,30 @@ namespace Business.BusinessClass
 {
     public class ItemClass
     {
-        public static List<ItemInfo> GetItemInfo(int index, string condition = "-1")
+        public static List<ItemInfo> GetItemInfo(int index,string shipType,decimal status, string condition = "-1")
         {
             using (DZEntities en = new DZEntities())
             {
                 Func<T_WMS_ITEM, bool> fCondition;
+                Func<T_WMS_ITEM, bool> func;
+                
                 if (index == 0 && condition != "-1" && condition != "")
                 {
-                    fCondition = item => item.ITEMNO.Contains(condition);
+                    fCondition = item => item.ITEMNO.Contains(condition) && item.ROWSTATUS == status;
                 }
                 else if (index == 1 && condition != "-1" && condition != "")
                 {
-                    fCondition = item => item.ITEMNAME.Contains(condition);
+                    fCondition = item => item.ITEMNAME.Contains(condition) && item.ROWSTATUS == status;
                 }
                 else
                 {
-                    fCondition = item => true;
+                    fCondition = item => true && item.ROWSTATUS == status;
                 }
-                var query = en.T_WMS_ITEM.Where(fCondition).Select(item =>
+                if (shipType == "0")
+                    func = item => item.SHIPTYPE == shipType;
+                else
+                    func = item => item.SHIPTYPE != "0";
+                var query = en.T_WMS_ITEM.Where(fCondition).Where(func).Select(item =>
                     new ItemInfo
                     {
                         ItemNo = item.ITEMNO,
@@ -33,11 +39,11 @@ namespace Business.BusinessClass
                         BigBox_Bar = item.BIGBOX_BAR,
                         ILength = item.ILENGTH ?? 0,
                         IWidth = item.IWIDTH ?? 0,
-                        IHeight = item.IHEIGHT??0,
+                        IHeight = item.IHEIGHT ?? 0,
                         JT_Size = item.JT_SIZE ?? 50,
-                        RowStatus = item.ROWSTATUS??0,
+                        RowStatus = item.ROWSTATUS ?? 0,
                         Shiptype = item.SHIPTYPE
-                    }).OrderBy(x=>x.ItemNo).ToList();
+                    }).OrderBy(item=>item.ItemNo).OrderBy(x => x.Shiptype).ToList();
                 return query;
             }
         }
