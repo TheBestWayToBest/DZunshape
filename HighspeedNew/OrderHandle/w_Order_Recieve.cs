@@ -173,25 +173,25 @@ namespace HighSpeed.OrderHandle
         int times = 1;
         private void btnSync_Click(object sender, EventArgs e)
         {
+           
+            //progressBar1.Refresh();
+            //timer1.Enabled = true;
+            timer1.Start();
+            Application.DoEvents();
+            times = 1;//时间重置 
+            timer1.Start();// = true;//启动时间记录
             panel2.Visible = true;
             label2.Visible = true;
             progressBar1.Maximum = 100;
             progressBar1.Visible = true;
             progressBar1.Value = 5;
-            //progressBar1.Refresh();
-            timer1.Enabled = true;
-            timer1.Start();
-
-            times = 1;//时间重置 
-            timer1.Start();// = true;//启动时间记录
-
             label2.Text = "正在从营销中心同步订单数据，请耐心等候...";
             
             string orderDateStr=datePick.Value.ToString("yyyyMMdd");
             ScheduleClass sc = new ScheduleClass();
             Response response=sc.SyncOrderDataFromInspur(orderDateStr);
 
-            progressBar1.Value = progressBar1.Maximum;
+            //progressBar1.Value = progressBar1.Maximum;
             panel2.Visible = false;
             label2.Visible = false;
             progressBar1.Visible = false;

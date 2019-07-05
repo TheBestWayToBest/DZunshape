@@ -18,7 +18,7 @@ namespace HighspeedNew.OrderHandle
         public w_Through()
         {
             InitializeComponent();
-            
+            box_condition.SelectedIndex = 0;
         }
 
         public void init()

@@ -80,12 +80,12 @@ namespace Business.BusinessClass
             }
         }
 
-        public static List<decimal> GetMachineseqByType(decimal type, decimal throughType) 
+        public static decimal GetMachineseqByType(decimal type, decimal groupNo) 
         {
             using (DZEntities en = new DZEntities()) 
             {
-                List<decimal> list = new List<decimal>();
-                list = en.T_PRODUCE_SORTTROUGH.Where(item => item.CIGARETTETYPE == type && item.TROUGHTYPE == throughType).Select(item => item.MACHINESEQ??0).ToList();
+                decimal list = new decimal();
+                list = en.T_PRODUCE_SORTTROUGH.Where(item => item.CIGARETTETYPE == type && item.GROUPNO == groupNo).Select(item => item.MACHINESEQ ?? 0).FirstOrDefault();
                 return list;
             }
         }
@@ -95,9 +95,9 @@ namespace Business.BusinessClass
             using (DZEntities en = new DZEntities()) 
             {
                 decimal id = en.T_PRODUCE_SORTTROUGH.Select(item=>item.ID).Max();
+                decimal throughNum = Convert.ToDecimal(en.T_PRODUCE_SORTTROUGH.Select(item => item.TROUGHNUM).Max());
 
-
-                int count = en.T_PRODUCE_SORTTROUGH.Where(item => item.CIGARETTETYPE == 40 && item.TROUGHTYPE == 10 && item.CIGARETTECODE == through.CIGARETTECODE).Count();
+                int count = en.T_PRODUCE_SORTTROUGH.Where(item => item.CIGARETTETYPE == 30 && item.GROUPNO == 2 && item.CIGARETTECODE == through.CIGARETTECODE).Count();
                 if (count == 0)
                     return "该品牌在混合道中已经存在-" + through.CIGARETTENAME;
                 T_PRODUCE_SORTTROUGH tps = new T_PRODUCE_SORTTROUGH()
@@ -111,9 +111,9 @@ namespace Business.BusinessClass
                     MANTISSA = through.MANTISSA,
                     SEQ = through.SEQ,
                     STATE = through.STATE,
-                    TROUGHNUM = through.TROUGHNUM,
+                    TROUGHNUM = (throughNum + 1).ToString(),
                     TROUGHTYPE = through.TROUGHTYPE,
-                    MACHINESEQ=through.MACHINESEQ
+                    MACHINESEQ = through.MACHINESEQ
                 };
                 
                 en.T_PRODUCE_SORTTROUGH.AddObject(tps);

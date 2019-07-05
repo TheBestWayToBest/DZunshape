@@ -40,8 +40,8 @@ namespace HighspeedNew.OrderHandle
             {
                 if (this.itemdata.CurrentRow != null && this.itemdata.CurrentRow.Index != -1)
                 {
-                    cigarettecode = this.itemdata.CurrentRow.Cells[1].Value + "";
-                    cigarettename = this.itemdata.CurrentRow.Cells[2].Value + "";
+                    cigarettecode = this.itemdata.CurrentRow.Cells[0].Value + "";
+                    cigarettename = this.itemdata.CurrentRow.Cells[1].Value + "";
 
                     //MessageBox.Show("===" + troughdata.RowCount);
                     if (cigarettecode != "")

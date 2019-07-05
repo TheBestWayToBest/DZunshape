@@ -37,9 +37,9 @@ namespace HighspeedNew.OrderHandle
         }
         public void init(String sign, String amend_id)
         {
-            List<decimal> machineseqs = new List<decimal>();
-            machineseqs = ThroughClass.GetMachineseqByType(Convert.ToDecimal(type), Convert.ToDecimal(troughtype));
-            this.cbthroughnum.DataSource = machineseqs;
+            decimal machineseq = new decimal();
+            machineseq = ThroughClass.GetMachineseqByType(40, 2);
+            this.cbthroughnum.Items.Add(machineseq);
             this.cbthroughnum.SelectedIndex = 0;
             lbltype.Text = "异型";
             lbllineNum.Text = "异形烟分拣线";
