@@ -171,7 +171,7 @@
           </Key>
           <Property Name="BILLCODE" Type="varchar2" Nullable="false" MaxLength="20" />
           <Property Name="LINENUM" Type="number" Nullable="false" />
-          <Property Name="CIGARETTECODE" Type="varchar2" Nullable="false" MaxLength="10" />
+          <Property Name="CIGARETTECODE" Type="varchar2" Nullable="false" MaxLength="50" />
           <Property Name="CIGARETTENAME" Type="nvarchar2" MaxLength="30" />
           <Property Name="QUANTITY" Type="number" Precision="8" Scale="1" />
           <Property Name="PRICE" Type="number" Precision="8" Scale="2" />
@@ -426,7 +426,7 @@
             <PropertyRef Name="CIGARETTECODE" />
           </Key>
           <Property Name="TASKNUM" Type="number" Nullable="false" />
-          <Property Name="CIGARETTECODE" Type="varchar2" Nullable="false" MaxLength="10" />
+          <Property Name="CIGARETTECODE" Type="varchar2" Nullable="false" MaxLength="50" />
           <Property Name="CIGARETTENAME" Type="varchar2" MaxLength="30" />
           <Property Name="QUANTITY" Type="number" Precision="10" Scale="1" />
           <Property Name="UNIT" Type="varchar2" MaxLength="5" />
@@ -441,7 +441,7 @@
             <PropertyRef Name="CIGARETTECODE" />
           </Key>
           <Property Name="TASKNUM" Type="number" Nullable="false" />
-          <Property Name="CIGARETTECODE" Type="varchar2" Nullable="false" MaxLength="10" />
+          <Property Name="CIGARETTECODE" Type="varchar2" Nullable="false" MaxLength="50" />
           <Property Name="CIGARETTENAME" Type="varchar2" MaxLength="30" />
           <Property Name="QUANTITY" Type="number" Precision="10" Scale="1" />
           <Property Name="UNIT" Type="varchar2" MaxLength="5" />
@@ -571,7 +571,6 @@
           <EntitySet Name="T_PRODUCE_BATCH" EntityType="Model.T_PRODUCE_BATCH" />
           <EntitySet Name="T_PRODUCE_ORDER" EntityType="Model.T_PRODUCE_ORDER" />
           <EntitySet Name="T_PRODUCE_ORDERID" EntityType="Model.T_PRODUCE_ORDERID" />
-          <EntitySet Name="T_PRODUCE_ORDERLINE" EntityType="Model.T_PRODUCE_ORDERLINE" />
           <EntitySet Name="T_PRODUCE_REPLENISHPLAN" EntityType="Model.T_PRODUCE_REPLENISHPLAN" />
           <EntitySet Name="T_UN_PLCITEM" EntityType="Model.T_UN_PLCITEM" />
           <EntitySet Name="T_UN_POKE" EntityType="Model.T_UN_POKE" />
@@ -579,14 +578,15 @@
           <EntitySet Name="T_UN_POKE_HUNHE" EntityType="Model.T_UN_POKE_HUNHE" />
           <EntitySet Name="T_UN_TASK" EntityType="Model.T_UN_TASK" />
           <EntitySet Name="T_UN_TASK_H" EntityType="Model.T_UN_TASK_H" />
-          <EntitySet Name="T_UN_TASKLINE" EntityType="Model.T_UN_TASKLINE" />
-          <EntitySet Name="T_UN_TASKLINE_H" EntityType="Model.T_UN_TASKLINE_H" />
           <EntitySet Name="T_WMS_ITEM" EntityType="Model.T_WMS_ITEM" />
           <EntitySet Name="T_XT_HTCWXX" EntityType="Model.T_XT_HTCWXX" />
           <EntitySet Name="T_SALE_ORDER_HEAD" EntityType="Model.T_SALE_ORDER_HEAD" />
           <EntitySet Name="T_SALE_ORDER_LINE" EntityType="Model.T_SALE_ORDER_LINE" />
           <EntitySet Name="T_WMS_CUSTOMER" EntityType="Model.T_WMS_CUSTOMER" />
           <EntitySet Name="T_PRODUCE_SORTTROUGH" EntityType="Model.T_PRODUCE_SORTTROUGH" />
+          <EntitySet Name="T_PRODUCE_ORDERLINE" EntityType="Model.T_PRODUCE_ORDERLINE" />
+          <EntitySet Name="T_UN_TASKLINE" EntityType="Model.T_UN_TASKLINE" />
+          <EntitySet Name="T_UN_TASKLINE_H" EntityType="Model.T_UN_TASKLINE_H" />
         </EntityContainer>
         <EntityType Name="T_PRODUCE_BATCH">
           <Key>
@@ -633,22 +633,6 @@
             <PropertyRef Name="ORDERID" />
           </Key>
           <Property Name="ORDERID" Type="String" Nullable="false" MaxLength="80" Unicode="false" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="T_PRODUCE_ORDERLINE">
-          <Key>
-            <PropertyRef Name="BILLCODE" />
-            <PropertyRef Name="LINENUM" />
-          </Key>
-          <Property Name="BILLCODE" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
-          <Property Name="LINENUM" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
-          <Property Name="CIGARETTECODE" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
-          <Property Name="CIGARETTENAME" Type="String" MaxLength="30" Unicode="true" FixedLength="false" />
-          <Property Name="QUANTITY" Type="Decimal" Precision="8" Scale="1" />
-          <Property Name="PRICE" Type="Decimal" Precision="8" Scale="2" />
-          <Property Name="UNIT" Type="String" MaxLength="5" Unicode="false" FixedLength="false" />
-          <Property Name="MOENY" Type="Decimal" Precision="8" Scale="2" />
-          <Property Name="MULTIPLE" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="ALLOWSORT" Type="String" MaxLength="4" Unicode="false" FixedLength="false" />
         </EntityType>
         <EntityType Name="T_PRODUCE_REPLENISHPLAN">
           <Key>
@@ -828,31 +812,6 @@
           <Property Type="String" Name="TELEPHONE" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="CONTACT" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="T_UN_TASKLINE">
-          <Key>
-            <PropertyRef Name="TASKNUM" />
-            <PropertyRef Name="CIGARETTECODE" />
-          </Key>
-          <Property Name="TASKNUM" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
-          <Property Name="CIGARETTECODE" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
-          <Property Name="CIGARETTENAME" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
-          <Property Name="QUANTITY" Type="Decimal" Precision="10" Scale="1" />
-          <Property Name="UNIT" Type="String" MaxLength="5" Unicode="false" FixedLength="false" />
-          <Property Name="ALLOWSORT" Type="String" MaxLength="4" Unicode="false" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="T_UN_TASKLINE_H">
-          <Key>
-            <PropertyRef Name="TASKNUM" />
-            <PropertyRef Name="CIGARETTECODE" />
-          </Key>
-          <Property Name="TASKNUM" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
-          <Property Name="CIGARETTECODE" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
-          <Property Name="CIGARETTENAME" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
-          <Property Name="QUANTITY" Type="Decimal" Precision="10" Scale="1" />
-          <Property Name="UNIT" Type="String" MaxLength="5" Unicode="false" FixedLength="false" />
-          <Property Name="ALLOWSORT" Type="String" MaxLength="4" Unicode="false" FixedLength="false" />
-          <Property Name="INSERTTIME" Type="DateTime" />
-        </EntityType>
         <EntityType Name="T_WMS_ITEM">
           <Key>
             <PropertyRef Name="ID" />
@@ -1013,6 +972,47 @@
           <Property Type="Decimal" Name="SEQ" Precision="38" Scale="0" />
           <Property Type="Decimal" Name="THRESHOLD" Precision="38" Scale="0" />
         </EntityType>
+        <EntityType Name="T_PRODUCE_ORDERLINE">
+          <Key>
+            <PropertyRef Name="BILLCODE" />
+            <PropertyRef Name="LINENUM" />
+          </Key>
+          <Property Type="String" Name="BILLCODE" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="LINENUM" Nullable="false" Precision="38" Scale="0" />
+          <Property Type="String" Name="CIGARETTECODE" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CIGARETTENAME" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="QUANTITY" Precision="8" Scale="1" />
+          <Property Type="Decimal" Name="PRICE" Precision="8" Scale="2" />
+          <Property Type="String" Name="UNIT" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="MOENY" Precision="8" Scale="2" />
+          <Property Type="Decimal" Name="MULTIPLE" Precision="38" Scale="0" />
+          <Property Type="String" Name="ALLOWSORT" MaxLength="4" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="T_UN_TASKLINE">
+          <Key>
+            <PropertyRef Name="TASKNUM" />
+            <PropertyRef Name="CIGARETTECODE" />
+          </Key>
+          <Property Type="Decimal" Name="TASKNUM" Nullable="false" Precision="38" Scale="0" />
+          <Property Type="String" Name="CIGARETTECODE" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CIGARETTENAME" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="QUANTITY" Precision="10" Scale="1" />
+          <Property Type="String" Name="UNIT" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ALLOWSORT" MaxLength="4" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="T_UN_TASKLINE_H">
+          <Key>
+            <PropertyRef Name="TASKNUM" />
+            <PropertyRef Name="CIGARETTECODE" />
+          </Key>
+          <Property Type="Decimal" Name="TASKNUM" Nullable="false" Precision="38" Scale="0" />
+          <Property Type="String" Name="CIGARETTECODE" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CIGARETTENAME" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="QUANTITY" Precision="10" Scale="1" />
+          <Property Type="String" Name="UNIT" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ALLOWSORT" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="INSERTTIME" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1064,22 +1064,6 @@
             <EntityTypeMapping TypeName="Model.T_PRODUCE_ORDERID">
               <MappingFragment StoreEntitySet="T_PRODUCE_ORDERID">
                 <ScalarProperty Name="ORDERID" ColumnName="ORDERID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="T_PRODUCE_ORDERLINE">
-            <EntityTypeMapping TypeName="Model.T_PRODUCE_ORDERLINE">
-              <MappingFragment StoreEntitySet="T_PRODUCE_ORDERLINE">
-                <ScalarProperty Name="BILLCODE" ColumnName="BILLCODE" />
-                <ScalarProperty Name="LINENUM" ColumnName="LINENUM" />
-                <ScalarProperty Name="CIGARETTECODE" ColumnName="CIGARETTECODE" />
-                <ScalarProperty Name="CIGARETTENAME" ColumnName="CIGARETTENAME" />
-                <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
-                <ScalarProperty Name="PRICE" ColumnName="PRICE" />
-                <ScalarProperty Name="UNIT" ColumnName="UNIT" />
-                <ScalarProperty Name="MOENY" ColumnName="MOENY" />
-                <ScalarProperty Name="MULTIPLE" ColumnName="MULTIPLE" />
-                <ScalarProperty Name="ALLOWSORT" ColumnName="ALLOWSORT" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1267,31 +1251,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="T_UN_TASKLINE">
-            <EntityTypeMapping TypeName="Model.T_UN_TASKLINE">
-              <MappingFragment StoreEntitySet="T_UN_TASKLINE">
-                <ScalarProperty Name="TASKNUM" ColumnName="TASKNUM" />
-                <ScalarProperty Name="CIGARETTECODE" ColumnName="CIGARETTECODE" />
-                <ScalarProperty Name="CIGARETTENAME" ColumnName="CIGARETTENAME" />
-                <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
-                <ScalarProperty Name="UNIT" ColumnName="UNIT" />
-                <ScalarProperty Name="ALLOWSORT" ColumnName="ALLOWSORT" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="T_UN_TASKLINE_H">
-            <EntityTypeMapping TypeName="Model.T_UN_TASKLINE_H">
-              <MappingFragment StoreEntitySet="T_UN_TASKLINE_H">
-                <ScalarProperty Name="TASKNUM" ColumnName="TASKNUM" />
-                <ScalarProperty Name="CIGARETTECODE" ColumnName="CIGARETTECODE" />
-                <ScalarProperty Name="CIGARETTENAME" ColumnName="CIGARETTENAME" />
-                <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
-                <ScalarProperty Name="UNIT" ColumnName="UNIT" />
-                <ScalarProperty Name="ALLOWSORT" ColumnName="ALLOWSORT" />
-                <ScalarProperty Name="INSERTTIME" ColumnName="INSERTTIME" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="T_WMS_ITEM">
             <EntityTypeMapping TypeName="Model.T_WMS_ITEM">
               <MappingFragment StoreEntitySet="T_WMS_ITEM">
@@ -1457,6 +1416,47 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="T_PRODUCE_ORDERLINE">
+            <EntityTypeMapping TypeName="Model.T_PRODUCE_ORDERLINE">
+              <MappingFragment StoreEntitySet="T_PRODUCE_ORDERLINE">
+                <ScalarProperty Name="ALLOWSORT" ColumnName="ALLOWSORT" />
+                <ScalarProperty Name="MULTIPLE" ColumnName="MULTIPLE" />
+                <ScalarProperty Name="MOENY" ColumnName="MOENY" />
+                <ScalarProperty Name="UNIT" ColumnName="UNIT" />
+                <ScalarProperty Name="PRICE" ColumnName="PRICE" />
+                <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
+                <ScalarProperty Name="CIGARETTENAME" ColumnName="CIGARETTENAME" />
+                <ScalarProperty Name="CIGARETTECODE" ColumnName="CIGARETTECODE" />
+                <ScalarProperty Name="LINENUM" ColumnName="LINENUM" />
+                <ScalarProperty Name="BILLCODE" ColumnName="BILLCODE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_UN_TASKLINE">
+            <EntityTypeMapping TypeName="Model.T_UN_TASKLINE">
+              <MappingFragment StoreEntitySet="T_UN_TASKLINE">
+                <ScalarProperty Name="ALLOWSORT" ColumnName="ALLOWSORT" />
+                <ScalarProperty Name="UNIT" ColumnName="UNIT" />
+                <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
+                <ScalarProperty Name="CIGARETTENAME" ColumnName="CIGARETTENAME" />
+                <ScalarProperty Name="CIGARETTECODE" ColumnName="CIGARETTECODE" />
+                <ScalarProperty Name="TASKNUM" ColumnName="TASKNUM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_UN_TASKLINE_H">
+            <EntityTypeMapping TypeName="Model.T_UN_TASKLINE_H">
+              <MappingFragment StoreEntitySet="T_UN_TASKLINE_H">
+                <ScalarProperty Name="INSERTTIME" ColumnName="INSERTTIME" />
+                <ScalarProperty Name="ALLOWSORT" ColumnName="ALLOWSORT" />
+                <ScalarProperty Name="UNIT" ColumnName="UNIT" />
+                <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
+                <ScalarProperty Name="CIGARETTENAME" ColumnName="CIGARETTENAME" />
+                <ScalarProperty Name="CIGARETTECODE" ColumnName="CIGARETTECODE" />
+                <ScalarProperty Name="TASKNUM" ColumnName="TASKNUM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -1481,7 +1481,6 @@
         <EntityTypeShape EntityType="Model.T_PRODUCE_BATCH" Width="1.5" PointX="0.75" PointY="0.75" Height="1.9202278645833331" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_PRODUCE_ORDER" Width="1.5" PointX="2.75" PointY="0.75" Height="5.2465218098958317" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_PRODUCE_ORDERID" Width="1.5" PointX="4.75" PointY="0.75" Height="1.1810514322916665" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.T_PRODUCE_ORDERLINE" Width="1.5" PointX="4.75" PointY="2.75" Height="2.8441984049479156" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_PRODUCE_REPLENISHPLAN" Width="1.5" PointX="6.75" PointY="0.75" Height="3.9529630533854156" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_UN_PLCITEM" Width="1.5" PointX="2.75" PointY="6.75" Height="2.2898160807291674" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_UN_POKE" Width="1.5" PointX="4.75" PointY="6.75" Height="4.6921394856770817" IsExpanded="true" />
@@ -1489,14 +1488,15 @@
         <EntityTypeShape EntityType="Model.T_UN_POKE_HUNHE" Width="1.5" PointX="8.75" PointY="0.75" Height="2.6594042968750031" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_UN_TASK" Width="1.5" PointX="8.75" PointY="4.75" Height="7.2792569986979174" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_UN_TASK_H" Width="1.5" PointX="10.75" PointY="0.75" Height="6.9096687825520817" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.T_UN_TASKLINE" Width="1.5" PointX="10.75" PointY="8.75" Height="2.1050219726562531" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.T_UN_TASKLINE_H" Width="1.5" PointX="10.75" PointY="11.75" Height="2.2898160807291674" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_WMS_ITEM" Width="1.5" PointX="12.75" PointY="0.75" Height="9.8663745117187531" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_XT_HTCWXX" Width="1.5" PointX="0.75" PointY="12.75" Height="1.9202278645833388" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_SALE_ORDER_HEAD" Width="1.5" PointX="5.375" PointY="12.75" Height="3.3985807291666674" />
         <EntityTypeShape EntityType="Model.T_SALE_ORDER_LINE" Width="1.5" PointX="7.375" PointY="13.75" Height="2.4746101888020888" />
         <EntityTypeShape EntityType="Model.T_WMS_CUSTOMER" Width="1.5" PointX="13.375" PointY="11.75" Height="8.2032275390625031" />
         <EntityTypeShape EntityType="Model.T_PRODUCE_SORTTROUGH" Width="1.5" PointX="15.375" PointY="0.75" Height="3.9529630533854174" />
+        <EntityTypeShape EntityType="Model.T_PRODUCE_ORDERLINE" Width="1.5" PointX="0.75" PointY="15.75" Height="2.8441984049479174" />
+        <EntityTypeShape EntityType="Model.T_UN_TASKLINE" Width="1.5" PointX="15.375" PointY="5.75" Height="2.1050219726562567" />
+        <EntityTypeShape EntityType="Model.T_UN_TASKLINE_H" Width="1.5" PointX="9.375" PointY="13.75" Height="2.2898160807291674" />
       </Diagram>
     </Diagrams>
   </Designer>

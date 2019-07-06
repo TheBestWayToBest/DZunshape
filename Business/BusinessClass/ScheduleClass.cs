@@ -313,6 +313,8 @@ namespace Business.BusinessClass
                 if (maxTaskNum == 0)
                 {
                     String max = DateTime.Now.ToString("yyyyMMdd") + regioncode + "000";
+                    if (regioncode.Contains("@")) max = DateTime.Now.ToString("yyyyMMdd") + regioncode.Split('@')[0] + "000";
+                    //String max = DateTime.Now.ToString("yyyyMMdd") + regioncode + "000";
                     maxTaskNum = Convert.ToDecimal(max);
                 }
 
@@ -331,14 +333,26 @@ namespace Business.BusinessClass
                         t_un_task.TASKNUM = maxTaskNum + index;
                         t_un_task.LINENUM = "1";
                         t_un_task.EXPORTNUM = "1";
-                        t_un_task.REGIONCODE = item.REGIONCODE;
-                        t_un_task.REGIONDESC = item.REGIONCODE;
+                        if (item.REGIONCODE.Contains("@"))
+                        {
+                            string str = item.REGIONCODE;
+                            t_un_task.REGIONCODE = str.Split('@')[0];
+                            t_un_task.REGIONDESC = str.Split('@')[1];
+                        }
+                        else {
+                            t_un_task.REGIONCODE = item.REGIONCODE;
+                            t_un_task.REGIONDESC = item.REGIONCODE;
+                        }
+                        
                         t_un_task.BILLCODE = item.BILLCODE;
                         t_un_task.COMPANYCODE = item.COMPANYCODE;
                         t_un_task.COMPANYNAME = item.COMPANYNAME;
                         t_un_task.BATCHCODE = item.BATCHCODE;
                         t_un_task.SYNSEQ = item.SYNSEQ;
                         t_un_task.CUSTOMERCODE = item.CUSTOMERCODE;
+                        t_un_task.CUSTOMERNAME = item.CUSTOMERNAME;
+                        t_un_task.ADDRESS = item.ADDRESS;
+                        t_un_task.TELEPHONE = item.TELEPHONE;
                         t_un_task.ORDERQUANTITY = item.ORDERQUANTITY;
                         t_un_task.TASKQUANTITY = item.ORDERQUANTITY;
                         t_un_task.PRIORITY = Convert.ToInt32(item.PRIORITY);//送货顺序
@@ -864,6 +878,7 @@ namespace Business.BusinessClass
                     info.orderDate = orderdate.ToShortDateString();
                     info.pokeNum = item.z.POKENUM ?? 0;
                     info.regionCode = item.x.REGIONCODE;
+                    info.regionName = item.x.REGIONDESC;
 
                     mainList.Add(info);
                 }

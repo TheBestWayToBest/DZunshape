@@ -64,11 +64,11 @@ namespace HighSpeedNew.OrderHandle
             label2.Text = "数据查询中，准备进行数据导出...";
             label2.Refresh();
             int taskseq = 0, seq = 1;
-            String tasknum = "", cuscode = "", cusname = "", itemno = "", itemname = "", quantity = "", regioncode = "", orderdate = "", cuscodetmp = "";
+            String tasknum = "", cuscode = "", cusname = "", itemno = "", itemname = "", quantity = "", regioncode = "",regionname="", orderdate = "", cuscodetmp = "";
             
             //根据类型给打码机编号赋值
-            if (linenum == "1") lineno = "DZ01";
-            else lineno = "DZ02";
+            if (linenum == "1") lineno = "ZY1001";
+            else lineno = "ZY1002";
 
             //取数据
             var result = sc.Get1stPrjInfo(Convert.ToDecimal(synseq), linenum);
@@ -106,6 +106,7 @@ namespace HighSpeedNew.OrderHandle
                     itemname = prjInfo.cigName;
                     quantity = prjInfo.quantity.ToString();
                     regioncode = prjInfo.regionCode;
+                    regionname = prjInfo.regionName;
                     orderdate = prjInfo.orderDate;
                     //lineno = row["SORTNAME"].ToString();
                     //lineno = "1";
@@ -127,7 +128,7 @@ namespace HighSpeedNew.OrderHandle
                         tempCode = "";
                     }
                     //infostr[i] = tasknum + taskseq + "," + tasknum + "," + cuscode + "," + cusname + "," + itemno + "," + itemname + "," + quantity + ",2," + seq + "," + regioncode + "," + regioncode + "," + orderdate + "," + orderdate + ",S1001,1";
-                    tmpInfo = tmpInfo + tasknum + "," + tasknum + "," + cuscode + "," + cusname + "," + itemno + "," + itemname + "," + quantity + "," + batchcode + "," + seq + "," + regioncode + "," + regioncode + "," + orderdate + "," + orderdate + "," + lineno + ",1;\r\n";
+                    tmpInfo = tmpInfo + tasknum + "," + tasknum + "," + cuscode + "," + cusname + "," + itemno + "," + itemname + "," + quantity + "," + batchcode + "," + seq + "," + regioncode + "," + regionname + "," + orderdate + "," + orderdate + "," + lineno + ",1;\r\n";
                     if (cuscode != cuscodetmp)
                     {
                         taskseq = 0;
@@ -323,8 +324,8 @@ namespace HighSpeedNew.OrderHandle
         private void InitSocket()
         {
             //IPAddress[] ips = Dns.GetHostAddresses(Dns.GetHostName());10.75.142.1
-            IPAddress address = IPAddress.Parse("127.0.0.1");
-            IPEndPoint endpoint = new IPEndPoint(address, 9050);
+            IPAddress address = IPAddress.Parse("10.62.65.91");
+            IPEndPoint endpoint = new IPEndPoint(address, 8020);
             //创建服务端负责监听的套接字，参数（使用IPV4协议，使用流式连接，使用Tcp协议传输数据）
             socketClient = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             socketClient.Connect(endpoint);

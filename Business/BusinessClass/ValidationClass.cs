@@ -200,6 +200,7 @@ namespace Business.BusinessClass
                        if (query.Count() > 0)
                        {
                            query.FirstOrDefault().ROWSTATUS = 10;
+                           query.FirstOrDefault().SHIPTYPE = "2";
                        }
                        else 
                        {
@@ -207,6 +208,7 @@ namespace Business.BusinessClass
                            iteminfo.ID = item.id;
                            iteminfo.ITEMNO = item.itemno;
                            iteminfo.ITEMNAME = item.itemname;
+                           iteminfo.SHIPTYPE = "2";
                            iteminfo.ROWSTATUS = 10;
                            dzEntities.T_WMS_ITEM.AddObject(iteminfo);
                        }

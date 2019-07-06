@@ -20,5 +20,6 @@ namespace Business.Modle
         public string orderDate { get; set; }
         public decimal pokeNum { get; set; }
         public string regionCode { get; set; }
+        public string regionName { get; set; }
     }
 }

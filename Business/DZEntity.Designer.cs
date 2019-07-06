@@ -116,22 +116,6 @@ namespace Business
         /// <summary>
         /// 没有元数据文档可用。
         /// </summary>
-        public ObjectSet<T_PRODUCE_ORDERLINE> T_PRODUCE_ORDERLINE
-        {
-            get
-            {
-                if ((_T_PRODUCE_ORDERLINE == null))
-                {
-                    _T_PRODUCE_ORDERLINE = base.CreateObjectSet<T_PRODUCE_ORDERLINE>("T_PRODUCE_ORDERLINE");
-                }
-                return _T_PRODUCE_ORDERLINE;
-            }
-        }
-        private ObjectSet<T_PRODUCE_ORDERLINE> _T_PRODUCE_ORDERLINE;
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
         public ObjectSet<T_PRODUCE_REPLENISHPLAN> T_PRODUCE_REPLENISHPLAN
         {
             get
@@ -244,38 +228,6 @@ namespace Business
         /// <summary>
         /// 没有元数据文档可用。
         /// </summary>
-        public ObjectSet<T_UN_TASKLINE> T_UN_TASKLINE
-        {
-            get
-            {
-                if ((_T_UN_TASKLINE == null))
-                {
-                    _T_UN_TASKLINE = base.CreateObjectSet<T_UN_TASKLINE>("T_UN_TASKLINE");
-                }
-                return _T_UN_TASKLINE;
-            }
-        }
-        private ObjectSet<T_UN_TASKLINE> _T_UN_TASKLINE;
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        public ObjectSet<T_UN_TASKLINE_H> T_UN_TASKLINE_H
-        {
-            get
-            {
-                if ((_T_UN_TASKLINE_H == null))
-                {
-                    _T_UN_TASKLINE_H = base.CreateObjectSet<T_UN_TASKLINE_H>("T_UN_TASKLINE_H");
-                }
-                return _T_UN_TASKLINE_H;
-            }
-        }
-        private ObjectSet<T_UN_TASKLINE_H> _T_UN_TASKLINE_H;
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
         public ObjectSet<T_WMS_ITEM> T_WMS_ITEM
         {
             get
@@ -368,6 +320,54 @@ namespace Business
             }
         }
         private ObjectSet<T_PRODUCE_SORTTROUGH> _T_PRODUCE_SORTTROUGH;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        public ObjectSet<T_PRODUCE_ORDERLINE> T_PRODUCE_ORDERLINE
+        {
+            get
+            {
+                if ((_T_PRODUCE_ORDERLINE == null))
+                {
+                    _T_PRODUCE_ORDERLINE = base.CreateObjectSet<T_PRODUCE_ORDERLINE>("T_PRODUCE_ORDERLINE");
+                }
+                return _T_PRODUCE_ORDERLINE;
+            }
+        }
+        private ObjectSet<T_PRODUCE_ORDERLINE> _T_PRODUCE_ORDERLINE;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        public ObjectSet<T_UN_TASKLINE> T_UN_TASKLINE
+        {
+            get
+            {
+                if ((_T_UN_TASKLINE == null))
+                {
+                    _T_UN_TASKLINE = base.CreateObjectSet<T_UN_TASKLINE>("T_UN_TASKLINE");
+                }
+                return _T_UN_TASKLINE;
+            }
+        }
+        private ObjectSet<T_UN_TASKLINE> _T_UN_TASKLINE;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        public ObjectSet<T_UN_TASKLINE_H> T_UN_TASKLINE_H
+        {
+            get
+            {
+                if ((_T_UN_TASKLINE_H == null))
+                {
+                    _T_UN_TASKLINE_H = base.CreateObjectSet<T_UN_TASKLINE_H>("T_UN_TASKLINE_H");
+                }
+                return _T_UN_TASKLINE_H;
+            }
+        }
+        private ObjectSet<T_UN_TASKLINE_H> _T_UN_TASKLINE_H;
 
         #endregion
 
@@ -395,14 +395,6 @@ namespace Business
         public void AddToT_PRODUCE_ORDERID(T_PRODUCE_ORDERID t_PRODUCE_ORDERID)
         {
             base.AddObject("T_PRODUCE_ORDERID", t_PRODUCE_ORDERID);
-        }
-    
-        /// <summary>
-        /// 用于向 T_PRODUCE_ORDERLINE EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
-        /// </summary>
-        public void AddToT_PRODUCE_ORDERLINE(T_PRODUCE_ORDERLINE t_PRODUCE_ORDERLINE)
-        {
-            base.AddObject("T_PRODUCE_ORDERLINE", t_PRODUCE_ORDERLINE);
         }
     
         /// <summary>
@@ -462,22 +454,6 @@ namespace Business
         }
     
         /// <summary>
-        /// 用于向 T_UN_TASKLINE EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
-        /// </summary>
-        public void AddToT_UN_TASKLINE(T_UN_TASKLINE t_UN_TASKLINE)
-        {
-            base.AddObject("T_UN_TASKLINE", t_UN_TASKLINE);
-        }
-    
-        /// <summary>
-        /// 用于向 T_UN_TASKLINE_H EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
-        /// </summary>
-        public void AddToT_UN_TASKLINE_H(T_UN_TASKLINE_H t_UN_TASKLINE_H)
-        {
-            base.AddObject("T_UN_TASKLINE_H", t_UN_TASKLINE_H);
-        }
-    
-        /// <summary>
         /// 用于向 T_WMS_ITEM EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
         /// </summary>
         public void AddToT_WMS_ITEM(T_WMS_ITEM t_WMS_ITEM)
@@ -523,6 +499,30 @@ namespace Business
         public void AddToT_PRODUCE_SORTTROUGH(T_PRODUCE_SORTTROUGH t_PRODUCE_SORTTROUGH)
         {
             base.AddObject("T_PRODUCE_SORTTROUGH", t_PRODUCE_SORTTROUGH);
+        }
+    
+        /// <summary>
+        /// 用于向 T_PRODUCE_ORDERLINE EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddToT_PRODUCE_ORDERLINE(T_PRODUCE_ORDERLINE t_PRODUCE_ORDERLINE)
+        {
+            base.AddObject("T_PRODUCE_ORDERLINE", t_PRODUCE_ORDERLINE);
+        }
+    
+        /// <summary>
+        /// 用于向 T_UN_TASKLINE EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddToT_UN_TASKLINE(T_UN_TASKLINE t_UN_TASKLINE)
+        {
+            base.AddObject("T_UN_TASKLINE", t_UN_TASKLINE);
+        }
+    
+        /// <summary>
+        /// 用于向 T_UN_TASKLINE_H EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddToT_UN_TASKLINE_H(T_UN_TASKLINE_H t_UN_TASKLINE_H)
+        {
+            base.AddObject("T_UN_TASKLINE_H", t_UN_TASKLINE_H);
         }
 
         #endregion
