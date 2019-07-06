@@ -83,6 +83,7 @@ namespace Business.BusinessClass
                     infos.STATE = "0";
                 else
                     infos.STATE = "10";
+                SetThroughActcount(info.CigaretteCode, info.GroupNo);
                 return en.SaveChanges() > 0 ? true : false;
             }
         }
@@ -92,7 +93,7 @@ namespace Business.BusinessClass
             using (DZEntities en = new DZEntities()) 
             {
                 List<string> list = new List<string>();
-                var query = en.T_PRODUCE_SORTTROUGH.Where(item => item.CIGARETTETYPE == type).Select(item => new { machinseq = item.MACHINESEQ ?? 0, groupNo = item.GROUPNO }).ToList();
+                var query = en.T_PRODUCE_SORTTROUGH.Where(item => item.CIGARETTETYPE == type).GroupBy(item => new { item.MACHINESEQ, item.GROUPNO }).Select(item => new { machinseq = item.Key.MACHINESEQ ?? 0, groupNo = item.Key.GROUPNO }).ToList();
                 foreach (var item in query)
                 {
                     list.Add(item.groupNo.ToString() + "," + item.machinseq.ToString());
@@ -107,25 +108,50 @@ namespace Business.BusinessClass
             {
                 decimal id = en.T_PRODUCE_SORTTROUGH.Select(item=>item.ID).Max();
                 decimal throughNum = Convert.ToDecimal(en.T_PRODUCE_SORTTROUGH.Select(item => item.TROUGHNUM).Max());
-
-                int count = en.T_PRODUCE_SORTTROUGH.Where(item => item.CIGARETTETYPE == 30 && item.GROUPNO == 2 && item.CIGARETTECODE == through.CIGARETTECODE).Count();
-                if (count == 0)
-                    return "该品牌在混合道中已经存在-" + through.CIGARETTENAME;
-                T_PRODUCE_SORTTROUGH tps = new T_PRODUCE_SORTTROUGH()
+                T_PRODUCE_SORTTROUGH tps = new T_PRODUCE_SORTTROUGH();
+                if (through.MACHINESEQ == 90)
                 {
-                    ID = id + 1,
-                    CIGARETTECODE = through.CIGARETTECODE,
-                    CIGARETTENAME = through.CIGARETTENAME,
-                    CIGARETTETYPE = through.CIGARETTETYPE,
-                    GROUPNO = through.GROUPNO,
-                    LINENUM = through.LINENUM,
-                    MANTISSA = through.MANTISSA,
-                    SEQ = through.SEQ,
-                    STATE = through.STATE,
-                    TROUGHNUM = (throughNum + 1).ToString(),
-                    TROUGHTYPE = through.TROUGHTYPE,
-                    MACHINESEQ = through.MACHINESEQ
-                };
+                    int count = en.T_PRODUCE_SORTTROUGH.Where(item => item.CIGARETTETYPE == 40 && item.GROUPNO == 2 && item.CIGARETTECODE == through.CIGARETTECODE).Count();
+                    if (count == 0)
+                        return "该品牌在混合道中已经存在-" + through.CIGARETTENAME;
+                    tps = new T_PRODUCE_SORTTROUGH()
+                    {
+                        ID = id + 1,
+                        CIGARETTECODE = through.CIGARETTECODE,
+                        CIGARETTENAME = through.CIGARETTENAME,
+                        CIGARETTETYPE = through.CIGARETTETYPE,
+                        GROUPNO = through.GROUPNO,
+                        LINENUM = through.LINENUM,
+                        MANTISSA = through.MANTISSA,
+                        SEQ = through.SEQ,
+                        STATE = through.STATE,
+                        TROUGHNUM = (throughNum + 1).ToString(),
+                        TROUGHTYPE = through.TROUGHTYPE,
+                        MACHINESEQ = through.MACHINESEQ
+                    };
+                }
+                else 
+                {
+                    int count = en.T_PRODUCE_SORTTROUGH.Where(item => item.CIGARETTETYPE == 40 && item.GROUPNO == 1 && item.CIGARETTECODE == through.CIGARETTECODE).Count();
+                    if (count == 0)
+                        return "该品牌在特异形烟混合道中已经存在-" + through.CIGARETTENAME;
+                    tps = new T_PRODUCE_SORTTROUGH()
+                    {
+                        ID = id + 1,
+                        CIGARETTECODE = through.CIGARETTECODE,
+                        CIGARETTENAME = through.CIGARETTENAME,
+                        CIGARETTETYPE = through.CIGARETTETYPE,
+                        GROUPNO = through.GROUPNO,
+                        LINENUM = through.LINENUM,
+                        MANTISSA = through.MANTISSA,
+                        SEQ = through.SEQ,
+                        STATE = through.STATE,
+                        TROUGHNUM = (throughNum + 1).ToString(),
+                        TROUGHTYPE = through.TROUGHTYPE,
+                        MACHINESEQ = through.MACHINESEQ
+                    };
+                }
+                
                 
                 en.T_PRODUCE_SORTTROUGH.AddObject(tps);
                 int rows = en.SaveChanges();
@@ -135,7 +161,7 @@ namespace Business.BusinessClass
             }
         }
 
-        public static string UpdateThrough(T_PRODUCE_SORTTROUGH info) 
+        public static string UpdateThrough(T_PRODUCE_SORTTROUGH info, string lastCigarettecode) 
         {
             using (DZEntities en = new DZEntities()) 
             {
@@ -145,9 +171,73 @@ namespace Business.BusinessClass
                 tps.CIGARETTENAME = info.CIGARETTENAME;
                 int rows = en.SaveChanges();
                 if (rows > 0)
+                {
+                    if (SetThroughActcount(info.CIGARETTECODE, info.GROUPNO ?? 0, lastCigarettecode))
                     return "分拣通道信息修改成功!";
+                }
+                    
                 return "分拣通道信息修改失败!";
             }
+        }
+
+        public static bool SetThroughActcount(string cigarettecode,decimal groupNo, string lastCigarettecode="0") 
+        {
+            using (DZEntities en = new DZEntities()) 
+            {
+                if (lastCigarettecode != "0")
+                {
+                    var query = en.T_PRODUCE_SORTTROUGH.Where(item => item.STATE == "10" && item.GROUPNO == groupNo && item.CIGARETTECODE == cigarettecode).ToList();
+                    if (query.Count > 1)
+                    {
+                        foreach (var item in query)
+                        {
+                            item.ACTCOUNT = 2;
+                        }
+                    }
+                    else
+                    {
+                        foreach (var item in query)
+                        {
+                            item.ACTCOUNT = 1;
+                        }
+                    }
+                    var query2 = en.T_PRODUCE_SORTTROUGH.Where(item => item.STATE == "10" && item.GROUPNO == groupNo && item.CIGARETTECODE == lastCigarettecode).ToList();
+                    if (query2.Count > 1)
+                    {
+                        foreach (var item in query2)
+                        {
+                            item.ACTCOUNT = 2;
+                        }
+                    }
+                    else
+                    {
+                        foreach (var item in query2)
+                        {
+                            item.ACTCOUNT = 1;
+                        }
+                    }
+                }
+                else 
+                {
+                    var query = en.T_PRODUCE_SORTTROUGH.Where(item => item.STATE == "10" && item.GROUPNO == groupNo && item.CIGARETTECODE == cigarettecode).ToList();
+                    if (query.Count > 1)
+                    {
+                        foreach (var item in query)
+                        {
+                            item.ACTCOUNT = 2;
+                        }
+                    }
+                    else
+                    {
+                        foreach (var item in query)
+                        {
+                            item.ACTCOUNT = 1;
+                        }
+                    }
+                }
+                return en.SaveChanges() > 0;
+            }
+            
         }
     }
 }

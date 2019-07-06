@@ -20,6 +20,7 @@ namespace HighSpeed.OrderHandle
         {
             InitializeComponent();
             box_type.SelectedIndex = 0;
+            Bind(); 
         }
         void Bind() 
         {

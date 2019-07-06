@@ -32,17 +32,32 @@ namespace HighspeedNew.OrderHandle
             var scre = sc.GetTaskInfo();
             if (scre.IsSuccess)
             {
-                //dgvSortInfo.DataSource = scre.Content.GroupBy(x => new { x.REGIONCODE }).Select(x => new { 车组信息 = x.Key.REGIONCODE, 订单数量 = scre.Content.Where(a => a.REGIONCODE == x.Key.REGIONCODE).Sum(a => a.TASKQUANTITY), 订单户数 = scre.Content.Where(b => b.REGIONCODE == x.Key.REGIONCODE).GroupBy(b => b.CUSTOMERCODE).Count() }).ToList();
-                //dgvSortInfo.DataSource = scre.Content.Select(x => new { synseq = x.SYNSEQ, regioncode = x.REGIONCODE, count = x.Count, qty = x.QTY }).ToList();
-                List<TaskInfo> list = new List<TaskInfo>();
-                list = scre.Content.Select(x => new TaskInfo { SYNSEQ = x.SYNSEQ, REGIONCODE = x.REGIONCODE, Count = x.Count, QTY = x.QTY }).ToList();
-                dgvSortInfo.DataSource = list;
-                //{
-                //    车组信息 = a.REGIONCODE,
-                //    任务数 = scre.Content.Where(b => b.REGIONCODE == a.REGIONCODE).Sum(c => c.TASKQUANTITY),
-                //    状态 = a.STATE,
-                //    订单日期 = a.ORDERDATE
-                //}).ToList();
+                dgvSortInfo.Rows.Clear();
+                List<TaskInfo> list = scre.Content.Select(x => new TaskInfo { SYNSEQ = x.SYNSEQ, REGIONCODE = x.REGIONCODE, Count = x.Count, QTY = x.QTY }).ToList();
+                foreach (var item in list)
+                {
+
+                    DataGridViewCellStyle dgvStyle = new DataGridViewCellStyle();
+                    dgvStyle.BackColor = Color.LightGreen;
+                    // 存了状态值  
+                    //string status = "";
+                    int index = this.dgvSortInfo.Rows.Add();
+                    this.dgvSortInfo.Rows[index].Cells[0].Value = item.SYNSEQ;//户序
+                    this.dgvSortInfo.Rows[index].Cells[1].Value = item.REGIONCODE; //分拣任务号
+
+                    this.dgvSortInfo.Rows[index].Cells[2].Value = item.Count;//车组号
+                    this.dgvSortInfo.Rows[index].Cells[3].Value = item.QTY;//抓烟数量
+                    //this.dgvSortInfo.Rows[index].Cells[4].Value = item.CusName;//客户名称
+                    //this.dgvSortInfo.Rows[index].Cells[5].Value = item.CigCode;//香烟编号
+                    //this.dgvSortInfo.Rows[index].Cells[6].Value = item.CigName;//香烟名称
+
+
+                    //this.dgvSortInfo.Rows[index].Cells[8].Value = item.ThroughNum;//物理通道号
+                    //this.dgvSortInfo.Rows[index].Cells[9].Value = item.BillCode;//订单号
+
+                    
+                }
+               
             }
             
         }
@@ -58,7 +73,7 @@ namespace HighspeedNew.OrderHandle
             lblTime.Visible = true;
             progressBar1.Visible = true;
             times = 0;//时间重置 
-            //TimerByTime.Start();// = true;//启动时间记录
+            TimerByTime.Start();// = true;//启动时间记录
             lblTime.Text = "已用时间:0秒";
             HandleSort task = Sort; //新的
             task.BeginInvoke(null, null);
@@ -97,8 +112,10 @@ namespace HighspeedNew.OrderHandle
             }
             finally
             {
-                List<TaskInfo> list = new List<TaskInfo>();
-                dgvSortInfo.DataSource = list;
+                //List<TaskInfo> list = new List<TaskInfo>();
+                //dgvSortInfo.DataSource = list;
+
+                dgvSortInfo.Rows.Clear();
                 panel2.Visible = false;
                 TimerByTime.Stop();// 计时结束;
                 btnSort.Enabled = true;

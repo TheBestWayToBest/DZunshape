@@ -19,6 +19,7 @@ namespace HighspeedNew.OrderHandle
         {
             InitializeComponent();
             box_condition.SelectedIndex = 0;
+            Bind();
         }
 
         public void init()
@@ -203,7 +204,7 @@ namespace HighspeedNew.OrderHandle
 
         private void button2_Click(object sender, EventArgs e)
         {
-            w_Through_Handle trough_handle = new w_Through_Handle("0", "0", "30", "10","",0);
+            w_Through_Handle trough_handle = new w_Through_Handle("0", "0", "30", "10","",0,"0");
             trough_handle.WindowState = FormWindowState.Normal;
             trough_handle.StartPosition = FormStartPosition.CenterScreen;
             trough_handle.ShowDialog();
@@ -215,7 +216,7 @@ namespace HighspeedNew.OrderHandle
             if (count > 0)
             {
 
-                String type = this.troughdata.CurrentRow.Cells["ThroughType"].Value + "";
+                String type = this.troughdata.CurrentRow.Cells["GroupNo"].Value + "";
                 if (type.Equals("30") || type.Equals("40"))
                 {
                     return;
@@ -225,7 +226,7 @@ namespace HighspeedNew.OrderHandle
                 sign = "1";
                 String cigarettetype = this.troughdata.CurrentRow.Cells["cigarettetype"].Value + "";
 
-                String type1 = this.troughdata.CurrentRow.Cells["ThroughType"].Value + "";
+                String type1 = this.troughdata.CurrentRow.Cells["GroupNo"].Value + "";
 
                 String id = this.troughdata.CurrentRow.Cells["ID"].Value + "";
                 string machineSeq = this.troughdata.CurrentRow.Cells["MachineSeq"].Value + "";
@@ -239,7 +240,9 @@ namespace HighspeedNew.OrderHandle
                 //else
                 //    groupNo = 3;
 
-                w_Through_Handle trough_handle = new w_Through_Handle(sign, amend_id, cigarettetype, type1, machineSeq, groupNo);
+                string lastCigarettecode = this.troughdata.CurrentRow.Cells["cigarettecode"].Value.ToString();
+
+                w_Through_Handle trough_handle = new w_Through_Handle(sign, amend_id, cigarettetype, type1, machineSeq, groupNo, lastCigarettecode);
                 trough_handle.WindowState = FormWindowState.Normal;
                 trough_handle.StartPosition = FormStartPosition.CenterScreen;
                 trough_handle.ShowDialog();

@@ -49,6 +49,7 @@
             // 
             // cbthroughnum
             // 
+            this.cbthroughnum.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbthroughnum.FormattingEnabled = true;
             this.cbthroughnum.Location = new System.Drawing.Point(95, 122);
             this.cbthroughnum.Name = "cbthroughnum";

@@ -9,7 +9,7 @@ namespace OPC
 {
     public static class PlcItemCollection
     {
-        public static String OpcPresortServer = "S7:[UnnormalConnection]";
+        public static String OpcPresortServer = "S7:[PackageMachineGroup1]";
 
 
         /// <summary>

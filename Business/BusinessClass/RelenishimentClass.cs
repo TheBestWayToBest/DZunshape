@@ -126,7 +126,7 @@ namespace Business.BusinessClass
                     JYCode = item.JYCODE,
                     ReplenishQTY = item.REPLENISHQTY ?? 0,
                     TaskNum = item.TASKNUM
-                }).OrderBy(item => item.TaskNum).ToList();
+                }).OrderBy(item => Convert.ToDecimal(item.TaskNum)).ToList();
                 return list;
             }
         }

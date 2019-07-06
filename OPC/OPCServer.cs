@@ -139,7 +139,7 @@ namespace OPC
         public StringBuilder SendOnlyTask(object[] datas, StringBuilder OutStr)
         {
             StringBuilder sb = new StringBuilder();
-            isSendOne = true;
+            IsSendOn = true;
             int flag = SpyBiaozhiGroup.ReadD(0).CastTo<int>(-1);
             WriteLog.GetLog().Write("烟仓烟柜发送数据前读标志位：" + flag + flag);
             if (flag == 0)
@@ -153,7 +153,7 @@ namespace OPC
                 sb.AppendLine("烟仓烟柜分拣线:" + OutStr);
                 OnlyTaskGroup.SyncWrite(datas);
             }
-            isSendOne = false;
+            IsSendOn = false;
             return sb;
         }
     }

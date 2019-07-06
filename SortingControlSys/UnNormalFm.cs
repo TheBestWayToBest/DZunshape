@@ -92,6 +92,7 @@ namespace SortingControlSys
                     opcServer.ConnectState = opcServer.CheckConnection();
                     if (opcServer.ConnectState)
                     {
+                        opcServer.IsSendOn = false;
                         GetTaskInfo("PLC连接成功!");
                         opcServer.SpyBiaozhiGroup.callback = OnDataChange;
                         opcServer.FinishOnlyGroup.callback = OnDataChange;
@@ -203,8 +204,6 @@ namespace SortingControlSys
         /// <param name="Info"></param>
         public static void GetTaskInfo(string Info)
         {
-
-            // FmTaskDetail.GetTaskInfo_Detail(Info);
             WriteLog.GetLog().Write(Info);
             handle(Info);
         }
@@ -218,7 +217,7 @@ namespace SortingControlSys
                 opcServer.SpyBiaozhiGroup.Write(0, 0);
                 GetTaskInfo("发送任务");
             }
-            else 
+            else
             {
                 GetTaskInfo("强制跳变失败");
             }
@@ -240,7 +239,7 @@ namespace SortingControlSys
                     {
                         opcServer.FinishOnlyGroup.callback -= OnDataChange;
                         opcServer.SpyBiaozhiGroup.callback -= OnDataChange;
-                        GetTaskInfo("异型烟倍速链，常规烟翻版移除事件成功！");
+                        GetTaskInfo("移除事件成功！");
                         GetTaskInfo("任务停止发送与接收！");
                         UpdateControlEnable(false, BtnEnd);
                     }
@@ -250,7 +249,7 @@ namespace SortingControlSys
                     }
                     catch (Exception ex)
                     {
-                        GetTaskInfo("异型烟链板机任务停止失败！错误：" + ex.Message);
+                        GetTaskInfo("任务停止失败！错误：" + ex.Message);
                     }
                 }
             }

@@ -383,11 +383,12 @@
             this.ID.HeaderText = "ID";
             this.ID.Name = "ID";
             this.ID.ReadOnly = true;
+            this.ID.Visible = false;
             // 
             // machineseq
             // 
             this.machineseq.DataPropertyName = "MachineSeq";
-            this.machineseq.HeaderText = "设备编号";
+            this.machineseq.HeaderText = "设备物理编号";
             this.machineseq.Name = "machineseq";
             this.machineseq.ReadOnly = true;
             // 

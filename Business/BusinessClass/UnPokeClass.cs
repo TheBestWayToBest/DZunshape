@@ -44,6 +44,7 @@ namespace Business.BusinessClass
 
                 values[0] = query.SORTNUM;
                 values[1] = query.SENDTASKNUM;
+                sb.AppendLine("任务号：" + query.SORTNUM);
                 decimal machineseq = 0;
                 foreach (var item in list.Where(ite => ite.CTYPE == 2).GroupBy(item => item.MACHINESEQ).Select(item => new { MACHINESEQ = item.Key, QTY = item.Sum(x => x.POKENUM) }).OrderBy(ite => ite.MACHINESEQ).ToList())
                 {
@@ -70,7 +71,7 @@ namespace Business.BusinessClass
                 values[101] = 0;
                 values[102] = 0;
                 values[103] = 1;
-                sb.AppendLine("烟仓出烟数量：" + values[98] + "，任务发送标志位：" + values[101]);
+                sb.AppendLine("2#立式烟仓总条数：" + values[98] + "卧式烟仓总条数：" + values[99] + "1#立式烟仓总条数：" + values[100] + "，任务发送标志位：" + values[103]);
                 outStr = sb;
                 return values;
             }

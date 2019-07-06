@@ -22,7 +22,7 @@ namespace SmokeRelenishment
         private void btn_search_Click(object sender, EventArgs e)
         {
             List<Replenish> list = new List<Replenish>();
-            list = RelenishimentClass.GetReplenishByCusNameOrCigName(comboBox1.SelectedIndex, txt_search.Text);
+            list = RelenishimentClass.GetReplenishByCigName(comboBox1.SelectedIndex, txt_search.Text);
             DgvNowView.DataSource = list;
         }
 
