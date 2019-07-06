@@ -535,9 +535,11 @@ namespace Business.BusinessClass
                 //                       into tmp
                 //                   from last in tmp.DefaultIfEmpty()
                 //                   select new { x = special, y = last });
+
+                //当前通道支持卧式设多通道,立式设多通道,不支持立式和卧式联合设置多通道(即品牌同时设置在立式和卧式)
                 var special_two = (from trough in en.T_PRODUCE_SORTTROUGH
-                                   where trough.STATE == "10" && trough.GROUPNO == 3 && trough.ACTCOUNT == 2
-                                   orderby trough.CIGARETTECODE select trough).ToList();
+                                   where trough.STATE == "10" && (trough.GROUPNO == 3 || trough.GROUPNO==2) && trough.ACTCOUNT == 2
+                                   orderby trough.CIGARETTECODE,trough.MACHINESEQ select trough).ToList();
                 Dictionary<string, ThroughInfo> special_dic = new Dictionary<string, ThroughInfo>();
                 if (special_two.Any())
                 {
@@ -555,6 +557,7 @@ namespace Business.BusinessClass
                         {
                             through.CigaretteCode = item.CIGARETTECODE;
                             through.ActCount = item.ACTCOUNT ?? 0;
+                            through.GroupNo = item.GROUPNO??0;
                             through.ThroughNum = item.TROUGHNUM;
                             special_dic.Add(through.CigaretteCode, through);
                         }
@@ -611,12 +614,29 @@ namespace Business.BusinessClass
                         if (special_dic.ContainsKey(item.CigCode))
                         {
                             through=special_dic[item.CigCode];
-                            if (through.ThroughNum == item.TroughNum)
+                            decimal groupno = through.GroupNo;//groupno=2 是立式烟仓, groupno=3 是卧式烟仓(1-5都可以拨)
+                            if (groupno == 2)
                             {
-                                qty = Math.Ceiling(quantity / 2);
+                                if (through.ThroughNum == item.TroughNum)
+                                {
+                                    qty = Math.Ceiling(quantity / 2);
+                                }
+                                else
+                                {
+                                    qty = Math.Floor(quantity / 2);
+                                }
                             }
-                            else {
-                                qty = Math.Floor(quantity / 2);
+                            else 
+                            { 
+                                //通道机双通道,一个拨整五条,一个拨剩余散条,
+                                if (through.ThroughNum == item.TroughNum)
+                                {
+                                    qty = quantity - quantity%5;
+                                }
+                                else
+                                {
+                                    qty = quantity % 5;
+                                }
                             }
                             //判断是五拨还是单拨
                             //五拨和单拨都有
