@@ -43,7 +43,7 @@ namespace Business.BusinessClass
                         JT_Size = item.JT_SIZE ?? 50,
                         RowStatus = item.ROWSTATUS ?? 0,
                         Shiptype = item.SHIPTYPE
-                    }).OrderBy(item=>item.ItemNo).OrderBy(x => x.Shiptype).ToList();
+                    }).OrderBy(item=>item.ItemNo).OrderByDescending(x => x.Shiptype).ToList();
                 return query;
             }
         }
