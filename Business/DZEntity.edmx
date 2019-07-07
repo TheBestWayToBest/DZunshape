@@ -615,7 +615,7 @@
           <Property Name="ADDRESS" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
           <Property Name="TELEPHONE" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
           <Property Name="PRIORITY" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="REGIONCODE" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="REGIONCODE" Type="String" Unicode="false" FixedLength="false" MaxLength="50" />
           <Property Name="TASKNUMBERS" Type="String" MaxLength="3000" Unicode="false" FixedLength="false" />
           <Property Name="TASKBOXIES" Type="String" MaxLength="3000" Unicode="false" FixedLength="false" />
           <Property Name="STATE" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
