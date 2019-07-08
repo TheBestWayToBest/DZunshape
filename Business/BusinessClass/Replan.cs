@@ -9,8 +9,9 @@ namespace Business.BusinessClass
     public class Replan
     {
 
-        public Boolean AutoGenReplan()
+        public Response AutoGenReplan()
         {
+            Response response = new Response();
             Boolean flag=false;
             int i = 0;
             using (DZEntities entites = new DZEntities())
@@ -28,51 +29,61 @@ namespace Business.BusinessClass
                     {
                         maxid = list.Max();
                     }
-
-                    foreach (var item in pokeList)
+                    if (pokeList1.Any())
                     {
-                        T_PRODUCE_SORTTROUGH sorttrough = sortList.Find(x => x.CIGARETTECODE == item.CIGARETTECODE);
-
-                        T_WMS_ITEM citem = itemList.Find(x => x.ITEMNO == item.CIGARETTECODE);
-                        if (sorttrough.THRESHOLD - sorttrough.MANTISSA >= citem.JT_SIZE)//如果空出一件烟就可以补
+                        foreach (var item in pokeList)
                         {
-                            i++;
-                            T_PRODUCE_REPLENISHPLAN plan = new T_PRODUCE_REPLENISHPLAN();
+                            T_PRODUCE_SORTTROUGH sorttrough = sortList.Find(x => x.CIGARETTECODE == item.CIGARETTECODE);
 
-                            plan.CIGARETTECODE = item.CIGARETTECODE;
-                            plan.CIGARETTENAME = sorttrough.CIGARETTENAME;
-                            plan.ID = (++maxid);
-                            plan.JYCODE = citem.BIGBOX_BAR;
-                            plan.REPLENISHQTY = 1;
-                            plan.TASKNUM = plan.ID + "";
-                            plan.MANTISSA = sorttrough.MANTISSA + citem.JT_SIZE;
-                            sorttrough.MANTISSA = plan.MANTISSA;
-                            plan.TROUGHNUM = sorttrough.MACHINESEQ.ToString();//通道编号默认
-                            plan.STATUS = 0;//新增状态
-                            plan.TYPE = 30;//排程自动补货
-                            plan.SEQ = 0;
-                            plan.ISCOMPLETED = 10;//已生成托盘补货计划
-                            entites.T_PRODUCE_REPLENISHPLAN.AddObject(plan);
-                            //item.STATUS = 10;//已生成托盘补货计划
-                            if (i == 100)
+                            T_WMS_ITEM citem = itemList.Find(x => x.ITEMNO == item.CIGARETTECODE);
+                            if (sorttrough.THRESHOLD - sorttrough.MANTISSA >= citem.JT_SIZE)//如果空出一件烟就可以补
                             {
-                                entites.SaveChanges();
-                                i = 0;
+                                i++;
+                                T_PRODUCE_REPLENISHPLAN plan = new T_PRODUCE_REPLENISHPLAN();
+
+                                plan.CIGARETTECODE = item.CIGARETTECODE;
+                                plan.CIGARETTENAME = sorttrough.CIGARETTENAME;
+                                plan.ID = (++maxid);
+                                plan.JYCODE = citem.BIGBOX_BAR;
+                                plan.REPLENISHQTY = 1;
+                                plan.TASKNUM = plan.ID + "";
+                                plan.MANTISSA = sorttrough.MANTISSA + citem.JT_SIZE;
+                                sorttrough.MANTISSA = plan.MANTISSA;
+                                plan.TROUGHNUM = sorttrough.MACHINESEQ.ToString();//通道编号默认
+                                plan.STATUS = 0;//新增状态
+                                plan.TYPE = 30;//排程自动补货
+                                plan.SEQ = 0;
+                                plan.ISCOMPLETED = 10;//已生成托盘补货计划
+                                entites.T_PRODUCE_REPLENISHPLAN.AddObject(plan);
+                                //item.STATUS = 10;//已生成托盘补货计划
+                                if (i == 100)
+                                {
+                                    entites.SaveChanges();
+                                    i = 0;
+                                }
                             }
+                            sorttrough.MANTISSA = sorttrough.MANTISSA - item.POKENUM;
+                            //entites.SaveChanges();
                         }
-                        sorttrough.MANTISSA = sorttrough.MANTISSA - item.POKENUM;
-                        //entites.SaveChanges();
+                        pokeList1.ForEach(x => x.STATUS = 10);
+                        entites.SaveChanges();
+                        flag = true;
+                        response.MessageText = "补货计划生成成功！";
                     }
-                    pokeList1.ForEach(x => x.STATUS = 10);
-                    entites.SaveChanges();
-                    flag = true;
-                    
+                    else 
+                    {
+                        flag = false;
+                        response.MessageText = "暂无新的分拣数据，无需生成补货计划！";
+                    }
+                    response.IsSuccess = flag;
                 }
                 catch (Exception e){
                     flag = false;
+                    response.MessageText = "生成补货计划出错，请联系系统管理员！"+e.ToString();
+                    response.IsSuccess = flag;
                 }
 
-                return flag;
+                return response;
             }
         }
 

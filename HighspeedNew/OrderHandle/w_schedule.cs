@@ -133,15 +133,15 @@ namespace HighSpeed.OrderHandle
                             progressBar1.Visible = false;
                             MessageBox.Show("预排程成功！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
-                        else
-                        {
-                            MessageBox.Show(response.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
                     }
                     else
                     {
-                        MessageBox.Show("请至少选择一个要预排程的车组!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(response.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
+                }
+                else
+                {
+                    MessageBox.Show("请至少选择一个要预排程的车组!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
             }

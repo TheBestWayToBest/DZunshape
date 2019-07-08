@@ -117,8 +117,8 @@ namespace HighSpeed.OrderHandle
         private void btn_replenishplan_Click(object sender, EventArgs e)
         {
             Replan plan = new Replan();
-            Boolean flag = plan.AutoGenReplan();
-            if (flag)
+            Response response = plan.AutoGenReplan();
+            if (response.IsSuccess)
             {
                 MessageBox.Show("补货计划生成成功！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

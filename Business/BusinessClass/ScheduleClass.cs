@@ -695,12 +695,14 @@ namespace Business.BusinessClass
                         }
                     }
                     re.IsSuccess = true;
-                    re.MessageText = "任务数据生成成功";
+                    re.MessageText = "分拣任务数据生成成功！";
                     return re;
                 }
                 else
                 {
-                    return re.DefaultResponse;
+                    re.IsSuccess = false;
+                    re.MessageText = "暂无可排程的任务信息！";
+                    return re;
                 }
             }
         }

@@ -55,11 +55,11 @@ namespace HighspeedNew.OrderHandle
                     //this.dgvSortInfo.Rows[index].Cells[8].Value = item.ThroughNum;//物理通道号
                     //this.dgvSortInfo.Rows[index].Cells[9].Value = item.BillCode;//订单号
 
-                    
+
                 }
-               
+
             }
-            
+
         }
         int times;
         delegate void HandleSort();
@@ -85,24 +85,34 @@ namespace HighspeedNew.OrderHandle
             {
                 progressBar1.Value = (progressBar1.Maximum / 2);
                 var re = sc.SchedulePoke();
-
-                if (re.IsSuccess)
+                //排程结束后，对排程数据进行验证
+                ValidationClass vc = new ValidationClass();
+                Response response = vc.ValidationSchedule("2");
+                if (response.IsSuccess)
                 {
-                    btnPokeSeq.Enabled = true;
-                    progressBar1.Value = progressBar1.Maximum;
-                    //TimerByTime.Stop();// 计时结束;
-                    btnSort.Enabled = true;
-                    lblInFO.Text = "分拣车组任务排程成功！" + "\r\n" + "所用时间:" + times + "秒";
-                    MessageBox.Show("分拣车组任务排程成功！" + "\r\n" + "所用时间:" + times + "秒", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    if (re.IsSuccess)
+                    {
+                        btnPokeSeq.Enabled = true;
+                        progressBar1.Value = progressBar1.Maximum;
+                        //TimerByTime.Stop();// 计时结束;
+                        btnSort.Enabled = true;
+                        lblInFO.Text = "分拣车组任务排程成功！" + "\r\n" + "所用时间:" + times + "秒";
+                        MessageBox.Show("分拣车组任务排程成功！" + "\r\n" + "所用时间:" + times + "秒", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        panel2.Visible = false;
+                        TimerByTime.Stop();// 计时结束;
+                        btnSort.Enabled = true;
+                        MessageBox.Show(re.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
                 else
                 {
-                    panel2.Visible = false;
-                    TimerByTime.Stop();// 计时结束;
-                    btnSort.Enabled = true;
-                    MessageBox.Show(re.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //回滚排程操作
+                    MessageBox.Show(response.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-
 
             }
             catch (Exception e)
@@ -126,15 +136,9 @@ namespace HighspeedNew.OrderHandle
         private void btn_replenishplan_Click(object sender, EventArgs e)
         {
             Replan plan = new Replan();
-            Boolean flag = plan.AutoGenReplan();
-            if (flag)
-            {
-                MessageBox.Show("补货计划生成成功！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                MessageBox.Show("补货计划生成失败，请联系系统管理员！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+            Response response = plan.AutoGenReplan();
+            MessageBox.Show(response.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
         }
 
         private void TimerByTime_Tick(object sender, EventArgs e)
