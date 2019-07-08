@@ -112,19 +112,28 @@ namespace Business.BusinessClass
                    var old_batch = (from item in en.T_PRODUCE_BATCH where item.BATCHCODE == batchcode select item).FirstOrDefault();
                    if (old_batch != null)
                    {
-                       old_batch.ENDTIME = DateTime.Now;
-                       old_batch.STATE = 0;
-                       if (en.SaveChanges() > 0)
+                       if (old_batch.STATE == 0)
                        {
                            response.IsSuccess = true;
-                           response.MessageText = "批次：指定批次关闭成功";
+                           response.MessageText = "所选批次已是关闭状态！";
                            return response;
                        }
-                       else
+                       else 
                        {
-                           response.IsSuccess = false;
-                           response.MessageText = "批次：关闭失败，数据更新行数为0！";
-                           return response;
+                           old_batch.ENDTIME = DateTime.Now;
+                           old_batch.STATE = 0;
+                           if (en.SaveChanges() > 0)
+                           {
+                               response.IsSuccess = true;
+                               response.MessageText = "指定批次关闭成功";
+                               return response;
+                           }
+                           else
+                           {
+                               response.IsSuccess = false;
+                               response.MessageText = "批次关闭失败，数据更新行数为0！";
+                               return response;
+                           }
                        }
                    }
                    else

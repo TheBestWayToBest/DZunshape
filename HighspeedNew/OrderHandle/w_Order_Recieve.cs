@@ -88,6 +88,36 @@ namespace HighSpeed.OrderHandle
                             break;
                         }
                     }
+
+                    //根据批次maxSyncseq验证是否有新品牌和客户,提示定性新品牌并设置条烟转换比例 
+                    Response response = new Response();
+                    String resultMsg = "";
+                    //验证是否有新品牌
+                    response = sc.ValidNewItem(maxSyncseq);
+                    if (!response.IsSuccess)
+                    {
+                        resultMsg = resultMsg + "品牌验证：" + response.MessageText;
+                        //MessageBox.Show(response.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    //验证是否有新客户
+                    /*response = sc.ValidNewCustomer(maxSyncseq);
+                        if (!response.IsSuccess)
+                        {
+                            resultMsg = "\r\n" + resultMsg + "零售户验证：" + response.MessageText;
+                            //MessageBox.Show(response.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }*/
+                    //验证订单数量
+                    response = sc.ValiOrderNum(maxSyncseq, this.datePick.Value);
+                    if (!response.IsSuccess)
+                    {
+                        resultMsg = "\r\n" + resultMsg + "订单数验证：" + response.MessageText;
+                        //MessageBox.Show(response.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    if (!"".Equals(resultMsg))
+                    {
+                        MessageBox.Show(resultMsg, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    Bind();
                     
                     MessageBox.Show(sucCount + "个车组的订单数据接收成功！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -107,33 +137,6 @@ namespace HighSpeed.OrderHandle
                 panel2.Visible = false;
                 label2.Visible = false;
                 progressBar1.Visible = false;
-                //根据批次maxSyncseq验证是否有新品牌和客户,提示定性新品牌并设置条烟转换比例 
-                Response response = new Response();
-                String resultMsg = "";
-                //验证是否有新品牌
-                response = sc.ValidNewItem(maxSyncseq);
-                if(!response.IsSuccess){
-                    resultMsg = resultMsg + "品牌验证：" + response.MessageText;
-                    //MessageBox.Show(response.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                //验证是否有新客户
-                /*response = sc.ValidNewCustomer(maxSyncseq);
-                    if (!response.IsSuccess)
-                    {
-                        resultMsg = "\r\n" + resultMsg + "零售户验证：" + response.MessageText;
-                        //MessageBox.Show(response.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }*/
-                //验证订单数量
-                response = sc.ValiOrderNum(maxSyncseq, this.datePick.Value);
-                if (!response.IsSuccess)
-                {
-                    resultMsg = "\r\n" + resultMsg + "订单数验证：" + response.MessageText;
-                    //MessageBox.Show(response.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                if (!"".Equals(resultMsg)) {
-                    MessageBox.Show(resultMsg, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                Bind();
             }
            
         }

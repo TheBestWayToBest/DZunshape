@@ -325,7 +325,7 @@ namespace HighSpeedNew.OrderHandle
         {
             //IPAddress[] ips = Dns.GetHostAddresses(Dns.GetHostName());10.75.142.1
             IPAddress address = IPAddress.Parse("10.62.65.91");
-            IPEndPoint endpoint = new IPEndPoint(address, 9051);
+            IPEndPoint endpoint = new IPEndPoint(address, 9050);
             //创建服务端负责监听的套接字，参数（使用IPV4协议，使用流式连接，使用Tcp协议传输数据）
             socketClient = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             socketClient.Connect(endpoint);

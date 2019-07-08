@@ -89,8 +89,17 @@ using Business;namespace HighSpeed.OrderHandle
 
         private void btn_close_Click(object sender, EventArgs e)
         {
-            Response response = bc.OperationBatch();
-            MessageBox.Show(response.MessageText);
+            DataGridViewRow dvr = batchdata.CurrentRow;
+            if (dvr != null)
+            {
+                string batchcode = dvr.Cells["batchcode"].Value.ToString();
+                Response response = bc.OperationBatch(batchcode, 2);
+                MessageBox.Show(response.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information); 
+            }
+            else {
+                MessageBox.Show("请选中需要关闭的批次！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            
         }
     }
 }

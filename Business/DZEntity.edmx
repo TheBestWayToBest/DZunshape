@@ -91,6 +91,7 @@
       "T_UN_TASK_H"."ADDRESS" AS "ADDRESS", 
       "T_UN_TASK_H"."TELEPHONE" AS "TELEPHONE", 
       "T_UN_TASK_H"."CONTACT" AS "CONTACT", 
+      "T_UN_TASK_H"."PAYMENTFLAG" AS "PAYMENTFLAG", 
       "T_UN_TASK_H"."INSERTTIME" AS "INSERTTIME"
       FROM "ZOOMTELDZ"."T_UN_TASK_H" "T_UN_TASK_H"</DefiningQuery>
           </EntitySet>
@@ -103,6 +104,7 @@
       "T_UN_TASKLINE_H"."QUANTITY" AS "QUANTITY", 
       "T_UN_TASKLINE_H"."UNIT" AS "UNIT", 
       "T_UN_TASKLINE_H"."ALLOWSORT" AS "ALLOWSORT", 
+      "T_UN_TASKLINE_H"."PRICE" AS "PRICE", 
       "T_UN_TASKLINE_H"."INSERTTIME" AS "INSERTTIME"
       FROM "ZOOMTELDZ"."T_UN_TASKLINE_H" "T_UN_TASKLINE_H"</DefiningQuery>
           </EntitySet>
@@ -145,7 +147,7 @@
           <Property Name="ADDRESS" Type="nvarchar2" MaxLength="200" />
           <Property Name="TELEPHONE" Type="varchar2" MaxLength="20" />
           <Property Name="PRIORITY" Type="number" />
-          <Property Name="REGIONCODE" Type="varchar2" MaxLength="20" />
+          <Property Name="REGIONCODE" Type="varchar2" MaxLength="50" />
           <Property Name="TASKNUMBERS" Type="varchar2" MaxLength="3000" />
           <Property Name="TASKBOXIES" Type="varchar2" MaxLength="3000" />
           <Property Name="STATE" Type="varchar2" MaxLength="10" />
@@ -157,6 +159,7 @@
           <Property Name="CONTACT" Type="varchar2" MaxLength="50" />
           <Property Name="DELIVERYDATE" Type="date" />
           <Property Name="SELATASKNUM" Type="number" />
+          <Property Name="PAYMENTFLAG" Type="varchar2" MaxLength="10" />
         </EntityType>
         <EntityType Name="T_PRODUCE_ORDERID">
           <Key>
@@ -239,6 +242,7 @@
           <Property Name="TOTALQTY" Type="number" />
           <Property Name="CREATEUSER" Type="varchar2" MaxLength="40" />
           <Property Name="CREATETIME" Type="date" />
+          <Property Name="PAYMENTFLAG" Type="varchar2" MaxLength="10" />
         </EntityType>
         <EntityType Name="T_SALE_ORDER_LINE">
           <Key>
@@ -375,6 +379,7 @@
           <Property Name="ADDRESS" Type="nvarchar2" MaxLength="200" />
           <Property Name="TELEPHONE" Type="varchar2" MaxLength="20" />
           <Property Name="CONTACT" Type="varchar2" MaxLength="50" />
+          <Property Name="PAYMENTFLAG" Type="varchar2" MaxLength="10" />
         </EntityType>
         <!--生成过程中发现错误:
       警告 6002: 表/视图“ZOOMTELDZ.T_UN_TASK_H”未定义主键。已推断出该键，并将定义创建为只读的表/视图。
@@ -418,6 +423,7 @@
           <Property Name="ADDRESS" Type="nvarchar2" MaxLength="200" />
           <Property Name="TELEPHONE" Type="varchar2" MaxLength="20" />
           <Property Name="CONTACT" Type="varchar2" MaxLength="50" />
+          <Property Name="PAYMENTFLAG" Type="varchar2" MaxLength="10" />
           <Property Name="INSERTTIME" Type="date" />
         </EntityType>
         <EntityType Name="T_UN_TASKLINE">
@@ -431,6 +437,7 @@
           <Property Name="QUANTITY" Type="number" Precision="10" Scale="1" />
           <Property Name="UNIT" Type="varchar2" MaxLength="5" />
           <Property Name="ALLOWSORT" Type="varchar2" MaxLength="4" />
+          <Property Name="PRICE" Type="number" Precision="8" Scale="2" />
         </EntityType>
         <!--生成过程中发现错误:
       警告 6002: 表/视图“ZOOMTELDZ.T_UN_TASKLINE_H”未定义主键。已推断出该键，并将定义创建为只读的表/视图。
@@ -446,6 +453,7 @@
           <Property Name="QUANTITY" Type="number" Precision="10" Scale="1" />
           <Property Name="UNIT" Type="varchar2" MaxLength="5" />
           <Property Name="ALLOWSORT" Type="varchar2" MaxLength="4" />
+          <Property Name="PRICE" Type="number" Precision="8" Scale="2" />
           <Property Name="INSERTTIME" Type="date" />
         </EntityType>
         <EntityType Name="T_WMS_CUSTOMER">
@@ -569,22 +577,22 @@
       <Schema Namespace="Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="DZEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="T_PRODUCE_BATCH" EntityType="Model.T_PRODUCE_BATCH" />
-          <EntitySet Name="T_PRODUCE_ORDER" EntityType="Model.T_PRODUCE_ORDER" />
           <EntitySet Name="T_PRODUCE_ORDERID" EntityType="Model.T_PRODUCE_ORDERID" />
           <EntitySet Name="T_PRODUCE_REPLENISHPLAN" EntityType="Model.T_PRODUCE_REPLENISHPLAN" />
           <EntitySet Name="T_UN_PLCITEM" EntityType="Model.T_UN_PLCITEM" />
           <EntitySet Name="T_UN_POKE" EntityType="Model.T_UN_POKE" />
           <EntitySet Name="T_UN_POKE_H" EntityType="Model.T_UN_POKE_H" />
           <EntitySet Name="T_UN_POKE_HUNHE" EntityType="Model.T_UN_POKE_HUNHE" />
-          <EntitySet Name="T_UN_TASK" EntityType="Model.T_UN_TASK" />
-          <EntitySet Name="T_UN_TASK_H" EntityType="Model.T_UN_TASK_H" />
           <EntitySet Name="T_WMS_ITEM" EntityType="Model.T_WMS_ITEM" />
           <EntitySet Name="T_XT_HTCWXX" EntityType="Model.T_XT_HTCWXX" />
-          <EntitySet Name="T_SALE_ORDER_HEAD" EntityType="Model.T_SALE_ORDER_HEAD" />
           <EntitySet Name="T_SALE_ORDER_LINE" EntityType="Model.T_SALE_ORDER_LINE" />
           <EntitySet Name="T_WMS_CUSTOMER" EntityType="Model.T_WMS_CUSTOMER" />
           <EntitySet Name="T_PRODUCE_SORTTROUGH" EntityType="Model.T_PRODUCE_SORTTROUGH" />
           <EntitySet Name="T_PRODUCE_ORDERLINE" EntityType="Model.T_PRODUCE_ORDERLINE" />
+          <EntitySet Name="T_PRODUCE_ORDER" EntityType="Model.T_PRODUCE_ORDER" />
+          <EntitySet Name="T_SALE_ORDER_HEAD" EntityType="Model.T_SALE_ORDER_HEAD" />
+          <EntitySet Name="T_UN_TASK" EntityType="Model.T_UN_TASK" />
+          <EntitySet Name="T_UN_TASK_H" EntityType="Model.T_UN_TASK_H" />
           <EntitySet Name="T_UN_TASKLINE" EntityType="Model.T_UN_TASKLINE" />
           <EntitySet Name="T_UN_TASKLINE_H" EntityType="Model.T_UN_TASKLINE_H" />
         </EntityContainer>
@@ -598,35 +606,6 @@
           <Property Name="ENDTIME" Type="DateTime" />
           <Property Name="STATE" Type="Decimal" Precision="38" Scale="0" />
           <Property Name="BATCHTYPE" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
-        </EntityType>
-        <EntityType Name="T_PRODUCE_ORDER">
-          <Key>
-            <PropertyRef Name="BILLCODE" />
-          </Key>
-          <Property Name="BILLCODE" Type="String" Nullable="false" MaxLength="80" Unicode="false" FixedLength="false" />
-          <Property Name="COMPANYCODE" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
-          <Property Name="COMPANYNAME" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
-          <Property Name="BATCHCODE" Type="String" MaxLength="12" Unicode="false" FixedLength="false" />
-          <Property Name="SYNSEQ" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="ORDERQUANTITY" Type="Decimal" Precision="8" Scale="2" />
-          <Property Name="ORDERMONEY" Type="Decimal" Precision="8" Scale="2" />
-          <Property Name="CUSTOMERCODE" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
-          <Property Name="CUSTOMERNAME" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
-          <Property Name="ADDRESS" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
-          <Property Name="TELEPHONE" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
-          <Property Name="PRIORITY" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="REGIONCODE" Type="String" Unicode="false" FixedLength="false" MaxLength="50" />
-          <Property Name="TASKNUMBERS" Type="String" MaxLength="3000" Unicode="false" FixedLength="false" />
-          <Property Name="TASKBOXIES" Type="String" MaxLength="3000" Unicode="false" FixedLength="false" />
-          <Property Name="STATE" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
-          <Property Name="DEVSEQ" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="ID" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="CREATETIME" Type="DateTime" />
-          <Property Name="ORDERDATE" Type="DateTime" />
-          <Property Name="UNSTATE" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
-          <Property Name="CONTACT" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-          <Property Name="DELIVERYDATE" Type="DateTime" />
-          <Property Type="Decimal" Name="SELATASKNUM" Precision="38" Scale="0" />
         </EntityType>
         <EntityType Name="T_PRODUCE_ORDERID">
           <Key>
@@ -732,86 +711,6 @@
           <Property Name="PACKMACHINESEQ" Type="Decimal" Precision="38" Scale="0" />
           <Property Name="TROUGHNUM" Type="Decimal" Precision="38" Scale="0" />
         </EntityType>
-        <EntityType Name="T_UN_TASK">
-          <Key>
-            <PropertyRef Name="TASKNUM" />
-          </Key>
-          <Property Name="TASKNUM" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
-          <Property Name="LINENUM" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
-          <Property Name="EXPORTNUM" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
-          <Property Name="REGIONCODE" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
-          <Property Name="REGIONDESC" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
-          <Property Name="BILLCODE" Type="String" MaxLength="80" Unicode="false" FixedLength="false" />
-          <Property Name="COMPANYCODE" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
-          <Property Name="COMPANYNAME" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
-          <Property Name="BATCHCODE" Type="String" MaxLength="12" Unicode="false" FixedLength="false" />
-          <Property Name="SYNSEQ" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="CUSTOMERCODE" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
-          <Property Name="ORDERQUANTITY" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="CUSTOMERNAME" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
-          <Property Name="ORDERMONEY" Type="Decimal" Precision="8" Scale="2" />
-          <Property Name="TASKQUANTITY" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="PRIORITY" Type="Int32" />
-          <Property Name="TASKBOX" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
-          <Property Name="SORTSEQ" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="LABLENUM" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
-          <Property Name="PLANTIME" Type="DateTime" />
-          <Property Name="SORTTIME" Type="DateTime" />
-          <Property Name="FINISHTIME" Type="DateTime" />
-          <Property Name="STATE" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
-          <Property Name="LABELBATCH" Type="Int16" />
-          <Property Name="PALLETNUM" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="EXISTRCD" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="ORDERDATE" Type="DateTime" />
-          <Property Name="MAINBELT" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="PACKAGEMACHINE" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="SORTNUM" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="SECSORTNUM" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="ADDRESS" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
-          <Property Name="TELEPHONE" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
-          <Property Name="CONTACT" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="T_UN_TASK_H">
-          <Key>
-            <PropertyRef Name="TASKNUM" />
-            <PropertyRef Name="LINENUM" />
-          </Key>
-          <Property Name="TASKNUM" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
-          <Property Name="LINENUM" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
-          <Property Name="EXPORTNUM" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
-          <Property Name="REGIONCODE" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
-          <Property Name="REGIONDESC" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
-          <Property Name="BILLCODE" Type="String" MaxLength="80" Unicode="false" FixedLength="false" />
-          <Property Name="COMPANYCODE" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
-          <Property Name="COMPANYNAME" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
-          <Property Name="BATCHCODE" Type="String" MaxLength="12" Unicode="false" FixedLength="false" />
-          <Property Name="SYNSEQ" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="CUSTOMERCODE" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
-          <Property Name="ORDERQUANTITY" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="CUSTOMERNAME" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
-          <Property Name="ORDERMONEY" Type="Decimal" Precision="8" Scale="2" />
-          <Property Name="TASKQUANTITY" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="PRIORITY" Type="Int32" />
-          <Property Name="TASKBOX" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
-          <Property Name="SORTSEQ" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="LABLENUM" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
-          <Property Name="PLANTIME" Type="DateTime" />
-          <Property Name="SORTTIME" Type="DateTime" />
-          <Property Name="FINISHTIME" Type="DateTime" />
-          <Property Name="STATE" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
-          <Property Name="LABELBATCH" Type="Int16" />
-          <Property Name="PALLETNUM" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="EXISTRCD" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="ORDERDATE" Type="DateTime" />
-          <Property Name="MAINBELT" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="PACKAGEMACHINE" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="SORTNUM" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="SECSORTNUM" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="INSERTTIME" Type="DateTime" />
-          <Property Type="String" Name="ADDRESS" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="TELEPHONE" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="CONTACT" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="T_WMS_ITEM">
           <Key>
             <PropertyRef Name="ID" />
@@ -874,24 +773,6 @@
           <Property Name="CWH" Type="Int32" />
           <Property Name="CWXX" Type="String" MaxLength="512" Unicode="false" FixedLength="false" />
           <Property Name="CCMK" Type="String" MaxLength="40" Unicode="false" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="T_SALE_ORDER_HEAD">
-          <Key>
-            <PropertyRef Name="ORDERNO" />
-          </Key>
-          <Property Type="String" Name="ORDERNO" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="ORDERDATE" />
-          <Property Type="String" Name="CUSTOMER_ID" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="CUSTOMER_NAME" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="CONTACTADDRESS" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="CONTACTPHONE" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="CONTACT" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ROUTECODE" MaxLength="160" FixedLength="false" Unicode="false" />
-          <Property Type="Decimal" Name="DELIVERYSEQ" Precision="38" Scale="0" />
-          <Property Type="Decimal" Name="TOTALAMOUNT" Precision="16" Scale="2" />
-          <Property Type="Decimal" Name="TOTALQTY" Precision="38" Scale="0" />
-          <Property Type="String" Name="CREATEUSER" MaxLength="40" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="CREATETIME" />
         </EntityType>
         <EntityType Name="T_SALE_ORDER_LINE">
           <Key>
@@ -988,6 +869,137 @@
           <Property Type="Decimal" Name="MULTIPLE" Precision="38" Scale="0" />
           <Property Type="String" Name="ALLOWSORT" MaxLength="4" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="T_PRODUCE_ORDER">
+          <Key>
+            <PropertyRef Name="BILLCODE" />
+          </Key>
+          <Property Type="String" Name="BILLCODE" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="COMPANYCODE" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="COMPANYNAME" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BATCHCODE" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="SYNSEQ" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="ORDERQUANTITY" Precision="8" Scale="2" />
+          <Property Type="Decimal" Name="ORDERMONEY" Precision="8" Scale="2" />
+          <Property Type="String" Name="CUSTOMERCODE" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CUSTOMERNAME" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ADDRESS" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TELEPHONE" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="PRIORITY" Precision="38" Scale="0" />
+          <Property Type="String" Name="REGIONCODE" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="TASKNUMBERS" MaxLength="3000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="TASKBOXIES" MaxLength="3000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="STATE" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="DEVSEQ" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="ID" Precision="38" Scale="0" />
+          <Property Type="DateTime" Name="CREATETIME" />
+          <Property Type="DateTime" Name="ORDERDATE" />
+          <Property Type="String" Name="UNSTATE" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CONTACT" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="DELIVERYDATE" />
+          <Property Type="Decimal" Name="SELATASKNUM" Precision="38" Scale="0" />
+          <Property Type="String" Name="PAYMENTFLAG" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="T_SALE_ORDER_HEAD">
+          <Key>
+            <PropertyRef Name="ORDERNO" />
+          </Key>
+          <Property Type="String" Name="ORDERNO" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ORDERDATE" />
+          <Property Type="String" Name="CUSTOMER_ID" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CUSTOMER_NAME" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CONTACTADDRESS" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CONTACTPHONE" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CONTACT" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ROUTECODE" MaxLength="160" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="DELIVERYSEQ" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="TOTALAMOUNT" Precision="16" Scale="2" />
+          <Property Type="Decimal" Name="TOTALQTY" Precision="38" Scale="0" />
+          <Property Type="String" Name="CREATEUSER" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CREATETIME" />
+          <Property Type="String" Name="PAYMENTFLAG" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="T_UN_TASK">
+          <Key>
+            <PropertyRef Name="TASKNUM" />
+          </Key>
+          <Property Type="Decimal" Name="TASKNUM" Nullable="false" Precision="38" Scale="0" />
+          <Property Type="String" Name="LINENUM" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EXPORTNUM" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="REGIONCODE" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="REGIONDESC" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BILLCODE" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="COMPANYCODE" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="COMPANYNAME" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BATCHCODE" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="SYNSEQ" Precision="38" Scale="0" />
+          <Property Type="String" Name="CUSTOMERCODE" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="ORDERQUANTITY" Precision="10" Scale="2" />
+          <Property Type="String" Name="CUSTOMERNAME" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="ORDERMONEY" Precision="8" Scale="2" />
+          <Property Type="Decimal" Name="TASKQUANTITY" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="PRIORITY" />
+          <Property Type="String" Name="TASKBOX" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="SORTSEQ" Precision="38" Scale="0" />
+          <Property Type="String" Name="LABLENUM" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="PLANTIME" />
+          <Property Type="DateTime" Name="SORTTIME" />
+          <Property Type="DateTime" Name="FINISHTIME" />
+          <Property Type="String" Name="STATE" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="Int16" Name="LABELBATCH" />
+          <Property Type="Decimal" Name="PALLETNUM" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="EXISTRCD" Precision="38" Scale="0" />
+          <Property Type="DateTime" Name="ORDERDATE" />
+          <Property Type="Decimal" Name="MAINBELT" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="PACKAGEMACHINE" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="SORTNUM" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="SECSORTNUM" Precision="38" Scale="0" />
+          <Property Type="String" Name="ADDRESS" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TELEPHONE" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CONTACT" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="PAYMENTFLAG" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="T_UN_TASK_H">
+          <Key>
+            <PropertyRef Name="TASKNUM" />
+            <PropertyRef Name="LINENUM" />
+          </Key>
+          <Property Type="Decimal" Name="TASKNUM" Nullable="false" Precision="38" Scale="0" />
+          <Property Type="String" Name="LINENUM" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EXPORTNUM" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="REGIONCODE" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="REGIONDESC" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BILLCODE" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="COMPANYCODE" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="COMPANYNAME" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BATCHCODE" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="SYNSEQ" Precision="38" Scale="0" />
+          <Property Type="String" Name="CUSTOMERCODE" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="ORDERQUANTITY" Precision="10" Scale="2" />
+          <Property Type="String" Name="CUSTOMERNAME" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="ORDERMONEY" Precision="8" Scale="2" />
+          <Property Type="Decimal" Name="TASKQUANTITY" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="PRIORITY" />
+          <Property Type="String" Name="TASKBOX" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="SORTSEQ" Precision="38" Scale="0" />
+          <Property Type="String" Name="LABLENUM" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="PLANTIME" />
+          <Property Type="DateTime" Name="SORTTIME" />
+          <Property Type="DateTime" Name="FINISHTIME" />
+          <Property Type="String" Name="STATE" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="Int16" Name="LABELBATCH" />
+          <Property Type="Decimal" Name="PALLETNUM" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="EXISTRCD" Precision="38" Scale="0" />
+          <Property Type="DateTime" Name="ORDERDATE" />
+          <Property Type="Decimal" Name="MAINBELT" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="PACKAGEMACHINE" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="SORTNUM" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="SECSORTNUM" Precision="38" Scale="0" />
+          <Property Type="String" Name="ADDRESS" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TELEPHONE" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CONTACT" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="PAYMENTFLAG" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="INSERTTIME" />
+        </EntityType>
         <EntityType Name="T_UN_TASKLINE">
           <Key>
             <PropertyRef Name="TASKNUM" />
@@ -999,6 +1011,7 @@
           <Property Type="Decimal" Name="QUANTITY" Precision="10" Scale="1" />
           <Property Type="String" Name="UNIT" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="ALLOWSORT" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="PRICE" Precision="8" Scale="2" />
         </EntityType>
         <EntityType Name="T_UN_TASKLINE_H">
           <Key>
@@ -1011,6 +1024,7 @@
           <Property Type="Decimal" Name="QUANTITY" Precision="10" Scale="1" />
           <Property Type="String" Name="UNIT" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="ALLOWSORT" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="PRICE" Precision="8" Scale="2" />
           <Property Type="DateTime" Name="INSERTTIME" />
         </EntityType>
       </Schema>
@@ -1027,36 +1041,6 @@
                 <ScalarProperty Name="ENDTIME" ColumnName="ENDTIME" />
                 <ScalarProperty Name="STATE" ColumnName="STATE" />
                 <ScalarProperty Name="BATCHTYPE" ColumnName="BATCHTYPE" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="T_PRODUCE_ORDER">
-            <EntityTypeMapping TypeName="Model.T_PRODUCE_ORDER">
-              <MappingFragment StoreEntitySet="T_PRODUCE_ORDER">
-                <ScalarProperty Name="SELATASKNUM" ColumnName="SELATASKNUM" />
-                <ScalarProperty Name="BILLCODE" ColumnName="BILLCODE" />
-                <ScalarProperty Name="COMPANYCODE" ColumnName="COMPANYCODE" />
-                <ScalarProperty Name="COMPANYNAME" ColumnName="COMPANYNAME" />
-                <ScalarProperty Name="BATCHCODE" ColumnName="BATCHCODE" />
-                <ScalarProperty Name="SYNSEQ" ColumnName="SYNSEQ" />
-                <ScalarProperty Name="ORDERQUANTITY" ColumnName="ORDERQUANTITY" />
-                <ScalarProperty Name="ORDERMONEY" ColumnName="ORDERMONEY" />
-                <ScalarProperty Name="CUSTOMERCODE" ColumnName="CUSTOMERCODE" />
-                <ScalarProperty Name="CUSTOMERNAME" ColumnName="CUSTOMERNAME" />
-                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
-                <ScalarProperty Name="TELEPHONE" ColumnName="TELEPHONE" />
-                <ScalarProperty Name="PRIORITY" ColumnName="PRIORITY" />
-                <ScalarProperty Name="REGIONCODE" ColumnName="REGIONCODE" />
-                <ScalarProperty Name="TASKNUMBERS" ColumnName="TASKNUMBERS" />
-                <ScalarProperty Name="TASKBOXIES" ColumnName="TASKBOXIES" />
-                <ScalarProperty Name="STATE" ColumnName="STATE" />
-                <ScalarProperty Name="DEVSEQ" ColumnName="DEVSEQ" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="CREATETIME" ColumnName="CREATETIME" />
-                <ScalarProperty Name="ORDERDATE" ColumnName="ORDERDATE" />
-                <ScalarProperty Name="UNSTATE" ColumnName="UNSTATE" />
-                <ScalarProperty Name="CONTACT" ColumnName="CONTACT" />
-                <ScalarProperty Name="DELIVERYDATE" ColumnName="DELIVERYDATE" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1170,87 +1154,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="T_UN_TASK">
-            <EntityTypeMapping TypeName="Model.T_UN_TASK">
-              <MappingFragment StoreEntitySet="T_UN_TASK">
-                <ScalarProperty Name="TASKNUM" ColumnName="TASKNUM" />
-                <ScalarProperty Name="LINENUM" ColumnName="LINENUM" />
-                <ScalarProperty Name="EXPORTNUM" ColumnName="EXPORTNUM" />
-                <ScalarProperty Name="REGIONCODE" ColumnName="REGIONCODE" />
-                <ScalarProperty Name="REGIONDESC" ColumnName="REGIONDESC" />
-                <ScalarProperty Name="BILLCODE" ColumnName="BILLCODE" />
-                <ScalarProperty Name="COMPANYCODE" ColumnName="COMPANYCODE" />
-                <ScalarProperty Name="COMPANYNAME" ColumnName="COMPANYNAME" />
-                <ScalarProperty Name="BATCHCODE" ColumnName="BATCHCODE" />
-                <ScalarProperty Name="SYNSEQ" ColumnName="SYNSEQ" />
-                <ScalarProperty Name="CUSTOMERCODE" ColumnName="CUSTOMERCODE" />
-                <ScalarProperty Name="ORDERQUANTITY" ColumnName="ORDERQUANTITY" />
-                <ScalarProperty Name="CUSTOMERNAME" ColumnName="CUSTOMERNAME" />
-                <ScalarProperty Name="ORDERMONEY" ColumnName="ORDERMONEY" />
-                <ScalarProperty Name="TASKQUANTITY" ColumnName="TASKQUANTITY" />
-                <ScalarProperty Name="PRIORITY" ColumnName="PRIORITY" />
-                <ScalarProperty Name="TASKBOX" ColumnName="TASKBOX" />
-                <ScalarProperty Name="SORTSEQ" ColumnName="SORTSEQ" />
-                <ScalarProperty Name="LABLENUM" ColumnName="LABLENUM" />
-                <ScalarProperty Name="PLANTIME" ColumnName="PLANTIME" />
-                <ScalarProperty Name="SORTTIME" ColumnName="SORTTIME" />
-                <ScalarProperty Name="FINISHTIME" ColumnName="FINISHTIME" />
-                <ScalarProperty Name="STATE" ColumnName="STATE" />
-                <ScalarProperty Name="LABELBATCH" ColumnName="LABELBATCH" />
-                <ScalarProperty Name="PALLETNUM" ColumnName="PALLETNUM" />
-                <ScalarProperty Name="EXISTRCD" ColumnName="EXISTRCD" />
-                <ScalarProperty Name="ORDERDATE" ColumnName="ORDERDATE" />
-                <ScalarProperty Name="MAINBELT" ColumnName="MAINBELT" />
-                <ScalarProperty Name="PACKAGEMACHINE" ColumnName="PACKAGEMACHINE" />
-                <ScalarProperty Name="SORTNUM" ColumnName="SORTNUM" />
-                <ScalarProperty Name="SECSORTNUM" ColumnName="SECSORTNUM" />
-                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
-                <ScalarProperty Name="TELEPHONE" ColumnName="TELEPHONE" />
-                <ScalarProperty Name="CONTACT" ColumnName="CONTACT" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="T_UN_TASK_H">
-            <EntityTypeMapping TypeName="Model.T_UN_TASK_H">
-              <MappingFragment StoreEntitySet="T_UN_TASK_H">
-                <ScalarProperty Name="CONTACT" ColumnName="CONTACT" />
-                <ScalarProperty Name="TELEPHONE" ColumnName="TELEPHONE" />
-                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
-                <ScalarProperty Name="TASKNUM" ColumnName="TASKNUM" />
-                <ScalarProperty Name="LINENUM" ColumnName="LINENUM" />
-                <ScalarProperty Name="EXPORTNUM" ColumnName="EXPORTNUM" />
-                <ScalarProperty Name="REGIONCODE" ColumnName="REGIONCODE" />
-                <ScalarProperty Name="REGIONDESC" ColumnName="REGIONDESC" />
-                <ScalarProperty Name="BILLCODE" ColumnName="BILLCODE" />
-                <ScalarProperty Name="COMPANYCODE" ColumnName="COMPANYCODE" />
-                <ScalarProperty Name="COMPANYNAME" ColumnName="COMPANYNAME" />
-                <ScalarProperty Name="BATCHCODE" ColumnName="BATCHCODE" />
-                <ScalarProperty Name="SYNSEQ" ColumnName="SYNSEQ" />
-                <ScalarProperty Name="CUSTOMERCODE" ColumnName="CUSTOMERCODE" />
-                <ScalarProperty Name="ORDERQUANTITY" ColumnName="ORDERQUANTITY" />
-                <ScalarProperty Name="CUSTOMERNAME" ColumnName="CUSTOMERNAME" />
-                <ScalarProperty Name="ORDERMONEY" ColumnName="ORDERMONEY" />
-                <ScalarProperty Name="TASKQUANTITY" ColumnName="TASKQUANTITY" />
-                <ScalarProperty Name="PRIORITY" ColumnName="PRIORITY" />
-                <ScalarProperty Name="TASKBOX" ColumnName="TASKBOX" />
-                <ScalarProperty Name="SORTSEQ" ColumnName="SORTSEQ" />
-                <ScalarProperty Name="LABLENUM" ColumnName="LABLENUM" />
-                <ScalarProperty Name="PLANTIME" ColumnName="PLANTIME" />
-                <ScalarProperty Name="SORTTIME" ColumnName="SORTTIME" />
-                <ScalarProperty Name="FINISHTIME" ColumnName="FINISHTIME" />
-                <ScalarProperty Name="STATE" ColumnName="STATE" />
-                <ScalarProperty Name="LABELBATCH" ColumnName="LABELBATCH" />
-                <ScalarProperty Name="PALLETNUM" ColumnName="PALLETNUM" />
-                <ScalarProperty Name="EXISTRCD" ColumnName="EXISTRCD" />
-                <ScalarProperty Name="ORDERDATE" ColumnName="ORDERDATE" />
-                <ScalarProperty Name="MAINBELT" ColumnName="MAINBELT" />
-                <ScalarProperty Name="PACKAGEMACHINE" ColumnName="PACKAGEMACHINE" />
-                <ScalarProperty Name="SORTNUM" ColumnName="SORTNUM" />
-                <ScalarProperty Name="SECSORTNUM" ColumnName="SECSORTNUM" />
-                <ScalarProperty Name="INSERTTIME" ColumnName="INSERTTIME" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="T_WMS_ITEM">
             <EntityTypeMapping TypeName="Model.T_WMS_ITEM">
               <MappingFragment StoreEntitySet="T_WMS_ITEM">
@@ -1313,25 +1216,6 @@
                 <ScalarProperty Name="CWH" ColumnName="CWH" />
                 <ScalarProperty Name="CWXX" ColumnName="CWXX" />
                 <ScalarProperty Name="CCMK" ColumnName="CCMK" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="T_SALE_ORDER_HEAD">
-            <EntityTypeMapping TypeName="Model.T_SALE_ORDER_HEAD">
-              <MappingFragment StoreEntitySet="T_SALE_ORDER_HEAD">
-                <ScalarProperty Name="CREATETIME" ColumnName="CREATETIME" />
-                <ScalarProperty Name="CREATEUSER" ColumnName="CREATEUSER" />
-                <ScalarProperty Name="TOTALQTY" ColumnName="TOTALQTY" />
-                <ScalarProperty Name="TOTALAMOUNT" ColumnName="TOTALAMOUNT" />
-                <ScalarProperty Name="DELIVERYSEQ" ColumnName="DELIVERYSEQ" />
-                <ScalarProperty Name="ROUTECODE" ColumnName="ROUTECODE" />
-                <ScalarProperty Name="CONTACT" ColumnName="CONTACT" />
-                <ScalarProperty Name="CONTACTPHONE" ColumnName="CONTACTPHONE" />
-                <ScalarProperty Name="CONTACTADDRESS" ColumnName="CONTACTADDRESS" />
-                <ScalarProperty Name="CUSTOMER_NAME" ColumnName="CUSTOMER_NAME" />
-                <ScalarProperty Name="CUSTOMER_ID" ColumnName="CUSTOMER_ID" />
-                <ScalarProperty Name="ORDERDATE" ColumnName="ORDERDATE" />
-                <ScalarProperty Name="ORDERNO" ColumnName="ORDERNO" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1432,9 +1316,144 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="T_PRODUCE_ORDER">
+            <EntityTypeMapping TypeName="Model.T_PRODUCE_ORDER">
+              <MappingFragment StoreEntitySet="T_PRODUCE_ORDER">
+                <ScalarProperty Name="PAYMENTFLAG" ColumnName="PAYMENTFLAG" />
+                <ScalarProperty Name="SELATASKNUM" ColumnName="SELATASKNUM" />
+                <ScalarProperty Name="DELIVERYDATE" ColumnName="DELIVERYDATE" />
+                <ScalarProperty Name="CONTACT" ColumnName="CONTACT" />
+                <ScalarProperty Name="UNSTATE" ColumnName="UNSTATE" />
+                <ScalarProperty Name="ORDERDATE" ColumnName="ORDERDATE" />
+                <ScalarProperty Name="CREATETIME" ColumnName="CREATETIME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DEVSEQ" ColumnName="DEVSEQ" />
+                <ScalarProperty Name="STATE" ColumnName="STATE" />
+                <ScalarProperty Name="TASKBOXIES" ColumnName="TASKBOXIES" />
+                <ScalarProperty Name="TASKNUMBERS" ColumnName="TASKNUMBERS" />
+                <ScalarProperty Name="REGIONCODE" ColumnName="REGIONCODE" />
+                <ScalarProperty Name="PRIORITY" ColumnName="PRIORITY" />
+                <ScalarProperty Name="TELEPHONE" ColumnName="TELEPHONE" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="CUSTOMERNAME" ColumnName="CUSTOMERNAME" />
+                <ScalarProperty Name="CUSTOMERCODE" ColumnName="CUSTOMERCODE" />
+                <ScalarProperty Name="ORDERMONEY" ColumnName="ORDERMONEY" />
+                <ScalarProperty Name="ORDERQUANTITY" ColumnName="ORDERQUANTITY" />
+                <ScalarProperty Name="SYNSEQ" ColumnName="SYNSEQ" />
+                <ScalarProperty Name="BATCHCODE" ColumnName="BATCHCODE" />
+                <ScalarProperty Name="COMPANYNAME" ColumnName="COMPANYNAME" />
+                <ScalarProperty Name="COMPANYCODE" ColumnName="COMPANYCODE" />
+                <ScalarProperty Name="BILLCODE" ColumnName="BILLCODE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_SALE_ORDER_HEAD">
+            <EntityTypeMapping TypeName="Model.T_SALE_ORDER_HEAD">
+              <MappingFragment StoreEntitySet="T_SALE_ORDER_HEAD">
+                <ScalarProperty Name="PAYMENTFLAG" ColumnName="PAYMENTFLAG" />
+                <ScalarProperty Name="CREATETIME" ColumnName="CREATETIME" />
+                <ScalarProperty Name="CREATEUSER" ColumnName="CREATEUSER" />
+                <ScalarProperty Name="TOTALQTY" ColumnName="TOTALQTY" />
+                <ScalarProperty Name="TOTALAMOUNT" ColumnName="TOTALAMOUNT" />
+                <ScalarProperty Name="DELIVERYSEQ" ColumnName="DELIVERYSEQ" />
+                <ScalarProperty Name="ROUTECODE" ColumnName="ROUTECODE" />
+                <ScalarProperty Name="CONTACT" ColumnName="CONTACT" />
+                <ScalarProperty Name="CONTACTPHONE" ColumnName="CONTACTPHONE" />
+                <ScalarProperty Name="CONTACTADDRESS" ColumnName="CONTACTADDRESS" />
+                <ScalarProperty Name="CUSTOMER_NAME" ColumnName="CUSTOMER_NAME" />
+                <ScalarProperty Name="CUSTOMER_ID" ColumnName="CUSTOMER_ID" />
+                <ScalarProperty Name="ORDERDATE" ColumnName="ORDERDATE" />
+                <ScalarProperty Name="ORDERNO" ColumnName="ORDERNO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_UN_TASK">
+            <EntityTypeMapping TypeName="Model.T_UN_TASK">
+              <MappingFragment StoreEntitySet="T_UN_TASK">
+                <ScalarProperty Name="PAYMENTFLAG" ColumnName="PAYMENTFLAG" />
+                <ScalarProperty Name="CONTACT" ColumnName="CONTACT" />
+                <ScalarProperty Name="TELEPHONE" ColumnName="TELEPHONE" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="SECSORTNUM" ColumnName="SECSORTNUM" />
+                <ScalarProperty Name="SORTNUM" ColumnName="SORTNUM" />
+                <ScalarProperty Name="PACKAGEMACHINE" ColumnName="PACKAGEMACHINE" />
+                <ScalarProperty Name="MAINBELT" ColumnName="MAINBELT" />
+                <ScalarProperty Name="ORDERDATE" ColumnName="ORDERDATE" />
+                <ScalarProperty Name="EXISTRCD" ColumnName="EXISTRCD" />
+                <ScalarProperty Name="PALLETNUM" ColumnName="PALLETNUM" />
+                <ScalarProperty Name="LABELBATCH" ColumnName="LABELBATCH" />
+                <ScalarProperty Name="STATE" ColumnName="STATE" />
+                <ScalarProperty Name="FINISHTIME" ColumnName="FINISHTIME" />
+                <ScalarProperty Name="SORTTIME" ColumnName="SORTTIME" />
+                <ScalarProperty Name="PLANTIME" ColumnName="PLANTIME" />
+                <ScalarProperty Name="LABLENUM" ColumnName="LABLENUM" />
+                <ScalarProperty Name="SORTSEQ" ColumnName="SORTSEQ" />
+                <ScalarProperty Name="TASKBOX" ColumnName="TASKBOX" />
+                <ScalarProperty Name="PRIORITY" ColumnName="PRIORITY" />
+                <ScalarProperty Name="TASKQUANTITY" ColumnName="TASKQUANTITY" />
+                <ScalarProperty Name="ORDERMONEY" ColumnName="ORDERMONEY" />
+                <ScalarProperty Name="CUSTOMERNAME" ColumnName="CUSTOMERNAME" />
+                <ScalarProperty Name="ORDERQUANTITY" ColumnName="ORDERQUANTITY" />
+                <ScalarProperty Name="CUSTOMERCODE" ColumnName="CUSTOMERCODE" />
+                <ScalarProperty Name="SYNSEQ" ColumnName="SYNSEQ" />
+                <ScalarProperty Name="BATCHCODE" ColumnName="BATCHCODE" />
+                <ScalarProperty Name="COMPANYNAME" ColumnName="COMPANYNAME" />
+                <ScalarProperty Name="COMPANYCODE" ColumnName="COMPANYCODE" />
+                <ScalarProperty Name="BILLCODE" ColumnName="BILLCODE" />
+                <ScalarProperty Name="REGIONDESC" ColumnName="REGIONDESC" />
+                <ScalarProperty Name="REGIONCODE" ColumnName="REGIONCODE" />
+                <ScalarProperty Name="EXPORTNUM" ColumnName="EXPORTNUM" />
+                <ScalarProperty Name="LINENUM" ColumnName="LINENUM" />
+                <ScalarProperty Name="TASKNUM" ColumnName="TASKNUM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_UN_TASK_H">
+            <EntityTypeMapping TypeName="Model.T_UN_TASK_H">
+              <MappingFragment StoreEntitySet="T_UN_TASK_H">
+                <ScalarProperty Name="INSERTTIME" ColumnName="INSERTTIME" />
+                <ScalarProperty Name="PAYMENTFLAG" ColumnName="PAYMENTFLAG" />
+                <ScalarProperty Name="CONTACT" ColumnName="CONTACT" />
+                <ScalarProperty Name="TELEPHONE" ColumnName="TELEPHONE" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="SECSORTNUM" ColumnName="SECSORTNUM" />
+                <ScalarProperty Name="SORTNUM" ColumnName="SORTNUM" />
+                <ScalarProperty Name="PACKAGEMACHINE" ColumnName="PACKAGEMACHINE" />
+                <ScalarProperty Name="MAINBELT" ColumnName="MAINBELT" />
+                <ScalarProperty Name="ORDERDATE" ColumnName="ORDERDATE" />
+                <ScalarProperty Name="EXISTRCD" ColumnName="EXISTRCD" />
+                <ScalarProperty Name="PALLETNUM" ColumnName="PALLETNUM" />
+                <ScalarProperty Name="LABELBATCH" ColumnName="LABELBATCH" />
+                <ScalarProperty Name="STATE" ColumnName="STATE" />
+                <ScalarProperty Name="FINISHTIME" ColumnName="FINISHTIME" />
+                <ScalarProperty Name="SORTTIME" ColumnName="SORTTIME" />
+                <ScalarProperty Name="PLANTIME" ColumnName="PLANTIME" />
+                <ScalarProperty Name="LABLENUM" ColumnName="LABLENUM" />
+                <ScalarProperty Name="SORTSEQ" ColumnName="SORTSEQ" />
+                <ScalarProperty Name="TASKBOX" ColumnName="TASKBOX" />
+                <ScalarProperty Name="PRIORITY" ColumnName="PRIORITY" />
+                <ScalarProperty Name="TASKQUANTITY" ColumnName="TASKQUANTITY" />
+                <ScalarProperty Name="ORDERMONEY" ColumnName="ORDERMONEY" />
+                <ScalarProperty Name="CUSTOMERNAME" ColumnName="CUSTOMERNAME" />
+                <ScalarProperty Name="ORDERQUANTITY" ColumnName="ORDERQUANTITY" />
+                <ScalarProperty Name="CUSTOMERCODE" ColumnName="CUSTOMERCODE" />
+                <ScalarProperty Name="SYNSEQ" ColumnName="SYNSEQ" />
+                <ScalarProperty Name="BATCHCODE" ColumnName="BATCHCODE" />
+                <ScalarProperty Name="COMPANYNAME" ColumnName="COMPANYNAME" />
+                <ScalarProperty Name="COMPANYCODE" ColumnName="COMPANYCODE" />
+                <ScalarProperty Name="BILLCODE" ColumnName="BILLCODE" />
+                <ScalarProperty Name="REGIONDESC" ColumnName="REGIONDESC" />
+                <ScalarProperty Name="REGIONCODE" ColumnName="REGIONCODE" />
+                <ScalarProperty Name="EXPORTNUM" ColumnName="EXPORTNUM" />
+                <ScalarProperty Name="LINENUM" ColumnName="LINENUM" />
+                <ScalarProperty Name="TASKNUM" ColumnName="TASKNUM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="T_UN_TASKLINE">
             <EntityTypeMapping TypeName="Model.T_UN_TASKLINE">
               <MappingFragment StoreEntitySet="T_UN_TASKLINE">
+                <ScalarProperty Name="PRICE" ColumnName="PRICE" />
                 <ScalarProperty Name="ALLOWSORT" ColumnName="ALLOWSORT" />
                 <ScalarProperty Name="UNIT" ColumnName="UNIT" />
                 <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
@@ -1448,6 +1467,7 @@
             <EntityTypeMapping TypeName="Model.T_UN_TASKLINE_H">
               <MappingFragment StoreEntitySet="T_UN_TASKLINE_H">
                 <ScalarProperty Name="INSERTTIME" ColumnName="INSERTTIME" />
+                <ScalarProperty Name="PRICE" ColumnName="PRICE" />
                 <ScalarProperty Name="ALLOWSORT" ColumnName="ALLOWSORT" />
                 <ScalarProperty Name="UNIT" ColumnName="UNIT" />
                 <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
@@ -1479,24 +1499,24 @@
     <Diagrams>
       <Diagram Name="DZEntity">
         <EntityTypeShape EntityType="Model.T_PRODUCE_BATCH" Width="1.5" PointX="0.75" PointY="0.75" Height="1.9202278645833331" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.T_PRODUCE_ORDER" Width="1.5" PointX="2.75" PointY="0.75" Height="5.2465218098958317" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_PRODUCE_ORDERID" Width="1.5" PointX="4.75" PointY="0.75" Height="1.1810514322916665" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_PRODUCE_REPLENISHPLAN" Width="1.5" PointX="6.75" PointY="0.75" Height="3.9529630533854156" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_UN_PLCITEM" Width="1.5" PointX="2.75" PointY="6.75" Height="2.2898160807291674" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_UN_POKE" Width="1.5" PointX="4.75" PointY="6.75" Height="4.6921394856770817" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_UN_POKE_H" Width="1.5" PointX="6.75" PointY="5.75" Height="4.8769335937500031" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_UN_POKE_HUNHE" Width="1.5" PointX="8.75" PointY="0.75" Height="2.6594042968750031" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.T_UN_TASK" Width="1.5" PointX="8.75" PointY="4.75" Height="7.2792569986979174" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.T_UN_TASK_H" Width="1.5" PointX="10.75" PointY="0.75" Height="6.9096687825520817" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_WMS_ITEM" Width="1.5" PointX="12.75" PointY="0.75" Height="9.8663745117187531" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.T_XT_HTCWXX" Width="1.5" PointX="0.75" PointY="12.75" Height="1.9202278645833388" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.T_SALE_ORDER_HEAD" Width="1.5" PointX="5.375" PointY="12.75" Height="3.3985807291666674" />
         <EntityTypeShape EntityType="Model.T_SALE_ORDER_LINE" Width="1.5" PointX="7.375" PointY="13.75" Height="2.4746101888020888" />
         <EntityTypeShape EntityType="Model.T_WMS_CUSTOMER" Width="1.5" PointX="13.375" PointY="11.75" Height="8.2032275390625031" />
         <EntityTypeShape EntityType="Model.T_PRODUCE_SORTTROUGH" Width="1.5" PointX="15.375" PointY="0.75" Height="3.9529630533854174" />
         <EntityTypeShape EntityType="Model.T_PRODUCE_ORDERLINE" Width="1.5" PointX="0.75" PointY="15.75" Height="2.8441984049479174" />
-        <EntityTypeShape EntityType="Model.T_UN_TASKLINE" Width="1.5" PointX="15.375" PointY="5.75" Height="2.1050219726562567" />
-        <EntityTypeShape EntityType="Model.T_UN_TASKLINE_H" Width="1.5" PointX="9.375" PointY="13.75" Height="2.2898160807291674" />
+        <EntityTypeShape EntityType="Model.T_PRODUCE_ORDER" Width="1.5" PointX="9.375" PointY="4.75" Height="5.6161100260416674" />
+        <EntityTypeShape EntityType="Model.T_SALE_ORDER_HEAD" Width="1.5" PointX="9.375" PointY="11.75" Height="3.5833748372395817" />
+        <EntityTypeShape EntityType="Model.T_UN_TASK" Width="1.5" PointX="3.375" PointY="12.75" Height="7.4640511067708264" />
+        <EntityTypeShape EntityType="Model.T_UN_TASK_H" Width="1.5" PointX="15.375" PointY="5.75" Height="7.64884521484376" />
+        <EntityTypeShape EntityType="Model.T_UN_TASKLINE" Width="1.5" PointX="3.375" PointY="2.75" Height="2.2898160807291674" />
+        <EntityTypeShape EntityType="Model.T_UN_TASKLINE_H" Width="1.5" PointX="15.375" PointY="14.75" Height="2.4746101888020746" />
       </Diagram>
     </Diagrams>
   </Designer>

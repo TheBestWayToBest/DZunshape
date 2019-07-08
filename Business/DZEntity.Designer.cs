@@ -84,22 +84,6 @@ namespace Business
         /// <summary>
         /// 没有元数据文档可用。
         /// </summary>
-        public ObjectSet<T_PRODUCE_ORDER> T_PRODUCE_ORDER
-        {
-            get
-            {
-                if ((_T_PRODUCE_ORDER == null))
-                {
-                    _T_PRODUCE_ORDER = base.CreateObjectSet<T_PRODUCE_ORDER>("T_PRODUCE_ORDER");
-                }
-                return _T_PRODUCE_ORDER;
-            }
-        }
-        private ObjectSet<T_PRODUCE_ORDER> _T_PRODUCE_ORDER;
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
         public ObjectSet<T_PRODUCE_ORDERID> T_PRODUCE_ORDERID
         {
             get
@@ -196,38 +180,6 @@ namespace Business
         /// <summary>
         /// 没有元数据文档可用。
         /// </summary>
-        public ObjectSet<T_UN_TASK> T_UN_TASK
-        {
-            get
-            {
-                if ((_T_UN_TASK == null))
-                {
-                    _T_UN_TASK = base.CreateObjectSet<T_UN_TASK>("T_UN_TASK");
-                }
-                return _T_UN_TASK;
-            }
-        }
-        private ObjectSet<T_UN_TASK> _T_UN_TASK;
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        public ObjectSet<T_UN_TASK_H> T_UN_TASK_H
-        {
-            get
-            {
-                if ((_T_UN_TASK_H == null))
-                {
-                    _T_UN_TASK_H = base.CreateObjectSet<T_UN_TASK_H>("T_UN_TASK_H");
-                }
-                return _T_UN_TASK_H;
-            }
-        }
-        private ObjectSet<T_UN_TASK_H> _T_UN_TASK_H;
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
         public ObjectSet<T_WMS_ITEM> T_WMS_ITEM
         {
             get
@@ -256,22 +208,6 @@ namespace Business
             }
         }
         private ObjectSet<T_XT_HTCWXX> _T_XT_HTCWXX;
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        public ObjectSet<T_SALE_ORDER_HEAD> T_SALE_ORDER_HEAD
-        {
-            get
-            {
-                if ((_T_SALE_ORDER_HEAD == null))
-                {
-                    _T_SALE_ORDER_HEAD = base.CreateObjectSet<T_SALE_ORDER_HEAD>("T_SALE_ORDER_HEAD");
-                }
-                return _T_SALE_ORDER_HEAD;
-            }
-        }
-        private ObjectSet<T_SALE_ORDER_HEAD> _T_SALE_ORDER_HEAD;
     
         /// <summary>
         /// 没有元数据文档可用。
@@ -340,6 +276,70 @@ namespace Business
         /// <summary>
         /// 没有元数据文档可用。
         /// </summary>
+        public ObjectSet<T_PRODUCE_ORDER> T_PRODUCE_ORDER
+        {
+            get
+            {
+                if ((_T_PRODUCE_ORDER == null))
+                {
+                    _T_PRODUCE_ORDER = base.CreateObjectSet<T_PRODUCE_ORDER>("T_PRODUCE_ORDER");
+                }
+                return _T_PRODUCE_ORDER;
+            }
+        }
+        private ObjectSet<T_PRODUCE_ORDER> _T_PRODUCE_ORDER;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        public ObjectSet<T_SALE_ORDER_HEAD> T_SALE_ORDER_HEAD
+        {
+            get
+            {
+                if ((_T_SALE_ORDER_HEAD == null))
+                {
+                    _T_SALE_ORDER_HEAD = base.CreateObjectSet<T_SALE_ORDER_HEAD>("T_SALE_ORDER_HEAD");
+                }
+                return _T_SALE_ORDER_HEAD;
+            }
+        }
+        private ObjectSet<T_SALE_ORDER_HEAD> _T_SALE_ORDER_HEAD;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        public ObjectSet<T_UN_TASK> T_UN_TASK
+        {
+            get
+            {
+                if ((_T_UN_TASK == null))
+                {
+                    _T_UN_TASK = base.CreateObjectSet<T_UN_TASK>("T_UN_TASK");
+                }
+                return _T_UN_TASK;
+            }
+        }
+        private ObjectSet<T_UN_TASK> _T_UN_TASK;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        public ObjectSet<T_UN_TASK_H> T_UN_TASK_H
+        {
+            get
+            {
+                if ((_T_UN_TASK_H == null))
+                {
+                    _T_UN_TASK_H = base.CreateObjectSet<T_UN_TASK_H>("T_UN_TASK_H");
+                }
+                return _T_UN_TASK_H;
+            }
+        }
+        private ObjectSet<T_UN_TASK_H> _T_UN_TASK_H;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
         public ObjectSet<T_UN_TASKLINE> T_UN_TASKLINE
         {
             get
@@ -379,14 +379,6 @@ namespace Business
         public void AddToT_PRODUCE_BATCH(T_PRODUCE_BATCH t_PRODUCE_BATCH)
         {
             base.AddObject("T_PRODUCE_BATCH", t_PRODUCE_BATCH);
-        }
-    
-        /// <summary>
-        /// 用于向 T_PRODUCE_ORDER EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
-        /// </summary>
-        public void AddToT_PRODUCE_ORDER(T_PRODUCE_ORDER t_PRODUCE_ORDER)
-        {
-            base.AddObject("T_PRODUCE_ORDER", t_PRODUCE_ORDER);
         }
     
         /// <summary>
@@ -438,22 +430,6 @@ namespace Business
         }
     
         /// <summary>
-        /// 用于向 T_UN_TASK EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
-        /// </summary>
-        public void AddToT_UN_TASK(T_UN_TASK t_UN_TASK)
-        {
-            base.AddObject("T_UN_TASK", t_UN_TASK);
-        }
-    
-        /// <summary>
-        /// 用于向 T_UN_TASK_H EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
-        /// </summary>
-        public void AddToT_UN_TASK_H(T_UN_TASK_H t_UN_TASK_H)
-        {
-            base.AddObject("T_UN_TASK_H", t_UN_TASK_H);
-        }
-    
-        /// <summary>
         /// 用于向 T_WMS_ITEM EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
         /// </summary>
         public void AddToT_WMS_ITEM(T_WMS_ITEM t_WMS_ITEM)
@@ -467,14 +443,6 @@ namespace Business
         public void AddToT_XT_HTCWXX(T_XT_HTCWXX t_XT_HTCWXX)
         {
             base.AddObject("T_XT_HTCWXX", t_XT_HTCWXX);
-        }
-    
-        /// <summary>
-        /// 用于向 T_SALE_ORDER_HEAD EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
-        /// </summary>
-        public void AddToT_SALE_ORDER_HEAD(T_SALE_ORDER_HEAD t_SALE_ORDER_HEAD)
-        {
-            base.AddObject("T_SALE_ORDER_HEAD", t_SALE_ORDER_HEAD);
         }
     
         /// <summary>
@@ -507,6 +475,38 @@ namespace Business
         public void AddToT_PRODUCE_ORDERLINE(T_PRODUCE_ORDERLINE t_PRODUCE_ORDERLINE)
         {
             base.AddObject("T_PRODUCE_ORDERLINE", t_PRODUCE_ORDERLINE);
+        }
+    
+        /// <summary>
+        /// 用于向 T_PRODUCE_ORDER EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddToT_PRODUCE_ORDER(T_PRODUCE_ORDER t_PRODUCE_ORDER)
+        {
+            base.AddObject("T_PRODUCE_ORDER", t_PRODUCE_ORDER);
+        }
+    
+        /// <summary>
+        /// 用于向 T_SALE_ORDER_HEAD EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddToT_SALE_ORDER_HEAD(T_SALE_ORDER_HEAD t_SALE_ORDER_HEAD)
+        {
+            base.AddObject("T_SALE_ORDER_HEAD", t_SALE_ORDER_HEAD);
+        }
+    
+        /// <summary>
+        /// 用于向 T_UN_TASK EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddToT_UN_TASK(T_UN_TASK t_UN_TASK)
+        {
+            base.AddObject("T_UN_TASK", t_UN_TASK);
+        }
+    
+        /// <summary>
+        /// 用于向 T_UN_TASK_H EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddToT_UN_TASK_H(T_UN_TASK_H t_UN_TASK_H)
+        {
+            base.AddObject("T_UN_TASK_H", t_UN_TASK_H);
         }
     
         /// <summary>
@@ -1294,6 +1294,30 @@ namespace Business
         private Nullable<global::System.Decimal> _SELATASKNUM;
         partial void OnSELATASKNUMChanging(Nullable<global::System.Decimal> value);
         partial void OnSELATASKNUMChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String PAYMENTFLAG
+        {
+            get
+            {
+                return _PAYMENTFLAG;
+            }
+            set
+            {
+                OnPAYMENTFLAGChanging(value);
+                ReportPropertyChanging("PAYMENTFLAG");
+                _PAYMENTFLAG = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("PAYMENTFLAG");
+                OnPAYMENTFLAGChanged();
+            }
+        }
+        private global::System.String _PAYMENTFLAG;
+        partial void OnPAYMENTFLAGChanging(global::System.String value);
+        partial void OnPAYMENTFLAGChanged();
 
         #endregion
 
@@ -2810,6 +2834,30 @@ namespace Business
         private Nullable<global::System.DateTime> _CREATETIME;
         partial void OnCREATETIMEChanging(Nullable<global::System.DateTime> value);
         partial void OnCREATETIMEChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String PAYMENTFLAG
+        {
+            get
+            {
+                return _PAYMENTFLAG;
+            }
+            set
+            {
+                OnPAYMENTFLAGChanging(value);
+                ReportPropertyChanging("PAYMENTFLAG");
+                _PAYMENTFLAG = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("PAYMENTFLAG");
+                OnPAYMENTFLAGChanged();
+            }
+        }
+        private global::System.String _PAYMENTFLAG;
+        partial void OnPAYMENTFLAGChanging(global::System.String value);
+        partial void OnPAYMENTFLAGChanged();
 
         #endregion
 
@@ -5391,6 +5439,30 @@ namespace Business
         private global::System.String _CONTACT;
         partial void OnCONTACTChanging(global::System.String value);
         partial void OnCONTACTChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String PAYMENTFLAG
+        {
+            get
+            {
+                return _PAYMENTFLAG;
+            }
+            set
+            {
+                OnPAYMENTFLAGChanging(value);
+                ReportPropertyChanging("PAYMENTFLAG");
+                _PAYMENTFLAG = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("PAYMENTFLAG");
+                OnPAYMENTFLAGChanged();
+            }
+        }
+        private global::System.String _PAYMENTFLAG;
+        partial void OnPAYMENTFLAGChanging(global::System.String value);
+        partial void OnPAYMENTFLAGChanged();
 
         #endregion
 
@@ -6179,30 +6251,6 @@ namespace Business
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.DateTime> INSERTTIME
-        {
-            get
-            {
-                return _INSERTTIME;
-            }
-            set
-            {
-                OnINSERTTIMEChanging(value);
-                ReportPropertyChanging("INSERTTIME");
-                _INSERTTIME = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("INSERTTIME");
-                OnINSERTTIMEChanged();
-            }
-        }
-        private Nullable<global::System.DateTime> _INSERTTIME;
-        partial void OnINSERTTIMEChanging(Nullable<global::System.DateTime> value);
-        partial void OnINSERTTIMEChanged();
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
         public global::System.String ADDRESS
         {
             get
@@ -6269,6 +6317,54 @@ namespace Business
         private global::System.String _CONTACT;
         partial void OnCONTACTChanging(global::System.String value);
         partial void OnCONTACTChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String PAYMENTFLAG
+        {
+            get
+            {
+                return _PAYMENTFLAG;
+            }
+            set
+            {
+                OnPAYMENTFLAGChanging(value);
+                ReportPropertyChanging("PAYMENTFLAG");
+                _PAYMENTFLAG = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("PAYMENTFLAG");
+                OnPAYMENTFLAGChanged();
+            }
+        }
+        private global::System.String _PAYMENTFLAG;
+        partial void OnPAYMENTFLAGChanging(global::System.String value);
+        partial void OnPAYMENTFLAGChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> INSERTTIME
+        {
+            get
+            {
+                return _INSERTTIME;
+            }
+            set
+            {
+                OnINSERTTIMEChanging(value);
+                ReportPropertyChanging("INSERTTIME");
+                _INSERTTIME = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("INSERTTIME");
+                OnINSERTTIMEChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _INSERTTIME;
+        partial void OnINSERTTIMEChanging(Nullable<global::System.DateTime> value);
+        partial void OnINSERTTIMEChanged();
 
         #endregion
 
@@ -6451,6 +6547,30 @@ namespace Business
         private global::System.String _ALLOWSORT;
         partial void OnALLOWSORTChanging(global::System.String value);
         partial void OnALLOWSORTChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> PRICE
+        {
+            get
+            {
+                return _PRICE;
+            }
+            set
+            {
+                OnPRICEChanging(value);
+                ReportPropertyChanging("PRICE");
+                _PRICE = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("PRICE");
+                OnPRICEChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _PRICE;
+        partial void OnPRICEChanging(Nullable<global::System.Decimal> value);
+        partial void OnPRICEChanged();
 
         #endregion
 
@@ -6633,6 +6753,30 @@ namespace Business
         private global::System.String _ALLOWSORT;
         partial void OnALLOWSORTChanging(global::System.String value);
         partial void OnALLOWSORTChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> PRICE
+        {
+            get
+            {
+                return _PRICE;
+            }
+            set
+            {
+                OnPRICEChanging(value);
+                ReportPropertyChanging("PRICE");
+                _PRICE = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("PRICE");
+                OnPRICEChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _PRICE;
+        partial void OnPRICEChanging(Nullable<global::System.Decimal> value);
+        partial void OnPRICEChanged();
     
         /// <summary>
         /// 没有元数据文档可用。

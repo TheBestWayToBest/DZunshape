@@ -65,7 +65,7 @@ namespace Business.BusinessClass
                 else
                 {
                     rm.IsSuccess = false;
-                    rm.MessageText = "未找到数据";
+                    rm.MessageText = "【" + nowDate.ToShortDateString() + "】暂无可接收的订单数据，请先进行营销数据同步！";
                     return rm;
                 }
 
@@ -117,6 +117,7 @@ namespace Business.BusinessClass
                             t_produce_order.CUSTOMERNAME = order.CUSTOMER_NAME;
                             t_produce_order.ADDRESS = order.CONTACTADDRESS;
                             t_produce_order.TELEPHONE = order.CONTACTPHONE;
+                            t_produce_order.CONTACT = order.CONTACT;
                             t_produce_order.PRIORITY = index;//送货顺序（数据源未提供）
                             t_produce_order.REGIONCODE = order.ROUTECODE;
                             t_produce_order.TASKBOXIES = "";
@@ -127,6 +128,7 @@ namespace Business.BusinessClass
                             t_produce_order.CREATETIME = CreateTime;
                             t_produce_order.ORDERDATE = order.ORDERDATE;
                             t_produce_order.SELATASKNUM = 1000;
+                            t_produce_order.PAYMENTFLAG = order.PAYMENTFLAG;
                             var reDetail = ReceiveSaleLineToOrderLine(order.ORDERNO);//接收单个订单的条烟明细
 
                             if (reDetail.IsSuccess)//如果这个这个订单的明细接收无异常
@@ -309,11 +311,14 @@ namespace Business.BusinessClass
                 //var query=(from task in en.T_UN_TASK select task.TASKNUM).Max();
 
                 //取目前车组最大的Tasknum,如果没有,则给默认任务号
-                decimal maxTaskNum = GetMaxTaskNumByRegioncode(regioncode).Content;
+                //decimal maxTaskNum = GetMaxTaskNumByRegioncode(regioncode).Content;
+                decimal maxTaskNum = GetMaxTaskNumByRegioncode().Content;
                 if (maxTaskNum == 0)
                 {
-                    String max = DateTime.Now.ToString("yyyyMMdd") + regioncode + "000";
-                    if (regioncode.Contains("@")) max = DateTime.Now.ToString("yyyyMMdd") + regioncode.Split('@')[0] + "000";
+                    //无法确定车组号是否是数字组成,不再将车组号编入任务编号中
+                    //String max = DateTime.Now.ToString("yyyyMMdd") + regioncode + "000";
+                    String max = DateTime.Now.ToString("yyyyMMdd") + "000000";
+                    //if (regioncode.Contains("@")) max = DateTime.Now.ToString("yyyyMMdd") + regioncode.Split('@')[0] + "000";
                     //String max = DateTime.Now.ToString("yyyyMMdd") + regioncode + "000";
                     maxTaskNum = Convert.ToDecimal(max);
                 }
@@ -369,6 +374,7 @@ namespace Business.BusinessClass
                         t_un_task.ORDERDATE = item.ORDERDATE;
                         t_un_task.MAINBELT = 1;
                         t_un_task.PACKAGEMACHINE = 1;
+                        t_un_task.PAYMENTFLAG = item.PAYMENTFLAG;
                         t_un_task.SORTNUM = en.ExecuteStoreQuery<decimal>(Str_Sortnum_SEQUENCE, null).FirstOrDefault();//SortNum序列 
                         t_un_task.SECSORTNUM = t_un_task.SORTNUM;
                         var psDetail = PreScheduleDetail(en, t_un_task.BILLCODE, t_un_task.TASKNUM);//添加单个订单的条烟明细到TASKLINE
@@ -423,6 +429,7 @@ namespace Business.BusinessClass
                     t_un_taskline.CIGARETTENAME = item.CIGARETTENAME;
                     t_un_taskline.QUANTITY = item.QUANTITY;
                     t_un_taskline.UNIT = item.UNIT;
+                    t_un_taskline.PRICE = item.PRICE;
                     t_un_taskline.ALLOWSORT = item.ALLOWSORT;
                     en.T_UN_TASKLINE.AddObject(t_un_taskline);
 
@@ -986,16 +993,24 @@ namespace Business.BusinessClass
         }
         #endregion
 
-        public Response<decimal> GetMaxTaskNumByRegioncode(String regioncode)
+        public Response<decimal> GetMaxTaskNumByRegioncode(String regioncode="")
         {
             using (DZEntities dzEntities = new DZEntities())
             {
+                Func<T_UN_TASK,bool>code;
+                if (regioncode != "")
+                {
+                    code = x => x.REGIONCODE == regioncode;
+                }
+                else {
+                    code = x => true;
+                }
                 Response<decimal> response = new Response<decimal>();
                 response.IsSuccess = true;
                 decimal tasknum = 0;
-                if (dzEntities.T_UN_TASK.Where(x => x.REGIONCODE == regioncode).Count() > 0)
+                if (dzEntities.T_UN_TASK.Where(code).Count() > 0)
                 {
-                    tasknum = dzEntities.T_UN_TASK.Where(x => x.REGIONCODE == regioncode).Max(x => x.TASKNUM);
+                    tasknum = dzEntities.T_UN_TASK.Where(code).Max(x => x.TASKNUM);
                 }
                 response.Content = tasknum;
                 List<T_UN_TASK> DZList = dzEntities.T_UN_TASK.ToList();
@@ -1081,7 +1096,7 @@ namespace Business.BusinessClass
             {
                 Response response = new Response();
                 response.IsSuccess = true;
-                
+
                 System.Data.EntityClient.EntityConnection entityConnection = (System.Data.EntityClient.EntityConnection)dzEntities.Connection;
                 entityConnection.Open();
                 System.Data.Common.DbConnection storeConnection = entityConnection.StoreConnection;
