@@ -37,7 +37,7 @@ namespace Business.BusinessClass
                     {
                         sqlStr = "select through.CIGARETTENAME,poke.POKENUM,task.CUSTOMERNAME,poke.MACHINESEQ,task.REGIONCODE,poke.SORTNUM " +
                             "from T_UN_TASK task,T_UN_POKE poke,T_PRODUCE_SORTTROUGH through where (through.MACHINESEQ=" + t[0] +
-                            " or through where through.MACHINESEQ=" + t[1] + " or through where through.machineseq=poke.machineseq and poke.tasknum=task.tasknum) and poke.STATUS =" + status +
+                            " or through.MACHINESEQ=" + t[1] + ")and through.machineseq=poke.machineseq and poke.tasknum=task.tasknum and poke.STATUS =" + status +
                             " order by poke.POKEID";
                         //list = (from task in en.T_UN_TASK
                         //        join poke in en.T_UN_POKE on task.TASKNUM equals poke.TASKNUM
