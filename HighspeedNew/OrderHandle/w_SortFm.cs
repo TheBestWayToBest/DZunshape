@@ -26,14 +26,14 @@ namespace HighSpeed.OrderHandle
             Bind();
         }
         ScheduleClass sc = new ScheduleClass();
-             
+
         void Bind()
         {
             var scre = sc.GetTaskInfo();
             if (scre.IsSuccess)
             {
                 //dgvSortInfo.DataSource = scre.Content.GroupBy(x => new { x.REGIONCODE }).Select(x => new { 车组信息 = x.Key.REGIONCODE, 订单数量 = scre.Content.Where(a => a.REGIONCODE == x.Key.REGIONCODE).Sum(a => a.TASKQUANTITY), 订单户数 = scre.Content.Where(b => b.REGIONCODE == x.Key.REGIONCODE).GroupBy(b => b.CUSTOMERCODE).Count() }).ToList();
-                dgvSortInfo.DataSource = scre.Content.Select(x => new { synseq=x.SYNSEQ,regioncode=x.REGIONCODE,count=x.Count,qty=x.QTY}).ToList();
+                dgvSortInfo.DataSource = scre.Content.Select(x => new { synseq = x.SYNSEQ, regioncode = x.REGIONCODE, count = x.Count, qty = x.QTY }).ToList();
                 //{
                 //    车组信息 = a.REGIONCODE,
                 //    任务数 = scre.Content.Where(b => b.REGIONCODE == a.REGIONCODE).Sum(c => c.TASKQUANTITY),
@@ -41,7 +41,7 @@ namespace HighSpeed.OrderHandle
                 //    订单日期 = a.ORDERDATE
                 //}).ToList();
             }
-           
+
         }
         int times;
         delegate void HandleSort();
@@ -64,7 +64,7 @@ namespace HighSpeed.OrderHandle
         void Sort()
         {
             try
-            { 
+            {
                 progressBar1.Value = (progressBar1.Maximum / 2);
                 var re = sc.SchedulePoke();
                 //排程结束后，对排程数据进行验证
@@ -89,26 +89,27 @@ namespace HighSpeed.OrderHandle
                         MessageBox.Show(re.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
-                else { 
+                else
+                {
                     //回滚排程操作
                     MessageBox.Show(response.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                
-            } 
+
+            }
             catch (Exception e)
             {
                 MessageBox.Show("排程异常:" + e.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            
+
             }
             finally
-            { 
+            {
                 //times = 1;
                 //Bind();
                 //List<TaskInfo> list = new List<TaskInfo>();
                 dgvSortInfo.DataSource = new { synseq, regioncode, count, qty };
                 panel2.Visible = false;
                 TimerByTime.Stop();// 计时结束;
-                btnSort.Enabled = true; 
+                btnSort.Enabled = true;
             }
 
         }
@@ -116,12 +117,12 @@ namespace HighSpeed.OrderHandle
         private void btn_replenishplan_Click(object sender, EventArgs e)
         {
             Replan plan = new Replan();
-            Boolean flag=plan.AutoGenReplan();
+            Boolean flag = plan.AutoGenReplan();
             if (flag)
             {
                 MessageBox.Show("补货计划生成成功！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            else 
+            else
             {
                 MessageBox.Show("补货计划生成失败，请联系系统管理员！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
