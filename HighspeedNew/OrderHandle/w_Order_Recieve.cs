@@ -190,7 +190,8 @@ namespace HighSpeed.OrderHandle
             progressBar1.Visible = true;
             progressBar1.Value = 5;
             label2.Text = "正在从营销中心同步订单数据，请耐心等候...";
-            
+            label2.Refresh();
+            progressBar1.Refresh();
             string orderDateStr=datePick.Value.ToString("yyyyMMdd");
             ScheduleClass sc = new ScheduleClass();
             Response response=sc.SyncOrderDataFromInspur(orderDateStr);

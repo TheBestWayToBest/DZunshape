@@ -12,7 +12,7 @@ namespace Business.BusinessClass
         public Response AutoGenReplan()
         {
             Response response = new Response();
-            Boolean flag=false;
+            Boolean flag = false;
             int i = 0;
             using (DZEntities entites = new DZEntities())
             {
@@ -21,7 +21,7 @@ namespace Business.BusinessClass
                     var sortList = (from item in entites.T_PRODUCE_SORTTROUGH where item.TROUGHTYPE == 10 && item.STATE == "10" && (item.CIGARETTETYPE == 30 || item.CIGARETTETYPE == 40) select item).ToList();
                     sortList.ForEach(x => x.LASTMANTISSA = x.MANTISSA);//更新上次尾数
                     var pokeList1 = (from item in entites.T_UN_POKE where item.STATUS == 0 select item).ToList();
-                    var pokeList = (from item in entites.T_UN_POKE where item.STATUS == 0 group item by new { item.SORTNUM, item.TROUGHNUM, item.CIGARETTECODE } into g select new { SORTNUM = g.Key.SORTNUM, TROUGHNUM = g.Key.TROUGHNUM, CIGARETTECODE = g.Key.CIGARETTECODE, POKENUM = g.Count() }).OrderBy(x => x.SORTNUM).OrderBy(x => x.TROUGHNUM).ToList();
+                    var pokeList = (from item in entites.T_UN_POKE where item.STATUS == 0 group item by new { item.SORTNUM, item.TROUGHNUM, item.CIGARETTECODE } into g select new { SORTNUM = g.Key.SORTNUM, TROUGHNUM = g.Key.TROUGHNUM, CIGARETTECODE = g.Key.CIGARETTECODE, POKENUM = g.Sum(x=>x.POKENUM) }).OrderBy(x => x.SORTNUM).OrderBy(x => x.TROUGHNUM).ToList();
                     var itemList = (from item in entites.T_WMS_ITEM select item).ToList();
                     var list = (from item in entites.T_PRODUCE_REPLENISHPLAN select item.ID).ToList();
                     decimal maxid = 0;
@@ -70,16 +70,17 @@ namespace Business.BusinessClass
                         flag = true;
                         response.MessageText = "补货计划生成成功！";
                     }
-                    else 
+                    else
                     {
                         flag = false;
                         response.MessageText = "暂无新的分拣数据，无需生成补货计划！";
                     }
                     response.IsSuccess = flag;
                 }
-                catch (Exception e){
+                catch (Exception e)
+                {
                     flag = false;
-                    response.MessageText = "生成补货计划出错，请联系系统管理员！"+e.ToString();
+                    response.MessageText = "生成补货计划出错，请联系系统管理员！" + e.ToString();
                     response.IsSuccess = flag;
                 }
 
@@ -87,13 +88,18 @@ namespace Business.BusinessClass
             }
         }
 
-        public static List<PlanInfo> GetPlan() 
+        public static List<PlanInfo> GetPlan()
         {
-            using (DZEntities en = new DZEntities()) 
+            using (DZEntities en = new DZEntities())
             {
                 List<PlanInfo> list = new List<PlanInfo>();
-                list = en.T_PRODUCE_REPLENISHPLAN.GroupBy(item => new { item.CIGARETTECODE,item
-                .CIGARETTENAME ,item.JYCODE}).Select(item => new PlanInfo { CigaretteCode = item.Key.CIGARETTECODE, CigaretteName = item.Key.CIGARETTENAME, JYCode = item.Key.JYCODE, QTY = item.Sum(x=>x.REPLENISHQTY)??0 }).OrderByDescending(item => item.QTY).ToList();
+                list = en.T_PRODUCE_REPLENISHPLAN.GroupBy(item => new
+                {
+                    item.CIGARETTECODE,
+                    item
+                    .CIGARETTENAME,
+                    item.JYCODE
+                }).Select(item => new PlanInfo { CigaretteCode = item.Key.CIGARETTECODE, CigaretteName = item.Key.CIGARETTENAME, JYCode = item.Key.JYCODE, QTY = item.Sum(x => x.REPLENISHQTY) ?? 0 }).OrderByDescending(item => item.QTY).ToList();
                 return list;
             }
         }
