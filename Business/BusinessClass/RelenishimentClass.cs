@@ -13,12 +13,12 @@ namespace Business.BusinessClass
             using (DZEntities en = new DZEntities())
             {
                 List<T_PRODUCE_REPLENISHPLAN> list = new List<T_PRODUCE_REPLENISHPLAN>();
-                list = en.T_PRODUCE_REPLENISHPLAN.Where(item => item.ISCOMPLETED == 10).ToList();
+                list = en.T_PRODUCE_REPLENISHPLAN.Where(item => item.ISCOMPLETED == 10 && (item.TROUGHNUM == "3001" || item.TROUGHNUM == "3002" || item.TROUGHNUM == "3003" || item.TROUGHNUM == "3004" || item.TROUGHNUM == "3005" || item.TROUGHNUM == "3006")).OrderBy(item => item.TASKNUM).ToList();
                 return list;
             }
         }
 
-        public static object[] GetSendTask(decimal status, out StringBuilder outStr)
+        public static object[] GetSendTask(decimal isCompleted, out StringBuilder outStr)
         {
             using (DZEntities en = new DZEntities())
             {
@@ -28,9 +28,9 @@ namespace Business.BusinessClass
                 {
                     data[i] = 0;
                 }
-                var query = en.T_PRODUCE_REPLENISHPLAN.Where(item => item.STATUS == status).Select(item => new { tasknum = item.TASKNUM, throughnum = item.TROUGHNUM, jmcode = item.JYCODE }).FirstOrDefault();
+                var query = en.T_PRODUCE_REPLENISHPLAN.Where(item => item.ISCOMPLETED == isCompleted && (item.TROUGHNUM == "3001" || item.TROUGHNUM == "3002" || item.TROUGHNUM == "3003" || item.TROUGHNUM == "3004" || item.TROUGHNUM == "3005" || item.TROUGHNUM == "3006")).Select(item => new { tasknum = item.TASKNUM, throughnum = item.TROUGHNUM, jmcode = item.JYCODE }).FirstOrDefault();
                 data[0] = query.tasknum;
-                data[1] = query.throughnum;
+                data[1] = Convert.ToDecimal(query.throughnum) - 3000;
                 data[2] = query.jmcode;
                 data[3] = 0;
                 data[4] = 0;
@@ -38,6 +38,54 @@ namespace Business.BusinessClass
                 sb.AppendLine(data[1] + "号通道补烟，任务发送标志位：" + data[5]);
                 outStr = sb;
                 return data;
+            }
+        }
+
+        public static object[] GetSendTasks(decimal isCompleted, out StringBuilder outStr)
+        {
+            using (DZEntities en = new DZEntities())
+            {
+                object[] data = new object[7];
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < data.Length; i++)
+                {
+                    data[i] = 0;
+                }
+                UnnormalInfo info = new UnnormalInfo();
+                string sqlStr = "select SortNum,sum(pokenum) from t_un_poke_hunhe where troughnum in(" +
+                            "select troughnum from t_produce_sorttrough where groupno=1) where status=10 group by sortnum order by sortnum";
+                info = en.ExecuteStoreQuery<UnnormalInfo>(sqlStr).FirstOrDefault();
+                //int count = en.T_UN_POKE_HUNHE.Where(item => item.SORTNUM == info.SortNum).Count();
+                data[0] = info.SortNum;
+                data[1] = info.SortNum;
+                data[2] = info.Num;
+                data[3] = info.Num;
+                data[4] = 0;
+                data[5] = 0;
+                data[6] = 1;
+                sb.AppendLine(data[0] + "，任务发送标志位：" + data[6]);
+                outStr = sb;
+                return data;
+            }
+        }
+
+        public static bool UpdateReplanTask(string tasknum, decimal isCompleted)
+        {
+            using (DZEntities en = new DZEntities())
+            {
+                var query = en.T_PRODUCE_REPLENISHPLAN.Where(item => item.TASKNUM == tasknum).FirstOrDefault();
+                query.ISCOMPLETED = isCompleted;
+                return en.SaveChanges() > 0;
+            }
+        }
+
+        public static bool UpdateMixTask(decimal sortNum, decimal status)
+        {
+            using (DZEntities en = new DZEntities())
+            {
+                var query = en.T_UN_POKE.Where(item => item.SORTNUM == sortNum && item.TROUGHNUM.Substring(0, 1) == "1").FirstOrDefault();
+                query.STATUS = status;
+                return en.SaveChanges() > 0;
             }
         }
 
@@ -84,23 +132,23 @@ namespace Business.BusinessClass
                 }
 
                 //var task = en.T_UN_TASK.Where(item => item.TASKNUM == Convert.ToDecimal(taskNum)).FirstOrDefault();
-                var taskFirst = data.FirstOrDefault();
-                if (taskFirst != null)
-                {
-                    var pokestate = en.T_PRODUCE_REPLENISHPLAN.Where(item => item.TASKNUM == taskFirst.TASKNUM && (item.STATUS == 15 || item.STATUS == 10)).ToList();
-                    if (pokestate.Count == 0)
-                    {
-                        var tasks = en.T_UN_TASK.Where(item => item.TASKNUM == Convert.ToDecimal(taskFirst.TASKNUM)).ToList();
-                        foreach (var item in tasks)
-                        {
-                            if (item.STATE == "15")
-                            {
-                                item.STATE = "30";
-                                item.FINISHTIME = DateTime.Now;
-                            }
-                        }
-                    }
-                }
+                //var taskFirst = data.FirstOrDefault();
+                //if (taskFirst != null)
+                //{
+                //    var pokestate = en.T_PRODUCE_REPLENISHPLAN.Where(item => item.TASKNUM == taskFirst.TASKNUM && (item.STATUS == 15 || item.STATUS == 10)).ToList();
+                //    if (pokestate.Count == 0)
+                //    {
+                //        var tasks = en.T_UN_TASK.Where(item => item.TASKNUM == Convert.ToDecimal(taskFirst.TASKNUM)).ToList();
+                //        foreach (var item in tasks)
+                //        {
+                //            if (item.STATE == "15")
+                //            {
+                //                item.STATE = "30";
+                //                item.FINISHTIME = DateTime.Now;
+                //            }
+                //        }
+                //    }
+                //}
                 int rows = en.SaveChanges();
                 if (rows > 0)
                     return true;

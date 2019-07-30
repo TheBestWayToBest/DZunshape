@@ -39,12 +39,17 @@ namespace SortingControlSys
             TimeToClike.Start();
             opcServer = new OPCServer();
             handle += UpdateListBox;
+            ListLineNum.Add("1");
         }
 
         private void BtnStatrt_Click(object sender, EventArgs e)
         {
-            timerSendTask.Interval = 1000 * 10;
+            StringBuilder outStr = new StringBuilder();
+            object[] data = UnPokeClass.GetOneDateBaseTask(10, "1", out outStr);
+
+            timerSendTask.Interval = 5000;
             timerSendTask.Start();
+            
             GetTaskInfo("启动定时器");
             UpdateControlEnable(false, BtnStatrt);
             Thread thread = new Thread(new ThreadStart(startFenJian));
@@ -89,13 +94,13 @@ namespace SortingControlSys
                     opcServer.SpyBiaozhiGroup.addItem(PlcItemCollection.GetSpyOnlyLineItem());//监控任务标识位
                     opcServer.FinishOnlyGroup.addItem(PlcItemCollection.GetOnlyLineFinishTaskItem());//完成信号交互区;
                     GetTaskInfo("opC服务器创成功！");
+                    opcServer.SpyBiaozhiGroup.callback = OnDataChange;
+                    opcServer.FinishOnlyGroup.callback = OnDataChange;
                     opcServer.ConnectState = opcServer.CheckConnection();
                     if (opcServer.ConnectState)
                     {
                         opcServer.IsSendOn = false;
                         GetTaskInfo("PLC连接成功!");
-                        opcServer.SpyBiaozhiGroup.callback = OnDataChange;
-                        opcServer.FinishOnlyGroup.callback = OnDataChange;
                     }
                     else
                     {
@@ -166,8 +171,15 @@ namespace SortingControlSys
                                 }
 
                                 int receivePackage = int.Parse(opcServer.OnlyTaskGroup.ReadD(i).ToString());
+                                StringBuilder outStr = new StringBuilder();
+                                object[] data = UnPokeClass.GetOneDateBaseTask(10, "1", out outStr);
                                 if (receivePackage != 0)
                                 {
+                                    if ((decimal)data[0] == receivePackage) 
+                                    {
+                                        UnPokeClass.UpdateTask(receivePackage, 15);
+                                        return;
+                                    }
                                     GetTaskInfo(ListLineNum[0] + "线烟仓任务包号:" + receivePackage + "已接收");
                                     UnPokeClass.UpdateTask(receivePackage, 15);
                                 }
@@ -175,8 +187,8 @@ namespace SortingControlSys
                                 {
                                     return;
                                 }
-                                StringBuilder outStr=new StringBuilder ();
-                                object[] data = UnPokeClass.GetOneDateBaseTask(10, "1", out outStr);
+                                
+                                
                                 DelSendTask task = new DelSendTask(opcServer.SendOnlyTask);
                                 IAsyncResult result = task.BeginInvoke(data,outStr,null, task);
                                 StringBuilder re = task.EndInvoke(result);
@@ -192,7 +204,7 @@ namespace SortingControlSys
                         }
                         catch (Exception ex)
                         {
-                            WriteLog.GetLog().Write(ListLineNum[1] + "线烟仓异常信息" + ex.Message);
+                            WriteLog.GetLog().Write(ListLineNum[0] + "线烟仓异常信息" + ex.Message);
                         }
                     }
                 }
@@ -215,6 +227,7 @@ namespace SortingControlSys
             {
                 opcServer.SpyBiaozhiGroup.Write(2, 0);
                 opcServer.SpyBiaozhiGroup.Write(0, 0);
+                
                 GetTaskInfo("发送任务");
             }
             else

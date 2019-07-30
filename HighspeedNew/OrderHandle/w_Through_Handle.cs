@@ -19,7 +19,7 @@ namespace HighspeedNew.OrderHandle
         decimal groupNo = 0;
         string lastCigarettecode;
         public List<string> list = new List<string>();
-        public w_Through_Handle(String sign, String amend_id, string type, string troughtype, string machineSeq,decimal groupNo,string lastCigarettecode)
+        public w_Through_Handle(String sign, String amend_id, string type, string troughtype, string machineSeq, decimal groupNo, string lastCigarettecode)
         {
             InitializeComponent();
             this.lastCigarettecode = lastCigarettecode;
@@ -72,7 +72,7 @@ namespace HighspeedNew.OrderHandle
                 this.cbthroughnum.Items.Add(machineseq);
                 this.cbthroughnum.SelectedIndex = 0;
             }
-                
+
             lbltype.Text = "异形烟";
             lbllineNum.Text = "异形烟分拣线";
             //cbthroughnum.Enabled = false;
@@ -117,7 +117,7 @@ namespace HighspeedNew.OrderHandle
             tps.MANTISSA = 0;
             tps.STATE = "10";
             tps.LINENUM = "0";
-            
+
             //if (tps.MACHINESEQ.ToString() == "")
             //{
             //    MessageBox.Show("请选择通道编号!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -130,16 +130,17 @@ namespace HighspeedNew.OrderHandle
             }
             if (handle_sign == "0")
             {
-                string str=this.cbthroughnum.Text.Trim();
+                string str = this.cbthroughnum.Text.Trim();
                 //string s = str.Substring(str.IndexOf('(')+1, str.IndexOf(')') - str.IndexOf('(')-1);
                 tps.MACHINESEQ = Convert.ToDecimal(str.Substring(str.IndexOf('(') + 1, str.IndexOf(')') - str.IndexOf('(') - 1));
                 string msg = ThroughClass.InsertThrough(tps);
-                
+
                 MessageBox.Show(msg);
                 this.Close();
             }
             else
             {
+                tps.MACHINESEQ = Convert.ToDecimal(this.cbthroughnum.Text.Trim());
                 if (tps.MACHINESEQ.ToString() == "")
                 {
                     MessageBox.Show("请选择通道编号!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -148,7 +149,7 @@ namespace HighspeedNew.OrderHandle
 
                 tps.MACHINESEQ = Convert.ToDecimal(this.cbthroughnum.Text.Trim());
                 tps.ID = Convert.ToDecimal(id);
-                string msg = ThroughClass.UpdateThrough(tps,lastCigarettecode);
+                string msg = ThroughClass.UpdateThrough(tps, lastCigarettecode);
                 MessageBox.Show(msg);
             }
         }

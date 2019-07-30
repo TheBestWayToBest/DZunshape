@@ -156,7 +156,7 @@
             this.LblAdd10.Name = "LblAdd10";
             this.LblAdd10.Size = new System.Drawing.Size(230, 29);
             this.LblAdd10.TabIndex = 9;
-            this.LblAdd10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LblAdd10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LblAdd9
             // 
@@ -167,7 +167,7 @@
             this.LblAdd9.Name = "LblAdd9";
             this.LblAdd9.Size = new System.Drawing.Size(230, 29);
             this.LblAdd9.TabIndex = 8;
-            this.LblAdd9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LblAdd9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LblAdd8
             // 
@@ -178,7 +178,7 @@
             this.LblAdd8.Name = "LblAdd8";
             this.LblAdd8.Size = new System.Drawing.Size(230, 29);
             this.LblAdd8.TabIndex = 7;
-            this.LblAdd8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LblAdd8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LblAdd7
             // 
@@ -189,7 +189,7 @@
             this.LblAdd7.Name = "LblAdd7";
             this.LblAdd7.Size = new System.Drawing.Size(230, 29);
             this.LblAdd7.TabIndex = 6;
-            this.LblAdd7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LblAdd7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LblAdd1
             // 
@@ -200,7 +200,7 @@
             this.LblAdd1.Name = "LblAdd1";
             this.LblAdd1.Size = new System.Drawing.Size(230, 29);
             this.LblAdd1.TabIndex = 0;
-            this.LblAdd1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LblAdd1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LblAdd2
             // 
@@ -211,7 +211,7 @@
             this.LblAdd2.Name = "LblAdd2";
             this.LblAdd2.Size = new System.Drawing.Size(230, 29);
             this.LblAdd2.TabIndex = 1;
-            this.LblAdd2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LblAdd2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LblAdd4
             // 
@@ -222,7 +222,7 @@
             this.LblAdd4.Name = "LblAdd4";
             this.LblAdd4.Size = new System.Drawing.Size(230, 29);
             this.LblAdd4.TabIndex = 3;
-            this.LblAdd4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LblAdd4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LblAdd5
             // 
@@ -233,7 +233,7 @@
             this.LblAdd5.Name = "LblAdd5";
             this.LblAdd5.Size = new System.Drawing.Size(230, 29);
             this.LblAdd5.TabIndex = 4;
-            this.LblAdd5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LblAdd5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LblAdd3
             // 
@@ -244,7 +244,7 @@
             this.LblAdd3.Name = "LblAdd3";
             this.LblAdd3.Size = new System.Drawing.Size(230, 29);
             this.LblAdd3.TabIndex = 2;
-            this.LblAdd3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LblAdd3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LblAdd6
             // 
@@ -255,7 +255,7 @@
             this.LblAdd6.Name = "LblAdd6";
             this.LblAdd6.Size = new System.Drawing.Size(230, 29);
             this.LblAdd6.TabIndex = 5;
-            this.LblAdd6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LblAdd6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // GBAdded
             // 
@@ -288,7 +288,7 @@
             this.LblAdded10.Name = "LblAdded10";
             this.LblAdded10.Size = new System.Drawing.Size(230, 29);
             this.LblAdded10.TabIndex = 19;
-            this.LblAdded10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LblAdded10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LblAdded9
             // 
@@ -299,7 +299,7 @@
             this.LblAdded9.Name = "LblAdded9";
             this.LblAdded9.Size = new System.Drawing.Size(230, 29);
             this.LblAdded9.TabIndex = 18;
-            this.LblAdded9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LblAdded9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LblAdded8
             // 
@@ -310,7 +310,7 @@
             this.LblAdded8.Name = "LblAdded8";
             this.LblAdded8.Size = new System.Drawing.Size(230, 29);
             this.LblAdded8.TabIndex = 17;
-            this.LblAdded8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LblAdded8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LblAdded7
             // 
@@ -321,7 +321,7 @@
             this.LblAdded7.Name = "LblAdded7";
             this.LblAdded7.Size = new System.Drawing.Size(230, 29);
             this.LblAdded7.TabIndex = 16;
-            this.LblAdded7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LblAdded7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LblAdded1
             // 
@@ -332,7 +332,7 @@
             this.LblAdded1.Name = "LblAdded1";
             this.LblAdded1.Size = new System.Drawing.Size(230, 29);
             this.LblAdded1.TabIndex = 10;
-            this.LblAdded1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LblAdded1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LblAdded2
             // 
@@ -343,7 +343,7 @@
             this.LblAdded2.Name = "LblAdded2";
             this.LblAdded2.Size = new System.Drawing.Size(230, 29);
             this.LblAdded2.TabIndex = 11;
-            this.LblAdded2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LblAdded2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LblAdded4
             // 
@@ -354,7 +354,7 @@
             this.LblAdded4.Name = "LblAdded4";
             this.LblAdded4.Size = new System.Drawing.Size(230, 29);
             this.LblAdded4.TabIndex = 13;
-            this.LblAdded4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LblAdded4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LblAdded5
             // 
@@ -365,7 +365,7 @@
             this.LblAdded5.Name = "LblAdded5";
             this.LblAdded5.Size = new System.Drawing.Size(230, 29);
             this.LblAdded5.TabIndex = 14;
-            this.LblAdded5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LblAdded5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LblAdded3
             // 
@@ -376,7 +376,7 @@
             this.LblAdded3.Name = "LblAdded3";
             this.LblAdded3.Size = new System.Drawing.Size(230, 29);
             this.LblAdded3.TabIndex = 12;
-            this.LblAdded3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LblAdded3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LblAdded6
             // 
@@ -387,7 +387,7 @@
             this.LblAdded6.Name = "LblAdded6";
             this.LblAdded6.Size = new System.Drawing.Size(230, 29);
             this.LblAdded6.TabIndex = 15;
-            this.LblAdded6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LblAdded6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // TRefresh
             // 

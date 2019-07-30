@@ -60,6 +60,7 @@
     <Compile Include="BusinessClass\ScheduleClass.cs" />
     <Compile Include="BusinessClass\SpecialSmokeClass.cs" />
     <Compile Include="BusinessClass\TaskClass.cs" />
+    <Compile Include="BusinessClass\TestClass.cs" />
     <Compile Include="BusinessClass\ThroughClass.cs" />
     <Compile Include="BusinessClass\UnPokeClass.cs" />
     <Compile Include="BusinessClass\ValidationClass.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Modle\ItemInfo.cs" />
     <Compile Include="Modle\MainOrder.cs" />
     <Compile Include="Modle\MixedInfo.cs" />
+    <Compile Include="Modle\MixInfo.cs" />
     <Compile Include="Modle\OrderData.cs" />
     <Compile Include="Modle\PlanInfo.cs" />
     <Compile Include="Modle\PokeInfo.cs" />
@@ -86,6 +88,7 @@
     <Compile Include="Modle\TaskDetail.cs" />
     <Compile Include="Modle\TaskInfo.cs" />
     <Compile Include="Modle\ThroughInfo.cs" />
+    <Compile Include="Modle\UnnormalInfo.cs" />
     <Compile Include="Modle\_1stPrjInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

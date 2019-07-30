@@ -34,6 +34,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="opcrcw.comn">
+      <HintPath>..\Lib\opcrcw.comn.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="opcrcw.da">
+      <HintPath>..\Lib\opcrcw.da.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -67,6 +75,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -81,6 +90,20 @@
     <Content Include="Image\icon_exit.png" />
     <Content Include="Image\mainbj.png" />
     <Content Include="Image\topfj.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Business\Business.csproj">
+      <Project>{A86E0C98-9483-410F-9771-1253589DAEFB}</Project>
+      <Name>Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OPC\OPC.csproj">
+      <Project>{F0DE781F-94BC-4B04-8855-2A14808670C7}</Project>
+      <Name>OPC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tool\Tool.csproj">
+      <Project>{AB35AA11-2ABE-4F7C-811D-9659DD00228E}</Project>
+      <Name>Tool</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

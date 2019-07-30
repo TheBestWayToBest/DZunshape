@@ -93,6 +93,8 @@ namespace HighspeedNew.OrderHandle
 
                     if (re.IsSuccess)
                     {
+                        List<MixedInfo> list = MixedClass.GetUnPokeData();
+                        MixedClass.InsertPokeMixed(list);
                         btnPokeSeq.Enabled = true;
                         progressBar1.Value = progressBar1.Maximum;
                         //TimerByTime.Stop();// 计时结束;

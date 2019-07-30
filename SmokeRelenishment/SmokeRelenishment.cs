@@ -42,7 +42,7 @@ namespace SmokeRelenishment
 
             panel1.Controls.Add(lblpack);
             //OpenSerialPort();
-            TSender.Start();
+            //TSender.Start();
             BGWConn.RunWorkerAsync();
             X = this.Width;//获取窗体的宽度
             Y = this.Height;//获取窗体的高度
@@ -218,7 +218,7 @@ namespace SmokeRelenishment
                 opcServer.SpyBiaozhiGroup.addItem(PlcItemCollection.GetReSpyOnlyLineItem());//监控任务标识位
                 opcServer.FinishOnlyGroup.addItem(PlcItemCollection.GetReFinishTaskItem());//完成信号交互区;
 
-                opcServer.ScanGroup.addItem(PlcItemCollection.GetScan());
+                //opcServer.ScanGroup.addItem(PlcItemCollection.GetScan());
 
                 WriteLog.GetLog().Write("opC服务器创成功！");
                 opcServer.ConnectState = opcServer.CheckConnection();
@@ -228,6 +228,18 @@ namespace SmokeRelenishment
                     opcServer.SpyBiaozhiGroup.callback = OnDataChange;
                     opcServer.FinishOnlyGroup.callback = OnDataChange;
                     WriteLog.GetLog().Write("PLC连接成功!");
+                    WriteLog.GetLog().Write("触发定时器");
+                    if (opcServer.SpyBiaozhiGroup.Read(0).ToString() != "1" && !opcServer.IsSendOn)//监控标志位第一组 产生跳变
+                    {
+                        opcServer.SpyBiaozhiGroup.Write(2, 0);
+                        opcServer.SpyBiaozhiGroup.Write(0, 0);
+                        WriteLog.GetLog().Write("发送任务");
+                    }
+                    else
+                    {
+                        WriteLog.GetLog().Write("强制跳变失败");
+                    }
+                   
                 }
                 else
                 {
@@ -357,7 +369,7 @@ namespace SmokeRelenishment
                                 if (receivePackage != 0)
                                 {
                                     WriteLog.GetLog().Write("补货任务号:" + receivePackage + "已接收");
-                                    UnPokeClass.UpdateTask(receivePackage, 15);
+                                    RelenishimentClass.UpdateReplanTask(receivePackage.ToString(), 15);
                                 }
                                 if (opcServer.IsSendOn)//如果任务已经在发送中则返回
                                 {
@@ -389,18 +401,8 @@ namespace SmokeRelenishment
 
         private void TSender_Tick(object sender, EventArgs e)
         {
-            WriteLog.GetLog().Write("触发定时器");
-            if (opcServer.SpyBiaozhiGroup.Read(0).ToString() != "1" && !opcServer.IsSendOn)//监控标志位第一组 产生跳变
-            {
-                opcServer.SpyBiaozhiGroup.Write(2, 0);
-                opcServer.SpyBiaozhiGroup.Write(0, 0);
-                WriteLog.GetLog().Write("发送任务");
-            }
-            else
-            {
-                WriteLog.GetLog().Write("强制跳变失败");
-            }
-            TSender.Stop();
+            
+            //TSender.Stop();
         }
 
         void UpdateLabel(List<T_PRODUCE_REPLENISHPLAN> list,int length,Label[]labels) 

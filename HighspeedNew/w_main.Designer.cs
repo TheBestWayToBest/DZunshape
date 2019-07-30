@@ -48,12 +48,13 @@
             this.排程报表ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.混合道补烟顺序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.件烟补货顺序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.件烟补货汇总ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.件烟补货汇总ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -84,28 +85,28 @@
             // 订单信息ToolStripMenuItem
             // 
             this.订单信息ToolStripMenuItem.Name = "订单信息ToolStripMenuItem";
-            this.订单信息ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.订单信息ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.订单信息ToolStripMenuItem.Text = "卷烟信息";
             this.订单信息ToolStripMenuItem.Click += new System.EventHandler(this.订单信息ToolStripMenuItem_Click);
             // 
             // 分拣批次管理ToolStripMenuItem
             // 
             this.分拣批次管理ToolStripMenuItem.Name = "分拣批次管理ToolStripMenuItem";
-            this.分拣批次管理ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.分拣批次管理ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.分拣批次管理ToolStripMenuItem.Text = "分拣批次管理";
             this.分拣批次管理ToolStripMenuItem.Click += new System.EventHandler(this.分拣批次管理ToolStripMenuItem_Click);
             // 
             // 品牌尾数维护ToolStripMenuItem
             // 
             this.品牌尾数维护ToolStripMenuItem.Name = "品牌尾数维护ToolStripMenuItem";
-            this.品牌尾数维护ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.品牌尾数维护ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.品牌尾数维护ToolStripMenuItem.Text = "品牌尾数维护";
             this.品牌尾数维护ToolStripMenuItem.Click += new System.EventHandler(this.品牌尾数维护ToolStripMenuItem_Click);
             // 
             // 分拣通道管理ToolStripMenuItem
             // 
             this.分拣通道管理ToolStripMenuItem.Name = "分拣通道管理ToolStripMenuItem";
-            this.分拣通道管理ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.分拣通道管理ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.分拣通道管理ToolStripMenuItem.Text = "分拣通道管理";
             this.分拣通道管理ToolStripMenuItem.Click += new System.EventHandler(this.分拣通道管理ToolStripMenuItem_Click);
             // 
@@ -124,35 +125,35 @@
             // TSM_OrderReceive
             // 
             this.TSM_OrderReceive.Name = "TSM_OrderReceive";
-            this.TSM_OrderReceive.Size = new System.Drawing.Size(152, 22);
+            this.TSM_OrderReceive.Size = new System.Drawing.Size(124, 22);
             this.TSM_OrderReceive.Text = "订单接收";
             this.TSM_OrderReceive.Click += new System.EventHandler(this.TSM_OrderReceive_Click);
             // 
             // 预排程ToolStripMenuItem
             // 
             this.预排程ToolStripMenuItem.Name = "预排程ToolStripMenuItem";
-            this.预排程ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.预排程ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.预排程ToolStripMenuItem.Text = "预排程";
             this.预排程ToolStripMenuItem.Click += new System.EventHandler(this.预排程ToolStripMenuItem_Click);
             // 
             // 任务排程ToolStripMenuItem1
             // 
             this.任务排程ToolStripMenuItem1.Name = "任务排程ToolStripMenuItem1";
-            this.任务排程ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.任务排程ToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
             this.任务排程ToolStripMenuItem1.Text = "任务排程";
             this.任务排程ToolStripMenuItem1.Click += new System.EventHandler(this.任务排程ToolStripMenuItem1_Click);
             // 
             // 任务导出ToolStripMenuItem
             // 
             this.任务导出ToolStripMenuItem.Name = "任务导出ToolStripMenuItem";
-            this.任务导出ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.任务导出ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.任务导出ToolStripMenuItem.Text = "任务导出";
             this.任务导出ToolStripMenuItem.Click += new System.EventHandler(this.任务导出ToolStripMenuItem_Click);
             // 
             // 分拣进度ToolStripMenuItem
             // 
             this.分拣进度ToolStripMenuItem.Name = "分拣进度ToolStripMenuItem";
-            this.分拣进度ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.分拣进度ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.分拣进度ToolStripMenuItem.Text = "分拣进度";
             this.分拣进度ToolStripMenuItem.Click += new System.EventHandler(this.分拣进度ToolStripMenuItem_Click);
             // 
@@ -165,7 +166,8 @@
             this.排程报表ToolStripMenuItem,
             this.混合道补烟顺序ToolStripMenuItem,
             this.件烟补货顺序ToolStripMenuItem,
-            this.件烟补货汇总ToolStripMenuItem});
+            this.件烟补货汇总ToolStripMenuItem,
+            this.testToolStripMenuItem});
             this.报表统计ToolStripMenuItem.Name = "报表统计ToolStripMenuItem";
             this.报表统计ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
             this.报表统计ToolStripMenuItem.Text = "报表统计";
@@ -212,6 +214,13 @@
             this.件烟补货顺序ToolStripMenuItem.Text = "件烟补货顺序";
             this.件烟补货顺序ToolStripMenuItem.Click += new System.EventHandler(this.件烟补货顺序ToolStripMenuItem_Click);
             // 
+            // 件烟补货汇总ToolStripMenuItem
+            // 
+            this.件烟补货汇总ToolStripMenuItem.Name = "件烟补货汇总ToolStripMenuItem";
+            this.件烟补货汇总ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.件烟补货汇总ToolStripMenuItem.Text = "件烟补货汇总";
+            this.件烟补货汇总ToolStripMenuItem.Click += new System.EventHandler(this.件烟补货汇总ToolStripMenuItem_Click);
+            // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
@@ -247,18 +256,18 @@
             this.toolStripStatusLabel3.Text = "toolStripStatusLabel3";
             this.toolStripStatusLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // 件烟补货汇总ToolStripMenuItem
-            // 
-            this.件烟补货汇总ToolStripMenuItem.Name = "件烟补货汇总ToolStripMenuItem";
-            this.件烟补货汇总ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-            this.件烟补货汇总ToolStripMenuItem.Text = "件烟补货汇总";
-            this.件烟补货汇总ToolStripMenuItem.Click += new System.EventHandler(this.件烟补货汇总ToolStripMenuItem_Click);
-            // 
             // timer1
             // 
             this.timer1.Enabled = true;
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.testToolStripMenuItem.Text = "Test";
+            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
             // 
             // w_main
             // 
@@ -308,6 +317,7 @@
         private System.Windows.Forms.ToolStripMenuItem 件烟补货顺序ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 件烟补货汇总ToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
        // private Sunisoft.IrisSkin.SkinEngine skinEngine1;
     }
 }

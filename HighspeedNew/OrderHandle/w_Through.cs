@@ -50,7 +50,7 @@ namespace HighspeedNew.OrderHandle
             this.btn_jy.Enabled = false;
         }
         List<ThroughInfo> list;
-        void Bind() 
+        void Bind()
         {
             List<decimal> groupNo = new List<decimal>();
             list = new List<ThroughInfo>();
@@ -60,12 +60,12 @@ namespace HighspeedNew.OrderHandle
                 groupNo.Add(2);
             if (CBGroup3.Checked)
                 groupNo.Add(3);
-            if (!CBGroup1.Checked && !CBGroup2.Checked && !CBGroup3.Checked) 
+            if (!CBGroup1.Checked && !CBGroup2.Checked && !CBGroup3.Checked)
             {
                 groupNo.Add(2);
                 CBGroup2.CheckState = CheckState.Checked;
             }
-            list = ThroughClass.GetThroughInfo(box_condition.SelectedIndex,groupNo, txt_keywd.Text);
+            list = ThroughClass.GetThroughInfo(box_condition.SelectedIndex, groupNo, txt_keywd.Text);
 
             this.troughdata.DataSource = list;
             this.troughdata.AutoGenerateColumns = false;
@@ -95,28 +95,29 @@ namespace HighspeedNew.OrderHandle
         private void btn_qy_Click(object sender, EventArgs e)
         {
             int count = this.troughdata.SelectedRows.Count;
-            if (count > 0) 
+            if (count > 0)
             {
-                if (troughdata.CurrentRow.Cells["State"].Value.ToString() == "正常") 
+                if (troughdata.CurrentRow.Cells["State"].Value.ToString() == "正常")
                 {
                     MessageBox.Show("该通道已是启用状态");
                     return;
                 }
                 ThroughInfo info = new ThroughInfo();
                 info.ID = (decimal)this.troughdata.SelectedRows[0].Cells["ID"].Value;
-                //string desc = this.troughdata.SelectedRows[0].Cells[9].Value.ToString();
-                info.CigaretteCode = this.troughdata.SelectedRows[0].Cells["CigaretteCode"].Value.ToString();
+                try
+                {
+                    info.CigaretteCode = this.troughdata.SelectedRows[0].Cells["CigaretteCode"].Value.ToString();
+                }
+                catch
+                {
+                    MessageBox.Show("请先给该通道设置品牌");
+                    return;
+                }
                 info.CigaretteType = decimal.Parse(this.troughdata.CurrentRow.Cells["CigaretteType"].Value + "");
-                //info.GroupNo = decimal.Parse(this.troughdata.CurrentRow.Cells["GroupNo"].Value + "");
                 info.MachineSeq = (decimal)this.troughdata.SelectedRows[0].Cells["MachineSeq"].Value;
                 info.ThroughNum = this.troughdata.SelectedRows[0].Cells["ThroughNum"].Value.ToString();
                 info.GroupNo = (decimal)this.troughdata.CurrentRow.Cells["GroupNo"].Value;
-                //if (tt == "特异形烟")
-                //    info.GroupNo = 1;
-                //else if(tt == "立式烟仓")
-                //    info.GroupNo = 2;
-                //else
-                //    info.GroupNo = 3;
+
                 DialogResult MsgBoxResult = MessageBox.Show("确定启用【设备号：" + info.MachineSeq + "/通道号：" + info.ThroughNum + "】通道吗？",//对话框的显示内容 
                                                             "提示",//对话框的标题 
                                                             MessageBoxButtons.YesNo,//定义对话框的按钮，这里定义了YSE和NO两个按钮 
@@ -130,13 +131,12 @@ namespace HighspeedNew.OrderHandle
                         {
                             MessageBox.Show("请选择品牌再启用通道.");
                             return;
-
                         }
                     }
-                    
+
                     try
                     {
-                        info.State="10";
+                        info.State = "10";
                         ThroughClass.UpdateThroughState(info);
                         MessageBox.Show("【设备号：" + info.MachineSeq + "/通道号：" + info.ThroughNum + "】的通道已启用!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         Bind();
@@ -161,19 +161,12 @@ namespace HighspeedNew.OrderHandle
             {
                 ThroughInfo info = new ThroughInfo();
                 info.ID = (decimal)this.troughdata.SelectedRows[0].Cells["ID"].Value;
-                //string desc = this.troughdata.SelectedRows[0].Cells[9].Value.ToString();
                 info.CigaretteCode = this.troughdata.SelectedRows[0].Cells["CigaretteCode"].Value.ToString();
                 info.CigaretteType = decimal.Parse(this.troughdata.CurrentRow.Cells["CigaretteType"].Value + "");
-                //info.GroupNo = decimal.Parse(this.troughdata.CurrentRow.Cells["GroupNo"].Value + "");
                 info.MachineSeq = (decimal)this.troughdata.SelectedRows[0].Cells["MachineSeq"].Value;
                 info.ThroughNum = this.troughdata.SelectedRows[0].Cells["ThroughNum"].Value.ToString();
                 info.GroupNo = (decimal)this.troughdata.CurrentRow.Cells["GroupNo"].Value;
-                //if (tt == "特异形烟")
-                //    info.GroupNo = 1;
-                //else if (tt == "立式烟仓")
-                //    info.GroupNo = 2;
-                //else
-                //    info.GroupNo = 3;
+
                 DialogResult MsgBoxResult = MessageBox.Show("确定禁用【设备号：" + info.MachineSeq + "/通道号：" + info.ThroughNum + "】通道吗？",//对话框的显示内容 
                                                              "提示",//对话框的标题 
                                                              MessageBoxButtons.YesNo,//定义对话框的按钮，这里定义了YSE和NO两个按钮 
@@ -181,7 +174,6 @@ namespace HighspeedNew.OrderHandle
                                                              MessageBoxDefaultButton.Button2);//定义对话框的按钮式样
                 if (MsgBoxResult == DialogResult.Yes)
                 {
-                    
                     try
                     {
                         info.State = "0";
@@ -204,7 +196,7 @@ namespace HighspeedNew.OrderHandle
 
         private void button2_Click(object sender, EventArgs e)
         {
-            w_Through_Handle trough_handle = new w_Through_Handle("0", "0", "30", "10","",0,"0");
+            w_Through_Handle trough_handle = new w_Through_Handle("0", "0", "30", "10", "", 0, "0");
             trough_handle.WindowState = FormWindowState.Normal;
             trough_handle.StartPosition = FormStartPosition.CenterScreen;
             trough_handle.ShowDialog();
@@ -215,19 +207,15 @@ namespace HighspeedNew.OrderHandle
             int count = this.troughdata.SelectedRows.Count;
             if (count > 0)
             {
-
                 String type = this.troughdata.CurrentRow.Cells["GroupNo"].Value + "";
                 if (type.Equals("30") || type.Equals("40"))
                 {
                     return;
                 }
-
                 amend_id = this.troughdata.SelectedRows[0].Cells["id"].Value.ToString();
                 sign = "1";
                 String cigarettetype = this.troughdata.CurrentRow.Cells["cigarettetype"].Value + "";
-
                 String type1 = this.troughdata.CurrentRow.Cells["GroupNo"].Value + "";
-
                 String id = this.troughdata.CurrentRow.Cells["ID"].Value + "";
                 string machineSeq = this.troughdata.CurrentRow.Cells["MachineSeq"].Value + "";
                 //decimal groupNo = Convert.ToDecimal(this.troughdata.CurrentRow.Cells["groupNo"].Value);
@@ -239,8 +227,14 @@ namespace HighspeedNew.OrderHandle
                 //    groupNo = 2;
                 //else
                 //    groupNo = 3;
+                string lastCigarettecode = "";
+                try
+                {
+                    lastCigarettecode = this.troughdata.CurrentRow.Cells["cigarettecode"].Value.ToString();
+                }
+                catch { }
 
-                string lastCigarettecode = this.troughdata.CurrentRow.Cells["cigarettecode"].Value.ToString();
+
 
                 w_Through_Handle trough_handle = new w_Through_Handle(sign, amend_id, cigarettetype, type1, machineSeq, groupNo, lastCigarettecode);
                 trough_handle.WindowState = FormWindowState.Normal;
@@ -253,7 +247,7 @@ namespace HighspeedNew.OrderHandle
                 MessageBox.Show("请点击选择您要修改的设备通道!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-        
+
         private void troughdata_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex > -1)
@@ -297,7 +291,7 @@ namespace HighspeedNew.OrderHandle
         {
             dgVprint1.ExportDGVToExcel2(this.troughdata, "设备通道信息", "sorttroughInfo.xls", true);
         }
-
+            
         private void troughdata_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.ColumnIndex == 6)
@@ -316,7 +310,17 @@ namespace HighspeedNew.OrderHandle
                     e.Value = "卧式烟仓";
                 }
             }
+            if (e.ColumnIndex == 5) 
+            {
+                if (list[e.RowIndex].State == "禁用")
+                {
+
+                    troughdata.Rows[e.RowIndex].Cells[5].Style.BackColor = Color.Red;
+                }
+            }
             
+           
+           
         }
     }
 }

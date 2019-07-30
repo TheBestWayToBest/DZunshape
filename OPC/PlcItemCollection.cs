@@ -55,7 +55,7 @@ namespace OPC
             List<string> list = new List<string>();
             for (int i = 0; i < 40; i += 4)
             {
-                list.Add(OpcPresortServer + "DB30,DINT" + i);
+                list.Add(OpcPresortServer + "DB31,DINT" + i);
             }
             return list;
         }
@@ -67,12 +67,12 @@ namespace OPC
         public static List<string> GetRelenishplanItem()
         {
             List<string> list = new List<string>();
-            list.Add(OpcPresortServer + "DB2.DINT0");
-            list.Add(OpcPresortServer + "DB2.W4");
-            list.Add(OpcPresortServer + "DB2.DINT6");
-            list.Add(OpcPresortServer + "DB2.DINT10");
-            list.Add(OpcPresortServer + "DB2.W14");
-            list.Add(OpcPresortServer + "DB2.W16");
+            list.Add(OpcPresortServer + "DB300,DINT0");
+            list.Add(OpcPresortServer + "DB300,W4");
+            list.Add(OpcPresortServer + "DB300,DINT6");
+            list.Add(OpcPresortServer + "DB300,DINT10");
+            list.Add(OpcPresortServer + "DB300,W14");
+            list.Add(OpcPresortServer + "DB300,W16");
             return list;
         }
 
@@ -83,9 +83,9 @@ namespace OPC
         public static List<string> GetReFinishTaskItem()
         {
             List<string> list = new List<string>();
-            for (int i = 0; i < 10; i += 4)
+            for (int i = 0; i < 400; i += 4)
             {
-                list.Add(OpcPresortServer + "DB31,DINT" + i);
+                list.Add(OpcPresortServer + "DB302,DINT" + i);
             }
             return list;
         }
@@ -97,13 +97,37 @@ namespace OPC
         {
             List<string> list = new List<string>();
 
-            list.Add(OpcPresortServer + "DB2.W16");// 交互标志 0
+            list.Add(OpcPresortServer + "DB300,W16");// 交互标志 0
             return list;
         }
 
         public static List<string> GetScan() 
         {
             List<string> list = new List<string>() { "DB" };
+            return list;
+        }
+        public static List<string> GetOnlyUnnormalItem() 
+        {
+            List<string> list = new List<string>();
+            list.Add(OpcPresortServer + "DB3,DINT0");
+            list.Add(OpcPresortServer + "DB3,DINT4");
+            list.Add(OpcPresortServer + "DB3,W8");
+            list.Add(OpcPresortServer + "DB3,W10");
+            list.Add(OpcPresortServer + "DB3,DINT12");
+            list.Add(OpcPresortServer + "DB3,W16");
+            list.Add(OpcPresortServer + "DB3,W18");
+            return list;
+        }
+        public static List<string> GetSpanUnnormalItem()
+        {
+            List<string> list = new List<string>();
+            list.Add(OpcPresortServer + "DB3,W18");
+            return list;
+        }
+        public static List<string> GetFinishUnnormalItem()
+        {
+            List<string> list = new List<string>();
+            list.Add(OpcPresortServer + "DB32,DINT0");
             return list;
         }
 

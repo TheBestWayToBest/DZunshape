@@ -16,5 +16,6 @@ namespace Business.Modle
         public decimal SendTasNum { get; set; }
         public decimal PackageMachineSeq { get; set; }
         public string ThroughNum { get; set; }
+        public decimal PokeNum { get; set; }
     }
 }

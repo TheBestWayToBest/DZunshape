@@ -8,11 +8,11 @@ namespace Business.BusinessClass
 {
     public class ThroughClass
     {
-        public static List<ThroughInfo> GetThroughInfo(int index, List<decimal> groupNo, string condition) 
+        public static List<ThroughInfo> GetThroughInfo(int index, List<decimal> groupNo, string condition)
         {
-            using (DZEntities en = new DZEntities()) 
+            using (DZEntities en = new DZEntities())
             {
-                Func<T_PRODUCE_SORTTROUGH,bool> func;
+                Func<T_PRODUCE_SORTTROUGH, bool> func;
                 if (groupNo.Count == 1)
                     func = item => item.GROUPNO == groupNo[0];
                 else if (groupNo.Count == 2)
@@ -32,9 +32,9 @@ namespace Business.BusinessClass
                         State = item.STATE,
                         GroupNo = item.GROUPNO ?? 0,
                         CigaretteType = item.CIGARETTETYPE ?? 0
-                    }).OrderBy(item=>item.ThroughNum).OrderBy(item=>item.MachineSeq).ToList();
+                    }).OrderBy(item => item.ThroughNum).OrderBy(item => item.MachineSeq).ToList();
                 }
-                else 
+                else
                 {
                     if (index == 0)
                     {
@@ -65,16 +65,16 @@ namespace Business.BusinessClass
                         }).OrderBy(item => item.ThroughNum).OrderBy(item => item.MachineSeq).ToList();
                     }
                 }
-                
+
                 return list;
             }
         }
 
-        public static bool UpdateThroughState(ThroughInfo info) 
+        public static bool UpdateThroughState(ThroughInfo info)
         {
-            using (DZEntities en = new DZEntities()) 
+            using (DZEntities en = new DZEntities())
             {
-               
+
                 decimal CigType = Convert.ToDecimal(info.CigaretteType);
                 decimal tType = Convert.ToDecimal(info.GroupNo);
                 T_PRODUCE_SORTTROUGH infos = new T_PRODUCE_SORTTROUGH();
@@ -88,9 +88,9 @@ namespace Business.BusinessClass
             }
         }
 
-        public static List<string> GetMachineseqByType(decimal type) 
+        public static List<string> GetMachineseqByType(decimal type)
         {
-            using (DZEntities en = new DZEntities()) 
+            using (DZEntities en = new DZEntities())
             {
                 List<string> list = new List<string>();
                 var query = en.T_PRODUCE_SORTTROUGH.Where(item => item.CIGARETTETYPE == type).GroupBy(item => new { item.MACHINESEQ, item.GROUPNO }).Select(item => new { machinseq = item.Key.MACHINESEQ ?? 0, groupNo = item.Key.GROUPNO }).ToList();
@@ -102,11 +102,11 @@ namespace Business.BusinessClass
             }
         }
 
-        public static string InsertThrough(T_PRODUCE_SORTTROUGH through) 
+        public static string InsertThrough(T_PRODUCE_SORTTROUGH through)
         {
-            using (DZEntities en = new DZEntities()) 
+            using (DZEntities en = new DZEntities())
             {
-                decimal id = en.T_PRODUCE_SORTTROUGH.Select(item=>item.ID).Max();
+                decimal id = en.T_PRODUCE_SORTTROUGH.Select(item => item.ID).Max();
                 decimal throughNum = Convert.ToDecimal(en.T_PRODUCE_SORTTROUGH.Select(item => item.TROUGHNUM).Max());
                 T_PRODUCE_SORTTROUGH tps = new T_PRODUCE_SORTTROUGH();
                 if (through.MACHINESEQ == 90)
@@ -130,7 +130,7 @@ namespace Business.BusinessClass
                         MACHINESEQ = through.MACHINESEQ
                     };
                 }
-                else 
+                else
                 {
                     int count = en.T_PRODUCE_SORTTROUGH.Where(item => item.CIGARETTETYPE == 40 && item.GROUPNO == 1 && item.CIGARETTECODE == through.CIGARETTECODE).Count();
                     if (count == 0)
@@ -151,8 +151,8 @@ namespace Business.BusinessClass
                         MACHINESEQ = through.MACHINESEQ
                     };
                 }
-                
-                
+
+
                 en.T_PRODUCE_SORTTROUGH.AddObject(tps);
                 int rows = en.SaveChanges();
                 if (rows > 0)
@@ -161,9 +161,9 @@ namespace Business.BusinessClass
             }
         }
 
-        public static string UpdateThrough(T_PRODUCE_SORTTROUGH info, string lastCigarettecode) 
+        public static string UpdateThrough(T_PRODUCE_SORTTROUGH info, string lastCigarettecode)
         {
-            using (DZEntities en = new DZEntities()) 
+            using (DZEntities en = new DZEntities())
             {
                 T_PRODUCE_SORTTROUGH tps = new T_PRODUCE_SORTTROUGH();
                 tps = en.T_PRODUCE_SORTTROUGH.Where(item => item.ID == info.ID).FirstOrDefault();
@@ -173,18 +173,18 @@ namespace Business.BusinessClass
                 if (rows > 0)
                 {
                     if (SetThroughActcount(info.CIGARETTECODE, info.GROUPNO ?? 0, lastCigarettecode))
-                    return "分拣通道信息修改成功!";
+                        return "分拣通道信息修改成功!";
                 }
-                    
+
                 return "分拣通道信息修改失败!";
             }
         }
 
-        public static bool SetThroughActcount(string cigarettecode,decimal groupNo, string lastCigarettecode="0") 
+        public static bool SetThroughActcount(string cigarettecode, decimal groupNo, string lastCigarettecode = "0")
         {
-            using (DZEntities en = new DZEntities()) 
+            using (DZEntities en = new DZEntities())
             {
-                if (lastCigarettecode != "0")
+                if (lastCigarettecode != "0" && lastCigarettecode != "")
                 {
                     var query = en.T_PRODUCE_SORTTROUGH.Where(item => item.STATE == "10" && item.GROUPNO == groupNo && item.CIGARETTECODE == cigarettecode).ToList();
                     if (query.Count > 1)
@@ -217,7 +217,7 @@ namespace Business.BusinessClass
                         }
                     }
                 }
-                else 
+                else
                 {
                     var query = en.T_PRODUCE_SORTTROUGH.Where(item => item.STATE == "10" && item.GROUPNO == groupNo && item.CIGARETTECODE == cigarettecode).ToList();
                     if (query.Count > 1)
@@ -229,6 +229,10 @@ namespace Business.BusinessClass
                     }
                     else
                     {
+                        if (query.Count == 0) 
+                        {
+                            query = en.T_PRODUCE_SORTTROUGH.Where(item => item.GROUPNO == groupNo && item.CIGARETTECODE == cigarettecode).ToList();
+                        }
                         foreach (var item in query)
                         {
                             item.ACTCOUNT = 1;
@@ -237,7 +241,7 @@ namespace Business.BusinessClass
                 }
                 return en.SaveChanges() > 0;
             }
-            
+
         }
     }
 }

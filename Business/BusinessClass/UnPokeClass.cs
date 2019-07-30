@@ -29,16 +29,16 @@ namespace Business.BusinessClass
             using (DZEntities en = new DZEntities())
             {
                 List<T_UN_POKE> list = new List<T_UN_POKE>();
-                
-                decimal ts = en.T_PRODUCE_SORTTROUGH.Where(item => item.GROUPNO == 1 && item.CIGARETTETYPE == 40).Select(item => item.MACHINESEQ ?? 0).FirstOrDefault();
-                
+
+                //decimal ts = en.T_PRODUCE_SORTTROUGH.Where(item => item.GROUPNO == 1 && item.CIGARETTETYPE == 40).Select(item => item.MACHINESEQ ?? 0).FirstOrDefault();
+
                 var query = en.T_UN_POKE.Where(item => item.LINENUM == linenum).OrderBy(item => item.SORTNUM).FirstOrDefault();
                 if (query == null)
                 {
                     outStr = null;
                     return values;
                 }
-                list = en.T_UN_POKE.Where(item => item.SORTNUM == query.SORTNUM && item.STATUS == status && item.MACHINESEQ != ts).OrderBy(item => item.SORTNUM).ToList();
+                list = en.T_UN_POKE.Where(item => item.SORTNUM == query.SORTNUM && item.STATUS == status).OrderBy(item => item.SORTNUM).ToList();
 
                 //混合道+++
 
@@ -48,21 +48,15 @@ namespace Business.BusinessClass
                 decimal machineseq = 0;
                 foreach (var item in list.Where(ite => ite.CTYPE == 2).GroupBy(item => item.MACHINESEQ).Select(item => new { MACHINESEQ = item.Key, QTY = item.Sum(x => x.POKENUM) }).OrderBy(ite => ite.MACHINESEQ).ToList())
                 {
-                    if (machineseq != ts)
-                    {
-                        machineseq = item.MACHINESEQ??0;
-                        values[(int)machineseq + 1] = item.QTY;
-                        sb.AppendLine(linenum + "线 " + machineseq + " 号烟仓，出烟数量：" + item.QTY);
-                    }
+                    machineseq = item.MACHINESEQ ?? 0;
+                    values[(int)machineseq + 1] = item.QTY;
+                    sb.AppendLine(linenum + "线 " + machineseq + " 号烟仓，出烟数量：" + item.QTY);
                 }
                 foreach (var item in list.Where(ite => ite.CTYPE == 3).GroupBy(item => item.MACHINESEQ).Select(item => new { MACHINESEQ = item.Key, QTY = item.Sum(x => x.POKENUM) }).OrderBy(ite => ite.MACHINESEQ).ToList())
                 {
-                    if (machineseq != ts)
-                    {
-                        machineseq = item.MACHINESEQ ?? 0;
-                        values[(int)machineseq + 1 + 90] = item.QTY;
-                        sb.AppendLine(linenum + "线 " + machineseq + " 号烟仓，出烟数量：" + item.QTY);
-                    }
+                    machineseq = item.MACHINESEQ ?? 0;
+                    values[(int)machineseq + 1 + 90] = item.QTY;
+                    sb.AppendLine(linenum + "线 " + machineseq + " 号烟仓，出烟数量：" + item.QTY);
                 }
                 values[98] = list.Where(item => item.CTYPE == 2 && item.MACHINESEQ > 30 && item.MACHINESEQ < 91).Sum(item => item.POKENUM);
                 values[99] = list.Where(item => item.CTYPE == 3).Sum(item => item.POKENUM);
@@ -88,7 +82,7 @@ namespace Business.BusinessClass
                     foreach (var item in list)
                     {
                         item.STATUS = status;
-                        item.SENDSEQ = sendSeq;
+                        //item.SENDSEQ = sendSeq;
                     }
                 }
                 int row = data.SaveChanges();
