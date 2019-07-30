@@ -156,7 +156,7 @@ namespace SpecialShapeSmoke
             SerialPort sp = sender as SerialPort;
             String tempCode = sp.ReadExisting();
             str = tempCode.Split('\r').First();
-            
+            PullCigarette(str);
         }
         void PullCigarette(string str)
         {
@@ -288,7 +288,7 @@ namespace SpecialShapeSmoke
 
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-            PullCigarette("39537");
+            
         }
 
         OPCServer opcServer;
@@ -423,6 +423,16 @@ namespace SpecialShapeSmoke
                     }
                 }
             }
+        }
+
+        private void BtnSeq_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnRefresh_Click(object sender, EventArgs e)
+        {
+
         }
     
     }

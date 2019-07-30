@@ -1,6 +1,6 @@
-﻿namespace SpecialShapeSmoke
+﻿namespace MixedThrough
 {
-    partial class MainScreen
+    partial class MixedThrough
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.LblAdded2 = new System.Windows.Forms.Label();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MixedThrough));
             this.panel1 = new System.Windows.Forms.Panel();
             this.BtnRefresh = new System.Windows.Forms.Button();
             this.BtnSearch = new System.Windows.Forms.Button();
@@ -62,6 +62,7 @@
             this.LblAdded8 = new System.Windows.Forms.Label();
             this.LblAdded7 = new System.Windows.Forms.Label();
             this.LblAdded1 = new System.Windows.Forms.Label();
+            this.LblAdded2 = new System.Windows.Forms.Label();
             this.LblAdded4 = new System.Windows.Forms.Label();
             this.LblAdded5 = new System.Windows.Forms.Label();
             this.LblAdded3 = new System.Windows.Forms.Label();
@@ -74,21 +75,10 @@
             this.GBAdded.SuspendLayout();
             this.SuspendLayout();
             // 
-            // LblAdded2
-            // 
-            this.LblAdded2.BackColor = System.Drawing.Color.White;
-            this.LblAdded2.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.LblAdded2.ForeColor = System.Drawing.Color.Black;
-            this.LblAdded2.Location = new System.Drawing.Point(2, 42);
-            this.LblAdded2.Name = "LblAdded2";
-            this.LblAdded2.Size = new System.Drawing.Size(230, 19);
-            this.LblAdded2.TabIndex = 11;
-            this.LblAdded2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Transparent;
-            this.panel1.BackgroundImage = global::SpecialShapeSmoke.Properties.Resources.topfj;
+            this.panel1.BackgroundImage = global::MixedThrough.Properties.Resources.topfj;
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.panel1.Controls.Add(this.BtnRefresh);
             this.panel1.Controls.Add(this.BtnSearch);
@@ -100,7 +90,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(480, 378);
-            this.panel1.TabIndex = 2;
+            this.panel1.TabIndex = 3;
             // 
             // BtnRefresh
             // 
@@ -111,7 +101,6 @@
             this.BtnRefresh.TabIndex = 22;
             this.BtnRefresh.Text = "刷新";
             this.BtnRefresh.UseVisualStyleBackColor = true;
-            this.BtnRefresh.Click += new System.EventHandler(this.BtnRefresh_Click);
             // 
             // BtnSearch
             // 
@@ -122,7 +111,6 @@
             this.BtnSearch.TabIndex = 20;
             this.BtnSearch.Text = "条烟定位";
             this.BtnSearch.UseVisualStyleBackColor = true;
-            this.BtnSearch.Click += new System.EventHandler(this.BtnSearch_Click);
             // 
             // BtnSeq
             // 
@@ -133,18 +121,16 @@
             this.BtnSeq.TabIndex = 21;
             this.BtnSeq.Text = "条烟顺序";
             this.BtnSeq.UseVisualStyleBackColor = true;
-            this.BtnSeq.Click += new System.EventHandler(this.BtnSeq_Click);
             // 
             // BtnExit
             // 
-            this.BtnExit.BackgroundImage = global::SpecialShapeSmoke.Properties.Resources.icon_exit;
+            this.BtnExit.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BtnExit.BackgroundImage")));
             this.BtnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnExit.Location = new System.Drawing.Point(457, 0);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(23, 22);
             this.BtnExit.TabIndex = 1;
             this.BtnExit.UseVisualStyleBackColor = true;
-            this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
             // GBToAdd
             // 
@@ -475,6 +461,17 @@
             this.LblAdded1.TabIndex = 10;
             this.LblAdded1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // LblAdded2
+            // 
+            this.LblAdded2.BackColor = System.Drawing.Color.White;
+            this.LblAdded2.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdded2.ForeColor = System.Drawing.Color.Black;
+            this.LblAdded2.Location = new System.Drawing.Point(2, 42);
+            this.LblAdded2.Name = "LblAdded2";
+            this.LblAdded2.Size = new System.Drawing.Size(230, 19);
+            this.LblAdded2.TabIndex = 11;
+            this.LblAdded2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // LblAdded4
             // 
             this.LblAdded4.BackColor = System.Drawing.Color.White;
@@ -527,18 +524,17 @@
             // 
             this.TSender.Interval = 10000;
             // 
-            // MainScreen
+            // MixedThrough
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::SpecialShapeSmoke.Properties.Resources.mainbj;
+            this.BackgroundImage = global::MixedThrough.Properties.Resources.mainbj;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(480, 378);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "MainScreen";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Resize += new System.EventHandler(this.MainScreen_Resize);
+            this.Name = "MixedThrough";
+            this.Text = "Form1";
             this.panel1.ResumeLayout(false);
             this.GBToAdd.ResumeLayout(false);
             this.GBAdded.ResumeLayout(false);
@@ -548,7 +544,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Label LblAdded2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button BtnRefresh;
         private System.Windows.Forms.Button BtnSearch;
@@ -581,6 +576,7 @@
         private System.Windows.Forms.Label LblAdded8;
         private System.Windows.Forms.Label LblAdded7;
         private System.Windows.Forms.Label LblAdded1;
+        private System.Windows.Forms.Label LblAdded2;
         private System.Windows.Forms.Label LblAdded4;
         private System.Windows.Forms.Label LblAdded5;
         private System.Windows.Forms.Label LblAdded3;

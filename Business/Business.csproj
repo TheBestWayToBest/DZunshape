@@ -60,7 +60,6 @@
     <Compile Include="BusinessClass\ScheduleClass.cs" />
     <Compile Include="BusinessClass\SpecialSmokeClass.cs" />
     <Compile Include="BusinessClass\TaskClass.cs" />
-    <Compile Include="BusinessClass\TestClass.cs" />
     <Compile Include="BusinessClass\ThroughClass.cs" />
     <Compile Include="BusinessClass\UnPokeClass.cs" />
     <Compile Include="BusinessClass\ValidationClass.cs" />

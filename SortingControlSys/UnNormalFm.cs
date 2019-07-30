@@ -24,7 +24,7 @@ namespace SortingControlSys
         delegate void HandleUpDate(string info);
 
         static HandleUpDate handle;
-
+        
         OPCServer opcServer;
         /// <summary>
         /// 存放任务线路
@@ -34,6 +34,7 @@ namespace SortingControlSys
         public UnNormalFm()
         {
             InitializeComponent();
+            //ItemInfo item = new ItemInfo();
             UpdateControlEnable(false, BtnEnd);
             Initdata();
             TimeToClike.Start();

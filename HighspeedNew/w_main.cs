@@ -294,11 +294,7 @@ namespace HighSpeed
             toolStripStatusLabel3.Text = "系统时间：" + System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
-        private void testToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Test t = new Test();
-            t.Show();
-        }
+        
 
     }
 }

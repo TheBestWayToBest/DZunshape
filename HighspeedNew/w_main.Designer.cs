@@ -54,7 +54,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -166,8 +165,7 @@
             this.排程报表ToolStripMenuItem,
             this.混合道补烟顺序ToolStripMenuItem,
             this.件烟补货顺序ToolStripMenuItem,
-            this.件烟补货汇总ToolStripMenuItem,
-            this.testToolStripMenuItem});
+            this.件烟补货汇总ToolStripMenuItem});
             this.报表统计ToolStripMenuItem.Name = "报表统计ToolStripMenuItem";
             this.报表统计ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
             this.报表统计ToolStripMenuItem.Text = "报表统计";
@@ -262,13 +260,6 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // testToolStripMenuItem
-            // 
-            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-            this.testToolStripMenuItem.Text = "Test";
-            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
-            // 
             // w_main
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -317,7 +308,6 @@
         private System.Windows.Forms.ToolStripMenuItem 件烟补货顺序ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 件烟补货汇总ToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
        // private Sunisoft.IrisSkin.SkinEngine skinEngine1;
     }
 }
