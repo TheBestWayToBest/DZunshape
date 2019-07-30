@@ -702,7 +702,7 @@ namespace Business.BusinessClass
                     //return re;
                 }
                 //两条烟的订单分拣
-                var t_un_taskUnionTasklinefor2 = (from item in en.T_UN_TASK
+                /*var t_un_taskUnionTasklinefor2 = (from item in en.T_UN_TASK
                                                   join item2 in en.T_UN_TASKLINE on item.TASKNUM equals item2.TASKNUM
                                                   join item3 in en.T_PRODUCE_SORTTROUGH on item2.CIGARETTECODE equals item3.CIGARETTECODE
                                                   where item3.STATE == "10" && item.STATE == "10"
@@ -808,7 +808,7 @@ namespace Business.BusinessClass
                     re.IsSuccess = false;
                     re.MessageText = "暂无可排程的两条异型烟任务信息！";
                     //return re;
-                }
+                }*/
                 //其他正常顺序的异型烟任务
                 var t_un_taskUnionTaskline = (from item in en.T_UN_TASK
                                               join item2 in en.T_UN_TASKLINE on item.TASKNUM equals item2.TASKNUM
