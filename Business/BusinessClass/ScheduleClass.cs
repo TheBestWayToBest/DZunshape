@@ -311,7 +311,7 @@ namespace Business.BusinessClass
                 var singleOrder = (from order in Order
                                    join line in Line on order.BILLCODE equals line.BILLCODE
                                    join item in Item on line.CIGARETTECODE equals item.ITEMNO
-                                   where order.UNSTATE == "新增" && item.SHIPTYPE == "1"
+                                   where order.UNSTATE == "新增" && item.SHIPTYPE == "1" && order.REGIONCODE == regioncode
                                    group line by new { order.BILLCODE } into x
                                    select new { billcode = x.Key, qty = x.Sum(g => g.QUANTITY) }
                                ).ToList().Where(x => x.qty == 1).Select(x=>x.billcode).ToList();
@@ -555,7 +555,8 @@ namespace Business.BusinessClass
                     re.MessageText = regioncode + "车组预排程成功！";
 
                     //重新整理车组的户序
-                    var taskList = (from task in en.T_UN_TASK where task.REGIONCODE == regioncode orderby task.SORTNUM select task).ToList();
+                    string para=regioncode.Split('@')[0];
+                    var taskList = (from task in en.T_UN_TASK where task.REGIONCODE == para orderby task.SORTNUM select task).ToList();
                     int sortseq = 0;
                     foreach (var item in taskList)
                     {
