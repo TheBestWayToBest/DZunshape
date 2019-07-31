@@ -290,6 +290,154 @@ namespace Business.BusinessClass
         /// <returns></returns>
         /// 
 
+        public Response PreScheduleForSingleOrder(string regioncode)
+        {
+            Response re = new Response("预排程失败，未找到对应的车组" + regioncode);
+            StringBuilder sb = new StringBuilder();
+            using (DZEntities en = new DZEntities())
+            {
+                var valBatch = ValiBatchCode();
+                if (!valBatch.IsSuccess)
+                {
+                    return valBatch;
+                }
+                 //group item by new { item.REGIONCODE } into g
+                 //            select new { regioncode = g.Key.REGIONCODE, qty = g.Sum(x => x.TASKQUANTITY), count = g.Count() }).To
+
+                var Order = en.T_PRODUCE_ORDER.ToList();
+                var Line = en.T_PRODUCE_ORDERLINE.ToList();
+                var Item = en.T_WMS_ITEM.ToList();
+
+                var singleOrder = (from order in Order
+                                   join line in Line on order.BILLCODE equals line.BILLCODE
+                                   join item in Item on line.CIGARETTECODE equals item.ITEMNO
+                                   where order.UNSTATE == "新增" && item.SHIPTYPE == "1"
+                                   group line by new { order.BILLCODE } into x
+                                   select new { billcode = x.Key, qty = x.Sum(g => g.QUANTITY) }
+                               ).ToList().Where(x => x.qty == 1).Select(x=>x.billcode).ToList();
+                //var t_produce_Order = (from item in en.T_PRODUCE_ORDER where item.REGIONCODE == regioncode select item).ToList();//根据车组查询ORder表中所对应的订单
+                var t_produce_Order = (from order in Order
+                                       join line in Line on order.BILLCODE equals line.BILLCODE
+                                       join item in Item on line.CIGARETTECODE equals item.ITEMNO
+                                       where order.UNSTATE == "新增" && item.SHIPTYPE == "1" && order.REGIONCODE == regioncode
+                                       orderby order.DEVSEQ
+                                       select order).Distinct().ToList();
+
+                //Order.Where(x => x.BILLCODE);
+                //var query=(from task in en.T_UN_TASK select task.TASKNUM).Max();
+
+                //取目前车组最大的Tasknum,如果没有,则给默认任务号
+                //decimal maxTaskNum = GetMaxTaskNumByRegioncode(regioncode).Content;
+                decimal maxTaskNum = GetMaxTaskNumByRegioncode().Content;
+                if (maxTaskNum == 0)
+                {
+                    //无法确定车组号是否是数字组成,不再将车组号编入任务编号中
+                    //String max = DateTime.Now.ToString("yyyyMMdd") + regioncode + "000";
+                    String max = DateTime.Now.ToString("yyyyMMdd") + "000000";
+                    //if (regioncode.Contains("@")) max = DateTime.Now.ToString("yyyyMMdd") + regioncode.Split('@')[0] + "000";
+                    //String max = DateTime.Now.ToString("yyyyMMdd") + regioncode + "000";
+                    maxTaskNum = Convert.ToDecimal(max);
+                }
+
+                //String query = maxTaskNum+regioncode+""
+                //if (query != null&&!"".Equals(query)) maxTaskNum = query.ToString();
+                //var maxtasknum = (en.T_UN_TASK.Max(a => a.TASKNUM) ?? 0) + 1;
+                //(dzEntities.T_PRODUCE_ORDER.Max(a => a.SYNSEQ) ?? 0) + 1;
+                if (singleOrder.Any())
+                {
+                    int index = 0, tmpIndex = 0, custSeq = 0;
+                    foreach (var g in singleOrder)
+                    {
+                        T_UN_TASK t_un_task = new T_UN_TASK();
+
+                        var item = t_produce_Order.Where(x => x.BILLCODE == g.BILLCODE).FirstOrDefault();
+                        if (item != null)
+                        {
+                            //字段赋值
+                            index++;
+                            tmpIndex++;
+                            t_un_task.TASKNUM = maxTaskNum + index;
+                            t_un_task.LINENUM = "1";
+                            t_un_task.EXPORTNUM = "1";
+                            if (item.REGIONCODE.Contains("@"))
+                            {
+                                string str = item.REGIONCODE;
+                                t_un_task.REGIONCODE = str.Split('@')[0];
+                                t_un_task.REGIONDESC = str.Split('@')[1];
+                            }
+                            else
+                            {
+                                t_un_task.REGIONCODE = item.REGIONCODE;
+                                t_un_task.REGIONDESC = item.REGIONCODE;
+                            }
+
+                            t_un_task.BILLCODE = item.BILLCODE;
+                            t_un_task.COMPANYCODE = item.COMPANYCODE;
+                            t_un_task.COMPANYNAME = item.COMPANYNAME;
+                            t_un_task.BATCHCODE = item.BATCHCODE;
+                            t_un_task.SYNSEQ = item.SYNSEQ;
+                            t_un_task.CUSTOMERCODE = item.CUSTOMERCODE;
+                            t_un_task.CUSTOMERNAME = item.CUSTOMERNAME;
+                            t_un_task.ADDRESS = item.ADDRESS;
+                            t_un_task.TELEPHONE = item.TELEPHONE;
+                            t_un_task.ORDERQUANTITY = item.ORDERQUANTITY;
+                            t_un_task.TASKQUANTITY = item.ORDERQUANTITY;
+                            custSeq = Convert.ToInt32(item.PRIORITY);//送货顺序  每个车组从1到最后一户
+                            t_un_task.PRIORITY = custSeq;
+                            t_un_task.TASKBOX = "F";
+                            t_un_task.SORTSEQ = index;//户序   单独异型烟户序
+                            t_un_task.LABLENUM = "F";
+                            t_un_task.PLANTIME = CreateTime;
+                            t_un_task.SORTTIME = CreateTime;
+                            t_un_task.FINISHTIME = null;
+                            t_un_task.STATE = "10";
+                            t_un_task.LABELBATCH = 1;
+                            t_un_task.PALLETNUM = 1;
+                            if (custSeq == tmpIndex)
+                            {
+                                t_un_task.EXISTRCD = 1;
+                            }
+                            else
+                            {
+                                t_un_task.EXISTRCD = 0;
+                            }
+                            tmpIndex = custSeq;
+
+                            t_un_task.ORDERDATE = item.ORDERDATE;
+                            t_un_task.MAINBELT = 1;
+                            t_un_task.PACKAGEMACHINE = 1;
+                            t_un_task.PAYMENTFLAG = item.PAYMENTFLAG;
+                            t_un_task.SORTNUM = en.ExecuteStoreQuery<decimal>(Str_Sortnum_SEQUENCE, null).FirstOrDefault();//SortNum序列 
+                            t_un_task.SECSORTNUM = t_un_task.SORTNUM;
+                            var psDetail = PreScheduleDetail(en, t_un_task.BILLCODE, t_un_task.TASKNUM);//添加单个订单的条烟明细到TASKLINE
+                            if (psDetail.IsSuccess)
+                            {
+                                en.T_PRODUCE_ORDER.Where(a => a.BILLCODE == t_un_task.BILLCODE).FirstOrDefault
+                                    ().UNSTATE = "排程";
+                                t_un_task.TASKQUANTITY = Convert.ToDecimal(psDetail.ResultObject ?? 0);
+                                en.T_UN_TASK.AddObject(t_un_task);//添加到实体集 
+
+                                en.SaveChanges();
+                            }
+                            else
+                            {
+                                return psDetail;
+                            }
+                        }
+                    }
+                    re.IsSuccess = true;
+                    re.MessageText = regioncode + "车组预排程成功！";
+                    return re;
+                }
+                else
+                {
+                    return re.DefaultResponse;
+                }
+            }
+
+
+        }
+
         public Response PreSchedule(string regioncode)
         {
             Response re = new Response("预排程失败，未找到对应的车组" + regioncode);
@@ -305,7 +453,7 @@ namespace Business.BusinessClass
                 var t_produce_Order = (from order in en.T_PRODUCE_ORDER
                                        join line in en.T_PRODUCE_ORDERLINE on order.BILLCODE equals line.BILLCODE
                                        join item in en.T_WMS_ITEM on line.CIGARETTECODE equals item.ITEMNO
-                                       where order.STATE == "新增" && item.SHIPTYPE == "1" && order.REGIONCODE == regioncode
+                                       where order.UNSTATE == "新增" && item.SHIPTYPE == "1" && order.REGIONCODE == regioncode
                                        orderby order.DEVSEQ
                                        select order).Distinct().ToList();
                 //var query=(from task in en.T_UN_TASK select task.TASKNUM).Max();
@@ -370,7 +518,7 @@ namespace Business.BusinessClass
                         t_un_task.SORTTIME = CreateTime;
                         t_un_task.FINISHTIME = null;
                         t_un_task.STATE = "10";
-                        t_un_task.LABELBATCH = 1;
+                        t_un_task.LABELBATCH = 100;
                         t_un_task.PALLETNUM = 1;
                         if (custSeq == tmpIndex)
                         {
@@ -405,6 +553,19 @@ namespace Business.BusinessClass
                     }
                     re.IsSuccess = true;
                     re.MessageText = regioncode + "车组预排程成功！";
+
+                    //重新整理车组的户序
+                    var taskList = (from task in en.T_UN_TASK where task.REGIONCODE == regioncode orderby task.SORTNUM select task).ToList();
+                    int sortseq = 0;
+                    foreach (var item in taskList)
+                    {
+                        sortseq++;
+                        en.T_UN_TASK.Where(a => a.TASKNUM == item.TASKNUM).FirstOrDefault
+                                ().SORTSEQ = sortseq;
+
+                        en.SaveChanges();
+                    }
+
                     return re;
                 }
                 else
@@ -594,7 +755,7 @@ namespace Business.BusinessClass
                     }
                 }
                 //一条烟的订单分拣
-                var t_un_taskUnionTasklinefor1 = (from item in en.T_UN_TASK
+                /*var t_un_taskUnionTasklinefor1 = (from item in en.T_UN_TASK
                                               join item2 in en.T_UN_TASKLINE on item.TASKNUM equals item2.TASKNUM
                                               join item3 in en.T_PRODUCE_SORTTROUGH on item2.CIGARETTECODE equals item3.CIGARETTECODE
                                               where item3.STATE == "10" && item.STATE == "10"
@@ -700,7 +861,7 @@ namespace Business.BusinessClass
                     re.IsSuccess = false;
                     re.MessageText = "暂无可排程的单条异型烟任务信息！";
                     //return re;
-                }
+                }*/
                 //两条烟的订单分拣
                 /*var t_un_taskUnionTasklinefor2 = (from item in en.T_UN_TASK
                                                   join item2 in en.T_UN_TASKLINE on item.TASKNUM equals item2.TASKNUM
@@ -837,7 +998,7 @@ namespace Business.BusinessClass
                                                   GroupNo = item3.GROUPNO,
                                                   ActCount = item3.ACTCOUNT
                                               }).ToList();//任务信息表
-                pokeId = GetMaxPokeId(en).Content;//获取最大POKEID
+                decimal pokeId = GetMaxPokeId(en).Content;//获取最大POKEID
                 if (t_un_taskUnionTaskline.Any())
                 {
                     ThroughInfo through=new ThroughInfo();
@@ -967,7 +1128,7 @@ namespace Business.BusinessClass
             if (query.Any())
             {
                 query.FirstOrDefault().STATE = "15";
-                query.FirstOrDefault().LABELBATCH = labelBatch;
+                //query.FirstOrDefault().LABELBATCH = labelBatch;
                 en.SaveChanges();
                 re.IsSuccess = true;
                 re.MessageText = tasknum + "任务号，更新完成";

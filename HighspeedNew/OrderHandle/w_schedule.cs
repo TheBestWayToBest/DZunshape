@@ -101,6 +101,7 @@ namespace HighSpeed.OrderHandle
                             btn_schedule.Enabled = false;
                             String[] code = codestr.Substring(1).Split(',');
                             int len = code.Length;
+                            
                             for (int i = 0; i < len; i++)
                             {
                                 panel2.Visible = true;
@@ -108,9 +109,36 @@ namespace HighSpeed.OrderHandle
                                 progressBar1.Visible = true;
                                 progressBar1.Value = 0;
                                 Application.DoEvents();
+                                if (i == 0) label2.Text = "正在对" + code[i] + "车组的单条订单数据进行预排程...";
+                                var resc = sc.PreScheduleForSingleOrder(code[i]);
+                                progressBar1.Value = ((i + 1) * 100 / (len*2));
+                                progressBar1.Refresh();
+                                String tmpstr = "";
+                                if (resc.IsSuccess)
+                                {
+                                    if (i + 1 < len) tmpstr = "正在对" + code[i + 1] + "车组单条订单数据进行预排程...";
+                                    else tmpstr = "";
+                                    label2.Text = code[i] + "车组单条订单数据预排程结束..." + tmpstr;
+                                    label2.Refresh();
+                                    indexstr = indexstr + "," + code[i];
+                                }
+                                else
+                                {
+                                    label2.Text = resc.MessageText;
+                                    label2.Refresh();
+                                    break;
+                                }
+                            }
+                            for (int i = 0; i < len; i++)
+                            {
+                                //panel2.Visible = true;
+                                //label2.Visible = true;
+                                //progressBar1.Visible = true;
+                                //progressBar1.Value = 0;
+                                //Application.DoEvents();
                                 if (i == 0) label2.Text = "正在对" + code[i] + "车组订单数据进行预排程...";
                                 var resc = sc.PreSchedule(code[i]);
-                                progressBar1.Value = ((i + 1) * 100 / len);
+                                progressBar1.Value = ((len + i + 1) * 100 / (len*2));
                                 progressBar1.Refresh();
                                 String tmpstr = "";
                                 if (resc.IsSuccess)
