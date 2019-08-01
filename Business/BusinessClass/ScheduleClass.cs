@@ -455,7 +455,7 @@ namespace Business.BusinessClass
                                        join item in en.T_WMS_ITEM on line.CIGARETTECODE equals item.ITEMNO
                                        where order.UNSTATE == "新增" && item.SHIPTYPE == "1" && order.REGIONCODE == regioncode
                                        orderby order.DEVSEQ
-                                       select order).Distinct().ToList();
+                                       select order).Distinct().OrderBy(x=>x.DEVSEQ).ToList();
                 //var query=(from task in en.T_UN_TASK select task.TASKNUM).Max();
 
                 //取目前车组最大的Tasknum,如果没有,则给默认任务号
