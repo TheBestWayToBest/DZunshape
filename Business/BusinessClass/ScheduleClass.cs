@@ -321,7 +321,7 @@ namespace Business.BusinessClass
                                        join item in Item on line.CIGARETTECODE equals item.ITEMNO
                                        where order.UNSTATE == "新增" && item.SHIPTYPE == "1" && order.REGIONCODE == regioncode
                                        orderby order.DEVSEQ
-                                       select order).Distinct().ToList();
+                                       select order).Distinct().OrderBy(x=>x.DEVSEQ).ToList();
 
                 //Order.Where(x => x.BILLCODE);
                 //var query=(from task in en.T_UN_TASK select task.TASKNUM).Max();
