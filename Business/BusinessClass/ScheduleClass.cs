@@ -97,7 +97,7 @@ namespace Business.BusinessClass
                 {
                     //var V_SALE_ORDER_HEAD =  //获取订单主表 根据车组
 
-                    var V_SALE_ORDER_HEAD = (from item in en.T_SALE_ORDER_HEAD where item.ROUTECODE == regioncode && item.ORDERDATE==nowDate select item).ToList();
+                    var V_SALE_ORDER_HEAD = (from item in en.T_SALE_ORDER_HEAD where item.ROUTECODE == regioncode && item.ORDERDATE==nowDate orderby item.DELIVERYSEQ select item).ToList();
                     if (V_SALE_ORDER_HEAD.Any())//如果包含数据
                     {
                         decimal index = 0;
