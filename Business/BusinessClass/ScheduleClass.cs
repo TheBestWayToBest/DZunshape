@@ -312,9 +312,9 @@ namespace Business.BusinessClass
                                    join line in Line on order.BILLCODE equals line.BILLCODE
                                    join item in Item on line.CIGARETTECODE equals item.ITEMNO
                                    where order.UNSTATE == "新增" && item.SHIPTYPE == "1" && order.REGIONCODE == regioncode
-                                   group line by new { order.BILLCODE } into x
+                                   group line by new { order.BILLCODE,order.DEVSEQ} into x
                                    select new { billcode = x.Key, qty = x.Sum(g => g.QUANTITY) }
-                               ).ToList().Where(x => x.qty == 1).Select(x=>x.billcode).ToList();
+                               ).ToList().Where(x => x.qty == 1).Select(x=>x.billcode).OrderBy(x=>x.DEVSEQ).ToList();
                 //var t_produce_Order = (from item in en.T_PRODUCE_ORDER where item.REGIONCODE == regioncode select item).ToList();//根据车组查询ORder表中所对应的订单
                 var t_produce_Order = (from order in Order
                                        join line in Line on order.BILLCODE equals line.BILLCODE
@@ -1005,6 +1005,7 @@ namespace Business.BusinessClass
                     ThroughInfo through=new ThroughInfo();
                     foreach (var item in t_un_taskUnionTaskline)
                     {
+                        Tool.WriteLog.GetLog().Write(item.TaskNum + "===" + item.CigCode);
                         decimal quantity = item.Quantity ?? 0;
                         decimal qty = quantity;
                         //是否是双通道的烟 均分
@@ -1126,6 +1127,7 @@ namespace Business.BusinessClass
         {
             Response re = new Response();
             var query = (from item in en.T_UN_TASK where item.TASKNUM == tasknum select item).ToList();
+
             if (query.Any())
             {
                 query.FirstOrDefault().STATE = "15";
