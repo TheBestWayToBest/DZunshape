@@ -18,13 +18,55 @@ namespace Business.BusinessClass
             {
                 try
                 {
+                    decimal maxid = 0;
+                    //卧式通道预补货
+                    var wsList=(from ws in entites.T_PRODUCE_SORTTROUGH where ws.STATE=="10" && ws.GROUPNO==3 select ws).ToList();
+                    var itemList = (from item in entites.T_WMS_ITEM where item.ROWSTATUS == 10 select item).ToList();
+                    if(wsList.Any()){
+                        foreach (var item in wsList)
+                        {
+                            T_WMS_ITEM citem = itemList.Find(x => x.ITEMNO == item.CIGARETTECODE);
+                            //计算需要预补多少件
+                            decimal jtsize=citem.JT_SIZE??0;
+                            if(jtsize>0){
+                                decimal ct = ((item.THRESHOLD - item.MANTISSA) / jtsize)??0;
+                                double cigCount = Math.Floor(Convert.ToDouble(ct));
+                                if (cigCount>0)
+                                {
+                                    for (int j = 0; j < cigCount; j++)
+                                    {
+                                        i++;
+                                        T_PRODUCE_REPLENISHPLAN plan = new T_PRODUCE_REPLENISHPLAN();
+
+                                        plan.CIGARETTECODE = item.CIGARETTECODE;
+                                        plan.CIGARETTENAME = item.CIGARETTENAME;
+                                        plan.ID = (++maxid);
+                                        plan.JYCODE = citem.BIGBOX_BAR;
+                                        plan.REPLENISHQTY = 1;
+                                        //plan.TASKNUM = item.SORTNUM+"";
+                                        plan.MANTISSA = item.MANTISSA + citem.JT_SIZE;
+                                        item.MANTISSA = plan.MANTISSA;
+                                        plan.TROUGHNUM = item.MACHINESEQ.ToString();//通道编号默认
+                                        plan.STATUS = 0;//新增状态
+                                        plan.TYPE = 10;//排程自动补货
+                                        plan.SEQ = 1;
+                                        plan.ISCOMPLETED = 10;//已生成托盘补货计划
+                                        entites.T_PRODUCE_REPLENISHPLAN.AddObject(plan);
+                                        //item.STATUS = 10;//已生成托盘补货计划
+                                    }
+                                }
+                            }
+                        }
+                        entites.SaveChanges();//提交 最多24条补货
+                    }
+                    //根据订单正常补货
                     var sortList = (from item in entites.T_PRODUCE_SORTTROUGH where item.TROUGHTYPE == 10 && item.STATE == "10" && (item.CIGARETTETYPE == 30 || item.CIGARETTETYPE == 40) select item).ToList();
                     sortList.ForEach(x => x.LASTMANTISSA = x.MANTISSA);//更新上次尾数
                     var pokeList1 = (from item in entites.T_UN_POKE where item.STATUS == 0 select item).ToList();
                     var pokeList = (from item in entites.T_UN_POKE where item.STATUS == 0 group item by new { item.SORTNUM, item.TROUGHNUM, item.CIGARETTECODE } into g orderby g.Key.SORTNUM,g.Key.TROUGHNUM select new { SORTNUM = g.Key.SORTNUM, TROUGHNUM = g.Key.TROUGHNUM, CIGARETTECODE = g.Key.CIGARETTECODE, POKENUM = g.Sum(x=>x.POKENUM) }).ToList();
-                    var itemList = (from item in entites.T_WMS_ITEM where item.ROWSTATUS==10 select item).ToList();
+                    
                     var list = (from item in entites.T_PRODUCE_REPLENISHPLAN select item.ID).ToList();
-                    decimal maxid = 0;
+                    
                     if (list.Count > 0)
                     {
                         maxid = list.Max();
