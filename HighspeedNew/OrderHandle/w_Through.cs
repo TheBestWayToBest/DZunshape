@@ -138,6 +138,7 @@ namespace HighspeedNew.OrderHandle
                     {
                         info.State = "10";
                         ThroughClass.UpdateThroughState(info);
+                        ThroughClass.SetThroughActcount(info.CigaretteCode, info.GroupNo);
                         MessageBox.Show("【设备号：" + info.MachineSeq + "/通道号：" + info.ThroughNum + "】的通道已启用!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         Bind();
                     }
@@ -178,6 +179,7 @@ namespace HighspeedNew.OrderHandle
                     {
                         info.State = "0";
                         ThroughClass.UpdateThroughState(info);
+                        ThroughClass.SetThroughActcount(info.CigaretteCode, info.GroupNo);
                         MessageBox.Show("【设备号：" + info.MachineSeq + "/通道号：" + info.ThroughNum + "】的通道已禁用!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         Bind();
 

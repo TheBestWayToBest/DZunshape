@@ -34,6 +34,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="DotNetPrint">
       <HintPath>..\Lib\DotNetPrint.dll</HintPath>
@@ -140,11 +149,23 @@
     <Compile Include="OrderHandle\w_HunheReport.Designer.cs">
       <DependentUpon>w_HunheReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="OrderHandle\w_OneCigOrderReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_OneCigOrderReport.Designer.cs">
+      <DependentUpon>w_OneCigOrderReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="OrderHandle\w_orderdata.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="OrderHandle\w_orderdata.Designer.cs">
       <DependentUpon>w_orderdata.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderHandle\w_orderDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_orderDetail.Designer.cs">
+      <DependentUpon>w_orderDetail.cs</DependentUpon>
     </Compile>
     <Compile Include="OrderHandle\w_Order_Recieve.cs">
       <SubType>Form</SubType>
@@ -157,6 +178,12 @@
     </Compile>
     <Compile Include="OrderHandle\w_order_Union.Designer.cs">
       <DependentUpon>w_order_Union.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderHandle\w_PackageReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_PackageReport.Designer.cs">
+      <DependentUpon>w_PackageReport.cs</DependentUpon>
     </Compile>
     <Compile Include="OrderHandle\w_PlanReport.cs">
       <SubType>Form</SubType>
@@ -193,6 +220,30 @@
     </Compile>
     <Compile Include="OrderHandle\w_SortFm_New.Designer.cs">
       <DependentUpon>w_SortFm_New.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderHandle\w_SortingInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_SortingInfo.Designer.cs">
+      <DependentUpon>w_SortingInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderHandle\w_SortReplace.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_SortReplace.Designer.cs">
+      <DependentUpon>w_SortReplace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderHandle\w_SortReplaceHandle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_SortReplaceHandle.Designer.cs">
+      <DependentUpon>w_SortReplaceHandle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderHandle\w_SpecialShapePosition.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_SpecialShapePosition.Designer.cs">
+      <DependentUpon>w_SpecialShapePosition.cs</DependentUpon>
     </Compile>
     <Compile Include="OrderHandle\w_Through.cs">
       <SubType>Form</SubType>
@@ -281,14 +332,23 @@
     <EmbeddedResource Include="OrderHandle\w_HunheReport.resx">
       <DependentUpon>w_HunheReport.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_OneCigOrderReport.resx">
+      <DependentUpon>w_OneCigOrderReport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_orderdata.resx">
       <DependentUpon>w_orderdata.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_orderDetail.resx">
+      <DependentUpon>w_orderDetail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_Order_Recieve.resx">
       <DependentUpon>w_Order_Recieve.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_order_Union.resx">
       <DependentUpon>w_order_Union.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_PackageReport.resx">
+      <DependentUpon>w_PackageReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_PlanReport.resx">
       <DependentUpon>w_PlanReport.cs</DependentUpon>
@@ -307,6 +367,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_SortFm_New.resx">
       <DependentUpon>w_SortFm_New.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_SortingInfo.resx">
+      <DependentUpon>w_SortingInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_SortReplace.resx">
+      <DependentUpon>w_SortReplace.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_SortReplaceHandle.resx">
+      <DependentUpon>w_SortReplaceHandle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_SpecialShapePosition.resx">
+      <DependentUpon>w_SpecialShapePosition.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_Through.resx">
       <DependentUpon>w_Through.cs</DependentUpon>
@@ -345,6 +417,7 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -73,7 +73,6 @@ namespace OPC
         /// 完成信号交互区
         /// </summary>
         public PlcGroup FinishOnlyGroup { get { return finishOnlyGroup; } set { finishOnlyGroup = value; } }
-
         /// <summary>
         /// 扫码头
         /// </summary>

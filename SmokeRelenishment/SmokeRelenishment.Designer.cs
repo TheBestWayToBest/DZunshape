@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.BtnRefresh = new System.Windows.Forms.Button();
-            this.BtnSearch = new System.Windows.Forms.Button();
             this.BtnSeq = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
             this.GBToAdd = new System.Windows.Forms.GroupBox();
@@ -70,7 +69,6 @@
             this.panel1.BackgroundImage = global::SmokeRelenishment.Properties.Resources.topfj;
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.panel1.Controls.Add(this.BtnRefresh);
-            this.panel1.Controls.Add(this.BtnSearch);
             this.panel1.Controls.Add(this.BtnSeq);
             this.panel1.Controls.Add(this.BtnExit);
             this.panel1.Controls.Add(this.GBToAdd);
@@ -83,32 +81,21 @@
             // 
             // BtnRefresh
             // 
-            this.BtnRefresh.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.BtnRefresh.Location = new System.Drawing.Point(421, 0);
+            this.BtnRefresh.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.BtnRefresh.Location = new System.Drawing.Point(419, 0);
             this.BtnRefresh.Name = "BtnRefresh";
-            this.BtnRefresh.Size = new System.Drawing.Size(35, 29);
+            this.BtnRefresh.Size = new System.Drawing.Size(35, 22);
             this.BtnRefresh.TabIndex = 22;
             this.BtnRefresh.Text = "刷新";
             this.BtnRefresh.UseVisualStyleBackColor = true;
             this.BtnRefresh.Click += new System.EventHandler(this.BtnRefresh_Click);
             // 
-            // BtnSearch
-            // 
-            this.BtnSearch.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.BtnSearch.Location = new System.Drawing.Point(293, 0);
-            this.BtnSearch.Name = "BtnSearch";
-            this.BtnSearch.Size = new System.Drawing.Size(65, 29);
-            this.BtnSearch.TabIndex = 20;
-            this.BtnSearch.Text = "件烟定位";
-            this.BtnSearch.UseVisualStyleBackColor = true;
-            this.BtnSearch.Click += new System.EventHandler(this.BtnSearch_Click);
-            // 
             // BtnSeq
             // 
-            this.BtnSeq.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.BtnSeq.Location = new System.Drawing.Point(357, 0);
+            this.BtnSeq.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.BtnSeq.Location = new System.Drawing.Point(353, 0);
             this.BtnSeq.Name = "BtnSeq";
-            this.BtnSeq.Size = new System.Drawing.Size(65, 29);
+            this.BtnSeq.Size = new System.Drawing.Size(65, 22);
             this.BtnSeq.TabIndex = 21;
             this.BtnSeq.Text = "件烟顺序";
             this.BtnSeq.UseVisualStyleBackColor = true;
@@ -120,7 +107,7 @@
             this.BtnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnExit.Location = new System.Drawing.Point(455, 0);
             this.BtnExit.Name = "BtnExit";
-            this.BtnExit.Size = new System.Drawing.Size(23, 29);
+            this.BtnExit.Size = new System.Drawing.Size(23, 22);
             this.BtnExit.TabIndex = 1;
             this.BtnExit.UseVisualStyleBackColor = true;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
@@ -150,7 +137,7 @@
             // LblAdd10
             // 
             this.LblAdd10.BackColor = System.Drawing.Color.White;
-            this.LblAdd10.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdd10.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd10.ForeColor = System.Drawing.Color.Black;
             this.LblAdd10.Location = new System.Drawing.Point(2, 306);
             this.LblAdd10.Name = "LblAdd10";
@@ -161,7 +148,7 @@
             // LblAdd9
             // 
             this.LblAdd9.BackColor = System.Drawing.Color.White;
-            this.LblAdd9.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdd9.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd9.ForeColor = System.Drawing.Color.Black;
             this.LblAdd9.Location = new System.Drawing.Point(2, 274);
             this.LblAdd9.Name = "LblAdd9";
@@ -172,7 +159,7 @@
             // LblAdd8
             // 
             this.LblAdd8.BackColor = System.Drawing.Color.White;
-            this.LblAdd8.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdd8.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd8.ForeColor = System.Drawing.Color.Black;
             this.LblAdd8.Location = new System.Drawing.Point(2, 242);
             this.LblAdd8.Name = "LblAdd8";
@@ -183,7 +170,7 @@
             // LblAdd7
             // 
             this.LblAdd7.BackColor = System.Drawing.Color.White;
-            this.LblAdd7.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdd7.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd7.ForeColor = System.Drawing.Color.Black;
             this.LblAdd7.Location = new System.Drawing.Point(2, 210);
             this.LblAdd7.Name = "LblAdd7";
@@ -194,7 +181,7 @@
             // LblAdd1
             // 
             this.LblAdd1.BackColor = System.Drawing.Color.White;
-            this.LblAdd1.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdd1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd1.ForeColor = System.Drawing.Color.Black;
             this.LblAdd1.Location = new System.Drawing.Point(2, 18);
             this.LblAdd1.Name = "LblAdd1";
@@ -205,7 +192,7 @@
             // LblAdd2
             // 
             this.LblAdd2.BackColor = System.Drawing.Color.White;
-            this.LblAdd2.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdd2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd2.ForeColor = System.Drawing.Color.Black;
             this.LblAdd2.Location = new System.Drawing.Point(2, 50);
             this.LblAdd2.Name = "LblAdd2";
@@ -216,7 +203,7 @@
             // LblAdd4
             // 
             this.LblAdd4.BackColor = System.Drawing.Color.White;
-            this.LblAdd4.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdd4.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd4.ForeColor = System.Drawing.Color.Black;
             this.LblAdd4.Location = new System.Drawing.Point(2, 114);
             this.LblAdd4.Name = "LblAdd4";
@@ -227,7 +214,7 @@
             // LblAdd5
             // 
             this.LblAdd5.BackColor = System.Drawing.Color.White;
-            this.LblAdd5.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdd5.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd5.ForeColor = System.Drawing.Color.Black;
             this.LblAdd5.Location = new System.Drawing.Point(2, 146);
             this.LblAdd5.Name = "LblAdd5";
@@ -238,7 +225,7 @@
             // LblAdd3
             // 
             this.LblAdd3.BackColor = System.Drawing.Color.White;
-            this.LblAdd3.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdd3.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd3.ForeColor = System.Drawing.Color.Black;
             this.LblAdd3.Location = new System.Drawing.Point(2, 82);
             this.LblAdd3.Name = "LblAdd3";
@@ -249,7 +236,7 @@
             // LblAdd6
             // 
             this.LblAdd6.BackColor = System.Drawing.Color.White;
-            this.LblAdd6.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdd6.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd6.ForeColor = System.Drawing.Color.Black;
             this.LblAdd6.Location = new System.Drawing.Point(2, 178);
             this.LblAdd6.Name = "LblAdd6";
@@ -282,7 +269,7 @@
             // LblAdded10
             // 
             this.LblAdded10.BackColor = System.Drawing.Color.White;
-            this.LblAdded10.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdded10.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdded10.ForeColor = System.Drawing.Color.Black;
             this.LblAdded10.Location = new System.Drawing.Point(2, 306);
             this.LblAdded10.Name = "LblAdded10";
@@ -293,7 +280,7 @@
             // LblAdded9
             // 
             this.LblAdded9.BackColor = System.Drawing.Color.White;
-            this.LblAdded9.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdded9.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdded9.ForeColor = System.Drawing.Color.Black;
             this.LblAdded9.Location = new System.Drawing.Point(2, 274);
             this.LblAdded9.Name = "LblAdded9";
@@ -304,7 +291,7 @@
             // LblAdded8
             // 
             this.LblAdded8.BackColor = System.Drawing.Color.White;
-            this.LblAdded8.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdded8.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdded8.ForeColor = System.Drawing.Color.Black;
             this.LblAdded8.Location = new System.Drawing.Point(2, 242);
             this.LblAdded8.Name = "LblAdded8";
@@ -315,7 +302,7 @@
             // LblAdded7
             // 
             this.LblAdded7.BackColor = System.Drawing.Color.White;
-            this.LblAdded7.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdded7.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdded7.ForeColor = System.Drawing.Color.Black;
             this.LblAdded7.Location = new System.Drawing.Point(2, 210);
             this.LblAdded7.Name = "LblAdded7";
@@ -326,7 +313,7 @@
             // LblAdded1
             // 
             this.LblAdded1.BackColor = System.Drawing.Color.White;
-            this.LblAdded1.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdded1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdded1.ForeColor = System.Drawing.Color.Black;
             this.LblAdded1.Location = new System.Drawing.Point(2, 18);
             this.LblAdded1.Name = "LblAdded1";
@@ -337,7 +324,7 @@
             // LblAdded2
             // 
             this.LblAdded2.BackColor = System.Drawing.Color.White;
-            this.LblAdded2.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdded2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdded2.ForeColor = System.Drawing.Color.Black;
             this.LblAdded2.Location = new System.Drawing.Point(2, 50);
             this.LblAdded2.Name = "LblAdded2";
@@ -348,7 +335,7 @@
             // LblAdded4
             // 
             this.LblAdded4.BackColor = System.Drawing.Color.White;
-            this.LblAdded4.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdded4.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdded4.ForeColor = System.Drawing.Color.Black;
             this.LblAdded4.Location = new System.Drawing.Point(2, 114);
             this.LblAdded4.Name = "LblAdded4";
@@ -359,7 +346,7 @@
             // LblAdded5
             // 
             this.LblAdded5.BackColor = System.Drawing.Color.White;
-            this.LblAdded5.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdded5.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdded5.ForeColor = System.Drawing.Color.Black;
             this.LblAdded5.Location = new System.Drawing.Point(2, 146);
             this.LblAdded5.Name = "LblAdded5";
@@ -370,7 +357,7 @@
             // LblAdded3
             // 
             this.LblAdded3.BackColor = System.Drawing.Color.White;
-            this.LblAdded3.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdded3.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdded3.ForeColor = System.Drawing.Color.Black;
             this.LblAdded3.Location = new System.Drawing.Point(2, 82);
             this.LblAdded3.Name = "LblAdded3";
@@ -381,7 +368,7 @@
             // LblAdded6
             // 
             this.LblAdded6.BackColor = System.Drawing.Color.White;
-            this.LblAdded6.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdded6.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdded6.ForeColor = System.Drawing.Color.Black;
             this.LblAdded6.Location = new System.Drawing.Point(2, 178);
             this.LblAdded6.Name = "LblAdded6";
@@ -450,7 +437,6 @@
         private System.Windows.Forms.Label LblAdded3;
         private System.Windows.Forms.Label LblAdded6;
         private System.Windows.Forms.Button BtnRefresh;
-        private System.Windows.Forms.Button BtnSearch;
         private System.Windows.Forms.Button BtnSeq;
         private System.Windows.Forms.Timer TRefresh;
         private System.ComponentModel.BackgroundWorker BGWConn;

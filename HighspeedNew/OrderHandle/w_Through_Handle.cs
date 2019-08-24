@@ -107,16 +107,37 @@ namespace HighspeedNew.OrderHandle
         {
             T_PRODUCE_SORTTROUGH tps = new T_PRODUCE_SORTTROUGH();
             //tps.MACHINESEQ = Convert.ToDecimal(this.cbthroughnum.Text.Trim());//设备物理号编号:获取选择下拉框内的通道编号
-            tps.TROUGHDESC = this.txt_troughdesc.Text.Trim();
+            if (cbthroughnum.SelectedIndex == 0)
+            {
+                groupNo = 2;
+                tps.SEQ = 60;
+                tps.LINENUM = "1";
+                tps.TROUGHDESC = "立式烟仓第90道(混合道)";
+            }
+
+            else 
+            {
+                groupNo = 1;
+                //tps.SEQ = 200;
+                tps.LINENUM = "2";
+                tps.TROUGHDESC = "特异型烟道";
+            }
+                
+            
+            //tps.TROUGHDESC = this.txt_troughdesc.Text.Trim();
             tps.CIGARETTECODE = this.txt_itemno.Text;
             tps.CIGARETTENAME = this.txt_itemname.Text;
-            tps.SEQ = 2;
+            //tps.SEQ = 2;
             tps.GROUPNO = groupNo;
             tps.TROUGHTYPE = 10;
-            tps.CIGARETTETYPE = Convert.ToDecimal(type);
+            tps.CIGARETTETYPE = Convert.ToDecimal(40);
             tps.MANTISSA = 0;
             tps.STATE = "10";
-            tps.LINENUM = "0";
+            tps.ACTCOUNT = 1;
+            tps.TROUGHTYPE = 10;
+            tps.THRESHOLD = 50;
+            tps.LASTMANTISSA = 0;
+            //tps.LINENUM = "0";
 
             //if (tps.MACHINESEQ.ToString() == "")
             //{

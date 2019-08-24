@@ -43,7 +43,7 @@ namespace Business.BusinessClass
                                         plan.ID = (++maxid);
                                         plan.JYCODE = citem.BIGBOX_BAR;
                                         plan.REPLENISHQTY = 1;
-                                        //plan.TASKNUM = item.SORTNUM+"";
+                                        plan.TASKNUM = maxid.ToString();
                                         plan.MANTISSA = item.MANTISSA + citem.JT_SIZE;
                                         item.MANTISSA = plan.MANTISSA;
                                         plan.TROUGHNUM = item.MACHINESEQ.ToString();//通道编号默认
@@ -77,7 +77,9 @@ namespace Business.BusinessClass
                         {
                             T_PRODUCE_SORTTROUGH sorttrough = sortList.Find(x => x.CIGARETTECODE == item.CIGARETTECODE && x.TROUGHNUM==item.TROUGHNUM);
 
+                           
                             T_WMS_ITEM citem = itemList.Find(x => x.ITEMNO == item.CIGARETTECODE);
+                            sorttrough.MANTISSA = sorttrough.MANTISSA - item.POKENUM;
                             if (sorttrough.THRESHOLD - sorttrough.MANTISSA >= citem.JT_SIZE)//如果空出一件烟就可以补
                             {
                                 i++;
@@ -88,7 +90,7 @@ namespace Business.BusinessClass
                                 plan.ID = (++maxid);
                                 plan.JYCODE = citem.BIGBOX_BAR;
                                 plan.REPLENISHQTY = 1;
-                                plan.TASKNUM = item.SORTNUM+"";
+                                plan.TASKNUM = maxid.ToString();
                                 plan.MANTISSA = sorttrough.MANTISSA + citem.JT_SIZE;
                                 sorttrough.MANTISSA = plan.MANTISSA;
                                 plan.TROUGHNUM = sorttrough.MACHINESEQ.ToString();//通道编号默认
@@ -104,7 +106,7 @@ namespace Business.BusinessClass
                                     i = 0;
                                 }
                             }
-                            sorttrough.MANTISSA = sorttrough.MANTISSA - item.POKENUM;
+                            //
                             //entites.SaveChanges();
                         }
                         pokeList1.ForEach(x => x.STATUS = 10);

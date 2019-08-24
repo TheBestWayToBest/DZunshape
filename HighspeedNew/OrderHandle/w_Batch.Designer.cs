@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.cbnormal = new System.Windows.Forms.CheckBox();
             this.cbunnormal = new System.Windows.Forms.CheckBox();
@@ -61,7 +63,7 @@
             this.cbnormal.Checked = true;
             this.cbnormal.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbnormal.Location = new System.Drawing.Point(640, 14);
-            this.cbnormal.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbnormal.Margin = new System.Windows.Forms.Padding(2);
             this.cbnormal.Name = "cbnormal";
             this.cbnormal.Size = new System.Drawing.Size(60, 16);
             this.cbnormal.TabIndex = 3;
@@ -75,7 +77,7 @@
             this.cbunnormal.Checked = true;
             this.cbunnormal.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbunnormal.Location = new System.Drawing.Point(750, 14);
-            this.cbunnormal.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbunnormal.Margin = new System.Windows.Forms.Padding(2);
             this.cbunnormal.Name = "cbunnormal";
             this.cbunnormal.Size = new System.Drawing.Size(60, 16);
             this.cbunnormal.TabIndex = 2;
@@ -85,9 +87,10 @@
             // 
             // btn_close
             // 
+            this.btn_close.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_close.Location = new System.Drawing.Point(139, 14);
             this.btn_close.Name = "btn_close";
-            this.btn_close.Size = new System.Drawing.Size(75, 23);
+            this.btn_close.Size = new System.Drawing.Size(86, 28);
             this.btn_close.TabIndex = 1;
             this.btn_close.Text = "关闭批次";
             this.btn_close.UseVisualStyleBackColor = true;
@@ -95,9 +98,10 @@
             // 
             // btn_new
             // 
+            this.btn_new.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_new.Location = new System.Drawing.Point(25, 14);
             this.btn_new.Name = "btn_new";
-            this.btn_new.Size = new System.Drawing.Size(75, 23);
+            this.btn_new.Size = new System.Drawing.Size(89, 28);
             this.btn_new.TabIndex = 0;
             this.btn_new.Text = "创建批次";
             this.btn_new.UseCompatibleTextRendering = true;
@@ -108,6 +112,14 @@
             // 
             this.batchdata.AllowUserToAddRows = false;
             this.batchdata.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.batchdata.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.batchdata.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.batchdata.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.batchcode,
@@ -115,6 +127,14 @@
             this.endtime,
             this.类型,
             this.status});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.batchdata.DefaultCellStyle = dataGridViewCellStyle2;
             this.batchdata.Dock = System.Windows.Forms.DockStyle.Fill;
             this.batchdata.Location = new System.Drawing.Point(0, 48);
             this.batchdata.MultiSelect = false;

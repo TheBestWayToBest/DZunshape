@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using HighSpeed.OrderHandle;
 using HighspeedNew.OrderHandle;
 using HighSpeedNew.OrderHandle;
+using Tool;
 
 namespace HighSpeed
 {
@@ -21,8 +22,9 @@ namespace HighSpeed
 
             InitializeComponent();
             toolStripStatusLabel1.Text = "山东德州烟草配送中心";
-            toolStripStatusLabel2.Text = "当前用户：";//+ //PublicFun.PubStruserempname;
+            //toolStripStatusLabel2.Text = "当前用户：";//+ //PublicFun.PubStruserempname;
             toolStripStatusLabel3.Text = "系统时间：" + System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            ProgramAutoRun.SetMeStart(true);
         }
 
         private void TSM_OrderReceive_Click(object sender, EventArgs e)
@@ -292,6 +294,68 @@ namespace HighSpeed
         private void timer1_Tick(object sender, EventArgs e)
         {
             toolStripStatusLabel3.Text = "系统时间：" + System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+
+        private void 一条烟订单汇总ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            w_OneCigOrderReport frm = new w_OneCigOrderReport();
+            if (CheckExist(frm) == true)
+            {
+                frm.Dispose();
+                frm = null;
+                return;
+            }
+            frm.MdiParent = this;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
+        private void 分拣报表ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            w_SortingInfo frm = new w_SortingInfo();
+            if (CheckExist(frm) == true)
+            {
+                frm.Dispose();
+                frm = null;
+                return;
+            }
+            frm.MdiParent = this;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
+        private void 分拣换道ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            w_SortReplace frm = new w_SortReplace();
+            if (CheckExist(frm) == true)
+            {
+                frm.Dispose();
+                frm = null;
+                return;
+            }
+            frm.MdiParent = this;
+            //frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
+        private void 包装机数据ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            w_PackageReport frm = new w_PackageReport();
+            if (CheckExist(frm) == true)
+            {
+                frm.Dispose();
+                frm = null;
+                return;
+            }
+            frm.MdiParent = this;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
+        private void 特异形烟任务定位ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            w_SpecialShapePosition frm = new w_SpecialShapePosition();
+            frm.ShowDialog();
         }
 
         

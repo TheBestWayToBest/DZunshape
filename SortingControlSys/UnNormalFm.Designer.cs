@@ -37,15 +37,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UnNormalFm));
             this.TimeToClike = new System.Windows.Forms.Timer(this.components);
             this.task_data = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.regioncode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.regiondesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cuscount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.finishqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.percent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.timerSendTask = new System.Windows.Forms.Timer(this.components);
             this.label5 = new System.Windows.Forms.Label();
             this.list_data = new System.Windows.Forms.ListBox();
@@ -64,6 +55,15 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.regiondesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Regioncode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cuscount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.finishqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.percent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.task_data)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -95,8 +95,8 @@
             this.Column2,
             this.Column3,
             this.Column4,
-            this.regioncode,
             this.regiondesc,
+            this.Regioncode,
             this.cuscount,
             this.finishqty,
             this.percent});
@@ -120,6 +120,7 @@
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.task_data.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.task_data.RowHeadersVisible = false;
             this.task_data.RowHeadersWidth = 35;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.task_data.RowsDefaultCellStyle = dataGridViewCellStyle5;
@@ -127,60 +128,6 @@
             this.task_data.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.task_data.Size = new System.Drawing.Size(1038, 403);
             this.task_data.TabIndex = 47;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "序号";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "货主";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "订单日期";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "批次";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            // 
-            // regioncode
-            // 
-            this.regioncode.HeaderText = "线路编号";
-            this.regioncode.Name = "regioncode";
-            this.regioncode.ReadOnly = true;
-            // 
-            // regiondesc
-            // 
-            this.regiondesc.HeaderText = "线路名称";
-            this.regiondesc.Name = "regiondesc";
-            this.regiondesc.ReadOnly = true;
-            // 
-            // cuscount
-            // 
-            this.cuscount.HeaderText = "客户数";
-            this.cuscount.Name = "cuscount";
-            this.cuscount.ReadOnly = true;
-            // 
-            // finishqty
-            // 
-            this.finishqty.HeaderText = "完成量";
-            this.finishqty.Name = "finishqty";
-            this.finishqty.ReadOnly = true;
-            // 
-            // percent
-            // 
-            this.percent.HeaderText = "完成百分比";
-            this.percent.Name = "percent";
-            this.percent.ReadOnly = true;
             // 
             // timerSendTask
             // 
@@ -353,6 +300,60 @@
             this.button2.Text = "关闭";
             this.button2.UseVisualStyleBackColor = true;
             // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "序号";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "货主";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "订单日期";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "批次";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            // 
+            // regiondesc
+            // 
+            this.regiondesc.HeaderText = "线路名称";
+            this.regiondesc.Name = "regiondesc";
+            this.regiondesc.ReadOnly = true;
+            // 
+            // Regioncode
+            // 
+            this.Regioncode.HeaderText = "线路编号";
+            this.Regioncode.Name = "Regioncode";
+            this.Regioncode.ReadOnly = true;
+            // 
+            // cuscount
+            // 
+            this.cuscount.HeaderText = "客户数";
+            this.cuscount.Name = "cuscount";
+            this.cuscount.ReadOnly = true;
+            // 
+            // finishqty
+            // 
+            this.finishqty.HeaderText = "完成量";
+            this.finishqty.Name = "finishqty";
+            this.finishqty.ReadOnly = true;
+            // 
+            // percent
+            // 
+            this.percent.HeaderText = "完成百分比";
+            this.percent.Name = "percent";
+            this.percent.ReadOnly = true;
+            // 
             // UnNormalFm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -401,8 +402,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn regioncode;
         private System.Windows.Forms.DataGridViewTextBoxColumn regiondesc;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Regioncode;
         private System.Windows.Forms.DataGridViewTextBoxColumn cuscount;
         private System.Windows.Forms.DataGridViewTextBoxColumn finishqty;
         private System.Windows.Forms.DataGridViewTextBoxColumn percent;

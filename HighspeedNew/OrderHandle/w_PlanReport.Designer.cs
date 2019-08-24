@@ -29,26 +29,29 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.button1 = new System.Windows.Forms.Button();
             this.orderdata = new System.Windows.Forms.DataGridView();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.btn_print = new System.Windows.Forms.Button();
-            this.dgVprint1 = new VBprinter.DGVprint(this.components);
             this.cigarettecode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cigarettename = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ccount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.orderqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btn_print = new System.Windows.Forms.Button();
+            this.dgVprint1 = new VBprinter.DGVprint(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.orderdata)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(103, 11);
+            this.button1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button1.Location = new System.Drawing.Point(122, 7);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(80, 30);
             this.button1.TabIndex = 1;
-            this.button1.Text = "导出";
+            this.button1.Text = "导 出";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -59,12 +62,29 @@
             this.orderdata.AllowUserToResizeColumns = false;
             this.orderdata.AllowUserToResizeRows = false;
             this.orderdata.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.orderdata.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.orderdata.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.orderdata.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.orderdata.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.cigarettecode,
             this.cigarettename,
             this.ccount,
             this.orderqty});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.orderdata.DefaultCellStyle = dataGridViewCellStyle2;
             this.orderdata.Dock = System.Windows.Forms.DockStyle.Fill;
             this.orderdata.Location = new System.Drawing.Point(0, 43);
             this.orderdata.Name = "orderdata";
@@ -74,6 +94,34 @@
             this.orderdata.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.orderdata.Size = new System.Drawing.Size(1017, 283);
             this.orderdata.TabIndex = 5;
+            // 
+            // cigarettecode
+            // 
+            this.cigarettecode.DataPropertyName = "CigaretteCode";
+            this.cigarettecode.HeaderText = "品牌代码";
+            this.cigarettecode.Name = "cigarettecode";
+            this.cigarettecode.ReadOnly = true;
+            // 
+            // cigarettename
+            // 
+            this.cigarettename.DataPropertyName = "CigaretteName";
+            this.cigarettename.HeaderText = "品牌名称";
+            this.cigarettename.Name = "cigarettename";
+            this.cigarettename.ReadOnly = true;
+            // 
+            // ccount
+            // 
+            this.ccount.DataPropertyName = "JYCode";
+            this.ccount.HeaderText = "件烟码";
+            this.ccount.Name = "ccount";
+            this.ccount.ReadOnly = true;
+            // 
+            // orderqty
+            // 
+            this.orderqty.DataPropertyName = "QTY";
+            this.orderqty.HeaderText = "补货数量";
+            this.orderqty.Name = "orderqty";
+            this.orderqty.ReadOnly = true;
             // 
             // panel1
             // 
@@ -87,11 +135,12 @@
             // 
             // btn_print
             // 
-            this.btn_print.Location = new System.Drawing.Point(21, 12);
+            this.btn_print.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_print.Location = new System.Drawing.Point(21, 8);
             this.btn_print.Name = "btn_print";
-            this.btn_print.Size = new System.Drawing.Size(75, 23);
+            this.btn_print.Size = new System.Drawing.Size(80, 30);
             this.btn_print.TabIndex = 0;
-            this.btn_print.Text = "打印";
+            this.btn_print.Text = "打 印";
             this.btn_print.UseVisualStyleBackColor = true;
             this.btn_print.Click += new System.EventHandler(this.btn_print_Click);
             // 
@@ -216,34 +265,6 @@
             this.dgVprint1.ZDXTextColor = System.Drawing.Color.Black;
             this.dgVprint1.ZDXType = VBprinter.DGVprint.TheZDXTYPE.LEFT;
             this.dgVprint1.ZoomToPaperWidth = true;
-            // 
-            // cigarettecode
-            // 
-            this.cigarettecode.DataPropertyName = "CigaretteCode";
-            this.cigarettecode.HeaderText = "品牌代码";
-            this.cigarettecode.Name = "cigarettecode";
-            this.cigarettecode.ReadOnly = true;
-            // 
-            // cigarettename
-            // 
-            this.cigarettename.DataPropertyName = "CigaretteName";
-            this.cigarettename.HeaderText = "品牌名称";
-            this.cigarettename.Name = "cigarettename";
-            this.cigarettename.ReadOnly = true;
-            // 
-            // ccount
-            // 
-            this.ccount.DataPropertyName = "JYCode";
-            this.ccount.HeaderText = "件烟码";
-            this.ccount.Name = "ccount";
-            this.ccount.ReadOnly = true;
-            // 
-            // orderqty
-            // 
-            this.orderqty.DataPropertyName = "QTY";
-            this.orderqty.HeaderText = "补货数量";
-            this.orderqty.Name = "orderqty";
-            this.orderqty.ReadOnly = true;
             // 
             // w_PlanReport
             // 

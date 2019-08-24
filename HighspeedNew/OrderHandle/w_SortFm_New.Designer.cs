@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.TimerByTime = new System.Windows.Forms.Timer(this.components);
             this.btnRef = new System.Windows.Forms.Button();
             this.btn_replenishplan = new System.Windows.Forms.Button();
@@ -64,6 +66,8 @@
             this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.LblCigCount = new System.Windows.Forms.Label();
+            this.LblCusCount = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLoading)).BeginInit();
@@ -74,12 +78,14 @@
             // TimerByTime
             // 
             this.TimerByTime.Interval = 1000;
+            this.TimerByTime.Tick += new System.EventHandler(this.TimerByTime_Tick);
             // 
             // btnRef
             // 
+            this.btnRef.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnRef.Location = new System.Drawing.Point(387, 8);
             this.btnRef.Name = "btnRef";
-            this.btnRef.Size = new System.Drawing.Size(75, 23);
+            this.btnRef.Size = new System.Drawing.Size(80, 30);
             this.btnRef.TabIndex = 3;
             this.btnRef.Text = "刷 新";
             this.btnRef.UseVisualStyleBackColor = true;
@@ -87,10 +93,11 @@
             // 
             // btn_replenishplan
             // 
+            this.btn_replenishplan.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_replenishplan.Location = new System.Drawing.Point(583, 8);
             this.btn_replenishplan.Margin = new System.Windows.Forms.Padding(2);
             this.btn_replenishplan.Name = "btn_replenishplan";
-            this.btn_replenishplan.Size = new System.Drawing.Size(74, 23);
+            this.btn_replenishplan.Size = new System.Drawing.Size(80, 30);
             this.btn_replenishplan.TabIndex = 7;
             this.btn_replenishplan.Text = "补货计划";
             this.btn_replenishplan.UseVisualStyleBackColor = true;
@@ -111,6 +118,7 @@
             this.panel2.Controls.Add(this.panel3);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.progressBar1);
+            this.panel2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.panel2.Location = new System.Drawing.Point(14, 66);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(797, 89);
@@ -120,10 +128,10 @@
             // lblTime
             // 
             this.lblTime.AutoSize = true;
-            this.lblTime.Font = new System.Drawing.Font("宋体", 11F);
+            this.lblTime.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lblTime.Location = new System.Drawing.Point(31, 14);
             this.lblTime.Name = "lblTime";
-            this.lblTime.Size = new System.Drawing.Size(75, 15);
+            this.lblTime.Size = new System.Drawing.Size(80, 16);
             this.lblTime.TabIndex = 2;
             this.lblTime.Text = "已用时间:";
             // 
@@ -132,7 +140,7 @@
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel3.Controls.Add(this.label1);
             this.panel3.Controls.Add(this.pbLoading);
-            this.panel3.Font = new System.Drawing.Font("宋体", 11F);
+            this.panel3.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.panel3.Location = new System.Drawing.Point(173, 53);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(359, 100);
@@ -144,7 +152,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(210, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(142, 15);
+            this.label1.Size = new System.Drawing.Size(152, 16);
             this.label1.TabIndex = 28;
             this.label1.Text = "条烟顺序生成中。。";
             // 
@@ -160,10 +168,10 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("宋体", 11F);
+            this.label2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label2.Location = new System.Drawing.Point(184, 14);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(115, 15);
+            this.label2.Size = new System.Drawing.Size(120, 16);
             this.label2.TabIndex = 1;
             this.label2.Text = "正在排程......";
             // 
@@ -177,7 +185,7 @@
             // 
             // btnTransfor
             // 
-            this.btnTransfor.Location = new System.Drawing.Point(853, 12);
+            this.btnTransfor.Location = new System.Drawing.Point(941, 12);
             this.btnTransfor.Name = "btnTransfor";
             this.btnTransfor.Size = new System.Drawing.Size(75, 23);
             this.btnTransfor.TabIndex = 6;
@@ -197,7 +205,7 @@
             // 
             // btnPokeSeq
             // 
-            this.btnPokeSeq.Location = new System.Drawing.Point(756, 12);
+            this.btnPokeSeq.Location = new System.Drawing.Point(937, 12);
             this.btnPokeSeq.Name = "btnPokeSeq";
             this.btnPokeSeq.Size = new System.Drawing.Size(75, 23);
             this.btnPokeSeq.TabIndex = 4;
@@ -207,10 +215,10 @@
             // 
             // btnSort
             // 
-            this.btnSort.Font = new System.Drawing.Font("宋体", 9F);
+            this.btnSort.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnSort.Location = new System.Drawing.Point(487, 8);
             this.btnSort.Name = "btnSort";
-            this.btnSort.Size = new System.Drawing.Size(75, 23);
+            this.btnSort.Size = new System.Drawing.Size(80, 30);
             this.btnSort.TabIndex = 0;
             this.btnSort.Text = "排  程";
             this.btnSort.UseVisualStyleBackColor = true;
@@ -220,7 +228,16 @@
             // 
             this.dgvSortInfo.AllowUserToAddRows = false;
             this.dgvSortInfo.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvSortInfo.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dgvSortInfo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSortInfo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvSortInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.synseq,
             this.regioncode,
@@ -240,6 +257,14 @@
             this.Column13,
             this.Column14,
             this.Column15});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvSortInfo.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvSortInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvSortInfo.Location = new System.Drawing.Point(0, 48);
             this.dgvSortInfo.MultiSelect = false;
@@ -392,6 +417,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.LblCigCount);
+            this.panel1.Controls.Add(this.LblCusCount);
             this.panel1.Controls.Add(this.btn_replenishplan);
             this.panel1.Controls.Add(this.btnTransfor);
             this.panel1.Controls.Add(this.btnVid);
@@ -404,6 +431,26 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1012, 48);
             this.panel1.TabIndex = 30;
+            // 
+            // LblCigCount
+            // 
+            this.LblCigCount.AutoSize = true;
+            this.LblCigCount.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblCigCount.Location = new System.Drawing.Point(847, 12);
+            this.LblCigCount.Name = "LblCigCount";
+            this.LblCigCount.Size = new System.Drawing.Size(144, 16);
+            this.LblCigCount.TabIndex = 9;
+            this.LblCigCount.Text = "总订单条烟数量：0";
+            // 
+            // LblCusCount
+            // 
+            this.LblCusCount.AutoSize = true;
+            this.LblCusCount.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblCusCount.Location = new System.Drawing.Point(713, 13);
+            this.LblCusCount.Name = "LblCusCount";
+            this.LblCusCount.Size = new System.Drawing.Size(112, 16);
+            this.LblCusCount.TabIndex = 8;
+            this.LblCusCount.Text = "总订货户数：0";
             // 
             // w_SortFm_New
             // 
@@ -464,5 +511,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column14;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column15;
+        private System.Windows.Forms.Label LblCigCount;
+        private System.Windows.Forms.Label LblCusCount;
     }
 }

@@ -29,6 +29,7 @@ namespace HighSpeedNew.OrderHandle
             Bind();
         }
         ScheduleClass sc = new ScheduleClass();
+
         void Bind()
         {
             //String strsql = "SELECT batchcode,sum(t.taskquantity) as qty,COUNT(*)as cuscount,t.synseq,count(distinct regioncode) as regioncodecount from t_produce_task t where t.state=15 group BY t.batchcode,t.synseq order by synseq ";
@@ -67,8 +68,8 @@ namespace HighSpeedNew.OrderHandle
             String tasknum = "", cuscode = "", cusname = "", itemno = "", itemname = "", quantity = "", regioncode = "",regionname="", orderdate = "", cuscodetmp = "";
             
             //根据类型给打码机编号赋值
-            if (linenum == "1") lineno = "ZY1001";
-            else lineno = "ZY1002";
+            if (linenum == "1") lineno = "ZY1002";
+            else lineno = "ZY1001";
 
             //取数据
             var result = sc.Get1stPrjInfo(Convert.ToDecimal(synseq), linenum);
@@ -238,7 +239,8 @@ namespace HighSpeedNew.OrderHandle
                 }
 
                 MessageBox.Show(msg, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                
+                
                 socketClient.Disconnect(false);
                 socketClient.Close();
             }

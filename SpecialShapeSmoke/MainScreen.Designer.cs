@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.LblAdded2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lblSortnum = new System.Windows.Forms.Label();
             this.BtnRefresh = new System.Windows.Forms.Button();
             this.BtnSearch = new System.Windows.Forms.Button();
             this.BtnSeq = new System.Windows.Forms.Button();
@@ -90,6 +91,7 @@
             this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.BackgroundImage = global::SpecialShapeSmoke.Properties.Resources.topfj;
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.panel1.Controls.Add(this.lblSortnum);
             this.panel1.Controls.Add(this.BtnRefresh);
             this.panel1.Controls.Add(this.BtnSearch);
             this.panel1.Controls.Add(this.BtnSeq);
@@ -101,6 +103,15 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(480, 378);
             this.panel1.TabIndex = 2;
+            // 
+            // lblSortnum
+            // 
+            this.lblSortnum.AutoSize = true;
+            this.lblSortnum.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblSortnum.Location = new System.Drawing.Point(194, 5);
+            this.lblSortnum.Name = "lblSortnum";
+            this.lblSortnum.Size = new System.Drawing.Size(0, 10);
+            this.lblSortnum.TabIndex = 23;
             // 
             // BtnRefresh
             // 
@@ -523,6 +534,10 @@
             // 
             this.TRefresh.Interval = 8000;
             // 
+            // BGWConn
+            // 
+            this.BGWConn.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BGWConn_DoWork);
+            // 
             // TSender
             // 
             this.TSender.Interval = 10000;
@@ -540,6 +555,7 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Resize += new System.EventHandler(this.MainScreen_Resize);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.GBToAdd.ResumeLayout(false);
             this.GBAdded.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -588,6 +604,7 @@
         private System.Windows.Forms.Timer TRefresh;
         private System.ComponentModel.BackgroundWorker BGWConn;
         private System.Windows.Forms.Timer TSender;
+        private System.Windows.Forms.Label lblSortnum;
     }
 }
 

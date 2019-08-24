@@ -18,7 +18,7 @@ namespace Business.BusinessClass
                 else if (groupNo.Count == 2)
                     func = item => (item.GROUPNO == groupNo[0] || item.GROUPNO == groupNo[1]);
                 else
-                    func = item => (item.GROUPNO == groupNo[0] || item.GROUPNO == groupNo[1] || item.GROUPNO == groupNo[1]);
+                    func = item => (item.GROUPNO == groupNo[0] || item.GROUPNO == groupNo[1] || item.GROUPNO == groupNo[2]);
                 List<ThroughInfo> list = new List<ThroughInfo>();
                 if (condition == "")
                 {
@@ -83,7 +83,6 @@ namespace Business.BusinessClass
                     infos.STATE = "0";
                 else
                     infos.STATE = "10";
-                SetThroughActcount(info.CigaretteCode, info.GroupNo);
                 return en.SaveChanges() > 0 ? true : false;
             }
         }
@@ -107,12 +106,13 @@ namespace Business.BusinessClass
             using (DZEntities en = new DZEntities())
             {
                 decimal id = en.T_PRODUCE_SORTTROUGH.Select(item => item.ID).Max();
-                decimal throughNum = Convert.ToDecimal(en.T_PRODUCE_SORTTROUGH.Select(item => item.TROUGHNUM).Max());
+                decimal throughNum = Convert.ToDecimal(en.T_PRODUCE_SORTTROUGH.Where(item => item.GROUPNO == through.GROUPNO).Select(item => item.TROUGHNUM).Max());
+                decimal seq = en.T_PRODUCE_SORTTROUGH.Where(item => item.GROUPNO == through.GROUPNO).Select(item => item.SEQ).Max() ?? 0;
                 T_PRODUCE_SORTTROUGH tps = new T_PRODUCE_SORTTROUGH();
                 if (through.MACHINESEQ == 90)
                 {
                     int count = en.T_PRODUCE_SORTTROUGH.Where(item => item.CIGARETTETYPE == 40 && item.GROUPNO == 2 && item.CIGARETTECODE == through.CIGARETTECODE).Count();
-                    if (count == 0)
+                    if (count != 0)
                         return "该品牌在混合道中已经存在-" + through.CIGARETTENAME;
                     tps = new T_PRODUCE_SORTTROUGH()
                     {
@@ -127,13 +127,17 @@ namespace Business.BusinessClass
                         STATE = through.STATE,
                         TROUGHNUM = (throughNum + 1).ToString(),
                         TROUGHTYPE = through.TROUGHTYPE,
-                        MACHINESEQ = through.MACHINESEQ
+                        MACHINESEQ = through.MACHINESEQ,
+                        LASTMANTISSA = through.LASTMANTISSA,
+                        THRESHOLD = through.THRESHOLD,
+                        ACTCOUNT = through.ACTCOUNT,
+                        TROUGHDESC = through.TROUGHDESC
                     };
                 }
                 else
                 {
                     int count = en.T_PRODUCE_SORTTROUGH.Where(item => item.CIGARETTETYPE == 40 && item.GROUPNO == 1 && item.CIGARETTECODE == through.CIGARETTECODE).Count();
-                    if (count == 0)
+                    if (count != 0)
                         return "该品牌在特异形烟混合道中已经存在-" + through.CIGARETTENAME;
                     tps = new T_PRODUCE_SORTTROUGH()
                     {
@@ -144,11 +148,15 @@ namespace Business.BusinessClass
                         GROUPNO = through.GROUPNO,
                         LINENUM = through.LINENUM,
                         MANTISSA = through.MANTISSA,
-                        SEQ = through.SEQ,
+                        SEQ = seq + 1,
                         STATE = through.STATE,
                         TROUGHNUM = (throughNum + 1).ToString(),
                         TROUGHTYPE = through.TROUGHTYPE,
-                        MACHINESEQ = through.MACHINESEQ
+                        MACHINESEQ = through.MACHINESEQ,
+                        LASTMANTISSA = through.LASTMANTISSA,
+                        THRESHOLD = through.THRESHOLD,
+                        ACTCOUNT = through.ACTCOUNT,
+                        TROUGHDESC = through.TROUGHDESC
                     };
                 }
 
@@ -172,8 +180,15 @@ namespace Business.BusinessClass
                 int rows = en.SaveChanges();
                 if (rows > 0)
                 {
-                    if (SetThroughActcount(info.CIGARETTECODE, info.GROUPNO ?? 0, lastCigarettecode))
-                        return "分拣通道信息修改成功!";
+                    try
+                    {
+                        SetThroughActcount(info.CIGARETTECODE, info.GROUPNO ?? 0, lastCigarettecode);
+                    }
+                    catch (Exception ex)
+                    {
+                        return "分拣通道信息修改失败!" + ex.ToString();
+                    }
+                    return "分拣通道信息修改成功!";
                 }
 
                 return "分拣通道信息修改失败!";
@@ -229,7 +244,7 @@ namespace Business.BusinessClass
                     }
                     else
                     {
-                        if (query.Count == 0) 
+                        if (query.Count == 0)
                         {
                             query = en.T_PRODUCE_SORTTROUGH.Where(item => item.GROUPNO == groupNo && item.CIGARETTECODE == cigarettecode).ToList();
                         }
@@ -242,6 +257,33 @@ namespace Business.BusinessClass
                 return en.SaveChanges() > 0;
             }
 
+        }
+
+        public static List<ThroughSortDataInfo> GetMachineSeq()
+        {
+            using (DZEntities en = new DZEntities())
+            {
+                List<ThroughSortDataInfo> list = new List<ThroughSortDataInfo>();
+                list = en.T_PRODUCE_SORTTROUGH.Where(item => item.GROUPNO == 2).OrderBy(item => item.MACHINESEQ).Select(item => new ThroughSortDataInfo { CigaretteName = item.CIGARETTENAME, MachineSeq = item.MACHINESEQ ?? 0, TotalNum = 0, OverNum = 0 }).ToList();
+                return list;
+            }
+        }
+
+        public static List<ThroughSortDataInfo> GetMachineSeqSortData()
+        {
+            using (DZEntities en = new DZEntities())
+            {
+                //en.T_UN_POKE.Where(item => item.CTYPE == 2).GroupBy(item => item.MACHINESEQ).Select(item => new ThroughSortDataInfo { MachineSeq = item.Key ?? 0, TotalNum = item.Sum(x => x.POKENUM) ?? 0, OverNum = 0 });
+                List<ThroughSortDataInfo> list = new List<ThroughSortDataInfo>();
+                list = GetMachineSeq();
+                for (int i = 0; i < list.Count; i++)
+                {
+                    list[i].TotalNum = en.T_UN_POKE.Where(item => item.MACHINESEQ == list[i].MachineSeq).Sum(item => item.POKENUM) ?? 0;
+                    list[i].OverNum = en.T_UN_POKE.Where(item => item.MACHINESEQ == list[i].MachineSeq && item.STATUS == 20).Sum(item => item.POKENUM) ?? 0;
+                }
+                return list;
+
+            }
         }
     }
 }

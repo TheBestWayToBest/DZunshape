@@ -34,7 +34,6 @@ namespace SortingControlSys
         public UnNormalFm()
         {
             InitializeComponent();
-            //ItemInfo item = new ItemInfo();
             UpdateControlEnable(false, BtnEnd);
             Initdata();
             TimeToClike.Start();
@@ -45,9 +44,6 @@ namespace SortingControlSys
 
         private void BtnStatrt_Click(object sender, EventArgs e)
         {
-            StringBuilder outStr = new StringBuilder();
-            object[] data = UnPokeClass.GetOneDateBaseTask(10, "1", out outStr);
-
             timerSendTask.Interval = 5000;
             timerSendTask.Start();
             
@@ -82,9 +78,24 @@ namespace SortingControlSys
 
             }
         }
+
+        void ReadFinish() 
+        {
+            List<string> list = new List<string>();
+            list = PlcItemCollection.GetFinishUnnormalItem();
+            for (int i = 0; i < list.Count; i++)
+            {
+                int receivePackage = int.Parse(opcServer.FinishOnlyGroup.ReadD(i).ToString());
+                if (receivePackage > 0)
+                {
+                    WriteLog.GetLog().Write("从电控读取特异型烟任务号:" + receivePackage);
+                    UnPokeClass.UpdateunTask(receivePackage, 20);
+                    opcServer.FinishOnlyGroup.Write(0, i);
+                }
+            }
+        }
         public void startFenJian()
         {
-            //PlcItemCollection.GetOnlyDBItem();
             if (!opcServer.ConnectState)
             {
                 GetTaskInfo("正在尝试连接服务器......");
@@ -102,6 +113,21 @@ namespace SortingControlSys
                     {
                         opcServer.IsSendOn = false;
                         GetTaskInfo("PLC连接成功!");
+                        GetTaskInfo("触发定时器");
+                        if (opcServer.SpyBiaozhiGroup.Read(0).ToString() != "1" && !opcServer.IsSendOn)//监控标志位第一组 产生跳变
+                        {
+                            opcServer.IsSendOn = true;
+                            opcServer.SpyBiaozhiGroup.Write(2, 0);
+                            opcServer.SpyBiaozhiGroup.Write(0, 0);
+                            ReadFinish();
+                            opcServer.IsSendOn = false;
+                            GetTaskInfo("跳变成功，发送任务 ");
+                        }
+                        else
+                        {
+                            GetTaskInfo("强制跳变失败");
+                        }
+                        UpdateControlEnable(true, BtnEnd);
                     }
                     else
                     {
@@ -139,7 +165,6 @@ namespace SortingControlSys
                             if (tempvalue != 0)
                             {
                                 WriteLog.GetLog().Write(ListLineNum[0] + "线从电控读取出口号：" + clientId[i] + ";任务号:" + tempvalue);
-                                //UnPokeService.UpdateunTask(tempvalue, 20);//根据异形烟整包任务号更新poke表中状态 
                                 UnPokeClass.UpdateunTask(tempvalue, 20);
                                 WriteLog.GetLog().Write(ListLineNum[0] + "线烟仓任务号" + tempvalue + "数据库更新完成");
 
@@ -172,24 +197,22 @@ namespace SortingControlSys
                                 }
 
                                 int receivePackage = int.Parse(opcServer.OnlyTaskGroup.ReadD(i).ToString());
-                                StringBuilder outStr = new StringBuilder();
-                                object[] data = UnPokeClass.GetOneDateBaseTask(10, "1", out outStr);
+                                
                                 if (receivePackage != 0)
                                 {
-                                    if ((decimal)data[0] == receivePackage) 
-                                    {
-                                        UnPokeClass.UpdateTask(receivePackage, 15);
-                                        return;
-                                    }
-                                    GetTaskInfo(ListLineNum[0] + "线烟仓任务包号:" + receivePackage + "已接收");
-                                    UnPokeClass.UpdateTask(receivePackage, 15);
+                                    int row = UnPokeClass.UpdateTask1(receivePackage, 15);
+                                    if (row > 0)
+                                        GetTaskInfo(ListLineNum[0] + "线烟仓任务包号:" + receivePackage + "已接收");
+                                    else
+                                        GetTaskInfo("线烟仓任务包号:" + receivePackage + "已接收但未更新到数据库");
                                 }
                                 if (opcServer.IsSendOn)//如果任务已经在发送中则返回
                                 {
                                     return;
                                 }
-                                
-                                
+
+                                StringBuilder outStr = new StringBuilder();
+                                object[] data = UnPokeClass.GetOneDateBaseTask(10, "1", out outStr);
                                 DelSendTask task = new DelSendTask(opcServer.SendOnlyTask);
                                 IAsyncResult result = task.BeginInvoke(data,outStr,null, task);
                                 StringBuilder re = task.EndInvoke(result);
@@ -223,18 +246,7 @@ namespace SortingControlSys
 
         private void timerSendTask_Tick(object sender, EventArgs e)
         {
-            GetTaskInfo("触发定时器");
-            if (opcServer.SpyBiaozhiGroup.Read(0).ToString() != "1" && !opcServer.IsSendOn)//监控标志位第一组 产生跳变
-            {
-                opcServer.SpyBiaozhiGroup.Write(2, 0);
-                opcServer.SpyBiaozhiGroup.Write(0, 0);
-                
-                GetTaskInfo("发送任务");
-            }
-            else
-            {
-                GetTaskInfo("强制跳变失败");
-            }
+            
             timerSendTask.Stop();
         }
 
@@ -255,7 +267,10 @@ namespace SortingControlSys
                         opcServer.SpyBiaozhiGroup.callback -= OnDataChange;
                         GetTaskInfo("移除事件成功！");
                         GetTaskInfo("任务停止发送与接收！");
+                        opcServer.ConnectState = false;
+                        opcServer.PIOPCServer = null;
                         UpdateControlEnable(false, BtnEnd);
+                        UpdateControlEnable(true, BtnStatrt);
                     }
                     catch (NullReferenceException nuller)
                     {
@@ -296,11 +311,11 @@ namespace SortingControlSys
                     {
                         int index = this.task_data.Rows.Add();
                         this.task_data.Rows[index].Cells[0].Value = i++;//序号
-                        this.task_data.Rows[index].Cells[1].Value = "长沙市烟草公司";//货主
+                        this.task_data.Rows[index].Cells[1].Value = "德州市烟草公司";//货主
                         this.task_data.Rows[index].Cells[2].Value = row.ORDERDATE.Value.Date.ToString("D"); //订单日期
                         this.task_data.Rows[index].Cells[3].Value = "批次" + row.SYNSEQ;//批次
-                        this.task_data.Rows[index].Cells[4].Value = row.REGIONCODE;//线路编号
-                        this.task_data.Rows[index].Cells[5].Value = row.REGIONCODE;//线路名称 
+                        this.task_data.Rows[index].Cells[4].Value = row.REGIONCODE.Substring(6);//线路编号
+                        this.task_data.Rows[index].Cells[5].Value = row.REGIONCODE.Substring(0, 6);//线路名称 
                         this.task_data.Rows[index].Cells[6].Value = row.FinishCount + "/" + row.Count;
                         this.task_data.Rows[index].Cells[7].Value = row.FinishQTY + "/" + row.QTY;
                         this.task_data.Rows[index].Cells[8].Value = row.Rate;

@@ -370,6 +370,7 @@
             this.DgvData.ReadOnly = true;
             this.DgvData.RowHeadersVisible = false;
             this.DgvData.RowTemplate.Height = 23;
+            this.DgvData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DgvData.Size = new System.Drawing.Size(1127, 528);
             this.DgvData.TabIndex = 0;
             // 

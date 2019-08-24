@@ -32,7 +32,7 @@ namespace Business.BusinessClass
 
                 //decimal ts = en.T_PRODUCE_SORTTROUGH.Where(item => item.GROUPNO == 1 && item.CIGARETTETYPE == 40).Select(item => item.MACHINESEQ ?? 0).FirstOrDefault();
 
-                var query = en.T_UN_POKE.Where(item => item.LINENUM == linenum).OrderBy(item => item.SORTNUM).FirstOrDefault();
+                var query = en.T_UN_POKE.Where(item => item.LINENUM == linenum && item.STATUS == status && item.CTYPE != 1).OrderBy(item => item.SORTNUM).FirstOrDefault();
                 if (query == null)
                 {
                     outStr = null;
@@ -44,19 +44,19 @@ namespace Business.BusinessClass
 
                 values[0] = query.SORTNUM;
                 values[1] = query.SENDTASKNUM;
-                sb.AppendLine("任务号：" + query.SORTNUM);
+                sb.AppendLine("任务号：" + query.SORTNUM+",");
                 decimal machineseq = 0;
                 foreach (var item in list.Where(ite => ite.CTYPE == 2).GroupBy(item => item.MACHINESEQ).Select(item => new { MACHINESEQ = item.Key, QTY = item.Sum(x => x.POKENUM) }).OrderBy(ite => ite.MACHINESEQ).ToList())
                 {
                     machineseq = item.MACHINESEQ ?? 0;
                     values[(int)machineseq + 1] = item.QTY;
-                    sb.AppendLine(linenum + "线 " + machineseq + " 号烟仓，出烟数量：" + item.QTY);
+                    sb.AppendLine(linenum + "线 " + machineseq + " 号烟仓，出烟数量：" + item.QTY+",");
                 }
                 foreach (var item in list.Where(ite => ite.CTYPE == 3).GroupBy(item => item.MACHINESEQ).Select(item => new { MACHINESEQ = item.Key, QTY = item.Sum(x => x.POKENUM) }).OrderBy(ite => ite.MACHINESEQ).ToList())
                 {
                     machineseq = item.MACHINESEQ ?? 0;
                     values[(int)machineseq + 1 + 90] = item.QTY;
-                    sb.AppendLine(linenum + "线 " + machineseq + " 号烟仓，出烟数量：" + item.QTY);
+                    sb.AppendLine(linenum + "线 " + machineseq + " 号烟仓，出烟数量：" + item.QTY+",");
                 }
                 values[98] = list.Where(item => item.CTYPE == 2 && item.MACHINESEQ > 30 && item.MACHINESEQ < 91).Sum(item => item.POKENUM);
                 values[99] = list.Where(item => item.CTYPE == 3).Sum(item => item.POKENUM);
@@ -65,7 +65,7 @@ namespace Business.BusinessClass
                 values[101] = 0;
                 values[102] = 0;
                 values[103] = 1;
-                sb.AppendLine("2#立式烟仓总条数：" + values[98] + "卧式烟仓总条数：" + values[99] + "1#立式烟仓总条数：" + values[100] + "，任务发送标志位：" + values[103]);
+                sb.AppendLine("2#立式烟仓总条数：" + values[98] + ",卧式烟仓总条数：" + values[99] + ",1#立式烟仓总条数：" + values[100] + ",任务发送标志位：" + values[103]);
                 outStr = sb;
                 return values;
             }
@@ -76,17 +76,58 @@ namespace Business.BusinessClass
             {
                 long sendSeq = DateTime.Now.Ticks;
                 List<T_UN_POKE> list = new List<T_UN_POKE>();
-                list = data.T_UN_POKE.Where(item => item.SORTNUM == packageNo).ToList();
-                if (list.Count > 0)
+                try
                 {
-                    foreach (var item in list)
+                    list = data.T_UN_POKE.Where(item => item.SORTNUM == packageNo && item.CTYPE == 1).ToList();
+                    if (list.Count > 0)
                     {
-                        item.STATUS = status;
-                        //item.SENDSEQ = sendSeq;
+                        foreach (var item in list)
+                        {
+                            item.STATUS = status;
+                            //item.SENDSEQ = sendSeq;
+                        }
                     }
                 }
+                catch { return 0; }
                 int row = data.SaveChanges();
                 return row;
+            }
+        }
+        public static int UpdateTask1(decimal packageNo, int status)
+        {
+            using (DZEntities data = new DZEntities())
+            {
+                long sendSeq = DateTime.Now.Ticks;
+                List<T_UN_POKE> list = new List<T_UN_POKE>();
+                try
+                {
+                    list = data.T_UN_POKE.Where(item => item.SORTNUM == packageNo && item.CTYPE != 1).ToList();
+                    if (list.Count > 0)
+                    {
+                        foreach (var item in list)
+                        {
+                            item.STATUS = status;
+                            //item.SENDSEQ = sendSeq;
+                        }
+                    }
+                }
+                catch { return 0; }
+                int row = data.SaveChanges();
+                return row;
+            }
+        }
+
+        public static bool UpdateHunhe(decimal sortnum) 
+        {
+            using (DZEntities en = new DZEntities()) 
+            {
+                try
+                {
+                    T_UN_POKE_HUNHE hunhe = en.T_UN_POKE_HUNHE.Where(item => item.SORTNUM == sortnum && item.PULLSTATUS == 1).FirstOrDefault();
+                    hunhe.PULLSTATUS = 2;
+                }
+                catch { return false; }
+                return en.SaveChanges() > 0;
             }
         }
 
@@ -94,7 +135,7 @@ namespace Business.BusinessClass
         {
             using (DZEntities en = new DZEntities())
             {
-                var poke = en.T_UN_POKE.Where(item => item.SORTNUM == sortnum).ToList();
+                var poke = en.T_UN_POKE.Where(item => item.SORTNUM == sortnum && item.CTYPE != 1).ToList();
                 foreach (var item in poke)
                 {
                     if (item.STATUS == 15)
@@ -102,8 +143,44 @@ namespace Business.BusinessClass
                         item.STATUS = status;
                     }
                 }
-
+                en.SaveChanges();
                 var taskFirst = poke.FirstOrDefault();
+                if (taskFirst != null)
+                {
+                    var pokestate = en.T_UN_POKE.Where(item => item.TASKNUM == taskFirst.TASKNUM && (item.STATUS == 15 || item.STATUS == 10)).ToList();
+                    if (pokestate.Count == 0)
+                    {
+                        var task = en.T_UN_TASK.Where(item => item.TASKNUM == taskFirst.TASKNUM).ToList();
+                        foreach (var item in task)
+                        {
+                            if (item.STATE == "15")
+                            {
+                                item.STATE = "30";
+                                item.FINISHTIME = DateTime.Now;
+                            }
+                        }
+                    }
+                }
+                en.SaveChanges();
+            }
+        }
+
+        public static void UpdateunTask1(decimal sortnum, int status)
+        {
+            using (DZEntities en = new DZEntities())
+            {
+                var poke = en.T_UN_POKE.Where(item => item.SORTNUM == sortnum && item.CTYPE == 1).ToList();
+                foreach (var item in poke)
+                {
+                    if (item.STATUS == 15)
+                    {
+                        item.STATUS = status;
+                    }
+                }
+                en.SaveChanges();
+
+                var poke2 = en.T_UN_POKE.Where(item => item.SORTNUM == sortnum).ToList();
+                var taskFirst = poke2.FirstOrDefault();
                 if (taskFirst != null)
                 {
                     var pokestate = en.T_UN_POKE.Where(item => item.TASKNUM == taskFirst.TASKNUM && (item.STATUS == 15 || item.STATUS == 10)).ToList();
@@ -233,7 +310,7 @@ namespace Business.BusinessClass
                                 CigName = through.CIGARETTENAME,
                                 Num = poke.POKENUM ?? 0,
                                 CusCode = poke.CUSTOMERCODE
-                            }).Where(exSortNum).Where(exCode).Where(exCusCode).OrderBy(item => item.SortNum).OrderBy(item => item.SortSeq).Skip((pageNum - 1) * 50).Take(50).ToList();
+                            }).Where(exSortNum).Where(exCode).Where(exCusCode).OrderBy(item => item.SortSeq).OrderBy(item => item.SortNum).Skip((pageNum - 1) * 50).Take(50).ToList();
                 sumCount = count;
                 return data;
             }
@@ -254,6 +331,7 @@ namespace Business.BusinessClass
                 {
                     item.STATUS = status;
                 }
+                en.SaveChanges();
                 var queryTask = en.T_UN_TASK.Where(item => item.SORTNUM >= startNum && item.SORTNUM <= endNum).ToList();
                 foreach (var item in queryTask)
                 {
@@ -275,9 +353,10 @@ namespace Business.BusinessClass
         {
             using (DZEntities en = new DZEntities())
             {
-                var query = en.T_UN_TASK.GroupBy(item => new { item.REGIONCODE, item.ORDERDATE, item.SYNSEQ }).Select(item => new TaskInfo
+                var query = en.T_UN_TASK.GroupBy(item => new { item.REGIONCODE,item.REGIONDESC, item.ORDERDATE, item.SYNSEQ }).Select(item => new TaskInfo
                 {
-                    REGIONCODE = item.Key.REGIONCODE,
+                    REGIONCODE = item.Key.REGIONCODE+item.Key.REGIONDESC,
+
                     ORDERDATE = item.Key.ORDERDATE,
                     SYNSEQ = item.Key.SYNSEQ ?? 0,
                     FinishCount = 0,
@@ -285,12 +364,12 @@ namespace Business.BusinessClass
                     QTY = item.Sum(x => x.TASKQUANTITY) ?? 0,
                     Count = item.Count(t => t.REGIONCODE == item.Key.REGIONCODE)
                 }).ToList();
-                var query2 = en.T_UN_TASK.Where(item => item.STATE == "30").GroupBy(item => item.REGIONCODE).Select(item => new TaskInfo { REGIONCODE = item.Key, FinishCount = item.Count(x => x.REGIONCODE == item.Key), FinishQTY = item.Sum(x => x.TASKQUANTITY) ?? 0 }).ToList();
+                var query2 = en.T_UN_TASK.Where(item => item.STATE == "30").GroupBy(item => item.REGIONCODE).Select(item => new TaskInfo { REGIONCODE = item.Key, FinishCount = item.Count(x => x.REGIONCODE == item.Key.Substring(0, 6)), FinishQTY = item.Sum(x => x.TASKQUANTITY) ?? 0 }).ToList();
                 if (query2.Count > 0)
                 {
                     foreach (var item in query2)
                     {
-                        var data = query.Find(x => x.REGIONCODE == item.REGIONCODE);
+                        var data = query.Find(x => x.REGIONCODE.Substring(0, 6) == item.REGIONCODE.Substring(0, 6));
                         data.FinishCount = item.FinishCount;
                         data.FinishQTY = item.FinishQTY;
                     }

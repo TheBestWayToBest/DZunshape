@@ -32,11 +32,21 @@
             this.btnNowPoke = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.sendtasknum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.REPLENISHLINE = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TROUGHNUM = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CIGARETTECODE = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CIGARETTENAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pokenum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.REPLENISHQTY = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ISCOMPLETED = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.STATUS = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TRANSPORTATIONLINE = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FINISHTIME = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.JYCODE = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TYPE = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MANTISSA = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SCANTIME = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SEQ = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.DgvNowView)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -49,11 +59,21 @@
             this.DgvNowView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DgvNowView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.sendtasknum,
+            this.id,
+            this.REPLENISHLINE,
             this.TROUGHNUM,
             this.CIGARETTECODE,
             this.CIGARETTENAME,
-            this.pokenum,
-            this.status});
+            this.REPLENISHQTY,
+            this.ISCOMPLETED,
+            this.STATUS,
+            this.TRANSPORTATIONLINE,
+            this.FINISHTIME,
+            this.JYCODE,
+            this.TYPE,
+            this.MANTISSA,
+            this.SCANTIME,
+            this.SEQ});
             this.DgvNowView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DgvNowView.Location = new System.Drawing.Point(3, 17);
             this.DgvNowView.Name = "DgvNowView";
@@ -73,6 +93,7 @@
             this.btnNowPoke.TabIndex = 7;
             this.btnNowPoke.Text = "定位当前";
             this.btnNowPoke.UseVisualStyleBackColor = true;
+            this.btnNowPoke.Click += new System.EventHandler(this.btnNowPoke_Click);
             // 
             // groupBox1
             // 
@@ -92,6 +113,22 @@
             this.sendtasknum.HeaderText = "任务号";
             this.sendtasknum.Name = "sendtasknum";
             this.sendtasknum.ReadOnly = true;
+            // 
+            // id
+            // 
+            this.id.DataPropertyName = "id";
+            this.id.HeaderText = "id";
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            this.id.Visible = false;
+            // 
+            // REPLENISHLINE
+            // 
+            this.REPLENISHLINE.DataPropertyName = "REPLENISHLINE";
+            this.REPLENISHLINE.HeaderText = "REPLENISHLINE";
+            this.REPLENISHLINE.Name = "REPLENISHLINE";
+            this.REPLENISHLINE.ReadOnly = true;
+            this.REPLENISHLINE.Visible = false;
             // 
             // TROUGHNUM
             // 
@@ -114,19 +151,83 @@
             this.CIGARETTENAME.Name = "CIGARETTENAME";
             this.CIGARETTENAME.ReadOnly = true;
             // 
-            // pokenum
+            // REPLENISHQTY
             // 
-            this.pokenum.DataPropertyName = "pokenum";
-            this.pokenum.HeaderText = "数量";
-            this.pokenum.Name = "pokenum";
-            this.pokenum.ReadOnly = true;
+            this.REPLENISHQTY.DataPropertyName = "REPLENISHQTY";
+            this.REPLENISHQTY.HeaderText = "数量";
+            this.REPLENISHQTY.Name = "REPLENISHQTY";
+            this.REPLENISHQTY.ReadOnly = true;
             // 
-            // status
+            // ISCOMPLETED
             // 
-            this.status.DataPropertyName = "status";
-            this.status.HeaderText = "状态";
-            this.status.Name = "status";
-            this.status.ReadOnly = true;
+            this.ISCOMPLETED.DataPropertyName = "ISCOMPLETED";
+            this.ISCOMPLETED.HeaderText = "状态";
+            this.ISCOMPLETED.Name = "ISCOMPLETED";
+            this.ISCOMPLETED.ReadOnly = true;
+            // 
+            // STATUS
+            // 
+            this.STATUS.DataPropertyName = "STATUS";
+            this.STATUS.HeaderText = "STATUS";
+            this.STATUS.Name = "STATUS";
+            this.STATUS.ReadOnly = true;
+            this.STATUS.Visible = false;
+            // 
+            // TRANSPORTATIONLINE
+            // 
+            this.TRANSPORTATIONLINE.DataPropertyName = "TRANSPORTATIONLINE";
+            this.TRANSPORTATIONLINE.HeaderText = "TRANSPORTATIONLINE";
+            this.TRANSPORTATIONLINE.Name = "TRANSPORTATIONLINE";
+            this.TRANSPORTATIONLINE.ReadOnly = true;
+            this.TRANSPORTATIONLINE.Visible = false;
+            // 
+            // FINISHTIME
+            // 
+            this.FINISHTIME.DataPropertyName = "FINISHTIME";
+            this.FINISHTIME.HeaderText = "FINISHTIME";
+            this.FINISHTIME.Name = "FINISHTIME";
+            this.FINISHTIME.ReadOnly = true;
+            this.FINISHTIME.Visible = false;
+            // 
+            // JYCODE
+            // 
+            this.JYCODE.DataPropertyName = "JYCODE";
+            this.JYCODE.HeaderText = "JYCODE";
+            this.JYCODE.Name = "JYCODE";
+            this.JYCODE.ReadOnly = true;
+            this.JYCODE.Visible = false;
+            // 
+            // TYPE
+            // 
+            this.TYPE.DataPropertyName = "TYPE";
+            this.TYPE.HeaderText = "TYPE";
+            this.TYPE.Name = "TYPE";
+            this.TYPE.ReadOnly = true;
+            this.TYPE.Visible = false;
+            // 
+            // MANTISSA
+            // 
+            this.MANTISSA.DataPropertyName = "MANTISSA";
+            this.MANTISSA.HeaderText = "MANTISSA";
+            this.MANTISSA.Name = "MANTISSA";
+            this.MANTISSA.ReadOnly = true;
+            this.MANTISSA.Visible = false;
+            // 
+            // SCANTIME
+            // 
+            this.SCANTIME.DataPropertyName = "SCANTIME";
+            this.SCANTIME.HeaderText = "SCANTIME";
+            this.SCANTIME.Name = "SCANTIME";
+            this.SCANTIME.ReadOnly = true;
+            this.SCANTIME.Visible = false;
+            // 
+            // SEQ
+            // 
+            this.SEQ.DataPropertyName = "SEQ";
+            this.SEQ.HeaderText = "SEQ";
+            this.SEQ.Name = "SEQ";
+            this.SEQ.ReadOnly = true;
+            this.SEQ.Visible = false;
             // 
             // NowView
             // 
@@ -149,10 +250,20 @@
         private System.Windows.Forms.Button btnNowPoke;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridViewTextBoxColumn sendtasknum;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn REPLENISHLINE;
         private System.Windows.Forms.DataGridViewTextBoxColumn TROUGHNUM;
         private System.Windows.Forms.DataGridViewTextBoxColumn CIGARETTECODE;
         private System.Windows.Forms.DataGridViewTextBoxColumn CIGARETTENAME;
-        private System.Windows.Forms.DataGridViewTextBoxColumn pokenum;
-        private System.Windows.Forms.DataGridViewTextBoxColumn status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn REPLENISHQTY;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ISCOMPLETED;
+        private System.Windows.Forms.DataGridViewTextBoxColumn STATUS;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TRANSPORTATIONLINE;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FINISHTIME;
+        private System.Windows.Forms.DataGridViewTextBoxColumn JYCODE;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TYPE;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MANTISSA;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SCANTIME;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SEQ;
     }
 }

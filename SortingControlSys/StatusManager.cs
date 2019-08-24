@@ -183,13 +183,13 @@ namespace SortingControlSys
                 }
                 switch (CmbState.SelectedIndex)
                 {
-                    case 1:
+                    case 0:
                         status = 10;//新增
                         break;
-                    case 2:
+                    case 1:
                         status = 15;//已发送
                         break;
-                    case 3:
+                    case 2:
                         status = 20;//已完成
                         break;
                 }

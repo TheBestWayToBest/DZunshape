@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.CBGroup2 = new System.Windows.Forms.CheckBox();
             this.CBGroup3 = new System.Windows.Forms.CheckBox();
@@ -87,9 +89,10 @@
             this.CBGroup2.AutoSize = true;
             this.CBGroup2.Checked = true;
             this.CBGroup2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CBGroup2.Location = new System.Drawing.Point(294, 28);
+            this.CBGroup2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.CBGroup2.Location = new System.Drawing.Point(319, 21);
             this.CBGroup2.Name = "CBGroup2";
-            this.CBGroup2.Size = new System.Drawing.Size(72, 16);
+            this.CBGroup2.Size = new System.Drawing.Size(91, 20);
             this.CBGroup2.TabIndex = 18;
             this.CBGroup2.Text = "立式烟仓";
             this.CBGroup2.UseVisualStyleBackColor = true;
@@ -97,9 +100,10 @@
             // CBGroup3
             // 
             this.CBGroup3.AutoSize = true;
-            this.CBGroup3.Location = new System.Drawing.Point(378, 28);
+            this.CBGroup3.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.CBGroup3.Location = new System.Drawing.Point(418, 21);
             this.CBGroup3.Name = "CBGroup3";
-            this.CBGroup3.Size = new System.Drawing.Size(72, 16);
+            this.CBGroup3.Size = new System.Drawing.Size(91, 20);
             this.CBGroup3.TabIndex = 17;
             this.CBGroup3.Text = "卧式烟仓";
             this.CBGroup3.UseVisualStyleBackColor = true;
@@ -107,109 +111,120 @@
             // CBGroup1
             // 
             this.CBGroup1.AutoSize = true;
-            this.CBGroup1.Location = new System.Drawing.Point(462, 28);
+            this.CBGroup1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.CBGroup1.Location = new System.Drawing.Point(515, 21);
             this.CBGroup1.Name = "CBGroup1";
-            this.CBGroup1.Size = new System.Drawing.Size(84, 16);
+            this.CBGroup1.Size = new System.Drawing.Size(107, 20);
             this.CBGroup1.TabIndex = 16;
             this.CBGroup1.Text = "特异形烟道";
             this.CBGroup1.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(822, 20);
+            this.button2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button2.Location = new System.Drawing.Point(886, 15);
             this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(51, 23);
+            this.button2.Size = new System.Drawing.Size(80, 30);
             this.button2.TabIndex = 15;
-            this.button2.Text = "增加";
+            this.button2.Text = "增 加";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // btn_toexcel
             // 
-            this.btn_toexcel.Location = new System.Drawing.Point(998, 20);
+            this.btn_toexcel.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_toexcel.Location = new System.Drawing.Point(1143, 15);
             this.btn_toexcel.Name = "btn_toexcel";
-            this.btn_toexcel.Size = new System.Drawing.Size(44, 23);
+            this.btn_toexcel.Size = new System.Drawing.Size(80, 30);
             this.btn_toexcel.TabIndex = 11;
-            this.btn_toexcel.Text = "导出";
+            this.btn_toexcel.Text = "导 出";
             this.btn_toexcel.UseVisualStyleBackColor = true;
             this.btn_toexcel.Click += new System.EventHandler(this.btn_toexcel_Click);
             // 
             // btn_print
             // 
-            this.btn_print.Location = new System.Drawing.Point(940, 20);
+            this.btn_print.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_print.Location = new System.Drawing.Point(1057, 15);
             this.btn_print.Name = "btn_print";
-            this.btn_print.Size = new System.Drawing.Size(51, 23);
+            this.btn_print.Size = new System.Drawing.Size(80, 30);
             this.btn_print.TabIndex = 10;
-            this.btn_print.Text = "打印";
+            this.btn_print.Text = "打 印";
             this.btn_print.UseVisualStyleBackColor = true;
             this.btn_print.Click += new System.EventHandler(this.btn_print_Click);
             // 
             // btn_amend
             // 
-            this.btn_amend.Location = new System.Drawing.Point(880, 20);
+            this.btn_amend.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_amend.Location = new System.Drawing.Point(971, 15);
             this.btn_amend.Name = "btn_amend";
-            this.btn_amend.Size = new System.Drawing.Size(54, 23);
+            this.btn_amend.Size = new System.Drawing.Size(80, 30);
             this.btn_amend.TabIndex = 8;
-            this.btn_amend.Text = "修改";
+            this.btn_amend.Text = "修 改";
             this.btn_amend.UseVisualStyleBackColor = true;
             this.btn_amend.Click += new System.EventHandler(this.btn_amend_Click);
             // 
             // btn_qy
             // 
-            this.btn_qy.Location = new System.Drawing.Point(695, 20);
+            this.btn_qy.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_qy.Location = new System.Drawing.Point(715, 15);
             this.btn_qy.Name = "btn_qy";
-            this.btn_qy.Size = new System.Drawing.Size(56, 23);
+            this.btn_qy.Size = new System.Drawing.Size(80, 30);
             this.btn_qy.TabIndex = 7;
-            this.btn_qy.Text = "启用";
+            this.btn_qy.Text = "启 用";
             this.btn_qy.UseVisualStyleBackColor = true;
             this.btn_qy.Click += new System.EventHandler(this.btn_qy_Click);
             // 
             // btn_jy
             // 
-            this.btn_jy.Location = new System.Drawing.Point(758, 20);
+            this.btn_jy.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_jy.Location = new System.Drawing.Point(801, 15);
             this.btn_jy.Name = "btn_jy";
-            this.btn_jy.Size = new System.Drawing.Size(56, 23);
+            this.btn_jy.Size = new System.Drawing.Size(80, 30);
             this.btn_jy.TabIndex = 6;
-            this.btn_jy.Text = "禁用";
+            this.btn_jy.Text = "禁 用";
             this.btn_jy.UseVisualStyleBackColor = true;
             this.btn_jy.Click += new System.EventHandler(this.btn_jy_Click);
             // 
             // btn_search
             // 
-            this.btn_search.Location = new System.Drawing.Point(639, 20);
+            this.btn_search.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_search.Location = new System.Drawing.Point(629, 15);
             this.btn_search.Name = "btn_search";
-            this.btn_search.Size = new System.Drawing.Size(51, 23);
+            this.btn_search.Size = new System.Drawing.Size(80, 30);
             this.btn_search.TabIndex = 5;
-            this.btn_search.Text = "查询";
+            this.btn_search.Text = "查 询";
             this.btn_search.UseVisualStyleBackColor = true;
             this.btn_search.Click += new System.EventHandler(this.btn_search_Click);
             // 
             // txt_keywd
             // 
-            this.txt_keywd.Location = new System.Drawing.Point(166, 22);
+            this.txt_keywd.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txt_keywd.Location = new System.Drawing.Point(188, 19);
             this.txt_keywd.Name = "txt_keywd";
-            this.txt_keywd.Size = new System.Drawing.Size(100, 21);
+            this.txt_keywd.Size = new System.Drawing.Size(100, 26);
             this.txt_keywd.TabIndex = 4;
             // 
             // box_condition
             // 
             this.box_condition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.box_condition.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.box_condition.FormattingEnabled = true;
             this.box_condition.Items.AddRange(new object[] {
             "卷烟编码",
             "卷烟名称"});
-            this.box_condition.Location = new System.Drawing.Point(60, 23);
+            this.box_condition.Location = new System.Drawing.Point(82, 20);
             this.box_condition.Name = "box_condition";
-            this.box_condition.Size = new System.Drawing.Size(100, 20);
+            this.box_condition.Size = new System.Drawing.Size(100, 24);
             this.box_condition.TabIndex = 3;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label2.Location = new System.Drawing.Point(4, 26);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 12);
+            this.label2.Size = new System.Drawing.Size(72, 16);
             this.label2.TabIndex = 1;
             this.label2.Text = "查询条件";
             // 
@@ -346,6 +361,15 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.troughdata.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.troughdata.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.troughdata.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.troughdata.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.troughdata.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ThroughNum,
@@ -359,6 +383,14 @@
             this.Column1,
             this.Column2,
             this.Column3});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.troughdata.DefaultCellStyle = dataGridViewCellStyle2;
             this.troughdata.Location = new System.Drawing.Point(0, 66);
             this.troughdata.MultiSelect = false;
             this.troughdata.Name = "troughdata";

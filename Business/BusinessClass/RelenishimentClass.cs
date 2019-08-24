@@ -13,7 +13,9 @@ namespace Business.BusinessClass
             using (DZEntities en = new DZEntities())
             {
                 List<T_PRODUCE_REPLENISHPLAN> list = new List<T_PRODUCE_REPLENISHPLAN>();
-                list = en.T_PRODUCE_REPLENISHPLAN.Where(item => item.ISCOMPLETED == 10 && (item.TROUGHNUM == "3001" || item.TROUGHNUM == "3002" || item.TROUGHNUM == "3003" || item.TROUGHNUM == "3004" || item.TROUGHNUM == "3005" || item.TROUGHNUM == "3006")).OrderBy(item => item.TASKNUM).ToList();
+                string sqlStr = "select * from T_PRODUCE_REPLENISHPLAN where iscompleted != 20 and cigarettecode in(" +
+                                "select cigarettecode from t_produce_sorttrough where groupno=3) order by id";
+                list = en.ExecuteStoreQuery<T_PRODUCE_REPLENISHPLAN>(sqlStr).ToList();
                 return list;
             }
         }
@@ -28,14 +30,17 @@ namespace Business.BusinessClass
                 {
                     data[i] = 0;
                 }
-                var query = en.T_PRODUCE_REPLENISHPLAN.Where(item => item.ISCOMPLETED == isCompleted && (item.TROUGHNUM == "3001" || item.TROUGHNUM == "3002" || item.TROUGHNUM == "3003" || item.TROUGHNUM == "3004" || item.TROUGHNUM == "3005" || item.TROUGHNUM == "3006")).Select(item => new { tasknum = item.TASKNUM, throughnum = item.TROUGHNUM, jmcode = item.JYCODE }).FirstOrDefault();
-                data[0] = query.tasknum;
-                data[1] = Convert.ToDecimal(query.throughnum) - 3000;
-                data[2] = query.jmcode;
+                List<T_PRODUCE_REPLENISHPLAN> list = new List<T_PRODUCE_REPLENISHPLAN>();
+                string sqlStr = "select * from T_PRODUCE_REPLENISHPLAN where iscompleted = 10 and cigarettecode in(" +
+                                "select cigarettecode from t_produce_sorttrough where groupno=3) order by id";
+                list = en.ExecuteStoreQuery<T_PRODUCE_REPLENISHPLAN>(sqlStr).ToList();
+                data[0] = list[0].TASKNUM;
+                data[1] = Convert.ToDecimal(list[0].TROUGHNUM);
+                data[2] = list[0].JYCODE;
                 data[3] = 0;
                 data[4] = 0;
                 data[5] = 1;
-                sb.AppendLine(data[1] + "号通道补烟，任务发送标志位：" + data[5]);
+                sb.AppendLine("任务号：" + data[0] + "，" + data[1] + "号通道补烟，任务发送标志位：" + data[5]);
                 outStr = sb;
                 return data;
             }
@@ -52,20 +57,35 @@ namespace Business.BusinessClass
                     data[i] = 0;
                 }
                 UnnormalInfo info = new UnnormalInfo();
-                string sqlStr = "select SortNum,sum(pokenum) from t_un_poke_hunhe where troughnum in(" +
-                            "select troughnum from t_produce_sorttrough where groupno=1) where status=10 group by sortnum order by sortnum";
+                string sqlStr = "select sortnum,sum(pokenum) as num from t_un_poke where ctype=1 and status = 10 group by sortnum order by sortnum";
                 info = en.ExecuteStoreQuery<UnnormalInfo>(sqlStr).FirstOrDefault();
+                if (info != null)
+                {
+                    data[0] = info.SortNum;
+                    data[1] = info.SortNum;
+                    data[2] = info.Num;
+                    data[3] = info.Num;
+                    data[4] = 0;
+                    data[5] = 0;
+                    data[6] = 1;
+                    sb.AppendLine(data[0] + "，任务发送标志位：" + data[6]);
+                }
                 //int count = en.T_UN_POKE_HUNHE.Where(item => item.SORTNUM == info.SortNum).Count();
-                data[0] = info.SortNum;
-                data[1] = info.SortNum;
-                data[2] = info.Num;
-                data[3] = info.Num;
-                data[4] = 0;
-                data[5] = 0;
-                data[6] = 1;
-                sb.AppendLine(data[0] + "，任务发送标志位：" + data[6]);
+                else
+                {
+                    sb.AppendLine("特异型烟道暂无任务");
+                }
                 outStr = sb;
                 return data;
+            }
+        }
+
+        public static decimal GetMinSortNum()
+        {
+            using (DZEntities en = new DZEntities())
+            {
+                string sqlStr = "select min(sortnum) as num from t_un_poke where ctype=1 and status = 15 group by sortnum order by sortnum";
+                return en.ExecuteStoreQuery<decimal>(sqlStr).FirstOrDefault();
             }
         }
 
@@ -73,8 +93,12 @@ namespace Business.BusinessClass
         {
             using (DZEntities en = new DZEntities())
             {
-                var query = en.T_PRODUCE_REPLENISHPLAN.Where(item => item.TASKNUM == tasknum).FirstOrDefault();
-                query.ISCOMPLETED = isCompleted;
+                var query = en.T_PRODUCE_REPLENISHPLAN.Where(item => item.TASKNUM == tasknum).ToList();
+                for (int i = 0; i < query.Count; i++)
+                {
+                    query[i].ISCOMPLETED = isCompleted;
+                }
+
                 return en.SaveChanges() > 0;
             }
         }
@@ -94,12 +118,15 @@ namespace Business.BusinessClass
         /// </summary>
         /// <param name="taskNum"></param>
         /// <returns></returns>
-        public static List<T_PRODUCE_REPLENISHPLAN> GetFinishedReplenishplan(string tasknum)
+        public static List<T_PRODUCE_REPLENISHPLAN> GetFinishedReplenishplan()
         {
             using (DZEntities en = new DZEntities())
             {
                 List<T_PRODUCE_REPLENISHPLAN> list = new List<T_PRODUCE_REPLENISHPLAN>();
-                list = en.T_PRODUCE_REPLENISHPLAN.Where(item => Convert.ToDecimal(item.TASKNUM) <= Convert.ToDecimal(tasknum) && item.ISCOMPLETED == 15).ToList();
+                string sqlStr = "select * from T_PRODUCE_REPLENISHPLAN where cigarettecode in (select distinct cigarettecode from T_PRODUCE_SORTTROUGH where groupno = 3 ) and ISCOMPLETED = 20 order by id desc";
+
+                list = en.ExecuteStoreQuery<T_PRODUCE_REPLENISHPLAN>(sqlStr).Take(10).ToList();
+                //list = en.T_PRODUCE_REPLENISHPLAN.Where(item => (item.TROUGHNUM == "1" || item.TROUGHNUM == "2" || item.TROUGHNUM == "3" || item.TROUGHNUM == "4" || item.TROUGHNUM == "5" || item.TROUGHNUM == "6") && item.ISCOMPLETED == 15 && item.STATUS == 1).ToList();
                 return list;
             }
         }
@@ -156,25 +183,65 @@ namespace Business.BusinessClass
             }
         }
 
+        public static bool UpdateReplanStatus(string taskNum)
+        {
+            using (DZEntities en = new DZEntities())
+            {
+                T_PRODUCE_REPLENISHPLAN replan = en.T_PRODUCE_REPLENISHPLAN.Where(item => item.TASKNUM == taskNum).FirstOrDefault();
+                replan.STATUS = 1;
+                return en.SaveChanges() > 0;
+            }
+        }
+
         public static List<ReplenishInfo> GetReplenish(decimal condition)
         {
             using (DZEntities en = new DZEntities())
             {
-                Func<T_PRODUCE_REPLENISHPLAN, bool> fun;
+                string sqlStr="";
+                //Func<T_PRODUCE_REPLENISHPLAN, bool> fun;
                 if (condition == 0)
-                    fun = item => true;
+                    sqlStr = "select r.TROUGHNUM as ThroughNum,r.CIGARETTENAME,JYCODE,REPLENISHQTY,TASKNUM,r.CIGARETTECODE from t_produce_replenishplan r,t_produce_sorttrough s " +
+                                " where s.machineseq=r.troughnum and s.cigarettecode=r.cigarettecode " +
+                                " and s.groupno=3 order by r.id";
                 else
-                    fun = item => item.STATUS == condition;
+                    sqlStr = "select r.TROUGHNUM as ThroughNum,r.CIGARETTENAME,JYCODE,REPLENISHQTY,TASKNUM,r.CIGARETTECODE from t_produce_replenishplan r,t_produce_sorttrough s " +
+                                " where s.machineseq=r.troughnum and s.cigarettecode=r.cigarettecode " +
+                                " and s.groupno=3 and iscompleted=" + condition + "  order by r.id";
 
                 List<ReplenishInfo> list = new List<ReplenishInfo>();
-                list = en.T_PRODUCE_REPLENISHPLAN.Where(fun).Select(item => new ReplenishInfo
-                {
-                    ThroughNum = item.TROUGHNUM,
-                    CigaretteName = item.CIGARETTENAME,
-                    JYCode = item.JYCODE,
-                    ReplenishQTY = item.REPLENISHQTY ?? 0,
-                    TaskNum = item.TASKNUM
-                }).OrderBy(item => Convert.ToDecimal(item.TaskNum)).ToList();
+                list = en.ExecuteStoreQuery<ReplenishInfo>(sqlStr).ToList();
+          
+                //var query = en.T_PRODUCE_REPLENISHPLAN.Where(fun).Select(item => new
+                //{
+
+                //    ThroughNum = item.TROUGHNUM,
+                //    CigaretteName = item.CIGARETTENAME,
+                //    JYCode = item.JYCODE,
+                //    ReplenishQTY = item.REPLENISHQTY ?? 0,
+                //    TaskNum = item.TASKNUM,
+                //    cigarettecode = item.CIGARETTECODE
+                //}).OrderBy(item => Convert.ToDecimal(item.TaskNum)).ToList();
+                //list = query.Join(en.T_PRODUCE_SORTTROUGH, plan => new { plan.ThroughNum, plan.cigarettecode }, through => new { through.TROUGHNUM, through.CIGARETTECODE }, (plan, through) =>
+                //    new
+                //    {
+                //        throughNum = plan.ThroughNum,
+                //        CigaretteName = plan.CigaretteName,
+                //        JYCode = plan.JYCode,
+                //        ReplenishQTY = plan.ReplenishQTY,
+                //        TaskNum = plan.TaskNum,
+                //        groupNo = through.GROUPNO
+                //    }).Where(item => item.groupNo == 3).Select(item => new ReplenishInfo
+                //    {
+                //        ThroughNum = item.throughNum,
+                //        CigaretteName = item.CigaretteName,
+                //        JYCode = item.JYCode,
+                //        ReplenishQTY = item.ReplenishQTY,
+                //        TaskNum = item.TaskNum
+                //    }).OrderBy(item => Convert.ToDecimal(item.TaskNum)).ToList();
+
+
+
+
                 return list;
             }
         }

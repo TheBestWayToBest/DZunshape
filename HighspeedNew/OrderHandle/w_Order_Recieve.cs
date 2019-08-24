@@ -46,8 +46,8 @@ namespace HighSpeed.OrderHandle
         private void btn_recieve_Click(object sender, EventArgs e)
         {
             decimal maxSyncseq = 0;
-            try
-            {
+            //try
+            //{
                 maxSyncseq = sc.GetSyncseqFromOrderTable().Content;
                 String codestr = this.txt_codestr.Text.Trim();
                 btn_recieve.Enabled = false;
@@ -127,17 +127,17 @@ namespace HighSpeed.OrderHandle
                 }
                 this.btn_recieve.Enabled = true;
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("订单接收异常" + ex.Message);
-            }
-            finally
-            {
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("订单接收异常" + ex.Message);
+            //}
+            //finally
+            //{
                 panel2.Visible = false;
                 label2.Visible = false;
                 progressBar1.Visible = false;
-            }
+            //}
            
         }
 

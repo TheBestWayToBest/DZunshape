@@ -24,9 +24,10 @@ namespace HighspeedNew.OrderHandle
         {
             Bind();
         }
+        string time = "";
         void Bind() 
         {
-            string time = this.datePick.Text;
+            time = this.datePick.Text;
             this.txt_codestr.Text = "";
             List<OrderData> list = new List<OrderData>();
             list = OrderClass.GetOrderByDate(Convert.ToDateTime(time));
@@ -130,6 +131,13 @@ namespace HighspeedNew.OrderHandle
                    rectangle,
                    orderdata.RowHeadersDefaultCellStyle.ForeColor,
                    TextFormatFlags.VerticalCenter | TextFormatFlags.Right);
+        }
+
+        private void orderdata_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string region = orderdata.Rows[e.RowIndex].Cells[0].Value.ToString();
+            w_orderDetail frm = new w_orderDetail(region,time);
+            frm.Show();
         }
     }
 }

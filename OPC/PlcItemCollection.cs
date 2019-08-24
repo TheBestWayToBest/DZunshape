@@ -103,7 +103,7 @@ namespace OPC
 
         public static List<string> GetScan() 
         {
-            List<string> list = new List<string>() { "DB" };
+            List<string> list = new List<string>() { "DB300,DINT18" };
             return list;
         }
         public static List<string> GetOnlyUnnormalItem() 
@@ -127,7 +127,12 @@ namespace OPC
         public static List<string> GetFinishUnnormalItem()
         {
             List<string> list = new List<string>();
-            list.Add(OpcPresortServer + "DB32,DINT0");
+            for (int i = 0; i < 160; i+=4)
+            {
+                list.Add(OpcPresortServer + "DB33,DINT" + i);
+            }
+            
+            //list.Add(OpcPresortServer + "DB32,DINT4");
             return list;
         }
 

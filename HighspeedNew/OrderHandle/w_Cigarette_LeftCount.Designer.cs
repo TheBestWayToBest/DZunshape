@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button3 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -63,70 +65,76 @@
             this.panel1.Controls.Add(this.BtnPrint);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(904, 39);
+            this.panel1.Size = new System.Drawing.Size(904, 60);
             this.panel1.TabIndex = 1;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(309, 8);
+            this.button3.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button3.Location = new System.Drawing.Point(354, 19);
             this.button3.Margin = new System.Windows.Forms.Padding(2);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(59, 23);
+            this.button3.Size = new System.Drawing.Size(75, 30);
             this.button3.TabIndex = 5;
-            this.button3.Text = "修改";
+            this.button3.Text = "修 改";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(227, 8);
+            this.button1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button1.Location = new System.Drawing.Point(266, 19);
             this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(69, 23);
+            this.button1.Size = new System.Drawing.Size(75, 30);
             this.button1.TabIndex = 4;
-            this.button1.Text = "查询";
+            this.button1.Text = "查 询";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // comboBox1
             // 
+            this.comboBox1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "立式烟仓",
             "卧式烟仓"});
-            this.comboBox1.Location = new System.Drawing.Point(91, 13);
+            this.comboBox1.Location = new System.Drawing.Point(109, 21);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(105, 20);
+            this.comboBox1.Size = new System.Drawing.Size(133, 24);
             this.comboBox1.TabIndex = 3;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 19);
+            this.label1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Location = new System.Drawing.Point(9, 24);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(71, 12);
+            this.label1.Size = new System.Drawing.Size(96, 16);
             this.label1.TabIndex = 2;
             this.label1.Text = "请选择类型:";
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(468, 8);
+            this.button2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button2.Location = new System.Drawing.Point(519, 19);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(75, 30);
             this.button2.TabIndex = 1;
-            this.button2.Text = "导出";
+            this.button2.Text = "导 出";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // BtnPrint
             // 
-            this.BtnPrint.Location = new System.Drawing.Point(377, 8);
+            this.BtnPrint.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.BtnPrint.Location = new System.Drawing.Point(438, 19);
             this.BtnPrint.Name = "BtnPrint";
-            this.BtnPrint.Size = new System.Drawing.Size(75, 23);
+            this.BtnPrint.Size = new System.Drawing.Size(75, 30);
             this.BtnPrint.TabIndex = 0;
-            this.BtnPrint.Text = "打印";
+            this.BtnPrint.Text = "打 印";
             this.BtnPrint.UseVisualStyleBackColor = true;
             this.BtnPrint.Click += new System.EventHandler(this.BtnPrint_Click);
             // 
@@ -139,6 +147,14 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.codedata.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.codedata.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.codedata.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.codedata.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.codedata.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.cigarettecode,
@@ -146,13 +162,21 @@
             this.machineseq,
             this.mantissa,
             this.THRESHOLD});
-            this.codedata.Location = new System.Drawing.Point(0, 45);
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.codedata.DefaultCellStyle = dataGridViewCellStyle2;
+            this.codedata.Location = new System.Drawing.Point(0, 66);
             this.codedata.MultiSelect = false;
             this.codedata.Name = "codedata";
             this.codedata.RowHeadersWidth = 30;
             this.codedata.RowTemplate.Height = 23;
             this.codedata.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.codedata.Size = new System.Drawing.Size(904, 447);
+            this.codedata.Size = new System.Drawing.Size(904, 426);
             this.codedata.TabIndex = 2;
             // 
             // cigarettecode
@@ -194,6 +218,7 @@
             // 
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.progressBar1);
+            this.panel2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.panel2.Location = new System.Drawing.Point(247, 202);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(411, 91);
@@ -205,7 +230,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(17, 23);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(95, 12);
+            this.label2.Size = new System.Drawing.Size(128, 16);
             this.label2.TabIndex = 1;
             this.label2.Text = "正在读取数据...";
             this.label2.Visible = false;

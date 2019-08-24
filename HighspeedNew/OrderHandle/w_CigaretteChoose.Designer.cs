@@ -28,7 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.itemdata = new System.Windows.Forms.DataGridView();
+            this.itemno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.itemname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.shortname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txt_itemname = new System.Windows.Forms.TextBox();
             this.txt_itemno = new System.Windows.Forms.TextBox();
             this.btn_close = new System.Windows.Forms.Button();
@@ -38,14 +48,6 @@
             this.txt_keywd = new System.Windows.Forms.TextBox();
             this.box_type = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.itemno = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.itemname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.shortname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.itemdata)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -54,6 +56,15 @@
             // 
             this.itemdata.AllowUserToAddRows = false;
             this.itemdata.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.itemdata.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.itemdata.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.itemdata.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.itemdata.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.itemno,
@@ -64,6 +75,14 @@
             this.Column3,
             this.Column4,
             this.Column5});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.itemdata.DefaultCellStyle = dataGridViewCellStyle2;
             this.itemdata.Dock = System.Windows.Forms.DockStyle.Fill;
             this.itemdata.Location = new System.Drawing.Point(0, 42);
             this.itemdata.MultiSelect = false;
@@ -74,95 +93,6 @@
             this.itemdata.Size = new System.Drawing.Size(825, 336);
             this.itemdata.TabIndex = 3;
             this.itemdata.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.itemdata_CellClick);
-            // 
-            // txt_itemname
-            // 
-            this.txt_itemname.Location = new System.Drawing.Point(686, 7);
-            this.txt_itemname.Name = "txt_itemname";
-            this.txt_itemname.Size = new System.Drawing.Size(100, 21);
-            this.txt_itemname.TabIndex = 7;
-            this.txt_itemname.Visible = false;
-            // 
-            // txt_itemno
-            // 
-            this.txt_itemno.Location = new System.Drawing.Point(580, 8);
-            this.txt_itemno.Name = "txt_itemno";
-            this.txt_itemno.Size = new System.Drawing.Size(100, 21);
-            this.txt_itemno.TabIndex = 6;
-            this.txt_itemno.Visible = false;
-            // 
-            // btn_close
-            // 
-            this.btn_close.Location = new System.Drawing.Point(488, 7);
-            this.btn_close.Name = "btn_close";
-            this.btn_close.Size = new System.Drawing.Size(75, 23);
-            this.btn_close.TabIndex = 5;
-            this.btn_close.Text = "关闭";
-            this.btn_close.UseVisualStyleBackColor = true;
-            // 
-            // btn_submit
-            // 
-            this.btn_submit.Location = new System.Drawing.Point(397, 8);
-            this.btn_submit.Name = "btn_submit";
-            this.btn_submit.Size = new System.Drawing.Size(75, 23);
-            this.btn_submit.TabIndex = 4;
-            this.btn_submit.Text = "提交";
-            this.btn_submit.UseVisualStyleBackColor = true;
-            this.btn_submit.Click += new System.EventHandler(this.btn_submit_Click);
-            // 
-            // btn_search
-            // 
-            this.btn_search.Location = new System.Drawing.Point(306, 8);
-            this.btn_search.Name = "btn_search";
-            this.btn_search.Size = new System.Drawing.Size(75, 23);
-            this.btn_search.TabIndex = 3;
-            this.btn_search.Text = "查询";
-            this.btn_search.UseVisualStyleBackColor = true;
-            this.btn_search.Click += new System.EventHandler(this.btn_search_Click);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.txt_itemname);
-            this.panel1.Controls.Add(this.txt_itemno);
-            this.panel1.Controls.Add(this.btn_close);
-            this.panel1.Controls.Add(this.btn_submit);
-            this.panel1.Controls.Add(this.btn_search);
-            this.panel1.Controls.Add(this.txt_keywd);
-            this.panel1.Controls.Add(this.box_type);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(825, 42);
-            this.panel1.TabIndex = 2;
-            // 
-            // txt_keywd
-            // 
-            this.txt_keywd.Location = new System.Drawing.Point(162, 7);
-            this.txt_keywd.Name = "txt_keywd";
-            this.txt_keywd.Size = new System.Drawing.Size(100, 21);
-            this.txt_keywd.TabIndex = 2;
-            // 
-            // box_type
-            // 
-            this.box_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.box_type.FormattingEnabled = true;
-            this.box_type.Items.AddRange(new object[] {
-            "品牌代码",
-            "品牌名称"});
-            this.box_type.Location = new System.Drawing.Point(71, 8);
-            this.box_type.Name = "box_type";
-            this.box_type.Size = new System.Drawing.Size(85, 20);
-            this.box_type.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 11);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 12);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "查询条件";
             // 
             // itemno
             // 
@@ -224,6 +154,101 @@
             this.Column5.Name = "Column5";
             this.Column5.ReadOnly = true;
             this.Column5.Visible = false;
+            // 
+            // txt_itemname
+            // 
+            this.txt_itemname.Location = new System.Drawing.Point(686, 7);
+            this.txt_itemname.Name = "txt_itemname";
+            this.txt_itemname.Size = new System.Drawing.Size(100, 21);
+            this.txt_itemname.TabIndex = 7;
+            this.txt_itemname.Visible = false;
+            // 
+            // txt_itemno
+            // 
+            this.txt_itemno.Location = new System.Drawing.Point(580, 8);
+            this.txt_itemno.Name = "txt_itemno";
+            this.txt_itemno.Size = new System.Drawing.Size(100, 21);
+            this.txt_itemno.TabIndex = 6;
+            this.txt_itemno.Visible = false;
+            // 
+            // btn_close
+            // 
+            this.btn_close.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_close.Location = new System.Drawing.Point(500, 4);
+            this.btn_close.Name = "btn_close";
+            this.btn_close.Size = new System.Drawing.Size(75, 30);
+            this.btn_close.TabIndex = 5;
+            this.btn_close.Text = "关 闭";
+            this.btn_close.UseVisualStyleBackColor = true;
+            // 
+            // btn_submit
+            // 
+            this.btn_submit.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_submit.Location = new System.Drawing.Point(419, 4);
+            this.btn_submit.Name = "btn_submit";
+            this.btn_submit.Size = new System.Drawing.Size(75, 30);
+            this.btn_submit.TabIndex = 4;
+            this.btn_submit.Text = "提 交";
+            this.btn_submit.UseVisualStyleBackColor = true;
+            this.btn_submit.Click += new System.EventHandler(this.btn_submit_Click);
+            // 
+            // btn_search
+            // 
+            this.btn_search.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_search.Location = new System.Drawing.Point(338, 4);
+            this.btn_search.Name = "btn_search";
+            this.btn_search.Size = new System.Drawing.Size(75, 30);
+            this.btn_search.TabIndex = 3;
+            this.btn_search.Text = "查 询";
+            this.btn_search.UseVisualStyleBackColor = true;
+            this.btn_search.Click += new System.EventHandler(this.btn_search_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.txt_itemname);
+            this.panel1.Controls.Add(this.txt_itemno);
+            this.panel1.Controls.Add(this.btn_close);
+            this.panel1.Controls.Add(this.btn_submit);
+            this.panel1.Controls.Add(this.btn_search);
+            this.panel1.Controls.Add(this.txt_keywd);
+            this.panel1.Controls.Add(this.box_type);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(825, 42);
+            this.panel1.TabIndex = 2;
+            // 
+            // txt_keywd
+            // 
+            this.txt_keywd.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txt_keywd.Location = new System.Drawing.Point(217, 7);
+            this.txt_keywd.Name = "txt_keywd";
+            this.txt_keywd.Size = new System.Drawing.Size(100, 26);
+            this.txt_keywd.TabIndex = 2;
+            // 
+            // box_type
+            // 
+            this.box_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.box_type.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.box_type.FormattingEnabled = true;
+            this.box_type.Items.AddRange(new object[] {
+            "品牌代码",
+            "品牌名称"});
+            this.box_type.Location = new System.Drawing.Point(90, 7);
+            this.box_type.Name = "box_type";
+            this.box_type.Size = new System.Drawing.Size(121, 24);
+            this.box_type.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Location = new System.Drawing.Point(12, 11);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(72, 16);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "查询条件";
             // 
             // w_CigaretteChoose
             // 

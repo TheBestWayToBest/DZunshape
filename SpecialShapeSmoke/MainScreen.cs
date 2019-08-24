@@ -13,6 +13,7 @@ using Tool;
 using Business;
 using OPC;
 using System.Threading;
+using System.Configuration;
 
 namespace SpecialShapeSmoke
 {
@@ -23,6 +24,7 @@ namespace SpecialShapeSmoke
         Label[] lbladd;
         decimal machineSeq;
         decimal groupNo;
+        decimal sortnum = 0;
         public MainScreen()
         {
             InitializeComponent();
@@ -35,7 +37,9 @@ namespace SpecialShapeSmoke
             {
                 LblAdd1,LblAdd2,LblAdd3,LblAdd4,LblAdd5,LblAdd6,LblAdd7,LblAdd8,LblAdd9,LblAdd10,LblAdd11,LblAdd12,LblAdd13,LblAdd14,LblAdd15
             };
-            sp_name = "COM1";
+            try { sp_name = ConfigurationManager.AppSettings["SerialPort"].ToString(); }
+            catch { sp_name = "COM2"; }
+            CheckForIllegalCrossThreadCalls = false;
             machineSeq = 1;
             groupNo = 1;
             lblpack = new Label();
@@ -43,7 +47,7 @@ namespace SpecialShapeSmoke
             lblpack.Font = new Font("宋体", 10, FontStyle.Bold | FontStyle.Italic);
 
             lblpack.Name = "lblpack";
-            lblpack.Text = "混合道补货顺序";
+            lblpack.Text = "特异型烟道补货顺序";
             lblpack.Location = new Point(Convert.ToInt32(64), 7);
             lblpack.Size = new Size(300, 20);
 
@@ -51,11 +55,34 @@ namespace SpecialShapeSmoke
             OpenSerialPort();
             TSender.Start();
             BGWConn.RunWorkerAsync();
+            //ProgramAutoRun.SetMeStart(true);
+            try { sortnum = RelenishimentClass.GetMinSortNum(); }
+            catch { }
+            lblSortnum.Text = "当前任务：" + sortnum;
             GetData();
-            List<MixInfo> list = new List<MixInfo>();
+
             X = this.Width;//获取窗体的宽度
             Y = this.Height;//获取窗体的高度
             SetTag(this);//调用方法
+        }
+
+        void ReadFinish()
+        {
+            List<string> list = new List<string>();
+            list = PlcItemCollection.GetFinishUnnormalItem();
+            for (int i = 0; i < list.Count; i++)
+            {
+                int receivePackage = int.Parse(opcServer.FinishOnlyGroup.ReadD(i).ToString());
+                if (receivePackage != 0)
+                {
+                    WriteLog.GetLog().Write("从电控读取特异型烟任务号:" + receivePackage);
+                    UnPokeClass.UpdateunTask1(receivePackage, 20);
+                    try { sortnum = RelenishimentClass.GetMinSortNum(); }
+                    catch { }
+                    lblSortnum.Text = "当前任务：" + sortnum;
+                    opcServer.FinishOnlyGroup.Write(0, i);
+                }
+            }
         }
 
         #region
@@ -126,8 +153,8 @@ namespace SpecialShapeSmoke
             }
         }
 
-        
-        SerialPort sp = new SerialPort();    
+
+        SerialPort sp = new SerialPort();
         string sp_name;
         public void OpenSerialPort()
         {
@@ -144,91 +171,85 @@ namespace SpecialShapeSmoke
                 }
                 catch
                 {
-                   
+
                 }
             }
 
         }
         //处理扫描文本
-        static string str;
+        static string str = "";
         void sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             SerialPort sp = sender as SerialPort;
             String tempCode = sp.ReadExisting();
-            str = tempCode.Split('\r').First();
-            PullCigarette(str);
+            //str = tempCode.Split('\r').First();
+            str += tempCode;
+            if (str.Length > 12)
+            {
+                PullCigarette(str);
+            }
+
         }
-        void PullCigarette(string str)
+        void PullCigarette(string stri)
         {
-            string[] strs = new string[2];
-            try
+            MixInfos info = MixedClass.GetMixCig2(machineSeq, groupNo, 0)[0];
+            WriteLog.GetLog().Write("扫到条码" + stri);
+            if (info.CigCode.Trim() == stri.Trim())
             {
-                strs = MixedClass.GetCigInfoByCode(str);
-            }
-            catch
-            {
-                return;
-            }
-            StringBuilder sb = new StringBuilder();
-            MixInfo info = MixedClass.GetMixCig(machineSeq, groupNo, 0)[0];
-            sb.AppendLine("扫到条码" + str[0]);
-            if (info.CigCode == strs[0] && info.CigName == strs[1])
-            {
-                if (MixedClass.UpdatePullStatus2Put(machineSeq, info.PokeID))
+                if (MixedClass.UpdatePullStatus2Put2(machineSeq, info.PokeID))
                 {
-                    sb.AppendLine("<扫码放烟成功>");
+                    WriteLog.GetLog().Write("<扫码放烟成功>");
                     GetData();
+                    str = "";
                 }
 
             }
-            else 
+            else
             {
-                sb.AppendLine("放烟品牌错误：扫描到条码" + str[0]);
+                WriteLog.GetLog().Write("放烟品牌错误：扫描到条码" + str[0]);
                 MessageBox.Show("放烟错误，请重放");
+                str = "";
             }
         }
 
-        void GetData() 
+        void GetData()
         {
-            WriteLog.GetLog().Write("读取数据");
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("开始获取数据" + DateTime.Now.ToString());
-            string strStart = System.DateTime.Now.ToString();
-            List<MixInfo> list = new List<MixInfo>();
+            List<MixInfos> list = new List<MixInfos>();
             foreach (var item in lbladded)
             {
-                item.Text = "";
+                UpdateLabel3(list, 15, lbladd, Color.White);
+                //item.Text = "";
             }
             foreach (var item in lbladd)
             {
-                item.Text = "";
+                UpdateLabel3(list, 15, lbladd, Color.White);
+                //item.Text = "";
+                //item.BackColor = Color.White;
             }
             try
             {
-                
-                //UpdateLabel(list, 15, lbladd);
-                list = MixedClass.GetMixCig(machineSeq, groupNo, 0);
+                list = MixedClass.GetMixCig2(machineSeq, groupNo, 0);
                 int length;
                 if (list.Count > lbladded.Length)
                     length = lbladded.Length;
                 else
                     length = list.Count;
-                UpdateLabel(list, length, lbladd);
+                UpdateLabel3(list, length, lbladd, Color.White);
                 try
                 {
-                    List<MixInfo> finish = new List<MixInfo>();
+                    List<MixInfos> finish = new List<MixInfos>();
                     //UpdateLabel(finish, 15, lbladded);
-                    finish = MixedClass.GetMixCig(machineSeq, groupNo, 1);
+                    finish = MixedClass.GetMixCig4(machineSeq, groupNo, 1).OrderBy(item => item.ThroughNum).OrderBy(item => item.SortNum).ToList();
                     int lengths;
                     if (finish.Count > lbladded.Length)
                         lengths = lbladded.Length;
                     else
                         lengths = finish.Count;
-                    UpdateLabel(finish, lengths, lbladded);
+                    UpdateLabel3(finish, lengths, lbladded, Color.LightGreen);
                 }
                 catch (Exception ex)
                 {
-                    
+                    MessageBox.Show(ex.ToString());
                 }
             }
             catch (Exception ex)
@@ -236,17 +257,40 @@ namespace SpecialShapeSmoke
                 WriteLog.GetLog().Write("sp-03:数据获取失败！   ");
                 //if (ex.Message == "基础提供程序在 Open 上失败。")
                 //{
-                    databaselinkcheck("数据库连接失败！请检查网络，重新打开程序！");
+                databaselinkcheck("数据库连接失败！请检查网络，重新打开程序！");
                 //}
             }
         }
 
-        void UpdateLabel(List<MixInfo> list, int length, Label[] labels)
+        void UpdateLabel3(List<MixInfos> lists, int length, Label[] labels, Color color)
         {
             for (int i = 0; i < length; i++)
             {
-                string info = i + 1 + "." + list[i].CigName;
-                UpdateLabel(info, labels[i]);
+                try
+                {
+                    string info = i + 1 + "." + lists[i].CigName + " " + lists[i].SortNum;
+                    UpdateLabel(info, labels[i], color);
+                }
+                catch
+                {
+                    UpdateLabel("", labels[i], color);
+                }
+            }
+        }
+
+        void UpdateLabel(List<MixInfo> list, int length, Label[] labels, Color color)
+        {
+            for (int i = 0; i < length; i++)
+            {
+                try
+                {
+                    string info = i + 1 + "." + list[i].CigName + " " + list[i].SortNum;
+                    UpdateLabel(info, labels[i], color);
+                }
+                catch
+                {
+                    UpdateLabel("", labels[i], color);
+                }
             }
         }
         private delegate void HandleDelegate1(string info, Label label);
@@ -266,6 +310,24 @@ namespace SpecialShapeSmoke
             }
         }
 
+        private delegate void HandleDelegate2(string info, Label label, Color color);
+        public void UpdateLabel(string info, Label label, Color color)
+        {
+            String time = DateTime.Now.ToLongTimeString();
+
+            if (label.InvokeRequired)
+            {
+                label.Invoke(new HandleDelegate2(UpdateLabel), new Object[] { info, label, color });
+            }
+            else
+            {
+
+                label.BackColor = color;
+                label.Text = info;
+            }
+        }
+
+
         private delegate void HandleDelegate(string str);
         public void databaselinkcheck(string str)
         {
@@ -280,7 +342,7 @@ namespace SpecialShapeSmoke
                 lblpack.Width = 750;
                 lblpack.BackColor = Color.Red;
                 BtnSeq.Enabled = false;
-                BtnSearch.Enabled = false;
+                //BtnSearch.Enabled = false;
                 BtnRefresh.Enabled = false;
                 TRefresh.Stop();
             }
@@ -288,7 +350,27 @@ namespace SpecialShapeSmoke
 
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-            
+
+            SearchCustomer frm = new SearchCustomer();
+            frm.Show();
+            frm.Activate();
+            SearchWinForm(frm);
+        }
+
+        public void SearchWinForm(Form fname)
+        {
+            foreach (Form frm in Application.OpenForms)
+            {
+                if (frm is Form)
+                {
+                    fname.TopMost = true;
+                    fname.Activate();
+
+                    return;
+                }
+            }
+            fname.Show();
+            fname.Activate();
         }
 
         OPCServer opcServer;
@@ -305,8 +387,6 @@ namespace SpecialShapeSmoke
                 opcServer.SpyBiaozhiGroup.addItem(PlcItemCollection.GetSpanUnnormalItem());//监控任务标识位
                 opcServer.FinishOnlyGroup.addItem(PlcItemCollection.GetFinishUnnormalItem());//完成信号交互区;
 
-                //opcServer.ScanGroup.addItem(PlcItemCollection.GetScan());
-
                 WriteLog.GetLog().Write("opC服务器创成功！");
                 opcServer.ConnectState = opcServer.CheckConnection();
                 if (opcServer.ConnectState)
@@ -318,8 +398,11 @@ namespace SpecialShapeSmoke
                     WriteLog.GetLog().Write("触发定时器");
                     if (opcServer.SpyBiaozhiGroup.Read(0).ToString() != "1" && !opcServer.IsSendOn)//监控标志位第一组 产生跳变
                     {
+                        opcServer.IsSendOn = true;
                         opcServer.SpyBiaozhiGroup.Write(2, 0);
                         opcServer.SpyBiaozhiGroup.Write(0, 0);
+                        ReadFinish();
+                        opcServer.IsSendOn = false;
                         WriteLog.GetLog().Write("发送任务");
                     }
                     else
@@ -346,7 +429,7 @@ namespace SpecialShapeSmoke
         }
 
         delegate StringBuilder DelSendTask(object[] data, StringBuilder outStr);
-
+        //string sortNum = "0";
         public void OnDataChange(int group, int[] clientId, object[] values)
         {
             if (group == 5)//完成信号
@@ -360,10 +443,16 @@ namespace SpecialShapeSmoke
                         {
                             if (decimal.Parse(tempvalue) != 0)
                             {
-                                WriteLog.GetLog().Write("从电控读取补货任务号:" + tempvalue);
+                                WriteLog.GetLog().Write("从电控读取特异型烟任务号:" + tempvalue);
                                 //UnPokeClass.UpdateunTask(tempvalue, 20);
-                                RelenishimentClass.Completed(tempvalue);
-                                WriteLog.GetLog().Write("补货任务号" + tempvalue + "号任务已完成,数据库更新完成");
+                                //sortNum = tempvalue;
+                                UnPokeClass.UpdateunTask1(decimal.Parse(tempvalue), 20);
+                                try { sortnum = RelenishimentClass.GetMinSortNum(); }
+                                catch { }
+                                lblSortnum.Text = "当前任务：" + sortnum;
+                                //SpecialClass.UpdateSpecialState(decimal.Parse(tempvalue),2);
+                                WriteLog.GetLog().Write("特异型烟任务号" + tempvalue + "号任务已完成,数据库更新完成");
+                                GetData();
                             }
                         }
                         catch (Exception ex)
@@ -394,8 +483,9 @@ namespace SpecialShapeSmoke
                                 int receivePackage = int.Parse(opcServer.OnlyTaskGroup.ReadD(i).ToString());
                                 if (receivePackage != 0)
                                 {
-                                    WriteLog.GetLog().Write("补货任务号:" + receivePackage + "已接收");
-                                    RelenishimentClass.UpdateMixTask(receivePackage, 15);
+                                    WriteLog.GetLog().Write("特异型烟任务号:" + receivePackage + "已接收");
+                                    UnPokeClass.UpdateTask(receivePackage, 15);
+                                    //UnPokeClass.UpdateHunhe(receivePackage);
                                 }
                                 if (opcServer.IsSendOn)//如果任务已经在发送中则返回
                                 {
@@ -406,7 +496,13 @@ namespace SpecialShapeSmoke
                                 DelSendTask task = new DelSendTask(opcServer.SendOnlyTask);
                                 IAsyncResult result = task.BeginInvoke(data, outStr, null, task);
                                 StringBuilder re = task.EndInvoke(result);
+                                if (re.ToString() == "特异型烟道暂无任务")
+                                {
+                                    databaselinkcheck("特异型烟道暂无任务");
+                                    return;
+                                }
                                 WriteLog.GetLog().Write(re.ToString());
+                                GetData();
                             }
                             else
                             {
@@ -427,13 +523,23 @@ namespace SpecialShapeSmoke
 
         private void BtnSeq_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                NowView frm = new NowView(Convert.ToDecimal(sortnum));
+                frm.Show();
+                frm.Activate();
+                SearchWinForm(frm);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("数据库连接失败！请检查网络");
+            }
         }
 
         private void BtnRefresh_Click(object sender, EventArgs e)
         {
-
+            GetData();
         }
-    
+
     }
 }

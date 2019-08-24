@@ -39,10 +39,9 @@ namespace SmokeRelenishment
             lblpack.Text = "件烟补货顺序";
             lblpack.Location = new Point(Convert.ToInt32(64), 7);
             lblpack.Size = new Size(300, 20);
-
+            GetData(true);
             panel1.Controls.Add(lblpack);
-            //OpenSerialPort();
-            //TSender.Start();
+            //ProgramAutoRun.SetMeStart(true);
             BGWConn.RunWorkerAsync();
             X = this.Width;//获取窗体的宽度
             Y = this.Height;//获取窗体的高度
@@ -122,7 +121,6 @@ namespace SmokeRelenishment
             WriteLog.GetLog().Write("自动刷新");
             GetData(true);
         }
-        DialogResult result = DialogResult.Cancel;
         void GetData(bool refresh = false)
         {
             WriteLog.GetLog().Write("读取数据");
@@ -130,6 +128,15 @@ namespace SmokeRelenishment
             sb.AppendLine("开始获取数据" + DateTime.Now.ToString());
             string strStart = System.DateTime.Now.ToString();
 
+            List<T_PRODUCE_REPLENISHPLAN> lists = new List<T_PRODUCE_REPLENISHPLAN>();///RelenishimentClass.GetReplenishplan();
+            foreach (var item in lbladded)
+            {
+                UpdateLabel(lists, 10, lbladd, Color.White);
+            }
+            foreach (var item in lbladd)
+            {
+                UpdateLabel(lists, 10, lbladd, Color.White);
+            }
             try
             {
                 List<T_PRODUCE_REPLENISHPLAN> list = RelenishimentClass.GetReplenishplan();
@@ -138,41 +145,16 @@ namespace SmokeRelenishment
                     length = lbladded.Length;
                 else
                     length = list.Count;
-                UpdateLabel(list, length, lbladd);
-                try
-                {
-                    sb.AppendLine("开始读取plc" + System.DateTime.Now.ToString());
-                    if (opcServer.ConnectState)
-                    {
-                        //读取扫码头任务号
-                        int taskNum = opcServer.ScanGroup.ReadD(0).CastTo<int>(-1);
-                        if (taskNum > -1)
-                        {
-                            List<T_PRODUCE_REPLENISHPLAN> finish = new List<T_PRODUCE_REPLENISHPLAN>();
-                            finish = RelenishimentClass.GetFinishedReplenishplan(taskNum.ToString());
-                            int lengths;
-                            if (finish.Count > lbladded.Length)
-                                lengths = lbladded.Length;
-                            else
-                                lengths = finish.Count;
-                            UpdateLabel(finish, lengths, lbladded);
-                            sb.AppendLine("plc数据读取完成" + System.DateTime.Now.ToString());
-                        }
-                        else
-                        {
-                            sb.AppendLine("plc数据读取失败" + System.DateTime.Now.ToString());
-                        }
-                    }
-                    else 
-                    {
-                        sb.AppendLine("plc未连接" + System.DateTime.Now.ToString());
-                    }
-                    
-                }
-                catch (Exception ex)
-                {
-                    sb.AppendLine("plc读取完成信号失败" + ex.Message);
-                }
+                UpdateLabel(list, length, lbladd, Color.White);
+
+                List<T_PRODUCE_REPLENISHPLAN> finish = new List<T_PRODUCE_REPLENISHPLAN>();
+                finish = RelenishimentClass.GetFinishedReplenishplan().OrderBy(item => item.ID).ToList();
+                int lengths;
+                if (finish.Count > lbladded.Length)
+                    lengths = lbladded.Length;
+                else
+                    lengths = finish.Count;
+                UpdateLabel(finish, lengths, lbladded, Color.LightGreen);
             }
             catch (Exception ex)
             {
@@ -199,7 +181,7 @@ namespace SmokeRelenishment
                 lblpack.Width = 750;
                 lblpack.BackColor = Color.Red;
                 BtnSeq.Enabled = false;
-                BtnSearch.Enabled = false;
+                //BtnSearch.Enabled = false;
                 BtnRefresh.Enabled = false;
                 TRefresh.Stop();
             }
@@ -207,7 +189,6 @@ namespace SmokeRelenishment
         OPCServer opcServer;
         private void BGWConn_DoWork(object sender, DoWorkEventArgs e)
         {
-            //GetData(true);
             opcServer = new OPCServer();
             WriteLog.GetLog().Write("正在尝试连接服务器......");
 
@@ -218,8 +199,6 @@ namespace SmokeRelenishment
                 opcServer.SpyBiaozhiGroup.addItem(PlcItemCollection.GetReSpyOnlyLineItem());//监控任务标识位
                 opcServer.FinishOnlyGroup.addItem(PlcItemCollection.GetReFinishTaskItem());//完成信号交互区;
 
-                //opcServer.ScanGroup.addItem(PlcItemCollection.GetScan());
-
                 WriteLog.GetLog().Write("opC服务器创成功！");
                 opcServer.ConnectState = opcServer.CheckConnection();
                 if (opcServer.ConnectState)
@@ -227,6 +206,7 @@ namespace SmokeRelenishment
                     GetData(true);
                     opcServer.SpyBiaozhiGroup.callback = OnDataChange;
                     opcServer.FinishOnlyGroup.callback = OnDataChange;
+                    opcServer.ScanGroup.callback = OnDataChange;
                     WriteLog.GetLog().Write("PLC连接成功!");
                     WriteLog.GetLog().Write("触发定时器");
                     if (opcServer.SpyBiaozhiGroup.Read(0).ToString() != "1" && !opcServer.IsSendOn)//监控标志位第一组 产生跳变
@@ -239,7 +219,7 @@ namespace SmokeRelenishment
                     {
                         WriteLog.GetLog().Write("强制跳变失败");
                     }
-                   
+
                 }
                 else
                 {
@@ -258,58 +238,31 @@ namespace SmokeRelenishment
             }
         }
 
-        #region
-        //SerialPort sp = new SerialPort();
-        //string sp_name;
-        //public void OpenSerialPort()
-        //{
-        //    sp_name = "COM3";
-        //    sp.PortName = sp_name;
-        //    if (!sp.IsOpen)
-        //    {
-        //        try
-        //        {
-        //            sp.ReadBufferSize = 32;
-        //            sp.BaudRate = 9600;
-        //            sp.Open();
-        //            sp.DataReceived += new SerialDataReceivedEventHandler(sp_DataReceived);
-        //        }
-        //        catch
-        //        {
+        private delegate void HandleDelegate1(string info, Label label, Color color);
+        public void UpdateLabel(string info, Label label, Color color)
+        {
+            String time = DateTime.Now.ToLongTimeString();
 
-        //        }
-        //    }
-        //}
+            if (label.InvokeRequired)
+            {
+                label.Invoke(new HandleDelegate1(UpdateLabel), new Object[] { info, label, color });
+            }
+            else
+            {
 
-        ////处理扫描文本
-        //static string str;
-        //void sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        //{
-        //    SerialPort sp = sender as SerialPort;
-        //    String tempCode = sp.ReadExisting();
-        //    str = tempCode.Split('\r').First();
-        //    //int length = 0;
-        //    //TextboxFZ3(1, str);
-        //    //List<T_PRODUCE_REPLENISHPLAN> list = new List<T_PRODUCE_REPLENISHPLAN>();
-        //    //list = RelenishimentClass.GetFinishedReplenishplan(str);
-        //    //LbaAddedData(list);
-        //    for (int i = 0; i < lbladded.Length - 5; i++)
-        //    {
-        //        UpdateLabel(i.ToString(), lbladded[i]);
-        //        lbladded[i].BackColor = Color.LightGreen;
-        //    }
+                label.BackColor = color;
+                label.Text = info;
+            }
+        }
 
-        //}
-        #endregion
-
-        private delegate void HandleDelegate1(string info, Label label);
+        private delegate void HandleDelegate2(string info, Label label);
         public void UpdateLabel(string info, Label label)
         {
             String time = DateTime.Now.ToLongTimeString();
 
             if (label.InvokeRequired)
             {
-                label.Invoke(new HandleDelegate1(UpdateLabel), new Object[] { info, label });
+                label.Invoke(new HandleDelegate2(UpdateLabel), new Object[] { info, label });
             }
             else
             {
@@ -320,14 +273,14 @@ namespace SmokeRelenishment
         }
 
         delegate StringBuilder DelSendTask(object[] data, StringBuilder outStr);
-
+        string sortnum = "0";
         public void OnDataChange(int group, int[] clientId, object[] values)
         {
             if (group == 5)//完成信号
             {
                 for (int i = 0; i < clientId.Length; i++)
                 {
-                    string tempvalue =values[i].ToString();
+                    string tempvalue = values[i].ToString();
                     if (decimal.Parse(tempvalue) >= 1)//分拣完成
                     {
                         try
@@ -335,9 +288,10 @@ namespace SmokeRelenishment
                             if (decimal.Parse(tempvalue) != 0)
                             {
                                 WriteLog.GetLog().Write("从电控读取补货任务号:" + tempvalue);
-                                //UnPokeClass.UpdateunTask(tempvalue, 20);
                                 RelenishimentClass.Completed(tempvalue);
+                                sortnum = tempvalue;
                                 WriteLog.GetLog().Write("补货任务号" + tempvalue + "号任务已完成,数据库更新完成");
+                                GetData();
                             }
                         }
                         catch (Exception ex)
@@ -369,7 +323,11 @@ namespace SmokeRelenishment
                                 if (receivePackage != 0)
                                 {
                                     WriteLog.GetLog().Write("补货任务号:" + receivePackage + "已接收");
-                                    RelenishimentClass.UpdateReplanTask(receivePackage.ToString(), 15);
+                                    try
+                                    {
+                                        RelenishimentClass.UpdateReplanTask(receivePackage.ToString(), 15);
+                                    }
+                                    catch { }
                                 }
                                 if (opcServer.IsSendOn)//如果任务已经在发送中则返回
                                 {
@@ -380,6 +338,11 @@ namespace SmokeRelenishment
                                 DelSendTask task = new DelSendTask(opcServer.SendOnlyTask);
                                 IAsyncResult result = task.BeginInvoke(data, outStr, null, task);
                                 StringBuilder re = task.EndInvoke(result);
+                                //try
+                                //{
+                                //    RelenishimentClass.UpdateReplanTask(data[0].ToString(), 15);
+                                //}
+                                //catch { }
                                 WriteLog.GetLog().Write(re.ToString());
                             }
                             else
@@ -401,15 +364,35 @@ namespace SmokeRelenishment
 
         private void TSender_Tick(object sender, EventArgs e)
         {
-            
-            //TSender.Stop();
         }
 
-        void UpdateLabel(List<T_PRODUCE_REPLENISHPLAN> list,int length,Label[]labels) 
+        void UpdateLabel(List<T_PRODUCE_REPLENISHPLAN> list, int length, Label[] labels, Color color)
+        {
+            if (list.Count > 0)
+            {
+                for (int i = 0; i < length; i++)
+                {
+                    string info = i + 1 + "." + list[i].CIGARETTENAME + "  通道" + list[i].TROUGHNUM;
+                    UpdateLabel(info, labels[i], color);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < length; i++)
+                {
+                    string info = "";
+                    UpdateLabel(info, labels[i], color);
+                }
+            }
+
+        }
+
+
+        void UpdateLabel(List<T_PRODUCE_REPLENISHPLAN> list, int length, Label[] labels)
         {
             for (int i = 0; i < length; i++)
             {
-                string info=i + "." + list[i].CIGARETTENAME;
+                string info = i + 1 + "." + list[i].CIGARETTENAME + "  通道" + list[i].TROUGHNUM;
                 UpdateLabel(info, labels[i]);
             }
         }
@@ -428,7 +411,8 @@ namespace SmokeRelenishment
 
         private void BtnSeq_Click(object sender, EventArgs e)
         {
-
+            NowView nowview = new NowView(sortnum);
+            nowview.Show();
         }
     }
 }

@@ -57,6 +57,8 @@ namespace HighSpeed.OrderHandle
                     this.DgvItemInfo.Rows[index].Cells[3].Value = true;
                 else
                 {
+                    item.Shiptype = "0";
+                    list.Add(item);
                     dgvStyle.BackColor = Color.Yellow;
                     this.DgvItemInfo.Rows[index].Cells[3].Value = false;
                     for (int i = 0; i < DgvItemInfo.Rows[index].Cells.Count; i++)
@@ -113,7 +115,9 @@ namespace HighSpeed.OrderHandle
                     item.ILength = Convert.ToDecimal(DgvItemInfo.CurrentRow.Cells["ILength"].Value);
                     item.IWidth = Convert.ToDecimal(DgvItemInfo.CurrentRow.Cells["IWidth"].Value);
                     item.IHeight = Convert.ToDecimal(DgvItemInfo.CurrentRow.Cells["IHEIGHT"].Value);
-                    item.BigBox_Bar = DgvItemInfo.CurrentRow.Cells["BigBox_Bar"].Value.ToString();
+                    try { item.BigBox_Bar = DgvItemInfo.CurrentRow.Cells["BigBox_Bar"].Value.ToString(); }
+                    catch { item.BigBox_Bar = "0"; }
+                    
                     item.JT_Size = Convert.ToDecimal(DgvItemInfo.CurrentRow.Cells["JZ_Size"].Value);
                     if ((bool)DgvItemInfo.CurrentRow.Cells["Type"].EditedFormattedValue == true)
                         item.Shiptype = "1";

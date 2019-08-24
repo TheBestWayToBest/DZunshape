@@ -36,6 +36,7 @@
             this.BtnSeq = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
             this.GBToAdd = new System.Windows.Forms.GroupBox();
+            this.BtnRemove = new System.Windows.Forms.Button();
             this.LblAdd15 = new System.Windows.Forms.Label();
             this.LblAdd14 = new System.Windows.Forms.Label();
             this.LblAdd13 = new System.Windows.Forms.Label();
@@ -101,6 +102,7 @@
             this.BtnRefresh.TabIndex = 22;
             this.BtnRefresh.Text = "刷新";
             this.BtnRefresh.UseVisualStyleBackColor = true;
+            this.BtnRefresh.Click += new System.EventHandler(this.BtnRefresh_Click);
             // 
             // BtnSearch
             // 
@@ -111,6 +113,7 @@
             this.BtnSearch.TabIndex = 20;
             this.BtnSearch.Text = "条烟定位";
             this.BtnSearch.UseVisualStyleBackColor = true;
+            this.BtnSearch.Click += new System.EventHandler(this.BtnSearch_Click);
             // 
             // BtnSeq
             // 
@@ -121,6 +124,7 @@
             this.BtnSeq.TabIndex = 21;
             this.BtnSeq.Text = "条烟顺序";
             this.BtnSeq.UseVisualStyleBackColor = true;
+            this.BtnSeq.Click += new System.EventHandler(this.BtnSeq_Click);
             // 
             // BtnExit
             // 
@@ -131,10 +135,12 @@
             this.BtnExit.Size = new System.Drawing.Size(23, 22);
             this.BtnExit.TabIndex = 1;
             this.BtnExit.UseVisualStyleBackColor = true;
+            this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
             // GBToAdd
             // 
             this.GBToAdd.BackColor = System.Drawing.Color.Transparent;
+            this.GBToAdd.Controls.Add(this.BtnRemove);
             this.GBToAdd.Controls.Add(this.LblAdd15);
             this.GBToAdd.Controls.Add(this.LblAdd14);
             this.GBToAdd.Controls.Add(this.LblAdd13);
@@ -158,6 +164,19 @@
             this.GBToAdd.TabIndex = 0;
             this.GBToAdd.TabStop = false;
             this.GBToAdd.Text = "待补";
+            // 
+            // BtnRemove
+            // 
+            this.BtnRemove.Enabled = false;
+            this.BtnRemove.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.BtnRemove.Location = new System.Drawing.Point(201, 22);
+            this.BtnRemove.Name = "BtnRemove";
+            this.BtnRemove.Size = new System.Drawing.Size(30, 18);
+            this.BtnRemove.TabIndex = 40;
+            this.BtnRemove.Text = "删除";
+            this.BtnRemove.UseVisualStyleBackColor = true;
+            this.BtnRemove.Visible = false;
+            this.BtnRemove.Click += new System.EventHandler(this.BtnRemove_Click);
             // 
             // LblAdd15
             // 
@@ -268,6 +287,7 @@
             this.LblAdd1.Size = new System.Drawing.Size(230, 19);
             this.LblAdd1.TabIndex = 25;
             this.LblAdd1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.LblAdd1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.LblAdd1_MouseClick);
             // 
             // LblAdd2
             // 
@@ -535,6 +555,8 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "MixedThrough";
             this.Text = "Form1";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Resize += new System.EventHandler(this.MixedThrough_Resize);
             this.panel1.ResumeLayout(false);
             this.GBToAdd.ResumeLayout(false);
             this.GBAdded.ResumeLayout(false);
@@ -584,6 +606,7 @@
         private System.Windows.Forms.Timer TRefresh;
         private System.ComponentModel.BackgroundWorker BGWConn;
         private System.Windows.Forms.Timer TSender;
+        private System.Windows.Forms.Button BtnRemove;
     }
 }
 

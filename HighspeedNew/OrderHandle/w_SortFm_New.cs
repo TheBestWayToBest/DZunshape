@@ -57,6 +57,8 @@ namespace HighspeedNew.OrderHandle
 
 
                 }
+                LblCusCount.Text = "总订货户数：" + scre.Content.Sum(item => item.Count).ToString();
+                LblCigCount.Text = "总订单条烟数量：" + scre.Content.Sum(item => item.QTY).ToString();
 
             }
 
@@ -124,10 +126,11 @@ namespace HighspeedNew.OrderHandle
             }
             finally
             {
+                //dgvSortInfo.Rows.Clear();
                 //List<TaskInfo> list = new List<TaskInfo>();
                 //dgvSortInfo.DataSource = list;
 
-                dgvSortInfo.Rows.Clear();
+                
                 panel2.Visible = false;
                 TimerByTime.Stop();// 计时结束;
                 btnSort.Enabled = true;

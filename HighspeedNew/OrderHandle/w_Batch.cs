@@ -94,6 +94,10 @@ using Business;namespace HighSpeed.OrderHandle
             {
                 string batchcode = dvr.Cells["batchcode"].Value.ToString();
                 Response response = bc.OperationBatch(batchcode, 2);
+                if (response.IsSuccess) 
+                {
+                    MixedClass.RemoveHunhe();
+                }
                 MessageBox.Show(response.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information); 
             }
             else {

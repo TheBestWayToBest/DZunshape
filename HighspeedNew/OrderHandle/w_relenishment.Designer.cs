@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvReplenish = new System.Windows.Forms.DataGridView();
             this.ThroughNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CigaretteName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -54,6 +56,15 @@
             this.dgvReplenish.AllowUserToAddRows = false;
             this.dgvReplenish.AllowUserToDeleteRows = false;
             this.dgvReplenish.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvReplenish.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvReplenish.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvReplenish.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvReplenish.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ThroughNum,
@@ -61,6 +72,14 @@
             this.JYCode,
             this.ReplenishQTY,
             this.TaskNum});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvReplenish.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvReplenish.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvReplenish.Location = new System.Drawing.Point(0, 0);
             this.dgvReplenish.Name = "dgvReplenish";
@@ -110,9 +129,10 @@
             // 
             this.RBAll.AutoSize = true;
             this.RBAll.Checked = true;
+            this.RBAll.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.RBAll.Location = new System.Drawing.Point(29, 15);
             this.RBAll.Name = "RBAll";
-            this.RBAll.Size = new System.Drawing.Size(47, 16);
+            this.RBAll.Size = new System.Drawing.Size(58, 20);
             this.RBAll.TabIndex = 23;
             this.RBAll.TabStop = true;
             this.RBAll.Text = "所有";
@@ -120,30 +140,33 @@
             // 
             // BtnPrint
             // 
-            this.BtnPrint.Location = new System.Drawing.Point(592, 12);
+            this.BtnPrint.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.BtnPrint.Location = new System.Drawing.Point(591, 10);
             this.BtnPrint.Name = "BtnPrint";
-            this.BtnPrint.Size = new System.Drawing.Size(75, 23);
+            this.BtnPrint.Size = new System.Drawing.Size(80, 30);
             this.BtnPrint.TabIndex = 22;
-            this.BtnPrint.Text = "打印";
+            this.BtnPrint.Text = "打 印";
             this.BtnPrint.UseVisualStyleBackColor = true;
             this.BtnPrint.Click += new System.EventHandler(this.BtnPrint_Click);
             // 
             // BtnSearch
             // 
-            this.BtnSearch.Location = new System.Drawing.Point(440, 12);
+            this.BtnSearch.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.BtnSearch.Location = new System.Drawing.Point(439, 10);
             this.BtnSearch.Name = "BtnSearch";
-            this.BtnSearch.Size = new System.Drawing.Size(75, 23);
+            this.BtnSearch.Size = new System.Drawing.Size(80, 30);
             this.BtnSearch.TabIndex = 21;
-            this.BtnSearch.Text = "查询";
+            this.BtnSearch.Text = "查 询";
             this.BtnSearch.UseVisualStyleBackColor = true;
             this.BtnSearch.Click += new System.EventHandler(this.BtnSearch_Click);
             // 
             // RBFinished
             // 
             this.RBFinished.AutoSize = true;
+            this.RBFinished.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.RBFinished.Location = new System.Drawing.Point(300, 15);
             this.RBFinished.Name = "RBFinished";
-            this.RBFinished.Size = new System.Drawing.Size(59, 16);
+            this.RBFinished.Size = new System.Drawing.Size(74, 20);
             this.RBFinished.TabIndex = 20;
             this.RBFinished.Text = "已完成";
             this.RBFinished.UseVisualStyleBackColor = true;
@@ -151,9 +174,10 @@
             // RBFinishing
             // 
             this.RBFinishing.AutoSize = true;
+            this.RBFinishing.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.RBFinishing.Location = new System.Drawing.Point(214, 14);
             this.RBFinishing.Name = "RBFinishing";
-            this.RBFinishing.Size = new System.Drawing.Size(59, 16);
+            this.RBFinishing.Size = new System.Drawing.Size(74, 20);
             this.RBFinishing.TabIndex = 19;
             this.RBFinishing.Text = "处理中";
             this.RBFinishing.UseVisualStyleBackColor = true;
@@ -176,9 +200,10 @@
             // RBUnfinish
             // 
             this.RBUnfinish.AutoSize = true;
+            this.RBUnfinish.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.RBUnfinish.Location = new System.Drawing.Point(125, 14);
             this.RBUnfinish.Name = "RBUnfinish";
-            this.RBUnfinish.Size = new System.Drawing.Size(59, 16);
+            this.RBUnfinish.Size = new System.Drawing.Size(74, 20);
             this.RBUnfinish.TabIndex = 18;
             this.RBUnfinish.Text = "未处理";
             this.RBUnfinish.UseVisualStyleBackColor = true;
