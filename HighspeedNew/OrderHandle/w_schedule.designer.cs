@@ -73,7 +73,7 @@
             // 
             this.LblOrderCount.AutoSize = true;
             this.LblOrderCount.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.LblOrderCount.Location = new System.Drawing.Point(967, 16);
+            this.LblOrderCount.Location = new System.Drawing.Point(1000, 16);
             this.LblOrderCount.Name = "LblOrderCount";
             this.LblOrderCount.Size = new System.Drawing.Size(96, 16);
             this.LblOrderCount.TabIndex = 16;

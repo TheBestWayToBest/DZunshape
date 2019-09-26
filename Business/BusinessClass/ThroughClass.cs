@@ -87,6 +87,18 @@ namespace Business.BusinessClass
             }
         }
 
+        public static bool DeleteThroughCigarette(decimal machineseq,string throughnum) 
+        {
+            using (DZEntities en = new DZEntities()) 
+            {
+                var query = en.T_PRODUCE_SORTTROUGH.Where(item => item.MACHINESEQ == machineseq && item.TROUGHNUM == throughnum && item.STATE == "0").FirstOrDefault();
+                query.CIGARETTECODE = "";
+                query.CIGARETTENAME = "";
+                query.MANTISSA = 0;
+                return en.SaveChanges() > 0;
+            }
+        }
+
         public static List<string> GetMachineseqByType(decimal type)
         {
             using (DZEntities en = new DZEntities())

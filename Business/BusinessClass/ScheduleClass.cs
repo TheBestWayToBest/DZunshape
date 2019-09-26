@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Data;
 using Oracle.ManagedDataAccess.Client;
 using System.Data.Common;
+using System.Transactions;
 
 namespace Business.BusinessClass
 {
@@ -86,6 +87,7 @@ namespace Business.BusinessClass
             StringBuilder sb = new StringBuilder();
             using (DZEntities en = new DZEntities())
             {
+
                 en.T_PRODUCE_ORDER.Max(aa => aa.SYNSEQ);
                 var valDate = ValiDataTime(nowDate);//验证时间
                 if (!valDate.IsSuccess)
@@ -138,7 +140,6 @@ namespace Business.BusinessClass
                             }
                             else//跳出循环
                             {
-
                                 sb.AppendLine(reDetail.MessageText);
                                 re.MessageText += sb.ToString();
                                 re.IsSuccess = false;
@@ -162,6 +163,10 @@ namespace Business.BusinessClass
                     return valBatch;
 
                 }
+
+
+
+
 
             }
         }
@@ -313,154 +318,150 @@ namespace Business.BusinessClass
             StringBuilder sb = new StringBuilder();
             using (DZEntities en = new DZEntities())
             {
-                try
+                var valBatch = ValiBatchCode();
+                if (!valBatch.IsSuccess)
                 {
-                    var valBatch = ValiBatchCode();
-                    if (!valBatch.IsSuccess)
-                    {
-                        return valBatch;
-                    }
-                    //group item by new { item.REGIONCODE } into g
-                    //            select new { regioncode = g.Key.REGIONCODE, qty = g.Sum(x => x.TASKQUANTITY), count = g.Count() }).To
+                    return valBatch;
+                }
+                //group item by new { item.REGIONCODE } into g
+                //            select new { regioncode = g.Key.REGIONCODE, qty = g.Sum(x => x.TASKQUANTITY), count = g.Count() }).To
 
-                    var Order = en.T_PRODUCE_ORDER.ToList();
-                    var Line = en.T_PRODUCE_ORDERLINE.ToList();
-                    var Item = en.T_WMS_ITEM.ToList();
+                var Order = en.T_PRODUCE_ORDER.ToList();
+                var Line = en.T_PRODUCE_ORDERLINE.ToList();
+                var Item = en.T_WMS_ITEM.ToList();
 
-                    var singleOrder = (from order in Order
+                var singleOrder = (from order in Order
+                                   join line in Line on order.BILLCODE equals line.BILLCODE
+                                   join item in Item on line.CIGARETTECODE equals item.ITEMNO
+                                   where order.UNSTATE == "新增" && item.SHIPTYPE == "1" && order.REGIONCODE == regioncode
+                                   group line by new { order.BILLCODE, order.DEVSEQ } into x
+                                   select new { billcode = x.Key, qty = x.Sum(g => g.QUANTITY) }
+                               ).ToList().Where(x => x.qty == 1).Select(x => x.billcode).OrderBy(x => x.DEVSEQ).ToList();
+                //var t_produce_Order = (from item in en.T_PRODUCE_ORDER where item.REGIONCODE == regioncode select item).ToList();//根据车组查询ORder表中所对应的订单
+                var t_produce_Order = (from order in Order
                                        join line in Line on order.BILLCODE equals line.BILLCODE
                                        join item in Item on line.CIGARETTECODE equals item.ITEMNO
                                        where order.UNSTATE == "新增" && item.SHIPTYPE == "1" && order.REGIONCODE == regioncode
-                                       group line by new { order.BILLCODE, order.DEVSEQ } into x
-                                       select new { billcode = x.Key, qty = x.Sum(g => g.QUANTITY) }
-                                   ).ToList().Where(x => x.qty == 1).Select(x => x.billcode).OrderBy(x => x.DEVSEQ).ToList();
-                    //var t_produce_Order = (from item in en.T_PRODUCE_ORDER where item.REGIONCODE == regioncode select item).ToList();//根据车组查询ORder表中所对应的订单
-                    var t_produce_Order = (from order in Order
-                                           join line in Line on order.BILLCODE equals line.BILLCODE
-                                           join item in Item on line.CIGARETTECODE equals item.ITEMNO
-                                           where order.UNSTATE == "新增" && item.SHIPTYPE == "1" && order.REGIONCODE == regioncode
-                                           orderby order.DEVSEQ
-                                           select order).Distinct().OrderBy(x => x.DEVSEQ).ToList();
+                                       orderby order.DEVSEQ
+                                       select order).Distinct().OrderBy(x => x.DEVSEQ).ToList();
 
-                    //Order.Where(x => x.BILLCODE);
-                    //var query=(from task in en.T_UN_TASK select task.TASKNUM).Max();
+                //Order.Where(x => x.BILLCODE);
+                //var query=(from task in en.T_UN_TASK select task.TASKNUM).Max();
 
-                    //取目前车组最大的Tasknum,如果没有,则给默认任务号
-                    //decimal maxTaskNum = GetMaxTaskNumByRegioncode(regioncode).Content;
-                    decimal maxTaskNum = GetMaxTaskNumByRegioncode().Content;
-                    if (maxTaskNum == 0)
-                    {
-                        //无法确定车组号是否是数字组成,不再将车组号编入任务编号中
-                        //String max = DateTime.Now.ToString("yyyyMMdd") + regioncode + "000";
-                        String max = DateTime.Now.ToString("yyyyMMdd") + "000000";
-                        //if (regioncode.Contains("@")) max = DateTime.Now.ToString("yyyyMMdd") + regioncode.Split('@')[0] + "000";
-                        //String max = DateTime.Now.ToString("yyyyMMdd") + regioncode + "000";
-                        maxTaskNum = Convert.ToDecimal(max);
-                    }
-
-                    //String query = maxTaskNum+regioncode+""
-                    //if (query != null&&!"".Equals(query)) maxTaskNum = query.ToString();
-                    //var maxtasknum = (en.T_UN_TASK.Max(a => a.TASKNUM) ?? 0) + 1;
-                    //(dzEntities.T_PRODUCE_ORDER.Max(a => a.SYNSEQ) ?? 0) + 1;
-                    if (singleOrder.Any())
-                    {
-                        #region
-                        int index = 0, tmpIndex = 0, custSeq = 0;
-                        foreach (var g in singleOrder)
-                        {
-                            T_UN_TASK t_un_task = new T_UN_TASK();
-
-                            var item = t_produce_Order.Where(x => x.BILLCODE == g.BILLCODE).FirstOrDefault();
-                            if (item != null)
-                            {
-                                //字段赋值
-                                index++;
-                                tmpIndex++;
-                                t_un_task.TASKNUM = maxTaskNum + index;
-                                t_un_task.LINENUM = "1";
-                                t_un_task.EXPORTNUM = "1";
-                                if (item.REGIONCODE.Contains("@"))
-                                {
-                                    string str = item.REGIONCODE;
-                                    t_un_task.REGIONCODE = str.Split('@')[0];
-                                    t_un_task.REGIONDESC = str.Split('@')[1];
-                                }
-                                else
-                                {
-                                    t_un_task.REGIONCODE = item.REGIONCODE;
-                                    t_un_task.REGIONDESC = item.REGIONCODE;
-                                }
-
-                                t_un_task.BILLCODE = item.BILLCODE;
-                                t_un_task.COMPANYCODE = item.COMPANYCODE;
-                                t_un_task.COMPANYNAME = item.COMPANYNAME;
-                                t_un_task.BATCHCODE = item.BATCHCODE;
-                                t_un_task.SYNSEQ = item.SYNSEQ;
-                                t_un_task.CUSTOMERCODE = item.CUSTOMERCODE;
-                                t_un_task.CUSTOMERNAME = item.CUSTOMERNAME;
-                                t_un_task.ADDRESS = item.ADDRESS;
-                                t_un_task.TELEPHONE = item.TELEPHONE;
-                                t_un_task.ORDERQUANTITY = item.ORDERQUANTITY;
-                                t_un_task.TASKQUANTITY = item.ORDERQUANTITY;
-                                custSeq = Convert.ToInt32(item.PRIORITY);//送货顺序  每个车组从1到最后一户
-                                t_un_task.PRIORITY = custSeq;
-                                t_un_task.TASKBOX = "F";
-                                t_un_task.SORTSEQ = index;//户序   单独异型烟户序
-                                t_un_task.LABLENUM = "F";
-                                t_un_task.PLANTIME = CreateTime;
-                                t_un_task.SORTTIME = CreateTime;
-                                t_un_task.FINISHTIME = null;
-                                t_un_task.STATE = "10";
-                                t_un_task.LABELBATCH = 1;
-                                t_un_task.PALLETNUM = 1;
-                                if (custSeq == tmpIndex)
-                                {
-                                    t_un_task.EXISTRCD = 1;
-                                }
-                                else
-                                {
-                                    t_un_task.EXISTRCD = 0;
-                                }
-                                tmpIndex = custSeq;
-
-                                t_un_task.ORDERDATE = item.ORDERDATE;
-                                t_un_task.MAINBELT = 1;
-                                t_un_task.PACKAGEMACHINE = 1;
-                                t_un_task.PAYMENTFLAG = item.PAYMENTFLAG;
-                                t_un_task.SORTNUM = en.ExecuteStoreQuery<decimal>(Str_Sortnum_SEQUENCE, null).FirstOrDefault();//SortNum序列 
-                                t_un_task.SECSORTNUM = t_un_task.SORTNUM;
-                                var psDetail = PreScheduleDetail(en, t_un_task.BILLCODE, t_un_task.TASKNUM);//添加单个订单的条烟明细到TASKLINE
-                                if (psDetail.IsSuccess)
-                                {
-                                    en.T_PRODUCE_ORDER.Where(a => a.BILLCODE == t_un_task.BILLCODE).FirstOrDefault
-                                        ().UNSTATE = "排程";
-                                    t_un_task.TASKQUANTITY = Convert.ToDecimal(psDetail.ResultObject ?? 0);
-                                    en.T_UN_TASK.AddObject(t_un_task);//添加到实体集 
-
-                                    en.SaveChanges();
-                                }
-                                else
-                                {
-                                    return psDetail;
-                                }
-                            }
-                        #endregion
-                        }
-                        re.IsSuccess = true;
-                        re.MessageText = regioncode + "车组预排程成功！";
-                        return re;
-                    }
-                    else
-                    {
-                        re.IsSuccess = true;
-                        re.MessageText = regioncode + "车组没有一条烟订单！";
-                        return re;
-                    }
-                }
-                catch 
+                //取目前车组最大的Tasknum,如果没有,则给默认任务号
+                //decimal maxTaskNum = GetMaxTaskNumByRegioncode(regioncode).Content;
+                decimal maxTaskNum = GetMaxTaskNumByRegioncode().Content;
+                if (maxTaskNum == 0)
                 {
-                    return re.DefaultResponse;
+                    //无法确定车组号是否是数字组成,不再将车组号编入任务编号中
+                    //String max = DateTime.Now.ToString("yyyyMMdd") + regioncode + "000";
+                    String max = DateTime.Now.ToString("yyyyMMdd") + "000000";
+                    //if (regioncode.Contains("@")) max = DateTime.Now.ToString("yyyyMMdd") + regioncode.Split('@')[0] + "000";
+                    //String max = DateTime.Now.ToString("yyyyMMdd") + regioncode + "000";
+                    maxTaskNum = Convert.ToDecimal(max);
                 }
+
+                //String query = maxTaskNum+regioncode+""
+                //if (query != null&&!"".Equals(query)) maxTaskNum = query.ToString();
+                //var maxtasknum = (en.T_UN_TASK.Max(a => a.TASKNUM) ?? 0) + 1;
+                //(dzEntities.T_PRODUCE_ORDER.Max(a => a.SYNSEQ) ?? 0) + 1;
+                if (singleOrder.Any())
+                {
+                    #region
+                    int index = 0, tmpIndex = 0, custSeq = 0;
+                    foreach (var g in singleOrder)
+                    {
+                        T_UN_TASK t_un_task = new T_UN_TASK();
+
+                        var item = t_produce_Order.Where(x => x.BILLCODE == g.BILLCODE).FirstOrDefault();
+                        if (item != null)
+                        {
+                            //字段赋值
+                            index++;
+                            tmpIndex++;
+                            t_un_task.TASKNUM = maxTaskNum + index;
+                            t_un_task.LINENUM = "1";
+                            t_un_task.EXPORTNUM = "1";
+                            if (item.REGIONCODE.Contains("@"))
+                            {
+                                string str = item.REGIONCODE;
+                                t_un_task.REGIONCODE = str.Split('@')[0];
+                                t_un_task.REGIONDESC = str.Split('@')[1];
+                            }
+                            else
+                            {
+                                t_un_task.REGIONCODE = item.REGIONCODE;
+                                t_un_task.REGIONDESC = item.REGIONCODE;
+                            }
+
+                            t_un_task.BILLCODE = item.BILLCODE;
+                            t_un_task.COMPANYCODE = item.COMPANYCODE;
+                            t_un_task.COMPANYNAME = item.COMPANYNAME;
+                            t_un_task.BATCHCODE = item.BATCHCODE;
+                            t_un_task.SYNSEQ = item.SYNSEQ;
+                            t_un_task.CUSTOMERCODE = item.CUSTOMERCODE;
+                            t_un_task.CUSTOMERNAME = item.CUSTOMERNAME;
+                            t_un_task.ADDRESS = item.ADDRESS;
+                            t_un_task.TELEPHONE = item.TELEPHONE;
+                            t_un_task.ORDERQUANTITY = item.ORDERQUANTITY;
+                            t_un_task.TASKQUANTITY = item.ORDERQUANTITY;
+                            custSeq = Convert.ToInt32(item.PRIORITY);//送货顺序  每个车组从1到最后一户
+                            t_un_task.PRIORITY = custSeq;
+                            t_un_task.TASKBOX = "F";
+                            t_un_task.SORTSEQ = index;//户序   单独异型烟户序
+                            t_un_task.LABLENUM = "F";
+                            t_un_task.PLANTIME = CreateTime;
+                            t_un_task.SORTTIME = CreateTime;
+                            t_un_task.FINISHTIME = null;
+                            t_un_task.STATE = "10";
+                            t_un_task.LABELBATCH = 1;
+                            t_un_task.PALLETNUM = 1;
+                            if (custSeq == tmpIndex)
+                            {
+                                t_un_task.EXISTRCD = 1;
+                            }
+                            else
+                            {
+                                t_un_task.EXISTRCD = 0;
+                            }
+                            tmpIndex = custSeq;
+
+                            t_un_task.ORDERDATE = item.ORDERDATE;
+                            t_un_task.MAINBELT = 1;
+                            t_un_task.PACKAGEMACHINE = 1;
+                            t_un_task.PAYMENTFLAG = item.PAYMENTFLAG;
+                            t_un_task.SORTNUM = en.ExecuteStoreQuery<decimal>(Str_Sortnum_SEQUENCE, null).FirstOrDefault();//SortNum序列 
+                            t_un_task.SECSORTNUM = t_un_task.SORTNUM;
+                            var psDetail = PreScheduleDetail(en, t_un_task.BILLCODE, t_un_task.TASKNUM);//添加单个订单的条烟明细到TASKLINE
+                            if (psDetail.IsSuccess)
+                            {
+                                en.T_PRODUCE_ORDER.Where(a => a.BILLCODE == t_un_task.BILLCODE).FirstOrDefault
+                                    ().UNSTATE = "排程";
+                                t_un_task.TASKQUANTITY = Convert.ToDecimal(psDetail.ResultObject ?? 0);
+                                en.T_UN_TASK.AddObject(t_un_task);//添加到实体集 
+
+                                en.SaveChanges();
+                            }
+                            else
+                            {
+                                return psDetail;
+                            }
+                        }
+                    #endregion
+                    }
+                    re.IsSuccess = true;
+                    re.MessageText = regioncode + "车组预排程成功！";
+                    return re;
+                }
+                else
+                {
+                    re.IsSuccess = true;
+                    re.MessageText = regioncode + "车组没有一条烟订单！";
+                    return re;
+                }
+
+
+
             }
 
 
@@ -472,6 +473,7 @@ namespace Business.BusinessClass
             StringBuilder sb = new StringBuilder();
             using (DZEntities en = new DZEntities())
             {
+
                 var valBatch = ValiBatchCode();
                 if (!valBatch.IsSuccess)
                 {
@@ -595,13 +597,15 @@ namespace Business.BusinessClass
 
                         en.SaveChanges();
                     }
-
                     return re;
                 }
                 else
                 {
                     return re.DefaultResponse;
                 }
+
+
+
             }
 
 
@@ -730,402 +734,419 @@ namespace Business.BusinessClass
             Response re = new Response("数据排程：未找对应的数据！");
             using (DZEntities en = new DZEntities())
             {
-                //普通双通
-                //var normal_two = (from trough in en.T_PRODUCE_SORTTROUGH where  select trough).ToList();
-                //六通道双通
-                //var trough1 = (from trough in en.T_PRODUCE_SORTTROUGH
-                //               where trough.STATE == "10" && trough.GROUPNO == 3 
-                //               select trough).ToList();
-                //var trough2 = (from trough in en.T_PRODUCE_SORTTROUGH
-                //               where trough.STATE == "10" && trough.GROUPNO == 2
-                //               select trough).ToList();
-                //var special_two = (from special in trough1
-                //                   join normal in trough2 on special.CIGARETTECODE equals normal.CIGARETTECODE
-                //                       into tmp
-                //                   from last in tmp.DefaultIfEmpty()
-                //                   select new { x = special, y = last });
-
-                //当前通道支持卧式设多通道,立式设多通道,不支持立式和卧式联合设置多通道(即品牌同时设置在立式和卧式)
-                var special_two = (from trough in en.T_PRODUCE_SORTTROUGH
-                                   where trough.STATE == "10" && (trough.GROUPNO == 3 || trough.GROUPNO == 2) && trough.ACTCOUNT == 2
-                                   orderby trough.CIGARETTECODE, trough.MACHINESEQ
-                                   select trough).ToList();
-                Dictionary<string, ThroughInfo> special_dic = new Dictionary<string, ThroughInfo>();
-                if (special_two.Any())
+                TransactionOptions transactionOption = new TransactionOptions();
+                transactionOption.IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted;
+                using (TransactionScope tran = new TransactionScope(TransactionScopeOption.Required, transactionOption)) 
                 {
-                    foreach (var item in special_two)
+                    try
                     {
-                        //两个卧式
-                        string cigcode = item.CIGARETTECODE;
-                        ThroughInfo through = new ThroughInfo();
-                        if (special_dic.ContainsKey(cigcode))
+                        //普通双通
+                        //var normal_two = (from trough in en.T_PRODUCE_SORTTROUGH where  select trough).ToList();
+                        //六通道双通
+                        //var trough1 = (from trough in en.T_PRODUCE_SORTTROUGH
+                        //               where trough.STATE == "10" && trough.GROUPNO == 3 
+                        //               select trough).ToList();
+                        //var trough2 = (from trough in en.T_PRODUCE_SORTTROUGH
+                        //               where trough.STATE == "10" && trough.GROUPNO == 2
+                        //               select trough).ToList();
+                        //var special_two = (from special in trough1
+                        //                   join normal in trough2 on special.CIGARETTECODE equals normal.CIGARETTECODE
+                        //                       into tmp
+                        //                   from last in tmp.DefaultIfEmpty()
+                        //                   select new { x = special, y = last });
+
+                        //当前通道支持卧式设多通道,立式设多通道,不支持立式和卧式联合设置多通道(即品牌同时设置在立式和卧式)
+                        var special_two = (from trough in en.T_PRODUCE_SORTTROUGH
+                                           where trough.STATE == "10" && (trough.GROUPNO == 3 || trough.GROUPNO == 2) && trough.ACTCOUNT == 2
+                                           orderby trough.CIGARETTECODE, trough.MACHINESEQ
+                                           select trough).ToList();
+                        Dictionary<string, ThroughInfo> special_dic = new Dictionary<string, ThroughInfo>();
+                        if (special_two.Any())
                         {
-                            through = special_dic[cigcode];
-                            through.SecThroughnum = item.TROUGHNUM;
+                            foreach (var item in special_two)
+                            {
+                                //两个卧式
+                                string cigcode = item.CIGARETTECODE;
+                                ThroughInfo through = new ThroughInfo();
+                                if (special_dic.ContainsKey(cigcode))
+                                {
+                                    through = special_dic[cigcode];
+                                    through.SecThroughnum = item.TROUGHNUM;
+                                }
+                                else
+                                {
+                                    through.CigaretteCode = item.CIGARETTECODE;
+                                    through.ActCount = item.ACTCOUNT ?? 0;
+                                    through.GroupNo = item.GROUPNO ?? 0;
+                                    through.ThroughNum = item.TROUGHNUM;
+                                    special_dic.Add(through.CigaretteCode, through);
+                                }
+
+                                //卧式带立式 (5+1)
+                                //ThroughInfo through = new ThroughInfo();
+                                //through.CigaretteCode = item.x.CIGARETTECODE;
+                                //through.ActCount = item.x.ACTCOUNT ?? 0;
+                                //through.ThroughNum = item.x.TROUGHNUM;
+                                //var obj = item.y;
+                                //if (through.ActCount == 2 && obj != null)
+                                //{
+                                //    through.SecThroughnum = item.y.TROUGHNUM;
+                                //}
+                                //special_dic.Add(through.CigaretteCode, through);
+                            }
+                        }
+                        //一条烟的订单分拣
+                        /*var t_un_taskUnionTasklinefor1 = (from item in en.T_UN_TASK
+                                                      join item2 in en.T_UN_TASKLINE on item.TASKNUM equals item2.TASKNUM
+                                                      join item3 in en.T_PRODUCE_SORTTROUGH on item2.CIGARETTECODE equals item3.CIGARETTECODE
+                                                      where item3.STATE == "10" && item.STATE == "10"
+                                                      && (item3.CIGARETTETYPE == 30 || item3.CIGARETTETYPE == 40)
+                                                      &&item.TASKQUANTITY==1
+                                                      orderby item.SORTNUM, item3.MACHINESEQ, item3.TROUGHNUM
+                                                      select new
+                                                      {
+                                                          SortNum = item.SORTNUM,
+                                                          BillCode = item.BILLCODE,
+                                                          MachineSeq = item3.MACHINESEQ,
+                                                          CigName = item3.CIGARETTENAME,
+                                                          CigCode = item3.CIGARETTECODE,
+                                                          Quantity = item2.QUANTITY,
+                                                          TroughNum = item3.TROUGHNUM,
+                                                          Status = 0,
+                                                          TaskQty = 1,
+                                                          TaskNum = item.TASKNUM,
+                                                          CustomerCode = item.CUSTOMERCODE,
+                                                          SecSortNum = item.SORTNUM,
+                                                          Ctype = 1,
+                                                          PackageMachine = item.PACKAGEMACHINE,
+                                                          LineNum = item.LINENUM,
+                                                          GroupNo = item3.GROUPNO,
+                                                          ActCount = item3.ACTCOUNT
+                                                      }).ToList();//任务信息表
+                        decimal pokeId = GetMaxPokeId(en).Content;//获取最大POKEID
+                        if (t_un_taskUnionTasklinefor1.Any())
+                        {
+                            ThroughInfo through = new ThroughInfo();
+                            foreach (var item in t_un_taskUnionTasklinefor1)
+                            {
+                                decimal quantity = item.Quantity ?? 0;
+                                decimal qty = quantity;
+                                //是否是双通道的烟 均分
+                                if (special_dic.ContainsKey(item.CigCode))
+                                {
+                                    through = special_dic[item.CigCode];
+                                    decimal groupno = through.GroupNo;//groupno=2 是立式烟仓, groupno=3 是卧式烟仓(1-5都可以拨)
+                                    if (groupno == 2)
+                                    {
+                                        if (through.ThroughNum == item.TroughNum)
+                                        {
+                                            qty = Math.Ceiling(quantity / 2);
+                                        }
+                                        else
+                                        {
+                                            qty = Math.Floor(quantity / 2);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        //通道机双通道,一个拨整五条,一个拨剩余散条,
+                                        if (through.ThroughNum == item.TroughNum)
+                                        {
+                                            qty = quantity - quantity % 5;
+                                        }
+                                        else
+                                        {
+                                            qty = quantity % 5;
+                                        }
+                                    }
+                                }
+                                if (qty > 0)
+                                {
+                                    T_UN_POKE t_un_poke = new T_UN_POKE();
+                                    t_un_poke.POKEID = pokeId++;
+                                    t_un_poke.TROUGHNUM = item.TroughNum;
+                                    t_un_poke.POKENUM = qty;
+                                    t_un_poke.STATUS = item.Status;
+                                    t_un_poke.TASKNUM = item.TaskNum;
+                                    t_un_poke.TASKQTY = item.TaskQty;
+                                    t_un_poke.PACKAGEMACHINE = item.PackageMachine;
+                                    t_un_poke.MACHINESEQ = item.MachineSeq;
+                                    t_un_poke.LINENUM = item.LineNum;
+                                    t_un_poke.CIGARETTECODE = item.CigCode;
+                                    t_un_poke.CUSTOMERCODE = item.CustomerCode;
+                                    t_un_poke.SORTNUM = item.SortNum;
+                                    t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                    t_un_poke.BILLCODE = item.BillCode;
+                                    //if (item.GroupNo == 3) t_un_poke.CTYPE = 2;
+                                    //else t_un_poke.CTYPE = 1;
+                                    t_un_poke.CTYPE = item.GroupNo;
+                                    t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                    t_un_poke.STORENUM = 0;//暂时无用
+                                    t_un_poke.GRIDNUM = 0;//暂时无用
+                                    t_un_poke.INVFLAG = null;//库存标志
+                                    t_un_poke.SENDSEQ = 0; //暂时无用 
+                                    en.T_UN_POKE.AddObject(t_un_poke);
+                                }
+                                var reUp = UpdateTaskState(en, item.TaskNum,1);
+                                if (!reUp.IsSuccess)
+                                {
+                                    return reUp;
+                                }
+                            }
+                            re.IsSuccess = true;
+                            re.MessageText = "单条异型烟分拣任务数据生成成功！";
+                            //return re;
                         }
                         else
                         {
-                            through.CigaretteCode = item.CIGARETTECODE;
-                            through.ActCount = item.ACTCOUNT ?? 0;
-                            through.GroupNo = item.GROUPNO ?? 0;
-                            through.ThroughNum = item.TROUGHNUM;
-                            special_dic.Add(through.CigaretteCode, through);
+                            re.IsSuccess = false;
+                            re.MessageText = "暂无可排程的单条异型烟任务信息！";
+                            //return re;
+                        }*/
+                        //两条烟的订单分拣
+                        /*var t_un_taskUnionTasklinefor2 = (from item in en.T_UN_TASK
+                                                          join item2 in en.T_UN_TASKLINE on item.TASKNUM equals item2.TASKNUM
+                                                          join item3 in en.T_PRODUCE_SORTTROUGH on item2.CIGARETTECODE equals item3.CIGARETTECODE
+                                                          where item3.STATE == "10" && item.STATE == "10"
+                                                          && (item3.CIGARETTETYPE == 30 || item3.CIGARETTETYPE == 40)
+                                                          && item.TASKQUANTITY == 2
+                                                          orderby item.SORTNUM, item3.MACHINESEQ, item3.TROUGHNUM
+                                                          select new
+                                                          {
+                                                              SortNum = item.SORTNUM,
+                                                              BillCode = item.BILLCODE,
+                                                              MachineSeq = item3.MACHINESEQ,
+                                                              CigName = item3.CIGARETTENAME,
+                                                              CigCode = item3.CIGARETTECODE,
+                                                              Quantity = item2.QUANTITY,
+                                                              TroughNum = item3.TROUGHNUM,
+                                                              Status = 0,
+                                                              TaskQty = 1,
+                                                              TaskNum = item.TASKNUM,
+                                                              CustomerCode = item.CUSTOMERCODE,
+                                                              SecSortNum = item.SORTNUM,
+                                                              Ctype = 1,
+                                                              PackageMachine = item.PACKAGEMACHINE,
+                                                              LineNum = item.LINENUM,
+                                                              GroupNo = item3.GROUPNO,
+                                                              ActCount = item3.ACTCOUNT
+                                                          }).ToList();//任务信息表
+                        pokeId = GetMaxPokeId(en).Content;//获取最大POKEID
+                        if (t_un_taskUnionTasklinefor2.Any())
+                        {
+                            ThroughInfo through = new ThroughInfo();
+                            foreach (var item in t_un_taskUnionTasklinefor2)
+                            {
+                                decimal quantity = item.Quantity ?? 0;
+                                decimal qty = quantity;
+                                //是否是双通道的烟 均分
+                                if (special_dic.ContainsKey(item.CigCode))
+                                {
+                                    through = special_dic[item.CigCode];
+                                    decimal groupno = through.GroupNo;//groupno=2 是立式烟仓, groupno=3 是卧式烟仓(1-5都可以拨)
+                                    if (groupno == 2)
+                                    {
+                                        if (through.ThroughNum == item.TroughNum)
+                                        {
+                                            qty = Math.Ceiling(quantity / 2);
+                                        }
+                                        else
+                                        {
+                                            qty = Math.Floor(quantity / 2);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        //通道机双通道,一个拨整五条,一个拨剩余散条,
+                                        if (through.ThroughNum == item.TroughNum)
+                                        {
+                                            qty = quantity - quantity % 5;
+                                        }
+                                        else
+                                        {
+                                            qty = quantity % 5;
+                                        }
+                                    }
+                                }
+                                if (qty > 0)
+                                {
+                                    T_UN_POKE t_un_poke = new T_UN_POKE();
+                                    t_un_poke.POKEID = pokeId++;
+                                    t_un_poke.TROUGHNUM = item.TroughNum;
+                                    t_un_poke.POKENUM = qty;
+                                    t_un_poke.STATUS = item.Status;
+                                    t_un_poke.TASKNUM = item.TaskNum;
+                                    t_un_poke.TASKQTY = item.TaskQty;
+                                    t_un_poke.PACKAGEMACHINE = item.PackageMachine;
+                                    t_un_poke.MACHINESEQ = item.MachineSeq;
+                                    t_un_poke.LINENUM = item.LineNum;
+                                    t_un_poke.CIGARETTECODE = item.CigCode;
+                                    t_un_poke.CUSTOMERCODE = item.CustomerCode;
+                                    t_un_poke.SORTNUM = item.SortNum;
+                                    t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                    t_un_poke.BILLCODE = item.BillCode;
+                                    //if (item.GroupNo == 3) t_un_poke.CTYPE = 2;
+                                    //else t_un_poke.CTYPE = 1;
+                                    t_un_poke.CTYPE = item.GroupNo;
+                                    t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                    t_un_poke.STORENUM = 0;//暂时无用
+                                    t_un_poke.GRIDNUM = 0;//暂时无用
+                                    t_un_poke.INVFLAG = null;//库存标志
+                                    t_un_poke.SENDSEQ = 0; //暂时无用 
+                                    en.T_UN_POKE.AddObject(t_un_poke);
+                                }
+                                var reUp = UpdateTaskState(en, item.TaskNum,2);
+                                if (!reUp.IsSuccess)
+                                {
+                                    return reUp;
+                                }
+                            }
+                            re.IsSuccess = true;
+                            re.MessageText = "两条的异型烟分拣任务数据生成成功！";
+                            //return re;
+                        }
+                        else
+                        {
+                            re.IsSuccess = false;
+                            re.MessageText = "暂无可排程的两条异型烟任务信息！";
+                            //return re;
+                        }*/
+                        //其他正常顺序的异型烟任务
+                        var t_un_taskUnionTaskline = (from item in en.T_UN_TASK
+                                                      join item2 in en.T_UN_TASKLINE on item.TASKNUM equals item2.TASKNUM
+                                                      join item3 in en.T_PRODUCE_SORTTROUGH on item2.CIGARETTECODE equals item3.CIGARETTECODE
+                                                      where item3.STATE == "10" && item.STATE == "10"
+                                                      && (item3.CIGARETTETYPE == 30 || item3.CIGARETTETYPE == 40)
+                                                      //&& (item3.GROUPNO==2 ||item3.GROUPNO==3)//条件：1 通道必须启用， 车组间排程完毕
+                                                      orderby item.SORTNUM, item3.MACHINESEQ, item3.TROUGHNUM
+                                                      select new
+                                                      {
+                                                          SortNum = item.SORTNUM,
+                                                          BillCode = item.BILLCODE,
+                                                          MachineSeq = item3.MACHINESEQ,
+                                                          CigName = item3.CIGARETTENAME,
+                                                          CigCode = item3.CIGARETTECODE,
+                                                          Quantity = item2.QUANTITY,
+                                                          TroughNum = item3.TROUGHNUM,
+                                                          Status = 0,
+                                                          TaskQty = 1,
+                                                          TaskNum = item.TASKNUM,
+                                                          CustomerCode = item.CUSTOMERCODE,
+                                                          SecSortNum = item.SORTNUM,
+                                                          Ctype = 1,
+                                                          PackageMachine = item.PACKAGEMACHINE,
+                                                          LineNum = item.LINENUM,
+                                                          GroupNo = item3.GROUPNO,
+                                                          ActCount = item3.ACTCOUNT
+                                                      }).ToList();//任务信息表
+                        decimal pokeId = GetMaxPokeId(en).Content;//获取最大POKEID
+                        if (t_un_taskUnionTaskline.Any())
+                        {
+                            ThroughInfo through = new ThroughInfo();
+                            foreach (var item in t_un_taskUnionTaskline)
+                            {
+                                Tool.WriteLog.GetLog().Write(item.TaskNum + "===" + item.CigCode);
+                                decimal quantity = item.Quantity ?? 0;
+                                decimal qty = quantity;
+                                //是否是双通道的烟 均分
+                                if (special_dic.ContainsKey(item.CigCode))
+                                {
+                                    through = special_dic[item.CigCode];
+                                    decimal groupno = through.GroupNo;//groupno=2 是立式烟仓, groupno=3 是卧式烟仓(1-5都可以拨)
+                                    if (groupno == 2)
+                                    {
+                                        if (through.ThroughNum == item.TroughNum)
+                                        {
+                                            qty = Math.Ceiling(quantity / 2);
+                                        }
+                                        else
+                                        {
+                                            qty = Math.Floor(quantity / 2);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        //通道机双通道,一个拨整五条,一个拨剩余散条,
+                                        if (through.ThroughNum == item.TroughNum)
+                                        {
+                                            qty = quantity - quantity % 5;
+                                        }
+                                        else
+                                        {
+                                            qty = quantity % 5;
+                                        }
+                                    }
+                                    //判断是五拨还是单拨
+                                    //五拨和单拨都有
+                                    //if (item.ActCount == 2)
+                                    //{
+                                    //    if (item.GroupNo == 3) len = Math.Ceiling(quantity / 2);
+                                    //    else len = Math.Floor(quantity / 2);
+                                    //    //len =  quantity - quantity % 5;
+
+                                    //}
+                                    ////只有五拨
+                                    //else
+                                    //{
+                                    //    //len = quantity % 5;
+                                    //    len = quantity;
+                                    //}
+                                }
+                                //for (int i = 1; i <= len; i++)//根据条烟数量拆分成单条数据
+                                if (qty > 0)
+                                {
+                                    T_UN_POKE t_un_poke = new T_UN_POKE();
+                                    t_un_poke.POKEID = pokeId++;
+                                    t_un_poke.TROUGHNUM = item.TroughNum;
+                                    t_un_poke.POKENUM = qty;
+                                    t_un_poke.STATUS = item.Status;
+                                    t_un_poke.TASKNUM = item.TaskNum;
+                                    t_un_poke.TASKQTY = item.TaskQty;
+                                    t_un_poke.PACKAGEMACHINE = item.PackageMachine;
+                                    t_un_poke.MACHINESEQ = item.MachineSeq;
+                                    t_un_poke.LINENUM = item.LineNum;
+                                    t_un_poke.CIGARETTECODE = item.CigCode;
+                                    t_un_poke.CUSTOMERCODE = item.CustomerCode;
+                                    t_un_poke.SORTNUM = item.SortNum;
+                                    t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                    t_un_poke.BILLCODE = item.BillCode;
+                                    //if (item.GroupNo == 3) t_un_poke.CTYPE = 2;
+                                    //else t_un_poke.CTYPE = 1;
+                                    t_un_poke.CTYPE = item.GroupNo;
+                                    t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                    t_un_poke.STORENUM = 0;//暂时无用
+                                    t_un_poke.GRIDNUM = 0;//暂时无用
+                                    t_un_poke.INVFLAG = null;//库存标志
+                                    t_un_poke.SENDSEQ = 0; //暂时无用 
+                                    en.T_UN_POKE.AddObject(t_un_poke);
+                                }
+                                var reUp = UpdateTaskState(en, item.TaskNum, 100);
+                                if (!reUp.IsSuccess)
+                                {
+                                    return reUp;
+                                }
+                            }
+                            re.IsSuccess = true;
+                            re.MessageText = "分拣任务数据生成成功！";
+                            tran.Complete();
+                            return re;
+                        }
+                        else
+                        {
+                            re.IsSuccess = false;
+                            re.MessageText = "暂无可排程的任务信息！";
+                            return re;
                         }
 
-                        //卧式带立式 (5+1)
-                        //ThroughInfo through = new ThroughInfo();
-                        //through.CigaretteCode = item.x.CIGARETTECODE;
-                        //through.ActCount = item.x.ACTCOUNT ?? 0;
-                        //through.ThroughNum = item.x.TROUGHNUM;
-                        //var obj = item.y;
-                        //if (through.ActCount == 2 && obj != null)
-                        //{
-                        //    through.SecThroughnum = item.y.TROUGHNUM;
-                        //}
-                        //special_dic.Add(through.CigaretteCode, through);
+                    }
+                    catch
+                    {
+                        re.IsSuccess = false;
+                        re.MessageText = "错误！";
+                        return re;
                     }
                 }
-                //一条烟的订单分拣
-                /*var t_un_taskUnionTasklinefor1 = (from item in en.T_UN_TASK
-                                              join item2 in en.T_UN_TASKLINE on item.TASKNUM equals item2.TASKNUM
-                                              join item3 in en.T_PRODUCE_SORTTROUGH on item2.CIGARETTECODE equals item3.CIGARETTECODE
-                                              where item3.STATE == "10" && item.STATE == "10"
-                                              && (item3.CIGARETTETYPE == 30 || item3.CIGARETTETYPE == 40)
-                                              &&item.TASKQUANTITY==1
-                                              orderby item.SORTNUM, item3.MACHINESEQ, item3.TROUGHNUM
-                                              select new
-                                              {
-                                                  SortNum = item.SORTNUM,
-                                                  BillCode = item.BILLCODE,
-                                                  MachineSeq = item3.MACHINESEQ,
-                                                  CigName = item3.CIGARETTENAME,
-                                                  CigCode = item3.CIGARETTECODE,
-                                                  Quantity = item2.QUANTITY,
-                                                  TroughNum = item3.TROUGHNUM,
-                                                  Status = 0,
-                                                  TaskQty = 1,
-                                                  TaskNum = item.TASKNUM,
-                                                  CustomerCode = item.CUSTOMERCODE,
-                                                  SecSortNum = item.SORTNUM,
-                                                  Ctype = 1,
-                                                  PackageMachine = item.PACKAGEMACHINE,
-                                                  LineNum = item.LINENUM,
-                                                  GroupNo = item3.GROUPNO,
-                                                  ActCount = item3.ACTCOUNT
-                                              }).ToList();//任务信息表
-                decimal pokeId = GetMaxPokeId(en).Content;//获取最大POKEID
-                if (t_un_taskUnionTasklinefor1.Any())
-                {
-                    ThroughInfo through = new ThroughInfo();
-                    foreach (var item in t_un_taskUnionTasklinefor1)
-                    {
-                        decimal quantity = item.Quantity ?? 0;
-                        decimal qty = quantity;
-                        //是否是双通道的烟 均分
-                        if (special_dic.ContainsKey(item.CigCode))
-                        {
-                            through = special_dic[item.CigCode];
-                            decimal groupno = through.GroupNo;//groupno=2 是立式烟仓, groupno=3 是卧式烟仓(1-5都可以拨)
-                            if (groupno == 2)
-                            {
-                                if (through.ThroughNum == item.TroughNum)
-                                {
-                                    qty = Math.Ceiling(quantity / 2);
-                                }
-                                else
-                                {
-                                    qty = Math.Floor(quantity / 2);
-                                }
-                            }
-                            else
-                            {
-                                //通道机双通道,一个拨整五条,一个拨剩余散条,
-                                if (through.ThroughNum == item.TroughNum)
-                                {
-                                    qty = quantity - quantity % 5;
-                                }
-                                else
-                                {
-                                    qty = quantity % 5;
-                                }
-                            }
-                        }
-                        if (qty > 0)
-                        {
-                            T_UN_POKE t_un_poke = new T_UN_POKE();
-                            t_un_poke.POKEID = pokeId++;
-                            t_un_poke.TROUGHNUM = item.TroughNum;
-                            t_un_poke.POKENUM = qty;
-                            t_un_poke.STATUS = item.Status;
-                            t_un_poke.TASKNUM = item.TaskNum;
-                            t_un_poke.TASKQTY = item.TaskQty;
-                            t_un_poke.PACKAGEMACHINE = item.PackageMachine;
-                            t_un_poke.MACHINESEQ = item.MachineSeq;
-                            t_un_poke.LINENUM = item.LineNum;
-                            t_un_poke.CIGARETTECODE = item.CigCode;
-                            t_un_poke.CUSTOMERCODE = item.CustomerCode;
-                            t_un_poke.SORTNUM = item.SortNum;
-                            t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
-                            t_un_poke.BILLCODE = item.BillCode;
-                            //if (item.GroupNo == 3) t_un_poke.CTYPE = 2;
-                            //else t_un_poke.CTYPE = 1;
-                            t_un_poke.CTYPE = item.GroupNo;
-                            t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
-                            t_un_poke.STORENUM = 0;//暂时无用
-                            t_un_poke.GRIDNUM = 0;//暂时无用
-                            t_un_poke.INVFLAG = null;//库存标志
-                            t_un_poke.SENDSEQ = 0; //暂时无用 
-                            en.T_UN_POKE.AddObject(t_un_poke);
-                        }
-                        var reUp = UpdateTaskState(en, item.TaskNum,1);
-                        if (!reUp.IsSuccess)
-                        {
-                            return reUp;
-                        }
-                    }
-                    re.IsSuccess = true;
-                    re.MessageText = "单条异型烟分拣任务数据生成成功！";
-                    //return re;
-                }
-                else
-                {
-                    re.IsSuccess = false;
-                    re.MessageText = "暂无可排程的单条异型烟任务信息！";
-                    //return re;
-                }*/
-                //两条烟的订单分拣
-                /*var t_un_taskUnionTasklinefor2 = (from item in en.T_UN_TASK
-                                                  join item2 in en.T_UN_TASKLINE on item.TASKNUM equals item2.TASKNUM
-                                                  join item3 in en.T_PRODUCE_SORTTROUGH on item2.CIGARETTECODE equals item3.CIGARETTECODE
-                                                  where item3.STATE == "10" && item.STATE == "10"
-                                                  && (item3.CIGARETTETYPE == 30 || item3.CIGARETTETYPE == 40)
-                                                  && item.TASKQUANTITY == 2
-                                                  orderby item.SORTNUM, item3.MACHINESEQ, item3.TROUGHNUM
-                                                  select new
-                                                  {
-                                                      SortNum = item.SORTNUM,
-                                                      BillCode = item.BILLCODE,
-                                                      MachineSeq = item3.MACHINESEQ,
-                                                      CigName = item3.CIGARETTENAME,
-                                                      CigCode = item3.CIGARETTECODE,
-                                                      Quantity = item2.QUANTITY,
-                                                      TroughNum = item3.TROUGHNUM,
-                                                      Status = 0,
-                                                      TaskQty = 1,
-                                                      TaskNum = item.TASKNUM,
-                                                      CustomerCode = item.CUSTOMERCODE,
-                                                      SecSortNum = item.SORTNUM,
-                                                      Ctype = 1,
-                                                      PackageMachine = item.PACKAGEMACHINE,
-                                                      LineNum = item.LINENUM,
-                                                      GroupNo = item3.GROUPNO,
-                                                      ActCount = item3.ACTCOUNT
-                                                  }).ToList();//任务信息表
-                pokeId = GetMaxPokeId(en).Content;//获取最大POKEID
-                if (t_un_taskUnionTasklinefor2.Any())
-                {
-                    ThroughInfo through = new ThroughInfo();
-                    foreach (var item in t_un_taskUnionTasklinefor2)
-                    {
-                        decimal quantity = item.Quantity ?? 0;
-                        decimal qty = quantity;
-                        //是否是双通道的烟 均分
-                        if (special_dic.ContainsKey(item.CigCode))
-                        {
-                            through = special_dic[item.CigCode];
-                            decimal groupno = through.GroupNo;//groupno=2 是立式烟仓, groupno=3 是卧式烟仓(1-5都可以拨)
-                            if (groupno == 2)
-                            {
-                                if (through.ThroughNum == item.TroughNum)
-                                {
-                                    qty = Math.Ceiling(quantity / 2);
-                                }
-                                else
-                                {
-                                    qty = Math.Floor(quantity / 2);
-                                }
-                            }
-                            else
-                            {
-                                //通道机双通道,一个拨整五条,一个拨剩余散条,
-                                if (through.ThroughNum == item.TroughNum)
-                                {
-                                    qty = quantity - quantity % 5;
-                                }
-                                else
-                                {
-                                    qty = quantity % 5;
-                                }
-                            }
-                        }
-                        if (qty > 0)
-                        {
-                            T_UN_POKE t_un_poke = new T_UN_POKE();
-                            t_un_poke.POKEID = pokeId++;
-                            t_un_poke.TROUGHNUM = item.TroughNum;
-                            t_un_poke.POKENUM = qty;
-                            t_un_poke.STATUS = item.Status;
-                            t_un_poke.TASKNUM = item.TaskNum;
-                            t_un_poke.TASKQTY = item.TaskQty;
-                            t_un_poke.PACKAGEMACHINE = item.PackageMachine;
-                            t_un_poke.MACHINESEQ = item.MachineSeq;
-                            t_un_poke.LINENUM = item.LineNum;
-                            t_un_poke.CIGARETTECODE = item.CigCode;
-                            t_un_poke.CUSTOMERCODE = item.CustomerCode;
-                            t_un_poke.SORTNUM = item.SortNum;
-                            t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
-                            t_un_poke.BILLCODE = item.BillCode;
-                            //if (item.GroupNo == 3) t_un_poke.CTYPE = 2;
-                            //else t_un_poke.CTYPE = 1;
-                            t_un_poke.CTYPE = item.GroupNo;
-                            t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
-                            t_un_poke.STORENUM = 0;//暂时无用
-                            t_un_poke.GRIDNUM = 0;//暂时无用
-                            t_un_poke.INVFLAG = null;//库存标志
-                            t_un_poke.SENDSEQ = 0; //暂时无用 
-                            en.T_UN_POKE.AddObject(t_un_poke);
-                        }
-                        var reUp = UpdateTaskState(en, item.TaskNum,2);
-                        if (!reUp.IsSuccess)
-                        {
-                            return reUp;
-                        }
-                    }
-                    re.IsSuccess = true;
-                    re.MessageText = "两条的异型烟分拣任务数据生成成功！";
-                    //return re;
-                }
-                else
-                {
-                    re.IsSuccess = false;
-                    re.MessageText = "暂无可排程的两条异型烟任务信息！";
-                    //return re;
-                }*/
-                //其他正常顺序的异型烟任务
-                var t_un_taskUnionTaskline = (from item in en.T_UN_TASK
-                                              join item2 in en.T_UN_TASKLINE on item.TASKNUM equals item2.TASKNUM
-                                              join item3 in en.T_PRODUCE_SORTTROUGH on item2.CIGARETTECODE equals item3.CIGARETTECODE
-                                              where item3.STATE == "10" && item.STATE == "10"
-                                              && (item3.CIGARETTETYPE == 30 || item3.CIGARETTETYPE == 40)
-                                              //&& (item3.GROUPNO==2 ||item3.GROUPNO==3)//条件：1 通道必须启用， 车组间排程完毕
-                                              orderby item.SORTNUM, item3.MACHINESEQ, item3.TROUGHNUM
-                                              select new
-                                              {
-                                                  SortNum = item.SORTNUM,
-                                                  BillCode = item.BILLCODE,
-                                                  MachineSeq = item3.MACHINESEQ,
-                                                  CigName = item3.CIGARETTENAME,
-                                                  CigCode = item3.CIGARETTECODE,
-                                                  Quantity = item2.QUANTITY,
-                                                  TroughNum = item3.TROUGHNUM,
-                                                  Status = 0,
-                                                  TaskQty = 1,
-                                                  TaskNum = item.TASKNUM,
-                                                  CustomerCode = item.CUSTOMERCODE,
-                                                  SecSortNum = item.SORTNUM,
-                                                  Ctype = 1,
-                                                  PackageMachine = item.PACKAGEMACHINE,
-                                                  LineNum = item.LINENUM,
-                                                  GroupNo = item3.GROUPNO,
-                                                  ActCount = item3.ACTCOUNT
-                                              }).ToList();//任务信息表
-                decimal pokeId = GetMaxPokeId(en).Content;//获取最大POKEID
-                if (t_un_taskUnionTaskline.Any())
-                {
-                    ThroughInfo through = new ThroughInfo();
-                    foreach (var item in t_un_taskUnionTaskline)
-                    {
-                        Tool.WriteLog.GetLog().Write(item.TaskNum + "===" + item.CigCode);
-                        decimal quantity = item.Quantity ?? 0;
-                        decimal qty = quantity;
-                        //是否是双通道的烟 均分
-                        if (special_dic.ContainsKey(item.CigCode))
-                        {
-                            through = special_dic[item.CigCode];
-                            decimal groupno = through.GroupNo;//groupno=2 是立式烟仓, groupno=3 是卧式烟仓(1-5都可以拨)
-                            if (groupno == 2)
-                            {
-                                if (through.ThroughNum == item.TroughNum)
-                                {
-                                    qty = Math.Ceiling(quantity / 2);
-                                }
-                                else
-                                {
-                                    qty = Math.Floor(quantity / 2);
-                                }
-                            }
-                            else
-                            {
-                                //通道机双通道,一个拨整五条,一个拨剩余散条,
-                                if (through.ThroughNum == item.TroughNum)
-                                {
-                                    qty = quantity - quantity % 5;
-                                }
-                                else
-                                {
-                                    qty = quantity % 5;
-                                }
-                            }
-                            //判断是五拨还是单拨
-                            //五拨和单拨都有
-                            //if (item.ActCount == 2)
-                            //{
-                            //    if (item.GroupNo == 3) len = Math.Ceiling(quantity / 2);
-                            //    else len = Math.Floor(quantity / 2);
-                            //    //len =  quantity - quantity % 5;
 
-                            //}
-                            ////只有五拨
-                            //else
-                            //{
-                            //    //len = quantity % 5;
-                            //    len = quantity;
-                            //}
-                        }
-                        //for (int i = 1; i <= len; i++)//根据条烟数量拆分成单条数据
-                        if (qty > 0)
-                        {
-                            T_UN_POKE t_un_poke = new T_UN_POKE();
-                            t_un_poke.POKEID = pokeId++;
-                            t_un_poke.TROUGHNUM = item.TroughNum;
-                            t_un_poke.POKENUM = qty;
-                            t_un_poke.STATUS = item.Status;
-                            t_un_poke.TASKNUM = item.TaskNum;
-                            t_un_poke.TASKQTY = item.TaskQty;
-                            t_un_poke.PACKAGEMACHINE = item.PackageMachine;
-                            t_un_poke.MACHINESEQ = item.MachineSeq;
-                            t_un_poke.LINENUM = item.LineNum;
-                            t_un_poke.CIGARETTECODE = item.CigCode;
-                            t_un_poke.CUSTOMERCODE = item.CustomerCode;
-                            t_un_poke.SORTNUM = item.SortNum;
-                            t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
-                            t_un_poke.BILLCODE = item.BillCode;
-                            //if (item.GroupNo == 3) t_un_poke.CTYPE = 2;
-                            //else t_un_poke.CTYPE = 1;
-                            t_un_poke.CTYPE = item.GroupNo;
-                            t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
-                            t_un_poke.STORENUM = 0;//暂时无用
-                            t_un_poke.GRIDNUM = 0;//暂时无用
-                            t_un_poke.INVFLAG = null;//库存标志
-                            t_un_poke.SENDSEQ = 0; //暂时无用 
-                            en.T_UN_POKE.AddObject(t_un_poke);
-                        }
-                        var reUp = UpdateTaskState(en, item.TaskNum, 100);
-                        if (!reUp.IsSuccess)
-                        {
-                            return reUp;
-                        }
-                    }
-                    re.IsSuccess = true;
-                    re.MessageText = "分拣任务数据生成成功！";
-                    return re;
-                }
-                else
-                {
-                    re.IsSuccess = false;
-                    re.MessageText = "暂无可排程的任务信息！";
-                    return re;
-                }
             }
         }
 

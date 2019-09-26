@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Business.BusinessClass;
 using Business.Modle;
+using System.Transactions;
 namespace HighSpeed.OrderHandle
 {
     public partial class w_Order_Recieve : Form
@@ -46,8 +47,8 @@ namespace HighSpeed.OrderHandle
         private void btn_recieve_Click(object sender, EventArgs e)
         {
             decimal maxSyncseq = 0;
-            //try
-            //{
+            try
+            {
                 maxSyncseq = sc.GetSyncseqFromOrderTable().Content;
                 String codestr = this.txt_codestr.Text.Trim();
                 btn_recieve.Enabled = false;
@@ -56,38 +57,50 @@ namespace HighSpeed.OrderHandle
                     String[] code = codestr.Substring(1).Split(',');
                     int len = code.Length, sucCount = 0;
                     string indexstr = "";
-                    for (int i = 0; i < len; i++)
+                    TransactionOptions transactionOption = new TransactionOptions();
+                    transactionOption.IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted;
+                    using (TransactionScope tran = new TransactionScope(TransactionScopeOption.Required, transactionOption)) 
                     {
-                        panel2.Visible = true;
-                        label2.Visible = true;
-                        progressBar1.Visible = true;
-                        progressBar1.Value = 0;
-                        Application.DoEvents();
-                        if (i == 0) label2.Text = "正在接收" + code[i] + "车组订单数据...";
-                        DateTime time = DateTime.Parse(datePick.Value.ToString());
-                        var re = sc.ReceiveSaleOrderToOrder(time, code[i], maxSyncseq);//接收数据
-
-                        progressBar1.Value = ((i + 1) * 100 / len);
-                        progressBar1.Refresh();
-                        String tmpstr = "";
-
-                        if (re.IsSuccess)
+                        bool flag = true;
+                        for (int i = 0; i < len; i++)
                         {
-                            if (i + 1 < len) tmpstr = "正在接收" + code[i + 1] + "车组订单数据...";
-                            else tmpstr = "";
-                            label2.Text = code[i] + "车组订单数据接收完毕..." + tmpstr;
-                            label2.Refresh();
-                            indexstr = indexstr + "," + code[i];
-                            sucCount++;
+                            panel2.Visible = true;
+                            label2.Visible = true;
+                            progressBar1.Visible = true;
+                            progressBar1.Value = 0;
+                            Application.DoEvents();
+                            if (i == 0) label2.Text = "正在接收" + code[i] + "车组订单数据...";
+                            DateTime time = DateTime.Parse(datePick.Value.ToString());
+                            var re = sc.ReceiveSaleOrderToOrder(time, code[i], maxSyncseq);//接收数据
+
+                            progressBar1.Value = ((i + 1) * 100 / len);
+                            progressBar1.Refresh();
+                            String tmpstr = "";
+
+                            if (re.IsSuccess)
+                            {
+                                if (i + 1 < len) tmpstr = "正在接收" + code[i + 1] + "车组订单数据...";
+                                else tmpstr = "";
+                                label2.Text = code[i] + "车组订单数据接收完毕..." + tmpstr;
+                                label2.Refresh();
+                                indexstr = indexstr + "," + code[i];
+                                sucCount++;
+                            }
+                            else
+                            {
+                                label2.Text = re.MessageText;
+                                label2.Refresh();
+                                MessageBox.Show(re.MessageText);
+                                flag = false;
+                                break;
+                            }
                         }
+                        if (flag)
+                            tran.Complete();
                         else
-                        {
-                            label2.Text = re.MessageText;
-                            label2.Refresh();
-                            MessageBox.Show(re.MessageText);
-                            break;
-                        }
+                            MessageBox.Show("数据接收错误，事务回滚");
                     }
+                    
 
                     //根据批次maxSyncseq验证是否有新品牌和客户,提示定性新品牌并设置条烟转换比例 
                     Response response = new Response();
@@ -127,17 +140,17 @@ namespace HighSpeed.OrderHandle
                 }
                 this.btn_recieve.Enabled = true;
 
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("订单接收异常" + ex.Message);
-            //}
-            //finally
-            //{
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("订单接收异常" + ex.Message);
+            }
+            finally
+            {
                 panel2.Visible = false;
                 label2.Visible = false;
                 progressBar1.Visible = false;
-            //}
+            }
            
         }
 

@@ -30,9 +30,10 @@ namespace HighspeedNew.OrderHandle
         void Bind()
         {
             var scre = sc.GetTaskInfo();
+            dgvSortInfo.Rows.Clear();
             if (scre.IsSuccess)
             {
-                dgvSortInfo.Rows.Clear();
+                
                 List<TaskInfo> list = scre.Content.Select(x => new TaskInfo { SYNSEQ = x.SYNSEQ, REGIONCODE = x.REGIONCODE, Count = x.Count, QTY = x.QTY }).ToList();
                 foreach (var item in list)
                 {
@@ -130,7 +131,7 @@ namespace HighspeedNew.OrderHandle
                 //List<TaskInfo> list = new List<TaskInfo>();
                 //dgvSortInfo.DataSource = list;
 
-                
+                Bind();
                 panel2.Visible = false;
                 TimerByTime.Stop();// 计时结束;
                 btnSort.Enabled = true;

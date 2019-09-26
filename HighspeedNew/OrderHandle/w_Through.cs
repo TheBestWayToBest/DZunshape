@@ -324,5 +324,53 @@ namespace HighspeedNew.OrderHandle
            
            
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            int count = this.troughdata.SelectedRows.Count;
+
+            if (count > 0)
+            {
+                //info.MachineSeq = (decimal)this.troughdata.SelectedRows[0].Cells["MachineSeq"].Value;
+                //info.ThroughNum = this.troughdata.SelectedRows[0].Cells["ThroughNum"].Value.ToString();
+                string state = troughdata.CurrentRow.Cells["State"].Value.ToString();
+                if (state == "禁用")
+                {
+                    decimal machineSeq = (decimal)this.troughdata.SelectedRows[0].Cells["MachineSeq"].Value;
+                    string throughnum = this.troughdata.SelectedRows[0].Cells["ThroughNum"].Value.ToString();
+                    DialogResult MsgBoxResult = MessageBox.Show("确定清除【设备号：" + machineSeq + "/通道号：" + throughnum + "】通道里卷烟信息吗？",//对话框的显示内容 
+                                                             "提示",//对话框的标题 
+                                                             MessageBoxButtons.YesNo,//定义对话框的按钮，这里定义了YSE和NO两个按钮 
+                                                             MessageBoxIcon.Question,//定义对话框内的图表式样，这里是一个黄色三角型内加一个感叹号 
+                                                             MessageBoxDefaultButton.Button2);//定义对话框的按钮式样
+                    if (MsgBoxResult == DialogResult.Yes)
+                    {
+                        try
+                        {
+                            if (ThroughClass.DeleteThroughCigarette(machineSeq, throughnum))
+                            {
+                                MessageBox.Show("【设备号：" + machineSeq + "/通道号：" + throughnum + "】的通道卷烟信息已清除!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+
+                            Bind();
+
+                        }
+                        catch (Exception se)
+                        {
+                            MessageBox.Show(se.ToString(), "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+                else 
+                {
+                    MessageBox.Show("如需清除通道卷烟信息，请先禁用该通道");
+                }
+                
+            }
+            else
+            {
+                MessageBox.Show("请点击选择您要禁用的分拣通道!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
     }
 }

@@ -64,6 +64,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -239,6 +240,12 @@
     <Compile Include="OrderHandle\w_SortReplaceHandle.Designer.cs">
       <DependentUpon>w_SortReplaceHandle.cs</DependentUpon>
     </Compile>
+    <Compile Include="OrderHandle\w_SortStrategy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_SortStrategy.Designer.cs">
+      <DependentUpon>w_SortStrategy.cs</DependentUpon>
+    </Compile>
     <Compile Include="OrderHandle\w_SpecialShapePosition.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -376,6 +383,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_SortReplaceHandle.resx">
       <DependentUpon>w_SortReplaceHandle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_SortStrategy.resx">
+      <DependentUpon>w_SortStrategy.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_SpecialShapePosition.resx">
       <DependentUpon>w_SpecialShapePosition.cs</DependentUpon>

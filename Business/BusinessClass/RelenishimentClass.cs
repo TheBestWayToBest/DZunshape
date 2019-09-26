@@ -68,7 +68,7 @@ namespace Business.BusinessClass
                     data[4] = 0;
                     data[5] = 0;
                     data[6] = 1;
-                    sb.AppendLine(data[0] + "，任务发送标志位：" + data[6]);
+                    sb.AppendLine(data[0] + "，数量：" + data[2]+"，任务发送标志位：" + data[6] );
                 }
                 //int count = en.T_UN_POKE_HUNHE.Where(item => item.SORTNUM == info.SortNum).Count();
                 else
