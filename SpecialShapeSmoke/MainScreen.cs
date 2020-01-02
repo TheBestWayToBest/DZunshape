@@ -186,6 +186,7 @@ namespace SpecialShapeSmoke
             str += tempCode;
             if (str.Length > 12)
             {
+                //MessageBox.Show(str);
                 PullCigarette(str);
             }
 
@@ -194,7 +195,7 @@ namespace SpecialShapeSmoke
         {
             MixInfos info = MixedClass.GetMixCig2(machineSeq, groupNo, 0)[0];
             WriteLog.GetLog().Write("扫到条码" + stri);
-            if (info.CigCode.Trim() == stri.Trim())
+            if (info.CigCode.Trim().Contains(str) || info.CigCode.Trim() == str || info.CigCode.Trim().Substring(info.CigCode.Trim().Length - 7) == stri.Trim().Substring(info.CigCode.Trim().Length - 7) || info.CigCode.Trim().Contains(stri.Trim().Substring(info.CigCode.Trim().Length - 7)))
             {
                 if (MixedClass.UpdatePullStatus2Put2(machineSeq, info.PokeID))
                 {
@@ -207,7 +208,7 @@ namespace SpecialShapeSmoke
             else
             {
                 WriteLog.GetLog().Write("放烟品牌错误：扫描到条码" + str[0]);
-                MessageBox.Show("放烟错误，请重放");
+                MessageBox.Show("放烟错误，请重放" + str);
                 str = "";
             }
         }
@@ -540,6 +541,8 @@ namespace SpecialShapeSmoke
         {
             GetData();
         }
+
+       
 
     }
 }

@@ -355,7 +355,7 @@ namespace Business.BusinessClass
             {
                 var query = en.T_UN_TASK.GroupBy(item => new { item.REGIONCODE,item.REGIONDESC, item.ORDERDATE, item.SYNSEQ }).Select(item => new TaskInfo
                 {
-                    REGIONCODE = item.Key.REGIONCODE+item.Key.REGIONDESC,
+                    REGIONCODE = item.Key.REGIONCODE,
 
                     ORDERDATE = item.Key.ORDERDATE,
                     SYNSEQ = item.Key.SYNSEQ ?? 0,
@@ -364,12 +364,12 @@ namespace Business.BusinessClass
                     QTY = item.Sum(x => x.TASKQUANTITY) ?? 0,
                     Count = item.Count(t => t.REGIONCODE == item.Key.REGIONCODE)
                 }).ToList();
-                var query2 = en.T_UN_TASK.Where(item => item.STATE == "30").GroupBy(item => item.REGIONCODE).Select(item => new TaskInfo { REGIONCODE = item.Key, FinishCount = item.Count(x => x.REGIONCODE == item.Key.Substring(0, 6)), FinishQTY = item.Sum(x => x.TASKQUANTITY) ?? 0 }).ToList();
+                var query2 = en.T_UN_TASK.Where(item => item.STATE == "30").GroupBy(item => item.REGIONCODE).Select(item => new TaskInfo { REGIONCODE = item.Key, FinishCount = item.Count(x => x.REGIONCODE == item.Key), FinishQTY = item.Sum(x => x.TASKQUANTITY) ?? 0 }).ToList();
                 if (query2.Count > 0)
                 {
                     foreach (var item in query2)
                     {
-                        var data = query.Find(x => x.REGIONCODE.Substring(0, 6) == item.REGIONCODE.Substring(0, 6));
+                        var data = query.Find(x => x.REGIONCODE == item.REGIONCODE);
                         data.FinishCount = item.FinishCount;
                         data.FinishQTY = item.FinishQTY;
                     }

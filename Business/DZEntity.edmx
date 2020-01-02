@@ -11,6 +11,7 @@
           <EntitySet Name="T_PRODUCE_ORDERID" EntityType="Model.Store.T_PRODUCE_ORDERID" store:Type="Tables" Schema="ZOOMTELDZ" />
           <EntitySet Name="T_PRODUCE_ORDERLINE" EntityType="Model.Store.T_PRODUCE_ORDERLINE" store:Type="Tables" Schema="ZOOMTELDZ" />
           <EntitySet Name="T_PRODUCE_PACKAGECALLBACK" EntityType="Model.Store.T_PRODUCE_PACKAGECALLBACK" store:Type="Tables" Schema="ZOOMTELDZ" />
+          <EntitySet Name="T_PRODUCE_REGIONMANAGE" EntityType="Model.Store.T_PRODUCE_REGIONMANAGE" store:Type="Tables" Schema="ZOOMTELDZ" />
           <EntitySet Name="T_PRODUCE_REPLENISHPLAN" EntityType="Model.Store.T_PRODUCE_REPLENISHPLAN" store:Type="Tables" Schema="ZOOMTELDZ" />
           <EntitySet Name="T_PRODUCE_SORTTROUGH" EntityType="Model.Store.T_PRODUCE_SORTTROUGH" store:Type="Tables" Schema="ZOOMTELDZ" />
           <EntitySet Name="T_SALE_ORDER_HEAD" EntityType="Model.Store.T_SALE_ORDER_HEAD" store:Type="Tables" Schema="ZOOMTELDZ" />
@@ -189,6 +190,15 @@
           <Property Name="QUANTITY" Type="number" />
           <Property Name="AMOUNT" Type="number" Precision="9" Scale="2" />
           <Property Name="PAYSTATE" Type="varchar2" MaxLength="24" />
+        </EntityType>
+        <EntityType Name="T_PRODUCE_REGIONMANAGE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Nullable="false" />
+          <Property Name="REGIONCODE" Type="varchar2" MaxLength="40" />
+          <Property Name="REGIONDESC" Type="varchar2" MaxLength="40" />
+          <Property Name="REGIONSORT" Type="number" />
         </EntityType>
         <EntityType Name="T_PRODUCE_REPLENISHPLAN">
           <Key>
@@ -601,6 +611,7 @@
           <EntitySet Name="T_UN_TASKLINE_H" EntityType="Model.T_UN_TASKLINE_H" />
           <EntitySet Name="T_UN_POKE_HUNHE" EntityType="Model.T_UN_POKE_HUNHE" />
           <EntitySet Name="T_PRODUCE_PACKAGECALLBACK" EntityType="Model.T_PRODUCE_PACKAGECALLBACK" />
+          <EntitySet Name="T_PRODUCE_REGIONMANAGE" EntityType="Model.T_PRODUCE_REGIONMANAGE" />
         </EntityContainer>
         <EntityType Name="T_PRODUCE_BATCH">
           <Key>
@@ -1051,6 +1062,15 @@
           <Property Type="Decimal" Name="QUANTITY" Precision="38" Scale="0" />
           <Property Type="Decimal" Name="AMOUNT" Precision="9" Scale="2" />
           <Property Type="String" Name="PAYSTATE" MaxLength="24" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="T_PRODUCE_REGIONMANAGE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Decimal" Name="ID" Nullable="false" Precision="38" Scale="0" />
+          <Property Type="String" Name="REGIONCODE" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="REGIONDESC" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="REGIONSORT" Precision="38" Scale="0" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1522,6 +1542,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="T_PRODUCE_REGIONMANAGE">
+            <EntityTypeMapping TypeName="Model.T_PRODUCE_REGIONMANAGE">
+              <MappingFragment StoreEntitySet="T_PRODUCE_REGIONMANAGE">
+                <ScalarProperty Name="REGIONSORT" ColumnName="REGIONSORT" />
+                <ScalarProperty Name="REGIONDESC" ColumnName="REGIONDESC" />
+                <ScalarProperty Name="REGIONCODE" ColumnName="REGIONCODE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -1563,6 +1593,7 @@
         <EntityTypeShape EntityType="Model.T_UN_TASKLINE_H" Width="1.5" PointX="15.375" PointY="14.75" Height="2.4746101888020746" />
         <EntityTypeShape EntityType="Model.T_UN_POKE_HUNHE" Width="1.5" PointX="9.375" PointY="0.75" Height="2.8441984049479174" />
         <EntityTypeShape EntityType="Model.T_PRODUCE_PACKAGECALLBACK" Width="1.5" PointX="9.375" PointY="16.75" Height="3.3985807291666674" />
+        <EntityTypeShape EntityType="Model.T_PRODUCE_REGIONMANAGE" Width="1.5" PointX="0.75" PointY="3.75" Height="1.7354337565104174" />
       </Diagram>
     </Diagrams>
   </Designer>

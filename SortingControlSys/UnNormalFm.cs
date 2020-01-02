@@ -314,8 +314,8 @@ namespace SortingControlSys
                         this.task_data.Rows[index].Cells[1].Value = "德州市烟草公司";//货主
                         this.task_data.Rows[index].Cells[2].Value = row.ORDERDATE.Value.Date.ToString("D"); //订单日期
                         this.task_data.Rows[index].Cells[3].Value = "批次" + row.SYNSEQ;//批次
-                        this.task_data.Rows[index].Cells[4].Value = row.REGIONCODE.Substring(6);//线路编号
-                        this.task_data.Rows[index].Cells[5].Value = row.REGIONCODE.Substring(0, 6);//线路名称 
+                        this.task_data.Rows[index].Cells[4].Value = row.REGIONCODE;//线路编号
+                        this.task_data.Rows[index].Cells[5].Value = row.REGIONCODE;//线路名称 
                         this.task_data.Rows[index].Cells[6].Value = row.FinishCount + "/" + row.Count;
                         this.task_data.Rows[index].Cells[7].Value = row.FinishQTY + "/" + row.QTY;
                         this.task_data.Rows[index].Cells[8].Value = row.Rate;

@@ -71,6 +71,9 @@
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>HighspeedNew_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="DotNetPrint">
       <HintPath>..\Lib\DotNetPrint.dll</HintPath>
@@ -219,6 +222,12 @@
     </Compile>
     <Compile Include="OrderHandle\w_PlanReport.Designer.cs">
       <DependentUpon>w_PlanReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderHandle\w_RegionSortManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHandle\w_RegionSortManage.Designer.cs">
+      <DependentUpon>w_RegionSortManage.cs</DependentUpon>
     </Compile>
     <Compile Include="OrderHandle\w_relenishment.cs">
       <SubType>Form</SubType>
@@ -387,6 +396,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_PlanReport.resx">
       <DependentUpon>w_PlanReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderHandle\w_RegionSortManage.resx">
+      <DependentUpon>w_RegionSortManage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OrderHandle\w_relenishment.resx">
       <DependentUpon>w_relenishment.cs</DependentUpon>

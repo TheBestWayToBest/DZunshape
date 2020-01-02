@@ -358,6 +358,20 @@ namespace HighSpeed
             frm.ShowDialog();
         }
 
+        private void 车组分拣顺序管理ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            w_RegionSortManage frm = new w_RegionSortManage();
+            if (CheckExist(frm) == true)
+            {
+                frm.Dispose();
+                frm = null;
+                return;
+            }
+            frm.MdiParent = this;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
         
 
     }

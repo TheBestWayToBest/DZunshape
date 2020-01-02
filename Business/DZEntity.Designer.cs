@@ -384,6 +384,22 @@ namespace Business
             }
         }
         private ObjectSet<T_PRODUCE_PACKAGECALLBACK> _T_PRODUCE_PACKAGECALLBACK;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        public ObjectSet<T_PRODUCE_REGIONMANAGE> T_PRODUCE_REGIONMANAGE
+        {
+            get
+            {
+                if ((_T_PRODUCE_REGIONMANAGE == null))
+                {
+                    _T_PRODUCE_REGIONMANAGE = base.CreateObjectSet<T_PRODUCE_REGIONMANAGE>("T_PRODUCE_REGIONMANAGE");
+                }
+                return _T_PRODUCE_REGIONMANAGE;
+            }
+        }
+        private ObjectSet<T_PRODUCE_REGIONMANAGE> _T_PRODUCE_REGIONMANAGE;
 
         #endregion
 
@@ -547,6 +563,14 @@ namespace Business
         public void AddToT_PRODUCE_PACKAGECALLBACK(T_PRODUCE_PACKAGECALLBACK t_PRODUCE_PACKAGECALLBACK)
         {
             base.AddObject("T_PRODUCE_PACKAGECALLBACK", t_PRODUCE_PACKAGECALLBACK);
+        }
+    
+        /// <summary>
+        /// 用于向 T_PRODUCE_REGIONMANAGE EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddToT_PRODUCE_REGIONMANAGE(T_PRODUCE_REGIONMANAGE t_PRODUCE_REGIONMANAGE)
+        {
+            base.AddObject("T_PRODUCE_REGIONMANAGE", t_PRODUCE_REGIONMANAGE);
         }
 
         #endregion
@@ -2024,6 +2048,135 @@ namespace Business
         private global::System.String _PAYSTATE;
         partial void OnPAYSTATEChanging(global::System.String value);
         partial void OnPAYSTATEChanged();
+
+        #endregion
+
+    
+    }
+    
+    /// <summary>
+    /// 没有元数据文档可用。
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="Model", Name="T_PRODUCE_REGIONMANAGE")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class T_PRODUCE_REGIONMANAGE : EntityObject
+    {
+        #region 工厂方法
+    
+        /// <summary>
+        /// 创建新的 T_PRODUCE_REGIONMANAGE 对象。
+        /// </summary>
+        /// <param name="id">ID 属性的初始值。</param>
+        public static T_PRODUCE_REGIONMANAGE CreateT_PRODUCE_REGIONMANAGE(global::System.Decimal id)
+        {
+            T_PRODUCE_REGIONMANAGE t_PRODUCE_REGIONMANAGE = new T_PRODUCE_REGIONMANAGE();
+            t_PRODUCE_REGIONMANAGE.ID = id;
+            return t_PRODUCE_REGIONMANAGE;
+        }
+
+        #endregion
+
+        #region 基元属性
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Decimal _ID;
+        partial void OnIDChanging(global::System.Decimal value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String REGIONCODE
+        {
+            get
+            {
+                return _REGIONCODE;
+            }
+            set
+            {
+                OnREGIONCODEChanging(value);
+                ReportPropertyChanging("REGIONCODE");
+                _REGIONCODE = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("REGIONCODE");
+                OnREGIONCODEChanged();
+            }
+        }
+        private global::System.String _REGIONCODE;
+        partial void OnREGIONCODEChanging(global::System.String value);
+        partial void OnREGIONCODEChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String REGIONDESC
+        {
+            get
+            {
+                return _REGIONDESC;
+            }
+            set
+            {
+                OnREGIONDESCChanging(value);
+                ReportPropertyChanging("REGIONDESC");
+                _REGIONDESC = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("REGIONDESC");
+                OnREGIONDESCChanged();
+            }
+        }
+        private global::System.String _REGIONDESC;
+        partial void OnREGIONDESCChanging(global::System.String value);
+        partial void OnREGIONDESCChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> REGIONSORT
+        {
+            get
+            {
+                return _REGIONSORT;
+            }
+            set
+            {
+                OnREGIONSORTChanging(value);
+                ReportPropertyChanging("REGIONSORT");
+                _REGIONSORT = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("REGIONSORT");
+                OnREGIONSORTChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _REGIONSORT;
+        partial void OnREGIONSORTChanging(Nullable<global::System.Decimal> value);
+        partial void OnREGIONSORTChanged();
 
         #endregion
 

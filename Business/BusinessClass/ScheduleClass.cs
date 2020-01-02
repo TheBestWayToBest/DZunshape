@@ -266,7 +266,8 @@ namespace Business.BusinessClass
                 {
                     foreach (var item in list3)
                     {
-                        if (region[j] == item.regioncode)
+
+                        if (item.regioncode.Contains(region[j]))
                         {
 
                             TaskInfo taskInfo = new TaskInfo();
@@ -276,7 +277,7 @@ namespace Business.BusinessClass
                             taskInfo.QTY = item.qty ?? 0;
                             taskInfo.Count = item.ct;
                             taskList.Insert(Convert.ToInt32(index) - 1, taskInfo);
-                            break;
+                            //break;
                         }
                     }
                     //TaskInfo taskInfo = new TaskInfo();
@@ -601,7 +602,9 @@ namespace Business.BusinessClass
                 }
                 else
                 {
-                    return re.DefaultResponse;
+                    re.IsSuccess = true;
+                    re.MessageText = regioncode + "车组预排程成功！";
+                    return re;
                 }
 
 

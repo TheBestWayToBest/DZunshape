@@ -57,6 +57,7 @@
     <Compile Include="BusinessClass\MixedClass.cs" />
     <Compile Include="BusinessClass\OrderClass.cs" />
     <Compile Include="BusinessClass\PackageClass.cs" />
+    <Compile Include="BusinessClass\RegionClass.cs" />
     <Compile Include="BusinessClass\RelenishimentClass.cs" />
     <Compile Include="BusinessClass\Replan.cs" />
     <Compile Include="BusinessClass\ScheduleClass.cs" />
