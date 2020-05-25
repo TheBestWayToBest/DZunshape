@@ -189,7 +189,7 @@
             this.LblAdd15.BackColor = System.Drawing.Color.White;
             this.LblAdd15.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd15.ForeColor = System.Drawing.Color.Black;
-            this.LblAdd15.Location = new System.Drawing.Point(2, 315);
+            this.LblAdd15.Location = new System.Drawing.Point(2, 322);
             this.LblAdd15.Name = "LblAdd15";
             this.LblAdd15.Size = new System.Drawing.Size(230, 19);
             this.LblAdd15.TabIndex = 39;
@@ -200,7 +200,7 @@
             this.LblAdd14.BackColor = System.Drawing.Color.White;
             this.LblAdd14.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd14.ForeColor = System.Drawing.Color.Black;
-            this.LblAdd14.Location = new System.Drawing.Point(2, 294);
+            this.LblAdd14.Location = new System.Drawing.Point(2, 301);
             this.LblAdd14.Name = "LblAdd14";
             this.LblAdd14.Size = new System.Drawing.Size(230, 19);
             this.LblAdd14.TabIndex = 38;
@@ -211,7 +211,7 @@
             this.LblAdd13.BackColor = System.Drawing.Color.White;
             this.LblAdd13.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd13.ForeColor = System.Drawing.Color.Black;
-            this.LblAdd13.Location = new System.Drawing.Point(2, 273);
+            this.LblAdd13.Location = new System.Drawing.Point(2, 280);
             this.LblAdd13.Name = "LblAdd13";
             this.LblAdd13.Size = new System.Drawing.Size(230, 19);
             this.LblAdd13.TabIndex = 37;
@@ -222,7 +222,7 @@
             this.LblAdd12.BackColor = System.Drawing.Color.White;
             this.LblAdd12.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd12.ForeColor = System.Drawing.Color.Black;
-            this.LblAdd12.Location = new System.Drawing.Point(2, 252);
+            this.LblAdd12.Location = new System.Drawing.Point(2, 259);
             this.LblAdd12.Name = "LblAdd12";
             this.LblAdd12.Size = new System.Drawing.Size(230, 19);
             this.LblAdd12.TabIndex = 36;
@@ -233,7 +233,7 @@
             this.LblAdd11.BackColor = System.Drawing.Color.White;
             this.LblAdd11.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd11.ForeColor = System.Drawing.Color.Black;
-            this.LblAdd11.Location = new System.Drawing.Point(2, 231);
+            this.LblAdd11.Location = new System.Drawing.Point(2, 238);
             this.LblAdd11.Name = "LblAdd11";
             this.LblAdd11.Size = new System.Drawing.Size(230, 19);
             this.LblAdd11.TabIndex = 35;
@@ -244,7 +244,7 @@
             this.LblAdd10.BackColor = System.Drawing.Color.White;
             this.LblAdd10.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd10.ForeColor = System.Drawing.Color.Black;
-            this.LblAdd10.Location = new System.Drawing.Point(2, 210);
+            this.LblAdd10.Location = new System.Drawing.Point(2, 217);
             this.LblAdd10.Name = "LblAdd10";
             this.LblAdd10.Size = new System.Drawing.Size(230, 19);
             this.LblAdd10.TabIndex = 34;
@@ -255,7 +255,7 @@
             this.LblAdd9.BackColor = System.Drawing.Color.White;
             this.LblAdd9.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd9.ForeColor = System.Drawing.Color.Black;
-            this.LblAdd9.Location = new System.Drawing.Point(2, 189);
+            this.LblAdd9.Location = new System.Drawing.Point(2, 196);
             this.LblAdd9.Name = "LblAdd9";
             this.LblAdd9.Size = new System.Drawing.Size(230, 19);
             this.LblAdd9.TabIndex = 33;
@@ -266,7 +266,7 @@
             this.LblAdd8.BackColor = System.Drawing.Color.White;
             this.LblAdd8.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd8.ForeColor = System.Drawing.Color.Black;
-            this.LblAdd8.Location = new System.Drawing.Point(2, 168);
+            this.LblAdd8.Location = new System.Drawing.Point(2, 175);
             this.LblAdd8.Name = "LblAdd8";
             this.LblAdd8.Size = new System.Drawing.Size(230, 19);
             this.LblAdd8.TabIndex = 32;
@@ -277,7 +277,7 @@
             this.LblAdd7.BackColor = System.Drawing.Color.White;
             this.LblAdd7.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd7.ForeColor = System.Drawing.Color.Black;
-            this.LblAdd7.Location = new System.Drawing.Point(2, 147);
+            this.LblAdd7.Location = new System.Drawing.Point(2, 154);
             this.LblAdd7.Name = "LblAdd7";
             this.LblAdd7.Size = new System.Drawing.Size(230, 19);
             this.LblAdd7.TabIndex = 31;
@@ -286,20 +286,21 @@
             // LblAdd1
             // 
             this.LblAdd1.BackColor = System.Drawing.Color.White;
-            this.LblAdd1.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LblAdd1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd1.ForeColor = System.Drawing.Color.Black;
-            this.LblAdd1.Location = new System.Drawing.Point(2, 21);
+            this.LblAdd1.Location = new System.Drawing.Point(2, 17);
             this.LblAdd1.Name = "LblAdd1";
-            this.LblAdd1.Size = new System.Drawing.Size(230, 19);
+            this.LblAdd1.Size = new System.Drawing.Size(230, 30);
             this.LblAdd1.TabIndex = 25;
             this.LblAdd1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.LblAdd1.Click += new System.EventHandler(this.LblAdd1_Click);
             // 
             // LblAdd2
             // 
             this.LblAdd2.BackColor = System.Drawing.Color.White;
             this.LblAdd2.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd2.ForeColor = System.Drawing.Color.Black;
-            this.LblAdd2.Location = new System.Drawing.Point(2, 42);
+            this.LblAdd2.Location = new System.Drawing.Point(2, 49);
             this.LblAdd2.Name = "LblAdd2";
             this.LblAdd2.Size = new System.Drawing.Size(230, 19);
             this.LblAdd2.TabIndex = 26;
@@ -310,7 +311,7 @@
             this.LblAdd4.BackColor = System.Drawing.Color.White;
             this.LblAdd4.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd4.ForeColor = System.Drawing.Color.Black;
-            this.LblAdd4.Location = new System.Drawing.Point(2, 84);
+            this.LblAdd4.Location = new System.Drawing.Point(2, 91);
             this.LblAdd4.Name = "LblAdd4";
             this.LblAdd4.Size = new System.Drawing.Size(230, 19);
             this.LblAdd4.TabIndex = 28;
@@ -321,7 +322,7 @@
             this.LblAdd5.BackColor = System.Drawing.Color.White;
             this.LblAdd5.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd5.ForeColor = System.Drawing.Color.Black;
-            this.LblAdd5.Location = new System.Drawing.Point(2, 105);
+            this.LblAdd5.Location = new System.Drawing.Point(2, 112);
             this.LblAdd5.Name = "LblAdd5";
             this.LblAdd5.Size = new System.Drawing.Size(230, 19);
             this.LblAdd5.TabIndex = 29;
@@ -332,7 +333,7 @@
             this.LblAdd3.BackColor = System.Drawing.Color.White;
             this.LblAdd3.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd3.ForeColor = System.Drawing.Color.Black;
-            this.LblAdd3.Location = new System.Drawing.Point(2, 63);
+            this.LblAdd3.Location = new System.Drawing.Point(2, 70);
             this.LblAdd3.Name = "LblAdd3";
             this.LblAdd3.Size = new System.Drawing.Size(230, 19);
             this.LblAdd3.TabIndex = 27;
@@ -343,7 +344,7 @@
             this.LblAdd6.BackColor = System.Drawing.Color.White;
             this.LblAdd6.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LblAdd6.ForeColor = System.Drawing.Color.Black;
-            this.LblAdd6.Location = new System.Drawing.Point(2, 126);
+            this.LblAdd6.Location = new System.Drawing.Point(2, 133);
             this.LblAdd6.Name = "LblAdd6";
             this.LblAdd6.Size = new System.Drawing.Size(230, 19);
             this.LblAdd6.TabIndex = 30;

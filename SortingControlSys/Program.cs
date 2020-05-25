@@ -13,9 +13,19 @@ namespace SortingControlSys
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new UnNormalFm());
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new UnNormalFm());
+            }
+            catch (Exception ex) 
+            {
+                if (ex.Message.Contains("Open"))
+                    MessageBox.Show("数据库连接失败，请检查网络！");
+                else
+                    MessageBox.Show(ex.Message);
+            }
         }
     }
 }

@@ -173,7 +173,7 @@ namespace Business.BusinessClass
 
                 string sqlStr = "select pokeid,sortnum,p.cigarettecode as cigcode,cigarettename as cigname,t.troughnum as throughnum,sortnum,1 as pokenum from t_un_poke_hunhe p, t_produce_sorttrough t  where t.cigarettecode=p.cigarettecode " +
                                 " and p.machineseq =" + machineSeq + " and t.groupno=" + groupNo + " and pullstatus=" + pullState + " order by p.sortnum,t.troughnum";
-                list = en.ExecuteStoreQuery<MixInfos>(sqlStr).Take(15).ToList();
+                list = en.ExecuteStoreQuery<MixInfos>(sqlStr).Take(500).ToList();
 
                 return list;
             }
@@ -194,7 +194,7 @@ namespace Business.BusinessClass
 
                 string sqlStr = "select pokeid,sortnum,p.cigarettecode as cigcode,cigarettename as cigname,t.troughnum as throughnum,sortnum,1 as pokenum from t_un_poke_hunhe p, t_produce_sorttrough t  where t.cigarettecode=p.cigarettecode " +
                                 "and t.machineseq=1 and pullstatus=1  order by p.sortnum desc,t.troughnum desc";
-                list = en.ExecuteStoreQuery<MixInfos>(sqlStr).Take(15).ToList();
+                list = en.ExecuteStoreQuery<MixInfos>(sqlStr).Take(500).ToList();
                 return list;
             }
         }

@@ -7,6 +7,7 @@ namespace Business.Modle
 {
     public class MixInfos
     {
+        public List<string> PokeIDList { get; set; }
         public decimal PokeID { get; set; }
         public decimal SortNum { get; set; }
         public string CigCode { get; set; }

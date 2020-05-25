@@ -14,7 +14,7 @@ namespace Business.BusinessClass
             {
                 List<T_PRODUCE_REPLENISHPLAN> list = new List<T_PRODUCE_REPLENISHPLAN>();
                 string sqlStr = "select * from T_PRODUCE_REPLENISHPLAN where iscompleted != 20 and cigarettecode in(" +
-                                "select cigarettecode from t_produce_sorttrough where groupno=3) order by id";
+                                "select cigarettecode from t_produce_sorttrough where groupno=3) and troughnum<=6 order by id";
                 list = en.ExecuteStoreQuery<T_PRODUCE_REPLENISHPLAN>(sqlStr).ToList();
                 return list;
             }
@@ -32,7 +32,7 @@ namespace Business.BusinessClass
                 }
                 List<T_PRODUCE_REPLENISHPLAN> list = new List<T_PRODUCE_REPLENISHPLAN>();
                 string sqlStr = "select * from T_PRODUCE_REPLENISHPLAN where iscompleted = 10 and cigarettecode in(" +
-                                "select cigarettecode from t_produce_sorttrough where groupno=3) order by id";
+                                "select cigarettecode from t_produce_sorttrough where groupno=3) and troughnum<=6 order by id";
                 list = en.ExecuteStoreQuery<T_PRODUCE_REPLENISHPLAN>(sqlStr).ToList();
                 data[0] = list[0].TASKNUM;
                 data[1] = Convert.ToDecimal(list[0].TROUGHNUM);
@@ -123,7 +123,7 @@ namespace Business.BusinessClass
             using (DZEntities en = new DZEntities())
             {
                 List<T_PRODUCE_REPLENISHPLAN> list = new List<T_PRODUCE_REPLENISHPLAN>();
-                string sqlStr = "select * from T_PRODUCE_REPLENISHPLAN where cigarettecode in (select distinct cigarettecode from T_PRODUCE_SORTTROUGH where groupno = 3 ) and ISCOMPLETED = 20 order by id desc";
+                string sqlStr = "select * from T_PRODUCE_REPLENISHPLAN where cigarettecode in (select distinct cigarettecode from T_PRODUCE_SORTTROUGH where groupno = 3 ) and troughnum<=6 and ISCOMPLETED = 20 order by id desc";
 
                 list = en.ExecuteStoreQuery<T_PRODUCE_REPLENISHPLAN>(sqlStr).Take(10).ToList();
                 //list = en.T_PRODUCE_REPLENISHPLAN.Where(item => (item.TROUGHNUM == "1" || item.TROUGHNUM == "2" || item.TROUGHNUM == "3" || item.TROUGHNUM == "4" || item.TROUGHNUM == "5" || item.TROUGHNUM == "6") && item.ISCOMPLETED == 15 && item.STATUS == 1).ToList();

@@ -10,6 +10,7 @@ using Business.BusinessClass;
 using Business;
 using Business.Modle;
 using System.Threading;
+using System.Transactions;
 
 namespace HighspeedNew.OrderHandle
 {
@@ -86,39 +87,43 @@ namespace HighspeedNew.OrderHandle
         {
             try
             {
-                progressBar1.Value = (progressBar1.Maximum / 2);
-                var re = sc.SchedulePoke();
-                //排程结束后，对排程数据进行验证
-                ValidationClass vc = new ValidationClass();
-                Response response = vc.ValidationSchedule("2");
-                if (response.IsSuccess)
+                TransactionOptions transactionOption = new TransactionOptions();
+                transactionOption.IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted;
+                using (TransactionScope tran = new TransactionScope(TransactionScopeOption.Required, transactionOption))
                 {
-
-                    if (re.IsSuccess)
+                    progressBar1.Value = (progressBar1.Maximum / 2);
+                    var re = sc.SchedulePoke();
+                    //排程结束后，对排程数据进行验证
+                    ValidationClass vc = new ValidationClass();
+                    Response response = vc.ValidationSchedule("2");
+                    if (response.IsSuccess)
                     {
-                        List<MixedInfo> list = MixedClass.GetUnPokeData();
-                        MixedClass.InsertPokeMixed(list);
-                        btnPokeSeq.Enabled = true;
-                        progressBar1.Value = progressBar1.Maximum;
-                        //TimerByTime.Stop();// 计时结束;
-                        btnSort.Enabled = true;
-                        lblInFO.Text = "分拣车组任务排程成功！" + "\r\n" + "所用时间:" + times + "秒";
-                        MessageBox.Show("分拣车组任务排程成功！" + "\r\n" + "所用时间:" + times + "秒", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (re.IsSuccess)
+                        {
+                            List<MixedInfo> list = MixedClass.GetUnPokeData();
+                            MixedClass.InsertPokeMixed(list);
+                            tran.Complete();
+                            btnPokeSeq.Enabled = true;
+                            progressBar1.Value = progressBar1.Maximum;
+                            //TimerByTime.Stop();// 计时结束;
+                            btnSort.Enabled = true;
+                            lblInFO.Text = "分拣车组任务排程成功！" + "\r\n" + "所用时间:" + times + "秒";
+                            MessageBox.Show("分拣车组任务排程成功！" + "\r\n" + "所用时间:" + times + "秒", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            panel2.Visible = false;
+                            TimerByTime.Stop();// 计时结束;
+                            btnSort.Enabled = true;
+                            MessageBox.Show(re.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
                     }
                     else
                     {
-                        panel2.Visible = false;
-                        TimerByTime.Stop();// 计时结束;
-                        btnSort.Enabled = true;
-                        MessageBox.Show(re.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        //回滚排程操作
+                        MessageBox.Show(response.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
-                else
-                {
-                    //回滚排程操作
-                    MessageBox.Show(response.MessageText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-
             }
             catch (Exception e)
             {

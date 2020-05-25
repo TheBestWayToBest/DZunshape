@@ -225,7 +225,7 @@ namespace Business.BusinessClass
         /// 获取新增的车组
         /// </summary>
         /// <returns></returns>
-        public Response<List<TaskInfo>> GetRouteInFO()
+        public Response<List<TaskInfo>> GetRouteInFO(List<string> regionSort)
         {
             Response<List<TaskInfo>> reList = new Response<List<TaskInfo>>();
             using (DZEntities en = new DZEntities())
@@ -259,15 +259,17 @@ namespace Business.BusinessClass
                              select new { regioncode = item1.regioncode, ct = item2.ct, qty = item1.qty }).ToList();
                 //return null;
 
-                List<string> region = new List<string>();
-                region = RegionSort.GetRegionSort();
+                //List<string> region = new List<string>();
+                //region = RegionSort.GetRegionSort();
                 decimal index = 0;
-                for (int j = 0; j < region.Count; j++)
+
+
+                for (int j = 0; j < regionSort.Count; j++)
                 {
                     foreach (var item in list3)
                     {
 
-                        if (item.regioncode.Contains(region[j]))
+                        if (item.regioncode.Contains(regionSort[j]))
                         {
 
                             TaskInfo taskInfo = new TaskInfo();
@@ -727,7 +729,11 @@ namespace Business.BusinessClass
 
         }
 
-
+        class MSInfo
+        {
+            public string cigCode { get; set; }
+            public int count { get; set; }
+        }
         /// <summary>
         /// 任务数据排程 直接一次性排程Task表中的所有数据
         /// </summary>
@@ -737,442 +743,184 @@ namespace Business.BusinessClass
             Response re = new Response("数据排程：未找对应的数据！");
             using (DZEntities en = new DZEntities())
             {
-                TransactionOptions transactionOption = new TransactionOptions();
-                transactionOption.IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted;
-                using (TransactionScope tran = new TransactionScope(TransactionScopeOption.Required, transactionOption))
+                //TransactionOptions transactionOption = new TransactionOptions();
+                //transactionOption.IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted;
+                //using (TransactionScope tran = new TransactionScope(TransactionScopeOption.Required, transactionOption))
+                //{
+                try
                 {
-                    try
+                    //当前通道支持卧式设多通道,立式设多通道,支持立式和卧式联合设置多通道(即品牌同时设置在立式和卧式)
+                    var msorttrough = (from item in en.T_PRODUCE_SORTTROUGH
+                                       where item.STATE == "10" && (item.GROUPNO == 3 || item.GROUPNO == 2)
+                                       group item by new { item.CIGARETTECODE } into g
+                                       select new MSInfo { cigCode = g.Key.CIGARETTECODE, count = g.Count() }
+                                    ).ToList().Where(x => x.count > 1).Select(x => x.cigCode).ToList();
+                    var special_two = (from trough in en.T_PRODUCE_SORTTROUGH
+
+                                       where trough.STATE == "10" && (trough.GROUPNO == 3 || trough.GROUPNO == 2)
+                                       orderby trough.CIGARETTECODE, trough.MACHINESEQ
+                                       select trough).OrderBy(item => item.MACHINESEQ).ToList();
+                    special_two = special_two.Where(x => msorttrough.Contains(x.CIGARETTECODE)).ToList();
+                    Dictionary<string, List<ThroughInfo>> special_dic = new Dictionary<string, List<ThroughInfo>>();
+                    if (special_two.Any())
                     {
-                        //普通双通
-                        //var normal_two = (from trough in en.T_PRODUCE_SORTTROUGH where  select trough).ToList();
-                        //六通道双通
-                        //var trough1 = (from trough in en.T_PRODUCE_SORTTROUGH
-                        //               where trough.STATE == "10" && trough.GROUPNO == 3 
-                        //               select trough).ToList();
-                        //var trough2 = (from trough in en.T_PRODUCE_SORTTROUGH
-                        //               where trough.STATE == "10" && trough.GROUPNO == 2
-                        //               select trough).ToList();
-                        //var special_two = (from special in trough1
-                        //                   join normal in trough2 on special.CIGARETTECODE equals normal.CIGARETTECODE
-                        //                       into tmp
-                        //                   from last in tmp.DefaultIfEmpty()
-                        //                   select new { x = special, y = last });
-
-                        //当前通道支持卧式设多通道,立式设多通道,不支持立式和卧式联合设置多通道(即品牌同时设置在立式和卧式)
-                        var special_two = (from trough in en.T_PRODUCE_SORTTROUGH
-                                           where trough.STATE == "10" && (trough.GROUPNO == 3 || trough.GROUPNO == 2) && trough.ACTCOUNT == 2
-                                           orderby trough.CIGARETTECODE, trough.MACHINESEQ
-                                           select trough).OrderBy(item => item.MACHINESEQ).ToList();
-                        Dictionary<string, List<ThroughInfo>> special_dic = new Dictionary<string, List<ThroughInfo>>();
-                        if (special_two.Any())
+                        foreach (var item in special_two)
                         {
-                            foreach (var item in special_two)
+                            //两个卧式
+                            string cigcode = item.CIGARETTECODE;
+                            ThroughInfo through = new ThroughInfo();
+                            if (special_dic.ContainsKey(cigcode))
                             {
-                                //两个卧式
-                                string cigcode = item.CIGARETTECODE;
-                                ThroughInfo through = new ThroughInfo();
-                                if (special_dic.ContainsKey(cigcode))
-                                {
-
-                                    through.CigaretteName = item.CIGARETTENAME;
-                                    through.CigaretteCode = item.CIGARETTECODE;
-                                    through.ActCount = item.ACTCOUNT ?? 0;
-                                    through.GroupNo = item.GROUPNO ?? 0;
-                                    through.ThroughNum = item.TROUGHNUM;
-                                    through.MachineSeq = item.MACHINESEQ ?? 0;
-                                    special_dic[cigcode].Add(through);
-                                }
-                                else
-                                {
-                                    through.CigaretteName = item.CIGARETTENAME;
-                                    through.CigaretteCode = item.CIGARETTECODE;
-                                    through.ActCount = item.ACTCOUNT ?? 0;
-                                    through.GroupNo = item.GROUPNO ?? 0;
-                                    through.ThroughNum = item.TROUGHNUM;
-                                    through.MachineSeq = item.MACHINESEQ ?? 0;
-                                    List<ThroughInfo> list = new List<ThroughInfo>();
-                                    list.Add(through);
-                                    special_dic.Add(through.CigaretteCode, list);
-                                }
-
-                                //卧式带立式 (5+1)
-                                //ThroughInfo through = new ThroughInfo();
-                                //through.CigaretteCode = item.x.CIGARETTECODE;
-                                //through.ActCount = item.x.ACTCOUNT ?? 0;
-                                //through.ThroughNum = item.x.TROUGHNUM;
-                                //var obj = item.y;
-                                //if (through.ActCount == 2 && obj != null)
-                                //{
-                                //    through.SecThroughnum = item.y.TROUGHNUM;
-                                //}
-                                //special_dic.Add(through.CigaretteCode, through);
+                                through.ID = (item.MANTISSA % 5 > 0 ? item.MANTISSA % 5 : 5) ?? 0;
+                                through.CigaretteName = item.CIGARETTENAME;
+                                through.CigaretteCode = item.CIGARETTECODE;
+                                through.ActCount = item.ACTCOUNT ?? 0;
+                                through.GroupNo = item.GROUPNO ?? 0;
+                                through.ThroughNum = item.TROUGHNUM;
+                                through.MachineSeq = item.MACHINESEQ ?? 0;
+                                special_dic[cigcode].Add(through);
+                            }
+                            else
+                            {
+                                through.ID = (item.MANTISSA % 5 > 0 ? item.MANTISSA % 5 : 5) ?? 0;
+                                through.CigaretteName = item.CIGARETTENAME;
+                                through.CigaretteCode = item.CIGARETTECODE;
+                                through.ActCount = item.ACTCOUNT ?? 0;
+                                through.GroupNo = item.GROUPNO ?? 0;
+                                through.ThroughNum = item.TROUGHNUM;
+                                through.MachineSeq = item.MACHINESEQ ?? 0;
+                                List<ThroughInfo> list = new List<ThroughInfo>();
+                                list.Add(through);
+                                special_dic.Add(through.CigaretteCode, list);
                             }
                         }
-                        //一条烟的订单分拣
-                        /*var t_un_taskUnionTasklinefor1 = (from item in en.T_UN_TASK
-                                                      join item2 in en.T_UN_TASKLINE on item.TASKNUM equals item2.TASKNUM
-                                                      join item3 in en.T_PRODUCE_SORTTROUGH on item2.CIGARETTECODE equals item3.CIGARETTECODE
-                                                      where item3.STATE == "10" && item.STATE == "10"
-                                                      && (item3.CIGARETTETYPE == 30 || item3.CIGARETTETYPE == 40)
-                                                      &&item.TASKQUANTITY==1
-                                                      orderby item.SORTNUM, item3.MACHINESEQ, item3.TROUGHNUM
-                                                      select new
-                                                      {
-                                                          SortNum = item.SORTNUM,
-                                                          BillCode = item.BILLCODE,
-                                                          MachineSeq = item3.MACHINESEQ,
-                                                          CigName = item3.CIGARETTENAME,
-                                                          CigCode = item3.CIGARETTECODE,
-                                                          Quantity = item2.QUANTITY,
-                                                          TroughNum = item3.TROUGHNUM,
-                                                          Status = 0,
-                                                          TaskQty = 1,
-                                                          TaskNum = item.TASKNUM,
-                                                          CustomerCode = item.CUSTOMERCODE,
-                                                          SecSortNum = item.SORTNUM,
-                                                          Ctype = 1,
-                                                          PackageMachine = item.PACKAGEMACHINE,
-                                                          LineNum = item.LINENUM,
-                                                          GroupNo = item3.GROUPNO,
-                                                          ActCount = item3.ACTCOUNT
-                                                      }).ToList();//任务信息表
-                        decimal pokeId = GetMaxPokeId(en).Content;//获取最大POKEID
-                        if (t_un_taskUnionTasklinefor1.Any())
+                    }
+                    //其他正常顺序的异型烟任务
+                    var t_un_taskUnionTaskline = (from item in en.T_UN_TASK
+                                                  join item2 in en.T_UN_TASKLINE on item.TASKNUM equals item2.TASKNUM
+                                                  where item.STATE == "10"
+                                                  orderby item.SORTNUM
+                                                  select new
+                                                  {
+                                                      SortNum = item.SORTNUM,
+                                                      BillCode = item.BILLCODE,
+                                                      CigName = item2.CIGARETTENAME,
+                                                      CigCode = item2.CIGARETTECODE,
+                                                      Quantity = item2.QUANTITY,
+                                                      Status = 0,
+                                                      TaskQty = 1,
+                                                      TaskNum = item.TASKNUM,
+                                                      CustomerCode = item.CUSTOMERCODE,
+                                                      SecSortNum = item.SORTNUM,
+                                                      Ctype = 1,
+                                                      PackageMachine = item.PACKAGEMACHINE,
+                                                      LineNum = item.LINENUM
+                                                  }).ToList();//任务信息表
+                    decimal pokeId = GetMaxPokeId(en).Content;//获取最大POKEID
+                    if (t_un_taskUnionTaskline.Any())
+                    {
+                        //int i = 1;
+                        ThroughInfo through = new ThroughInfo();
+                        int times = 0;//控制次数
+                        foreach (var item in t_un_taskUnionTaskline)
                         {
-                            ThroughInfo through = new ThroughInfo();
-                            foreach (var item in t_un_taskUnionTasklinefor1)
+                            Tool.WriteLog.GetLog().Write(item.TaskNum + "===" + item.CigCode);
+                            decimal quantity = item.Quantity ?? 0;
+                            decimal qty = quantity;
+                            decimal quan = quantity;
+                            var list = en.T_PRODUCE_SORTTROUGH.Where(ite => ite.STATE == "10" && ite.CIGARETTECODE == item.CigCode).Select(ite => new ThroughInfo
                             {
-                                decimal quantity = item.Quantity ?? 0;
-                                decimal qty = quantity;
-                                //是否是双通道的烟 均分
-                                if (special_dic.ContainsKey(item.CigCode))
-                                {
-                                    through = special_dic[item.CigCode];
-                                    decimal groupno = through.GroupNo;//groupno=2 是立式烟仓, groupno=3 是卧式烟仓(1-5都可以拨)
-                                    if (groupno == 2)
-                                    {
-                                        if (through.ThroughNum == item.TroughNum)
-                                        {
-                                            qty = Math.Ceiling(quantity / 2);
-                                        }
-                                        else
-                                        {
-                                            qty = Math.Floor(quantity / 2);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        //通道机双通道,一个拨整五条,一个拨剩余散条,
-                                        if (through.ThroughNum == item.TroughNum)
-                                        {
-                                            qty = quantity - quantity % 5;
-                                        }
-                                        else
-                                        {
-                                            qty = quantity % 5;
-                                        }
-                                    }
-                                }
-                                if (qty > 0)
-                                {
-                                    T_UN_POKE t_un_poke = new T_UN_POKE();
-                                    t_un_poke.POKEID = pokeId++;
-                                    t_un_poke.TROUGHNUM = item.TroughNum;
-                                    t_un_poke.POKENUM = qty;
-                                    t_un_poke.STATUS = item.Status;
-                                    t_un_poke.TASKNUM = item.TaskNum;
-                                    t_un_poke.TASKQTY = item.TaskQty;
-                                    t_un_poke.PACKAGEMACHINE = item.PackageMachine;
-                                    t_un_poke.MACHINESEQ = item.MachineSeq;
-                                    t_un_poke.LINENUM = item.LineNum;
-                                    t_un_poke.CIGARETTECODE = item.CigCode;
-                                    t_un_poke.CUSTOMERCODE = item.CustomerCode;
-                                    t_un_poke.SORTNUM = item.SortNum;
-                                    t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
-                                    t_un_poke.BILLCODE = item.BillCode;
-                                    //if (item.GroupNo == 3) t_un_poke.CTYPE = 2;
-                                    //else t_un_poke.CTYPE = 1;
-                                    t_un_poke.CTYPE = item.GroupNo;
-                                    t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
-                                    t_un_poke.STORENUM = 0;//暂时无用
-                                    t_un_poke.GRIDNUM = 0;//暂时无用
-                                    t_un_poke.INVFLAG = null;//库存标志
-                                    t_un_poke.SENDSEQ = 0; //暂时无用 
-                                    en.T_UN_POKE.AddObject(t_un_poke);
-                                }
-                                var reUp = UpdateTaskState(en, item.TaskNum,1);
-                                if (!reUp.IsSuccess)
-                                {
-                                    return reUp;
-                                }
-                            }
-                            re.IsSuccess = true;
-                            re.MessageText = "单条异型烟分拣任务数据生成成功！";
-                            //return re;
-                        }
-                        else
-                        {
-                            re.IsSuccess = false;
-                            re.MessageText = "暂无可排程的单条异型烟任务信息！";
-                            //return re;
-                        }*/
-                        //两条烟的订单分拣
-                        /*var t_un_taskUnionTasklinefor2 = (from item in en.T_UN_TASK
-                                                          join item2 in en.T_UN_TASKLINE on item.TASKNUM equals item2.TASKNUM
-                                                          join item3 in en.T_PRODUCE_SORTTROUGH on item2.CIGARETTECODE equals item3.CIGARETTECODE
-                                                          where item3.STATE == "10" && item.STATE == "10"
-                                                          && (item3.CIGARETTETYPE == 30 || item3.CIGARETTETYPE == 40)
-                                                          && item.TASKQUANTITY == 2
-                                                          orderby item.SORTNUM, item3.MACHINESEQ, item3.TROUGHNUM
-                                                          select new
-                                                          {
-                                                              SortNum = item.SORTNUM,
-                                                              BillCode = item.BILLCODE,
-                                                              MachineSeq = item3.MACHINESEQ,
-                                                              CigName = item3.CIGARETTENAME,
-                                                              CigCode = item3.CIGARETTECODE,
-                                                              Quantity = item2.QUANTITY,
-                                                              TroughNum = item3.TROUGHNUM,
-                                                              Status = 0,
-                                                              TaskQty = 1,
-                                                              TaskNum = item.TASKNUM,
-                                                              CustomerCode = item.CUSTOMERCODE,
-                                                              SecSortNum = item.SORTNUM,
-                                                              Ctype = 1,
-                                                              PackageMachine = item.PACKAGEMACHINE,
-                                                              LineNum = item.LINENUM,
-                                                              GroupNo = item3.GROUPNO,
-                                                              ActCount = item3.ACTCOUNT
-                                                          }).ToList();//任务信息表
-                        pokeId = GetMaxPokeId(en).Content;//获取最大POKEID
-                        if (t_un_taskUnionTasklinefor2.Any())
-                        {
-                            ThroughInfo through = new ThroughInfo();
-                            foreach (var item in t_un_taskUnionTasklinefor2)
+                                CigaretteName = ite.CIGARETTENAME,
+                                CigaretteCode = ite.CIGARETTECODE,
+                                ActCount = ite.ACTCOUNT ?? 0,
+                                GroupNo = ite.GROUPNO ?? 0,
+                                ThroughNum = ite.TROUGHNUM,
+                                MachineSeq = ite.MACHINESEQ ?? 0
+                            }).ToList();
+                            //多通道的烟 均分
+                            if (special_dic.ContainsKey(item.CigCode))
                             {
-                                decimal quantity = item.Quantity ?? 0;
-                                decimal qty = quantity;
-                                //是否是双通道的烟 均分
-                                if (special_dic.ContainsKey(item.CigCode))
-                                {
-                                    through = special_dic[item.CigCode];
-                                    decimal groupno = through.GroupNo;//groupno=2 是立式烟仓, groupno=3 是卧式烟仓(1-5都可以拨)
-                                    if (groupno == 2)
-                                    {
-                                        if (through.ThroughNum == item.TroughNum)
-                                        {
-                                            qty = Math.Ceiling(quantity / 2);
-                                        }
-                                        else
-                                        {
-                                            qty = Math.Floor(quantity / 2);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        //通道机双通道,一个拨整五条,一个拨剩余散条,
-                                        if (through.ThroughNum == item.TroughNum)
-                                        {
-                                            qty = quantity - quantity % 5;
-                                        }
-                                        else
-                                        {
-                                            qty = quantity % 5;
-                                        }
-                                    }
-                                }
-                                if (qty > 0)
-                                {
-                                    T_UN_POKE t_un_poke = new T_UN_POKE();
-                                    t_un_poke.POKEID = pokeId++;
-                                    t_un_poke.TROUGHNUM = item.TroughNum;
-                                    t_un_poke.POKENUM = qty;
-                                    t_un_poke.STATUS = item.Status;
-                                    t_un_poke.TASKNUM = item.TaskNum;
-                                    t_un_poke.TASKQTY = item.TaskQty;
-                                    t_un_poke.PACKAGEMACHINE = item.PackageMachine;
-                                    t_un_poke.MACHINESEQ = item.MachineSeq;
-                                    t_un_poke.LINENUM = item.LineNum;
-                                    t_un_poke.CIGARETTECODE = item.CigCode;
-                                    t_un_poke.CUSTOMERCODE = item.CustomerCode;
-                                    t_un_poke.SORTNUM = item.SortNum;
-                                    t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
-                                    t_un_poke.BILLCODE = item.BillCode;
-                                    //if (item.GroupNo == 3) t_un_poke.CTYPE = 2;
-                                    //else t_un_poke.CTYPE = 1;
-                                    t_un_poke.CTYPE = item.GroupNo;
-                                    t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
-                                    t_un_poke.STORENUM = 0;//暂时无用
-                                    t_un_poke.GRIDNUM = 0;//暂时无用
-                                    t_un_poke.INVFLAG = null;//库存标志
-                                    t_un_poke.SENDSEQ = 0; //暂时无用 
-                                    en.T_UN_POKE.AddObject(t_un_poke);
-                                }
-                                var reUp = UpdateTaskState(en, item.TaskNum,2);
-                                if (!reUp.IsSuccess)
-                                {
-                                    return reUp;
-                                }
-                            }
-                            re.IsSuccess = true;
-                            re.MessageText = "两条的异型烟分拣任务数据生成成功！";
-                            //return re;
-                        }
-                        else
-                        {
-                            re.IsSuccess = false;
-                            re.MessageText = "暂无可排程的两条异型烟任务信息！";
-                            //return re;
-                        }*/
-                        //其他正常顺序的异型烟任务
-                        var t_un_taskUnionTaskline = (from item in en.T_UN_TASK
-                                                      join item2 in en.T_UN_TASKLINE on item.TASKNUM equals item2.TASKNUM
-                                                      //join item3 in en.T_PRODUCE_SORTTROUGH on item2.CIGARETTECODE equals item3.CIGARETTECODE
-                                                      where /*item3.STATE == "10" && */item.STATE == "10"
-                                                      /*&& (item3.CIGARETTETYPE == 30 || item3.CIGARETTETYPE == 40*/
-                                                      //&& (item3.GROUPNO==2 ||item3.GROUPNO==3)//条件：1 通道必须启用， 车组间排程完毕
-                                                      orderby item.SORTNUM/*, item3.MACHINESEQ, item3.TROUGHNUM*/
-                                                      select new
-                                                      {
-                                                          SortNum = item.SORTNUM,
-                                                          BillCode = item.BILLCODE,
-                                                          /*MachineSeq = item3.MACHINESEQ,
-                                                          CigName = item3.CIGARETTENAME,
-                                                          CigCode = item3.CIGARETTECODE,*/
-                                                          CigName = item2.CIGARETTENAME,
-                                                          CigCode = item2.CIGARETTECODE,
-                                                          Quantity = item2.QUANTITY,
-                                                          /*TroughNum = item3.TROUGHNUM,*/
-                                                          Status = 0,
-                                                          TaskQty = 1,
-                                                          TaskNum = item.TASKNUM,
-                                                          CustomerCode = item.CUSTOMERCODE,
-                                                          SecSortNum = item.SORTNUM,
-                                                          Ctype = 1,
-                                                          PackageMachine = item.PACKAGEMACHINE,
-                                                          LineNum = item.LINENUM/*,
-                                                          GroupNo = item3.GROUPNO,
-                                                          ActCount = item3.ACTCOUNT*/
-                                                      }).ToList();//任务信息表
-                        decimal pokeId = GetMaxPokeId(en).Content;//获取最大POKEID
-                        if (t_un_taskUnionTaskline.Any())
-                        {
-                            //int i = 1;
-                            ThroughInfo through = new ThroughInfo();
-                            foreach (var item in t_un_taskUnionTaskline)
-                            {
-                                Tool.WriteLog.GetLog().Write(item.TaskNum + "===" + item.CigCode);
-                                decimal quantity = item.Quantity ?? 0;
-                                decimal qty = quantity;
-                                decimal quan = quantity;
-                                var list = en.T_PRODUCE_SORTTROUGH.Where(ite => ite.STATE == "10" && ite.CIGARETTECODE == item.CigCode).Select(ite => new ThroughInfo
-                                {
-                                    //through.CigaretteCode = item.CIGARETTECODE;
-                                    //through.ActCount = item.ACTCOUNT ?? 0;
-                                    //through.GroupNo = item.GROUPNO ?? 0;
-                                    //through.ThroughNum = item.TROUGHNUM;
-                                    CigaretteName = ite.CIGARETTENAME,
-                                    CigaretteCode = ite.CIGARETTECODE,
-                                    ActCount = ite.ACTCOUNT ?? 0,
-                                    GroupNo = ite.GROUPNO ?? 0,
-                                    ThroughNum = ite.TROUGHNUM,
-                                    MachineSeq = ite.MACHINESEQ ?? 0
+                                through = special_dic[item.CigCode][0];
+                                List<ThroughInfo> list2 = new List<ThroughInfo>();
+                                list2 = special_dic[item.CigCode];
 
-                                    //MachineSeq = ite.MACHINESEQ,
-                                    //CigName = ite.CIGARETTENAME,
-                                    //CigCode = ite.CIGARETTECODE,
-                                    //TroughNum = ite.TROUGHNUM,
-                                    //GroupNo = ite.GROUPNO,
-                                    //ActCount = ite.ACTCOUNT
-                                }).ToList();
-                                //多通道的烟 均分
-                                if (special_dic.ContainsKey(item.CigCode))
-                                {
-                                    through = special_dic[item.CigCode][0];
-                                    List<ThroughInfo> list2 = new List<ThroughInfo>();
-                                    list2 = special_dic[item.CigCode];
+                                //根据GroupNo去重查询是否在立式烟仓和卧式烟仓都设有通道
+                                int countT = list2.Select(x => x.GroupNo).Distinct().Count();
 
-                                    if (list[0].GroupNo == 2)
+                                if (list[0].GroupNo == 2 && countT == 1)
+                                {
+                                    int i = 0;
+                                    foreach (var t in list)
                                     {
-                                        int i = 0;
-                                        foreach (var t in list)
+                                        int count = list2.Count;
+                                        if (quantity < count)
                                         {
-                                            int count = list2.Count;
-                                            if (quantity < count)
+                                            if (quan > 0)
                                             {
-                                                if (quan > 0)
-                                                {
-                                                    qty = 1;
-                                                    i++;
-                                                }
-                                                else
-                                                {
-                                                    qty = 0;
-                                                    break;
-                                                }
-
-                                                quan -= 1;
+                                                qty = 1;
+                                                i++;
                                             }
                                             else
                                             {
-
-                                                if (quan % (count - i) != 0)
-                                                {
-                                                    qty = Math.Floor(quantity / count);
-                                                    quan -= qty;
-                                                    i++;
-                                                }
-                                                else
-                                                {
-                                                    qty = quan / (count - i);
-
-                                                }
+                                                qty = 0;
+                                                break;
                                             }
-                                            if (qty > 0)
-                                            {
-                                                T_UN_POKE t_un_poke = new T_UN_POKE();
-                                                t_un_poke.POKEID = pokeId++;
-                                                t_un_poke.TROUGHNUM = list2[0].ThroughNum;
-                                                t_un_poke.POKENUM = qty;
-                                                t_un_poke.STATUS = item.Status;
-                                                t_un_poke.TASKNUM = item.TaskNum;
-                                                t_un_poke.TASKQTY = item.TaskQty;
-                                                t_un_poke.PACKAGEMACHINE = item.PackageMachine;
-                                                t_un_poke.MACHINESEQ = list2[0].MachineSeq;
-                                                t_un_poke.LINENUM = item.LineNum;
-                                                t_un_poke.CIGARETTECODE = item.CigCode;
-                                                t_un_poke.CUSTOMERCODE = item.CustomerCode;
-                                                t_un_poke.SORTNUM = item.SortNum;
-                                                t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
-                                                t_un_poke.BILLCODE = item.BillCode;
-                                                //if (item.GroupNo == 3) t_un_poke.CTYPE = 2;
-                                                //else t_un_poke.CTYPE = 1;
-                                                t_un_poke.CTYPE = list2[0].GroupNo;
-                                                t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
-                                                t_un_poke.STORENUM = 0;//暂时无用
-                                                t_un_poke.GRIDNUM = 0;//暂时无用
-                                                t_un_poke.INVFLAG = null;//库存标志
-                                                t_un_poke.SENDSEQ = 0; //暂时无用 
-                                                en.T_UN_POKE.AddObject(t_un_poke);
-                                            }
-                                            var reUp = UpdateTaskState(en, item.TaskNum, 100);
-                                            if (!reUp.IsSuccess)
-                                            {
-                                                return reUp;
-                                            }
-                                            ThroughInfo tmp = list2[0];
-                                            list2.RemoveAt(0);
-                                            list2.Insert(count - 1, tmp);
-                                            special_dic[item.CigCode] = new List<ThroughInfo>();
-                                            special_dic[item.CigCode] = list2;
-                                            //if (i == count - 1)
-                                            //    break;
+                                            quan -= 1;
                                         }
-
+                                        else
+                                        {
+                                            if (quan % (count - i) != 0)
+                                            {
+                                                qty = Math.Floor(quantity / count);
+                                                quan -= qty;
+                                                i++;
+                                            }
+                                            else
+                                            {
+                                                qty = quan / (count - i);
+                                            }
+                                        }
+                                        if (qty > 0)
+                                        {
+                                            T_UN_POKE t_un_poke = new T_UN_POKE();
+                                            t_un_poke.POKEID = pokeId++;
+                                            t_un_poke.TROUGHNUM = list2[0].ThroughNum;
+                                            t_un_poke.POKENUM = qty;
+                                            t_un_poke.STATUS = item.Status;
+                                            t_un_poke.TASKNUM = item.TaskNum;
+                                            t_un_poke.TASKQTY = item.TaskQty;
+                                            t_un_poke.PACKAGEMACHINE = item.PackageMachine;
+                                            t_un_poke.MACHINESEQ = list2[0].MachineSeq;
+                                            t_un_poke.LINENUM = item.LineNum;
+                                            t_un_poke.CIGARETTECODE = item.CigCode;
+                                            t_un_poke.CUSTOMERCODE = item.CustomerCode;
+                                            t_un_poke.SORTNUM = item.SortNum;
+                                            t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                            t_un_poke.BILLCODE = item.BillCode;
+                                            t_un_poke.CTYPE = list2[0].GroupNo;
+                                            t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                            t_un_poke.STORENUM = 0;//暂时无用
+                                            t_un_poke.GRIDNUM = 0;//暂时无用
+                                            t_un_poke.INVFLAG = null;//库存标志
+                                            t_un_poke.SENDSEQ = 0; //暂时无用 
+                                            en.T_UN_POKE.AddObject(t_un_poke);
+                                        }
+                                        var reUp = UpdateTaskState(en, item.TaskNum, 100);
+                                        if (!reUp.IsSuccess)
+                                        {
+                                            return reUp;
+                                        }
+                                        ThroughInfo tmp = list2[0];
+                                        list2.RemoveAt(0);
+                                        list2.Insert(count - 1, tmp);
+                                        special_dic[item.CigCode] = new List<ThroughInfo>();
+                                        special_dic[item.CigCode] = list2;
                                     }
-                                    else
+                                }
+                                else
+                                {
+                                    if (countT == 1)
                                     {
-                                        //通道机双通道,一个拨整五条,一个拨剩余散条,
                                         foreach (var t in list)
                                         {
                                             if (through.ThroughNum == t.ThroughNum)
@@ -1200,8 +948,6 @@ namespace Business.BusinessClass
                                                 t_un_poke.SORTNUM = item.SortNum;
                                                 t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
                                                 t_un_poke.BILLCODE = item.BillCode;
-                                                //if (item.GroupNo == 3) t_un_poke.CTYPE = 2;
-                                                //else t_un_poke.CTYPE = 1;
                                                 t_un_poke.CTYPE = t.GroupNo;
                                                 t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
                                                 t_un_poke.STORENUM = 0;//暂时无用
@@ -1210,44 +956,723 @@ namespace Business.BusinessClass
                                                 t_un_poke.SENDSEQ = 0; //暂时无用 
                                                 en.T_UN_POKE.AddObject(t_un_poke);
                                             }
-                                            var reUp = UpdateTaskState(en, item.TaskNum, 100);
-                                            if (!reUp.IsSuccess)
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (list.Where(x => x.GroupNo == 2).Count() == 1)
+                                        {
+                                            if (list2.Count == 2)
                                             {
-                                                return reUp;
+
+                                                var troughA = list2.Where(x => x.GroupNo == 3).FirstOrDefault();//通道机通道
+                                                var troughB = list2.Where(x => x.GroupNo == 2).FirstOrDefault();//立式烟仓通道
+                                                if (quantity > troughA.ID)
+                                                {
+                                                    if (troughA.ID == 5)
+                                                    {
+                                                        if (quantity > 5)
+                                                        {
+                                                            T_UN_POKE t_un_poke = new T_UN_POKE();
+                                                            t_un_poke.POKEID = pokeId++;
+                                                            t_un_poke.TROUGHNUM = troughA.ThroughNum;
+                                                            t_un_poke.POKENUM = quantity - quantity % 5;
+                                                            t_un_poke.STATUS = item.Status;
+                                                            t_un_poke.TASKNUM = item.TaskNum;
+                                                            t_un_poke.TASKQTY = item.TaskQty;
+                                                            t_un_poke.PACKAGEMACHINE = item.PackageMachine;
+                                                            t_un_poke.MACHINESEQ = troughA.MachineSeq;
+                                                            t_un_poke.LINENUM = item.LineNum;
+                                                            t_un_poke.CIGARETTECODE = item.CigCode;
+                                                            t_un_poke.CUSTOMERCODE = item.CustomerCode;
+                                                            t_un_poke.SORTNUM = item.SortNum;
+                                                            t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_poke.BILLCODE = item.BillCode;
+                                                            t_un_poke.CTYPE = troughA.GroupNo;
+                                                            t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_poke.STORENUM = 0;//暂时无用
+                                                            t_un_poke.GRIDNUM = 0;//暂时无用
+                                                            t_un_poke.INVFLAG = null;//库存标志
+                                                            t_un_poke.SENDSEQ = 0; //暂时无用 
+                                                            en.T_UN_POKE.AddObject(t_un_poke);
+
+                                                            T_UN_POKE t_un_pokeB = new T_UN_POKE();
+                                                            t_un_pokeB.POKEID = pokeId++;
+                                                            t_un_pokeB.TROUGHNUM = troughB.ThroughNum;
+                                                            t_un_pokeB.POKENUM = quantity % 5;
+                                                            t_un_pokeB.STATUS = item.Status;
+                                                            t_un_pokeB.TASKNUM = item.TaskNum;
+                                                            t_un_pokeB.TASKQTY = item.TaskQty;
+                                                            t_un_pokeB.PACKAGEMACHINE = item.PackageMachine;
+                                                            t_un_pokeB.MACHINESEQ = troughB.MachineSeq;
+                                                            t_un_pokeB.LINENUM = item.LineNum;
+                                                            t_un_pokeB.CIGARETTECODE = item.CigCode;
+                                                            t_un_pokeB.CUSTOMERCODE = item.CustomerCode;
+                                                            t_un_pokeB.SORTNUM = item.SortNum;
+                                                            t_un_pokeB.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_pokeB.BILLCODE = item.BillCode;
+                                                            t_un_pokeB.CTYPE = troughB.GroupNo;
+                                                            t_un_pokeB.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_pokeB.STORENUM = 0;//暂时无用
+                                                            t_un_pokeB.GRIDNUM = 0;//暂时无用
+                                                            t_un_pokeB.INVFLAG = null;//库存标志
+                                                            t_un_pokeB.SENDSEQ = 0; //暂时无用 
+                                                            if (quantity % 5 > 0)
+                                                                en.T_UN_POKE.AddObject(t_un_pokeB);
+                                                            troughA.ID = 5;
+                                                        }
+                                                        else
+                                                        {
+                                                            T_UN_POKE t_un_poke = new T_UN_POKE();
+                                                            t_un_poke.POKEID = pokeId++;
+                                                            t_un_poke.TROUGHNUM = troughA.ThroughNum;
+                                                            t_un_poke.POKENUM = quantity;
+                                                            t_un_poke.STATUS = item.Status;
+                                                            t_un_poke.TASKNUM = item.TaskNum;
+                                                            t_un_poke.TASKQTY = item.TaskQty;
+                                                            t_un_poke.PACKAGEMACHINE = item.PackageMachine;
+                                                            t_un_poke.MACHINESEQ = troughA.MachineSeq;
+                                                            t_un_poke.LINENUM = item.LineNum;
+                                                            t_un_poke.CIGARETTECODE = item.CigCode;
+                                                            t_un_poke.CUSTOMERCODE = item.CustomerCode;
+                                                            t_un_poke.SORTNUM = item.SortNum;
+                                                            t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_poke.BILLCODE = item.BillCode;
+                                                            t_un_poke.CTYPE = troughA.GroupNo;
+                                                            t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_poke.STORENUM = 0;//暂时无用
+                                                            t_un_poke.GRIDNUM = 0;//暂时无用
+                                                            t_un_poke.INVFLAG = null;//库存标志
+                                                            t_un_poke.SENDSEQ = 0; //暂时无用 
+                                                            en.T_UN_POKE.AddObject(t_un_poke);
+                                                            troughA.ID = (troughA.ID - quantity) > 0 ? (troughA.ID - quantity) : 5;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        qty = quantity - troughA.ID;
+                                                        if (qty % 5 > 0)
+                                                        {
+                                                            T_UN_POKE t_un_poke = new T_UN_POKE();
+                                                            t_un_poke.POKEID = pokeId++;
+                                                            t_un_poke.TROUGHNUM = troughB.ThroughNum;
+                                                            t_un_poke.POKENUM = qty % 5;
+                                                            t_un_poke.STATUS = item.Status;
+                                                            t_un_poke.TASKNUM = item.TaskNum;
+                                                            t_un_poke.TASKQTY = item.TaskQty;
+                                                            t_un_poke.PACKAGEMACHINE = item.PackageMachine;
+                                                            t_un_poke.MACHINESEQ = troughB.MachineSeq;
+                                                            t_un_poke.LINENUM = item.LineNum;
+                                                            t_un_poke.CIGARETTECODE = item.CigCode;
+                                                            t_un_poke.CUSTOMERCODE = item.CustomerCode;
+                                                            t_un_poke.SORTNUM = item.SortNum;
+                                                            t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_poke.BILLCODE = item.BillCode;
+                                                            t_un_poke.CTYPE = troughB.GroupNo;
+                                                            t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_poke.STORENUM = 0;//暂时无用
+                                                            t_un_poke.GRIDNUM = 0;//暂时无用
+                                                            t_un_poke.INVFLAG = null;//库存标志
+                                                            t_un_poke.SENDSEQ = 0; //暂时无用 
+                                                            en.T_UN_POKE.AddObject(t_un_poke);
+                                                        }
+                                                        qty = quantity - qty % 5;
+                                                        if (qty > 0)
+                                                        {
+                                                            T_UN_POKE t_un_poke = new T_UN_POKE();
+                                                            t_un_poke.POKEID = pokeId++;
+                                                            t_un_poke.TROUGHNUM = troughA.ThroughNum;
+                                                            t_un_poke.POKENUM = qty;
+                                                            t_un_poke.STATUS = item.Status;
+                                                            t_un_poke.TASKNUM = item.TaskNum;
+                                                            t_un_poke.TASKQTY = item.TaskQty;
+                                                            t_un_poke.PACKAGEMACHINE = item.PackageMachine;
+                                                            t_un_poke.MACHINESEQ = troughA.MachineSeq;
+                                                            t_un_poke.LINENUM = item.LineNum;
+                                                            t_un_poke.CIGARETTECODE = item.CigCode;
+                                                            t_un_poke.CUSTOMERCODE = item.CustomerCode;
+                                                            t_un_poke.SORTNUM = item.SortNum;
+                                                            t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_poke.BILLCODE = item.BillCode;
+                                                            t_un_poke.CTYPE = troughA.GroupNo;
+                                                            t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_poke.STORENUM = 0;//暂时无用
+                                                            t_un_poke.GRIDNUM = 0;//暂时无用
+                                                            t_un_poke.INVFLAG = null;//库存标志
+                                                            t_un_poke.SENDSEQ = 0; //暂时无用 
+                                                            en.T_UN_POKE.AddObject(t_un_poke);
+                                                        }
+                                                        troughA.ID = 5;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    T_UN_POKE t_un_poke = new T_UN_POKE();
+                                                    t_un_poke.POKEID = pokeId++;
+                                                    t_un_poke.TROUGHNUM = troughA.ThroughNum;
+                                                    t_un_poke.POKENUM = quantity;
+                                                    t_un_poke.STATUS = item.Status;
+                                                    t_un_poke.TASKNUM = item.TaskNum;
+                                                    t_un_poke.TASKQTY = item.TaskQty;
+                                                    t_un_poke.PACKAGEMACHINE = item.PackageMachine;
+                                                    t_un_poke.MACHINESEQ = troughA.MachineSeq;
+                                                    t_un_poke.LINENUM = item.LineNum;
+                                                    t_un_poke.CIGARETTECODE = item.CigCode;
+                                                    t_un_poke.CUSTOMERCODE = item.CustomerCode;
+                                                    t_un_poke.SORTNUM = item.SortNum;
+                                                    t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_poke.BILLCODE = item.BillCode;
+                                                    t_un_poke.CTYPE = troughA.GroupNo;
+                                                    t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_poke.STORENUM = 0;//暂时无用
+                                                    t_un_poke.GRIDNUM = 0;//暂时无用
+                                                    t_un_poke.INVFLAG = null;//库存标志
+                                                    t_un_poke.SENDSEQ = 0; //暂时无用 
+                                                    en.T_UN_POKE.AddObject(t_un_poke);
+                                                    troughA.ID = (troughA.ID - quantity) > 0 ? (troughA.ID - quantity) : 5;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                var troughA = list2.Where(x => x.GroupNo == 3).OrderBy(x => x.MachineSeq).FirstOrDefault();//通道机通道，只拨5的倍数
+                                                var troughB = list2.Where(x => x.GroupNo == 3 && x.MachineSeq != troughA.MachineSeq).FirstOrDefault();//通道机通道拨余数
+                                                var troughC = list2.Where(x => x.GroupNo == 2).FirstOrDefault();//立式烟仓通道
+                                                if (quantity % 5 > troughB.ID)
+                                                {
+                                                    T_UN_POKE t_un_pokeA = new T_UN_POKE();
+                                                    t_un_pokeA.POKEID = pokeId++;
+                                                    t_un_pokeA.TROUGHNUM = troughA.ThroughNum;
+                                                    t_un_pokeA.POKENUM = quantity - quantity % 5;
+                                                    t_un_pokeA.STATUS = item.Status;
+                                                    t_un_pokeA.TASKNUM = item.TaskNum;
+                                                    t_un_pokeA.TASKQTY = item.TaskQty;
+                                                    t_un_pokeA.PACKAGEMACHINE = item.PackageMachine;
+                                                    t_un_pokeA.MACHINESEQ = troughA.MachineSeq;
+                                                    t_un_pokeA.LINENUM = item.LineNum;
+                                                    t_un_pokeA.CIGARETTECODE = item.CigCode;
+                                                    t_un_pokeA.CUSTOMERCODE = item.CustomerCode;
+                                                    t_un_pokeA.SORTNUM = item.SortNum;
+                                                    t_un_pokeA.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_pokeA.BILLCODE = item.BillCode;
+                                                    t_un_pokeA.CTYPE = troughA.GroupNo;
+                                                    t_un_pokeA.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_pokeA.STORENUM = 0;//暂时无用
+                                                    t_un_pokeA.GRIDNUM = 0;//暂时无用
+                                                    t_un_pokeA.INVFLAG = null;//库存标志
+                                                    t_un_pokeA.SENDSEQ = 0; //暂时无用 
+                                                    if (t_un_pokeA.POKENUM > 0)
+                                                    {
+                                                        en.T_UN_POKE.AddObject(t_un_pokeA);
+                                                    }
+
+                                                    T_UN_POKE t_un_pokeB = new T_UN_POKE();
+                                                    t_un_pokeB.POKEID = pokeId++;
+                                                    t_un_pokeB.TROUGHNUM = troughB.ThroughNum;
+                                                    t_un_pokeB.POKENUM = troughB.ID;
+                                                    t_un_pokeB.STATUS = item.Status;
+                                                    t_un_pokeB.TASKNUM = item.TaskNum;
+                                                    t_un_pokeB.TASKQTY = item.TaskQty;
+                                                    t_un_pokeB.PACKAGEMACHINE = item.PackageMachine;
+                                                    t_un_pokeB.MACHINESEQ = troughB.MachineSeq;
+                                                    t_un_pokeB.LINENUM = item.LineNum;
+                                                    t_un_pokeB.CIGARETTECODE = item.CigCode;
+                                                    t_un_pokeB.CUSTOMERCODE = item.CustomerCode;
+                                                    t_un_pokeB.SORTNUM = item.SortNum;
+                                                    t_un_pokeB.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_pokeB.BILLCODE = item.BillCode;
+                                                    t_un_pokeB.CTYPE = troughB.GroupNo;
+                                                    t_un_pokeB.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_pokeB.STORENUM = 0;//暂时无用
+                                                    t_un_pokeB.GRIDNUM = 0;//暂时无用
+                                                    t_un_pokeB.INVFLAG = null;//库存标志
+                                                    t_un_pokeB.SENDSEQ = 0; //暂时无用 
+                                                    en.T_UN_POKE.AddObject(t_un_pokeB);
+
+                                                    T_UN_POKE t_un_pokeC = new T_UN_POKE();
+                                                    t_un_pokeC.POKEID = pokeId++;
+                                                    t_un_pokeC.TROUGHNUM = troughC.ThroughNum;
+                                                    t_un_pokeC.POKENUM = quantity % 5 - troughB.ID;
+                                                    t_un_pokeC.STATUS = item.Status;
+                                                    t_un_pokeC.TASKNUM = item.TaskNum;
+                                                    t_un_pokeC.TASKQTY = item.TaskQty;
+                                                    t_un_pokeC.PACKAGEMACHINE = item.PackageMachine;
+                                                    t_un_pokeC.MACHINESEQ = troughC.MachineSeq;
+                                                    t_un_pokeC.LINENUM = item.LineNum;
+                                                    t_un_pokeC.CIGARETTECODE = item.CigCode;
+                                                    t_un_pokeC.CUSTOMERCODE = item.CustomerCode;
+                                                    t_un_pokeC.SORTNUM = item.SortNum;
+                                                    t_un_pokeC.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_pokeC.BILLCODE = item.BillCode;
+                                                    t_un_pokeC.CTYPE = troughC.GroupNo;
+                                                    t_un_pokeC.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_pokeC.STORENUM = 0;//暂时无用
+                                                    t_un_pokeC.GRIDNUM = 0;//暂时无用
+                                                    t_un_pokeC.INVFLAG = null;//库存标志
+                                                    t_un_pokeC.SENDSEQ = 0; //暂时无用 
+                                                    en.T_UN_POKE.AddObject(t_un_pokeC);
+                                                    troughB.ID = 5;
+                                                }
+                                                else
+                                                {
+                                                    T_UN_POKE t_un_pokeA = new T_UN_POKE();
+                                                    t_un_pokeA.POKEID = pokeId++;
+                                                    t_un_pokeA.TROUGHNUM = troughA.ThroughNum;
+                                                    t_un_pokeA.POKENUM = quantity - quantity % 5;
+                                                    t_un_pokeA.STATUS = item.Status;
+                                                    t_un_pokeA.TASKNUM = item.TaskNum;
+                                                    t_un_pokeA.TASKQTY = item.TaskQty;
+                                                    t_un_pokeA.PACKAGEMACHINE = item.PackageMachine;
+                                                    t_un_pokeA.MACHINESEQ = troughA.MachineSeq;
+                                                    t_un_pokeA.LINENUM = item.LineNum;
+                                                    t_un_pokeA.CIGARETTECODE = item.CigCode;
+                                                    t_un_pokeA.CUSTOMERCODE = item.CustomerCode;
+                                                    t_un_pokeA.SORTNUM = item.SortNum;
+                                                    t_un_pokeA.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_pokeA.BILLCODE = item.BillCode;
+                                                    t_un_pokeA.CTYPE = troughA.GroupNo;
+                                                    t_un_pokeA.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_pokeA.STORENUM = 0;//暂时无用
+                                                    t_un_pokeA.GRIDNUM = 0;//暂时无用
+                                                    t_un_pokeA.INVFLAG = null;//库存标志
+                                                    t_un_pokeA.SENDSEQ = 0; //暂时无用 
+                                                    if (t_un_pokeA.POKENUM > 0)
+                                                    {
+                                                        en.T_UN_POKE.AddObject(t_un_pokeA);
+                                                    }
+
+                                                    T_UN_POKE t_un_pokeB = new T_UN_POKE();
+                                                    t_un_pokeB.POKEID = pokeId++;
+                                                    t_un_pokeB.TROUGHNUM = troughB.ThroughNum;
+                                                    t_un_pokeB.POKENUM = quantity % 5;
+                                                    t_un_pokeB.STATUS = item.Status;
+                                                    t_un_pokeB.TASKNUM = item.TaskNum;
+                                                    t_un_pokeB.TASKQTY = item.TaskQty;
+                                                    t_un_pokeB.PACKAGEMACHINE = item.PackageMachine;
+                                                    t_un_pokeB.MACHINESEQ = troughB.MachineSeq;
+                                                    t_un_pokeB.LINENUM = item.LineNum;
+                                                    t_un_pokeB.CIGARETTECODE = item.CigCode;
+                                                    t_un_pokeB.CUSTOMERCODE = item.CustomerCode;
+                                                    t_un_pokeB.SORTNUM = item.SortNum;
+                                                    t_un_pokeB.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_pokeB.BILLCODE = item.BillCode;
+                                                    t_un_pokeB.CTYPE = troughB.GroupNo;
+                                                    t_un_pokeB.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_pokeB.STORENUM = 0;//暂时无用
+                                                    t_un_pokeB.GRIDNUM = 0;//暂时无用
+                                                    t_un_pokeB.INVFLAG = null;//库存标志
+                                                    t_un_pokeB.SENDSEQ = 0; //暂时无用 
+                                                    en.T_UN_POKE.AddObject(t_un_pokeB);
+                                                    troughB.ID = (troughB.ID - quantity % 5) > 0 ? (troughB.ID - quantity % 5) : 5;
+                                                }
                                             }
                                         }
+                                        else if (list.Where(x => x.GroupNo == 2).Count() == 2)
+                                        {
+                                            if (list2.Count == 3)
+                                            {
+                                                var troughA = list2.Where(x => x.GroupNo == 3).FirstOrDefault();//通道机通道
+                                                ThroughInfo troughB = new ThroughInfo();
+                                                ThroughInfo troughC = new ThroughInfo();
+                                                if (times % 2 == 0)
+                                                {
+                                                    troughB = list2.Where(x => x.GroupNo == 2).OrderBy(x => x.MachineSeq).FirstOrDefault();//立式烟仓通道1
+                                                    troughC = list2.Where(x => x.GroupNo == 2 && x.MachineSeq != troughB.MachineSeq).FirstOrDefault();//立式烟仓通道2
+                                                }
+                                                else 
+                                                {
+                                                    troughB = list2.Where(x => x.GroupNo == 2).OrderByDescending(x => x.MachineSeq).FirstOrDefault();//立式烟仓通道1
+                                                    troughC = list2.Where(x => x.GroupNo == 2 && x.MachineSeq != troughB.MachineSeq).FirstOrDefault();//立式烟仓通道2
+                                                }
+                                                if (quantity > troughA.ID)
+                                                {
+                                                    if (troughA.ID == 5)
+                                                    {
+                                                        if (quantity > 5)
+                                                        {
+                                                            T_UN_POKE t_un_poke = new T_UN_POKE();
+                                                            t_un_poke.POKEID = pokeId++;
+                                                            t_un_poke.TROUGHNUM = troughA.ThroughNum;
+                                                            t_un_poke.POKENUM = quantity - quantity % 5;
+                                                            t_un_poke.STATUS = item.Status;
+                                                            t_un_poke.TASKNUM = item.TaskNum;
+                                                            t_un_poke.TASKQTY = item.TaskQty;
+                                                            t_un_poke.PACKAGEMACHINE = item.PackageMachine;
+                                                            t_un_poke.MACHINESEQ = troughA.MachineSeq;
+                                                            t_un_poke.LINENUM = item.LineNum;
+                                                            t_un_poke.CIGARETTECODE = item.CigCode;
+                                                            t_un_poke.CUSTOMERCODE = item.CustomerCode;
+                                                            t_un_poke.SORTNUM = item.SortNum;
+                                                            t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_poke.BILLCODE = item.BillCode;
+                                                            t_un_poke.CTYPE = troughA.GroupNo;
+                                                            t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_poke.STORENUM = 0;//暂时无用
+                                                            t_un_poke.GRIDNUM = 0;//暂时无用
+                                                            t_un_poke.INVFLAG = null;//库存标志
+                                                            t_un_poke.SENDSEQ = 0; //暂时无用 
+                                                            en.T_UN_POKE.AddObject(t_un_poke);
 
-                                    }
+                                                            T_UN_POKE t_un_pokeB = new T_UN_POKE();
+                                                            t_un_pokeB.POKEID = pokeId++;
+                                                            t_un_pokeB.TROUGHNUM = troughB.ThroughNum;
+                                                            t_un_pokeB.POKENUM = Math.Ceiling((quantity % 5) / 2);
+                                                            t_un_pokeB.STATUS = item.Status;
+                                                            t_un_pokeB.TASKNUM = item.TaskNum;
+                                                            t_un_pokeB.TASKQTY = item.TaskQty;
+                                                            t_un_pokeB.PACKAGEMACHINE = item.PackageMachine;
+                                                            t_un_pokeB.MACHINESEQ = troughB.MachineSeq;
+                                                            t_un_pokeB.LINENUM = item.LineNum;
+                                                            t_un_pokeB.CIGARETTECODE = item.CigCode;
+                                                            t_un_pokeB.CUSTOMERCODE = item.CustomerCode;
+                                                            t_un_pokeB.SORTNUM = item.SortNum;
+                                                            t_un_pokeB.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_pokeB.BILLCODE = item.BillCode;
+                                                            t_un_pokeB.CTYPE = troughB.GroupNo;
+                                                            t_un_pokeB.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_pokeB.STORENUM = 0;//暂时无用
+                                                            t_un_pokeB.GRIDNUM = 0;//暂时无用
+                                                            t_un_pokeB.INVFLAG = null;//库存标志
+                                                            t_un_pokeB.SENDSEQ = 0; //暂时无用 
+                                                            if (Math.Ceiling((quantity % 5) / 2) > 0)
+                                                                en.T_UN_POKE.AddObject(t_un_pokeB);
 
-                                }
-                                else
-                                {
-                                    if (qty > 0)
-                                    {
-                                        T_UN_POKE t_un_poke = new T_UN_POKE();
-                                        t_un_poke.POKEID = pokeId++;
-                                        t_un_poke.TROUGHNUM = list[0].ThroughNum;
-                                        t_un_poke.POKENUM = qty;
-                                        t_un_poke.STATUS = item.Status;
-                                        t_un_poke.TASKNUM = item.TaskNum;
-                                        t_un_poke.TASKQTY = item.TaskQty;
-                                        t_un_poke.PACKAGEMACHINE = item.PackageMachine;
-                                        t_un_poke.MACHINESEQ = list[0].MachineSeq;
-                                        t_un_poke.LINENUM = item.LineNum;
-                                        t_un_poke.CIGARETTECODE = item.CigCode;
-                                        t_un_poke.CUSTOMERCODE = item.CustomerCode;
-                                        t_un_poke.SORTNUM = item.SortNum;
-                                        t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
-                                        t_un_poke.BILLCODE = item.BillCode;
-                                        //if (item.GroupNo == 3) t_un_poke.CTYPE = 2;
-                                        //else t_un_poke.CTYPE = 1;
-                                        t_un_poke.CTYPE = list[0].GroupNo;
-                                        t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
-                                        t_un_poke.STORENUM = 0;//暂时无用
-                                        t_un_poke.GRIDNUM = 0;//暂时无用
-                                        t_un_poke.INVFLAG = null;//库存标志
-                                        t_un_poke.SENDSEQ = 0; //暂时无用 
-                                        en.T_UN_POKE.AddObject(t_un_poke);
+
+                                                            T_UN_POKE t_un_pokeC = new T_UN_POKE();
+                                                            t_un_pokeC.POKEID = pokeId++;
+                                                            t_un_pokeC.TROUGHNUM = troughC.ThroughNum;
+                                                            t_un_pokeC.POKENUM = Math.Floor((quantity % 5) / 2);
+                                                            t_un_pokeC.STATUS = item.Status;
+                                                            t_un_pokeC.TASKNUM = item.TaskNum;
+                                                            t_un_pokeC.TASKQTY = item.TaskQty;
+                                                            t_un_pokeC.PACKAGEMACHINE = item.PackageMachine;
+                                                            t_un_pokeC.MACHINESEQ = troughC.MachineSeq;
+                                                            t_un_pokeC.LINENUM = item.LineNum;
+                                                            t_un_pokeC.CIGARETTECODE = item.CigCode;
+                                                            t_un_pokeC.CUSTOMERCODE = item.CustomerCode;
+                                                            t_un_pokeC.SORTNUM = item.SortNum;
+                                                            t_un_pokeC.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_pokeC.BILLCODE = item.BillCode;
+                                                            t_un_pokeC.CTYPE = troughC.GroupNo;
+                                                            t_un_pokeC.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_pokeC.STORENUM = 0;//暂时无用
+                                                            t_un_pokeC.GRIDNUM = 0;//暂时无用
+                                                            t_un_pokeC.INVFLAG = null;//库存标志
+                                                            t_un_pokeC.SENDSEQ = 0; //暂时无用 
+                                                            if (Math.Floor((quantity % 5) / 2) > 0)
+                                                                en.T_UN_POKE.AddObject(t_un_pokeC);
+                                                            troughA.ID = 5;
+                                                            times++;
+                                                        }
+                                                        else
+                                                        {
+                                                            T_UN_POKE t_un_poke = new T_UN_POKE();
+                                                            t_un_poke.POKEID = pokeId++;
+                                                            t_un_poke.TROUGHNUM = troughA.ThroughNum;
+                                                            t_un_poke.POKENUM = quantity;
+                                                            t_un_poke.STATUS = item.Status;
+                                                            t_un_poke.TASKNUM = item.TaskNum;
+                                                            t_un_poke.TASKQTY = item.TaskQty;
+                                                            t_un_poke.PACKAGEMACHINE = item.PackageMachine;
+                                                            t_un_poke.MACHINESEQ = troughA.MachineSeq;
+                                                            t_un_poke.LINENUM = item.LineNum;
+                                                            t_un_poke.CIGARETTECODE = item.CigCode;
+                                                            t_un_poke.CUSTOMERCODE = item.CustomerCode;
+                                                            t_un_poke.SORTNUM = item.SortNum;
+                                                            t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_poke.BILLCODE = item.BillCode;
+                                                            t_un_poke.CTYPE = troughA.GroupNo;
+                                                            t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_poke.STORENUM = 0;//暂时无用
+                                                            t_un_poke.GRIDNUM = 0;//暂时无用
+                                                            t_un_poke.INVFLAG = null;//库存标志
+                                                            t_un_poke.SENDSEQ = 0; //暂时无用 
+                                                            en.T_UN_POKE.AddObject(t_un_poke);
+                                                            troughA.ID = (troughA.ID - quantity) > 0 ? (troughA.ID - quantity) : 5;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        qty = quantity - troughA.ID;
+                                                        if (qty % 5 > 0)
+                                                        {
+                                                            T_UN_POKE t_un_poke = new T_UN_POKE();
+                                                            t_un_poke.POKEID = pokeId++;
+                                                            t_un_poke.TROUGHNUM = troughB.ThroughNum;
+                                                            t_un_poke.POKENUM = Math.Ceiling((qty % 5) / 2);
+                                                            t_un_poke.STATUS = item.Status;
+                                                            t_un_poke.TASKNUM = item.TaskNum;
+                                                            t_un_poke.TASKQTY = item.TaskQty;
+                                                            t_un_poke.PACKAGEMACHINE = item.PackageMachine;
+                                                            t_un_poke.MACHINESEQ = troughB.MachineSeq;
+                                                            t_un_poke.LINENUM = item.LineNum;
+                                                            t_un_poke.CIGARETTECODE = item.CigCode;
+                                                            t_un_poke.CUSTOMERCODE = item.CustomerCode;
+                                                            t_un_poke.SORTNUM = item.SortNum;
+                                                            t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_poke.BILLCODE = item.BillCode;
+                                                            t_un_poke.CTYPE = troughB.GroupNo;
+                                                            t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_poke.STORENUM = 0;//暂时无用
+                                                            t_un_poke.GRIDNUM = 0;//暂时无用
+                                                            t_un_poke.INVFLAG = null;//库存标志
+                                                            t_un_poke.SENDSEQ = 0; //暂时无用 
+                                                            if (Math.Ceiling((qty % 5) / 2) > 0)
+                                                                en.T_UN_POKE.AddObject(t_un_poke);
+
+                                                            T_UN_POKE t_un_pokeC = new T_UN_POKE();
+                                                            t_un_pokeC.POKEID = pokeId++;
+                                                            t_un_pokeC.TROUGHNUM = troughC.ThroughNum;
+                                                            t_un_pokeC.POKENUM = Math.Floor((qty % 5) / 2);
+                                                            t_un_pokeC.STATUS = item.Status;
+                                                            t_un_pokeC.TASKNUM = item.TaskNum;
+                                                            t_un_pokeC.TASKQTY = item.TaskQty;
+                                                            t_un_pokeC.PACKAGEMACHINE = item.PackageMachine;
+                                                            t_un_pokeC.MACHINESEQ = troughC.MachineSeq;
+                                                            t_un_pokeC.LINENUM = item.LineNum;
+                                                            t_un_pokeC.CIGARETTECODE = item.CigCode;
+                                                            t_un_pokeC.CUSTOMERCODE = item.CustomerCode;
+                                                            t_un_pokeC.SORTNUM = item.SortNum;
+                                                            t_un_pokeC.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_pokeC.BILLCODE = item.BillCode;
+                                                            t_un_pokeC.CTYPE = troughC.GroupNo;
+                                                            t_un_pokeC.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_pokeC.STORENUM = 0;//暂时无用
+                                                            t_un_pokeC.GRIDNUM = 0;//暂时无用
+                                                            t_un_pokeC.INVFLAG = null;//库存标志
+                                                            t_un_pokeC.SENDSEQ = 0; //暂时无用 
+
+                                                            if (Math.Floor((qty % 5) / 2) > 0)
+                                                                en.T_UN_POKE.AddObject(t_un_pokeC);
+                                                            times++;
+                                                        }
+                                                        qty = quantity - qty % 5;
+                                                        if (qty > 0)
+                                                        {
+                                                            T_UN_POKE t_un_poke = new T_UN_POKE();
+                                                            t_un_poke.POKEID = pokeId++;
+                                                            t_un_poke.TROUGHNUM = troughA.ThroughNum;
+                                                            t_un_poke.POKENUM = qty;
+                                                            t_un_poke.STATUS = item.Status;
+                                                            t_un_poke.TASKNUM = item.TaskNum;
+                                                            t_un_poke.TASKQTY = item.TaskQty;
+                                                            t_un_poke.PACKAGEMACHINE = item.PackageMachine;
+                                                            t_un_poke.MACHINESEQ = troughA.MachineSeq;
+                                                            t_un_poke.LINENUM = item.LineNum;
+                                                            t_un_poke.CIGARETTECODE = item.CigCode;
+                                                            t_un_poke.CUSTOMERCODE = item.CustomerCode;
+                                                            t_un_poke.SORTNUM = item.SortNum;
+                                                            t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_poke.BILLCODE = item.BillCode;
+                                                            t_un_poke.CTYPE = troughA.GroupNo;
+                                                            t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                            t_un_poke.STORENUM = 0;//暂时无用
+                                                            t_un_poke.GRIDNUM = 0;//暂时无用
+                                                            t_un_poke.INVFLAG = null;//库存标志
+                                                            t_un_poke.SENDSEQ = 0; //暂时无用 
+                                                            en.T_UN_POKE.AddObject(t_un_poke);
+                                                        }
+                                                        troughA.ID = 5;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    T_UN_POKE t_un_poke = new T_UN_POKE();
+                                                    t_un_poke.POKEID = pokeId++;
+                                                    t_un_poke.TROUGHNUM = troughA.ThroughNum;
+                                                    t_un_poke.POKENUM = quantity;
+                                                    t_un_poke.STATUS = item.Status;
+                                                    t_un_poke.TASKNUM = item.TaskNum;
+                                                    t_un_poke.TASKQTY = item.TaskQty;
+                                                    t_un_poke.PACKAGEMACHINE = item.PackageMachine;
+                                                    t_un_poke.MACHINESEQ = troughA.MachineSeq;
+                                                    t_un_poke.LINENUM = item.LineNum;
+                                                    t_un_poke.CIGARETTECODE = item.CigCode;
+                                                    t_un_poke.CUSTOMERCODE = item.CustomerCode;
+                                                    t_un_poke.SORTNUM = item.SortNum;
+                                                    t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_poke.BILLCODE = item.BillCode;
+                                                    t_un_poke.CTYPE = troughA.GroupNo;
+                                                    t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_poke.STORENUM = 0;//暂时无用
+                                                    t_un_poke.GRIDNUM = 0;//暂时无用
+                                                    t_un_poke.INVFLAG = null;//库存标志
+                                                    t_un_poke.SENDSEQ = 0; //暂时无用 
+                                                    en.T_UN_POKE.AddObject(t_un_poke);
+                                                    troughA.ID = (troughA.ID - quantity) > 0 ? (troughA.ID - quantity) : 5;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                var troughA = list2.Where(x => x.GroupNo == 3).OrderBy(x => x.MachineSeq).FirstOrDefault();//通道机通道，只拨5的倍数
+                                                var troughB = list2.Where(x => x.GroupNo == 3 && x.MachineSeq != troughA.MachineSeq).FirstOrDefault();//通道机通道拨余数
+                                                ThroughInfo troughC = new ThroughInfo();
+                                                ThroughInfo troughD = new ThroughInfo();
+                                                if (times % 2 == 0)
+                                                {
+                                                    troughC = list2.Where(x => x.GroupNo == 2).OrderBy(x => x.MachineSeq).FirstOrDefault();//立式烟仓通道1
+                                                    troughD = list2.Where(x => x.GroupNo == 2 && x.MachineSeq != troughC.MachineSeq).FirstOrDefault();
+                                                }
+                                                else 
+                                                {
+                                                    troughC = list2.Where(x => x.GroupNo == 2).OrderByDescending(x => x.MachineSeq).FirstOrDefault();//立式烟仓通道1
+                                                    troughD = list2.Where(x => x.GroupNo == 2 && x.MachineSeq != troughC.MachineSeq).FirstOrDefault();
+                                                }
+                                                
+                                                if (quantity % 5 > troughB.ID)
+                                                {
+                                                    T_UN_POKE t_un_pokeA = new T_UN_POKE();
+                                                    t_un_pokeA.POKEID = pokeId++;
+                                                    t_un_pokeA.TROUGHNUM = troughA.ThroughNum;
+                                                    t_un_pokeA.POKENUM = quantity - quantity % 5;
+                                                    t_un_pokeA.STATUS = item.Status;
+                                                    t_un_pokeA.TASKNUM = item.TaskNum;
+                                                    t_un_pokeA.TASKQTY = item.TaskQty;
+                                                    t_un_pokeA.PACKAGEMACHINE = item.PackageMachine;
+                                                    t_un_pokeA.MACHINESEQ = troughA.MachineSeq;
+                                                    t_un_pokeA.LINENUM = item.LineNum;
+                                                    t_un_pokeA.CIGARETTECODE = item.CigCode;
+                                                    t_un_pokeA.CUSTOMERCODE = item.CustomerCode;
+                                                    t_un_pokeA.SORTNUM = item.SortNum;
+                                                    t_un_pokeA.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_pokeA.BILLCODE = item.BillCode;
+                                                    t_un_pokeA.CTYPE = troughA.GroupNo;
+                                                    t_un_pokeA.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_pokeA.STORENUM = 0;//暂时无用
+                                                    t_un_pokeA.GRIDNUM = 0;//暂时无用
+                                                    t_un_pokeA.INVFLAG = null;//库存标志
+                                                    t_un_pokeA.SENDSEQ = 0; //暂时无用 
+                                                    if (t_un_pokeA.POKENUM > 0)
+                                                    {
+                                                        en.T_UN_POKE.AddObject(t_un_pokeA);
+                                                    }
+
+                                                    T_UN_POKE t_un_pokeB = new T_UN_POKE();
+                                                    t_un_pokeB.POKEID = pokeId++;
+                                                    t_un_pokeB.TROUGHNUM = troughB.ThroughNum;
+                                                    t_un_pokeB.POKENUM = troughB.ID;
+                                                    t_un_pokeB.STATUS = item.Status;
+                                                    t_un_pokeB.TASKNUM = item.TaskNum;
+                                                    t_un_pokeB.TASKQTY = item.TaskQty;
+                                                    t_un_pokeB.PACKAGEMACHINE = item.PackageMachine;
+                                                    t_un_pokeB.MACHINESEQ = troughB.MachineSeq;
+                                                    t_un_pokeB.LINENUM = item.LineNum;
+                                                    t_un_pokeB.CIGARETTECODE = item.CigCode;
+                                                    t_un_pokeB.CUSTOMERCODE = item.CustomerCode;
+                                                    t_un_pokeB.SORTNUM = item.SortNum;
+                                                    t_un_pokeB.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_pokeB.BILLCODE = item.BillCode;
+                                                    t_un_pokeB.CTYPE = troughB.GroupNo;
+                                                    t_un_pokeB.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_pokeB.STORENUM = 0;//暂时无用
+                                                    t_un_pokeB.GRIDNUM = 0;//暂时无用
+                                                    t_un_pokeB.INVFLAG = null;//库存标志
+                                                    t_un_pokeB.SENDSEQ = 0; //暂时无用 
+                                                    en.T_UN_POKE.AddObject(t_un_pokeB);
+
+                                                    T_UN_POKE t_un_pokeC = new T_UN_POKE();
+                                                    t_un_pokeC.POKEID = pokeId++;
+                                                    t_un_pokeC.TROUGHNUM = troughC.ThroughNum;
+                                                    t_un_pokeC.POKENUM = Math.Ceiling((quantity % 5 - troughB.ID) / 2);
+                                                    t_un_pokeC.STATUS = item.Status;
+                                                    t_un_pokeC.TASKNUM = item.TaskNum;
+                                                    t_un_pokeC.TASKQTY = item.TaskQty;
+                                                    t_un_pokeC.PACKAGEMACHINE = item.PackageMachine;
+                                                    t_un_pokeC.MACHINESEQ = troughC.MachineSeq;
+                                                    t_un_pokeC.LINENUM = item.LineNum;
+                                                    t_un_pokeC.CIGARETTECODE = item.CigCode;
+                                                    t_un_pokeC.CUSTOMERCODE = item.CustomerCode;
+                                                    t_un_pokeC.SORTNUM = item.SortNum;
+                                                    t_un_pokeC.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_pokeC.BILLCODE = item.BillCode;
+                                                    t_un_pokeC.CTYPE = troughC.GroupNo;
+                                                    t_un_pokeC.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_pokeC.STORENUM = 0;//暂时无用
+                                                    t_un_pokeC.GRIDNUM = 0;//暂时无用
+                                                    t_un_pokeC.INVFLAG = null;//库存标志
+                                                    t_un_pokeC.SENDSEQ = 0; //暂时无用 
+                                                    if (Math.Ceiling((quantity % 5 - troughB.ID) / 2) > 0)
+                                                        en.T_UN_POKE.AddObject(t_un_pokeC);
+
+                                                    T_UN_POKE t_un_pokeD = new T_UN_POKE();
+                                                    t_un_pokeD.POKEID = pokeId++;
+                                                    t_un_pokeD.TROUGHNUM = troughD.ThroughNum;
+                                                    t_un_pokeD.POKENUM = Math.Floor((quantity % 5 - troughB.ID) / 2);
+                                                    t_un_pokeD.STATUS = item.Status;
+                                                    t_un_pokeD.TASKNUM = item.TaskNum;
+                                                    t_un_pokeD.TASKQTY = item.TaskQty;
+                                                    t_un_pokeD.PACKAGEMACHINE = item.PackageMachine;
+                                                    t_un_pokeD.MACHINESEQ = troughD.MachineSeq;
+                                                    t_un_pokeD.LINENUM = item.LineNum;
+                                                    t_un_pokeD.CIGARETTECODE = item.CigCode;
+                                                    t_un_pokeD.CUSTOMERCODE = item.CustomerCode;
+                                                    t_un_pokeD.SORTNUM = item.SortNum;
+                                                    t_un_pokeD.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_pokeD.BILLCODE = item.BillCode;
+                                                    t_un_pokeD.CTYPE = troughD.GroupNo;
+                                                    t_un_pokeD.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_pokeD.STORENUM = 0;//暂时无用
+                                                    t_un_pokeD.GRIDNUM = 0;//暂时无用
+                                                    t_un_pokeD.INVFLAG = null;//库存标志
+                                                    t_un_pokeD.SENDSEQ = 0; //暂时无用 
+                                                    if (Math.Floor((quantity % 5 - troughB.ID) / 2) > 0)
+                                                        en.T_UN_POKE.AddObject(t_un_pokeD);
+                                                    troughB.ID = 5;
+                                                    times++;
+                                                }
+                                                else
+                                                {
+                                                    T_UN_POKE t_un_pokeA = new T_UN_POKE();
+                                                    t_un_pokeA.POKEID = pokeId++;
+                                                    t_un_pokeA.TROUGHNUM = troughA.ThroughNum;
+                                                    t_un_pokeA.POKENUM = quantity - quantity % 5;
+                                                    t_un_pokeA.STATUS = item.Status;
+                                                    t_un_pokeA.TASKNUM = item.TaskNum;
+                                                    t_un_pokeA.TASKQTY = item.TaskQty;
+                                                    t_un_pokeA.PACKAGEMACHINE = item.PackageMachine;
+                                                    t_un_pokeA.MACHINESEQ = troughA.MachineSeq;
+                                                    t_un_pokeA.LINENUM = item.LineNum;
+                                                    t_un_pokeA.CIGARETTECODE = item.CigCode;
+                                                    t_un_pokeA.CUSTOMERCODE = item.CustomerCode;
+                                                    t_un_pokeA.SORTNUM = item.SortNum;
+                                                    t_un_pokeA.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_pokeA.BILLCODE = item.BillCode;
+                                                    t_un_pokeA.CTYPE = troughA.GroupNo;
+                                                    t_un_pokeA.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_pokeA.STORENUM = 0;//暂时无用
+                                                    t_un_pokeA.GRIDNUM = 0;//暂时无用
+                                                    t_un_pokeA.INVFLAG = null;//库存标志
+                                                    t_un_pokeA.SENDSEQ = 0; //暂时无用 
+                                                    if (t_un_pokeA.POKENUM > 0)
+                                                    {
+                                                        en.T_UN_POKE.AddObject(t_un_pokeA);
+                                                    }
+
+                                                    T_UN_POKE t_un_pokeB = new T_UN_POKE();
+                                                    t_un_pokeB.POKEID = pokeId++;
+                                                    t_un_pokeB.TROUGHNUM = troughB.ThroughNum;
+                                                    t_un_pokeB.POKENUM = quantity % 5;
+                                                    t_un_pokeB.STATUS = item.Status;
+                                                    t_un_pokeB.TASKNUM = item.TaskNum;
+                                                    t_un_pokeB.TASKQTY = item.TaskQty;
+                                                    t_un_pokeB.PACKAGEMACHINE = item.PackageMachine;
+                                                    t_un_pokeB.MACHINESEQ = troughB.MachineSeq;
+                                                    t_un_pokeB.LINENUM = item.LineNum;
+                                                    t_un_pokeB.CIGARETTECODE = item.CigCode;
+                                                    t_un_pokeB.CUSTOMERCODE = item.CustomerCode;
+                                                    t_un_pokeB.SORTNUM = item.SortNum;
+                                                    t_un_pokeB.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_pokeB.BILLCODE = item.BillCode;
+                                                    t_un_pokeB.CTYPE = troughB.GroupNo;
+                                                    t_un_pokeB.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                                    t_un_pokeB.STORENUM = 0;//暂时无用
+                                                    t_un_pokeB.GRIDNUM = 0;//暂时无用
+                                                    t_un_pokeB.INVFLAG = null;//库存标志
+                                                    t_un_pokeB.SENDSEQ = 0; //暂时无用 
+                                                    en.T_UN_POKE.AddObject(t_un_pokeB);
+                                                    troughB.ID = (troughB.ID - quantity % 5) > 0 ? (troughB.ID - quantity % 5) : 5;
+                                                }
+                                            }
+                                        }
                                     }
                                     var reUp = UpdateTaskState(en, item.TaskNum, 100);
                                     if (!reUp.IsSuccess)
@@ -1255,111 +1680,61 @@ namespace Business.BusinessClass
                                         return reUp;
                                     }
                                 }
-
-
-
-
-
-
-                                #region 原只设置双通道
-                                //    //through = special_dic[item.CigCode];
-                                //    //decimal groupno = through.GroupNo;//groupno=2 是立式烟仓, groupno=3 是卧式烟仓(1-5都可以拨)
-                                //    //if (groupno == 2)
-                                //    //{
-                                //    //    if (through.ThroughNum == item.TroughNum)
-                                //    //    {
-                                //    //        qty = Math.Ceiling(quantity / 2);
-                                //    //    }
-                                //    //    else
-                                //    //    {
-                                //    //        qty = Math.Floor(quantity / 2);
-                                //    //    }
-                                //    //}
-                                //    //else
-                                //    //{
-                                //    //    //通道机双通道,一个拨整五条,一个拨剩余散条,
-                                //    //    if (through.ThroughNum == item.TroughNum)
-                                //    //    {
-                                //    //        qty = quantity - quantity % 5;
-                                //    //    }
-                                //    //    else
-                                //    //    {
-                                //    //        qty = quantity % 5;
-                                //    //    }
-                                //    //}
-                                #endregion
-
-                                //    //判断是五拨还是单拨
-                                //    //五拨和单拨都有
-                                //    //if (item.ActCount == 2)
-                                //    //{
-                                //    //    if (item.GroupNo == 3) len = Math.Ceiling(quantity / 2);
-                                //    //    else len = Math.Floor(quantity / 2);
-                                //    //    //len =  quantity - quantity % 5;
-
-                                //    //}
-                                //    ////只有五拨
-                                //    //else
-                                //    //{
-                                //    //    //len = quantity % 5;
-                                //    //    len = quantity;
-                                //    //}
-                                //}
-                                //for (int i = 1; i <= len; i++)//根据条烟数量拆分成单条数据
-                                //if (qty > 0)
-                                //{
-                                //    T_UN_POKE t_un_poke = new T_UN_POKE();
-                                //    t_un_poke.POKEID = pokeId++;
-                                //    t_un_poke.TROUGHNUM = item.TroughNum;
-                                //    t_un_poke.POKENUM = qty;
-                                //    t_un_poke.STATUS = item.Status;
-                                //    t_un_poke.TASKNUM = item.TaskNum;
-                                //    t_un_poke.TASKQTY = item.TaskQty;
-                                //    t_un_poke.PACKAGEMACHINE = item.PackageMachine;
-                                //    t_un_poke.MACHINESEQ = item.MachineSeq;
-                                //    t_un_poke.LINENUM = item.LineNum;
-                                //    t_un_poke.CIGARETTECODE = item.CigCode;
-                                //    t_un_poke.CUSTOMERCODE = item.CustomerCode;
-                                //    t_un_poke.SORTNUM = item.SortNum;
-                                //    t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
-                                //    t_un_poke.BILLCODE = item.BillCode;
-                                //    //if (item.GroupNo == 3) t_un_poke.CTYPE = 2;
-                                //    //else t_un_poke.CTYPE = 1;
-                                //    t_un_poke.CTYPE = item.GroupNo;
-                                //    t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
-                                //    t_un_poke.STORENUM = 0;//暂时无用
-                                //    t_un_poke.GRIDNUM = 0;//暂时无用
-                                //    t_un_poke.INVFLAG = null;//库存标志
-                                //    t_un_poke.SENDSEQ = 0; //暂时无用 
-                                //    en.T_UN_POKE.AddObject(t_un_poke);
-                                //}
-                                //var reUp = UpdateTaskState(en, item.TaskNum, 100);
-                                //if (!reUp.IsSuccess)
-                                //{
-                                //    return reUp;
-                                //}
                             }
-                            re.IsSuccess = true;
-                            re.MessageText = "分拣任务数据生成成功！";
-                            tran.Complete();
-                            return re;
+                            else
+                            {
+                                if (qty > 0)
+                                {
+                                    T_UN_POKE t_un_poke = new T_UN_POKE();
+                                    t_un_poke.POKEID = pokeId++;
+                                    t_un_poke.TROUGHNUM = list[0].ThroughNum;
+                                    t_un_poke.POKENUM = qty;
+                                    t_un_poke.STATUS = item.Status;
+                                    t_un_poke.TASKNUM = item.TaskNum;
+                                    t_un_poke.TASKQTY = item.TaskQty;
+                                    t_un_poke.PACKAGEMACHINE = item.PackageMachine;
+                                    t_un_poke.MACHINESEQ = list[0].MachineSeq;
+                                    t_un_poke.LINENUM = item.LineNum;
+                                    t_un_poke.CIGARETTECODE = item.CigCode;
+                                    t_un_poke.CUSTOMERCODE = item.CustomerCode;
+                                    t_un_poke.SORTNUM = item.SortNum;
+                                    t_un_poke.SECSORTNUM = item.SortNum;//暂时和SortNum一致
+                                    t_un_poke.BILLCODE = item.BillCode;
+                                    t_un_poke.CTYPE = list[0].GroupNo;
+                                    t_un_poke.SENDTASKNUM = item.SortNum;//暂时和SortNum一致
+                                    t_un_poke.STORENUM = 0;//暂时无用
+                                    t_un_poke.GRIDNUM = 0;//暂时无用
+                                    t_un_poke.INVFLAG = null;//库存标志
+                                    t_un_poke.SENDSEQ = 0; //暂时无用 
+                                    en.T_UN_POKE.AddObject(t_un_poke);
+                                }
+                                var reUp = UpdateTaskState(en, item.TaskNum, 100);
+                                if (!reUp.IsSuccess)
+                                {
+                                    return reUp;
+                                }
+                            }
                         }
-                        else
-                        {
-                            re.IsSuccess = false;
-                            re.MessageText = "暂无可排程的任务信息！";
-                            return re;
-                        }
-
-                    }
-                    catch
-                    {
-                        re.IsSuccess = false;
-                        re.MessageText = "错误！";
+                        re.IsSuccess = true;
+                        re.MessageText = "分拣任务数据生成成功！";
+                        //tran.Complete();
                         return re;
                     }
-                }
+                    else
+                    {
+                        re.IsSuccess = false;
+                        re.MessageText = "暂无可排程的任务信息！";
+                        return re;
+                    }
 
+                }
+                catch
+                {
+                    re.IsSuccess = false;
+                    re.MessageText = "错误！";
+                    return re;
+                }
+                //}
             }
         }
 
@@ -1385,7 +1760,6 @@ namespace Business.BusinessClass
                 red.Content = 1;
                 return red;
             }
-
         }
 
         public Response UpdateTaskState(DZEntities en, decimal tasknum, short labelBatch)
@@ -1396,7 +1770,6 @@ namespace Business.BusinessClass
             if (query.Any())
             {
                 query.FirstOrDefault().STATE = "15";
-                //query.FirstOrDefault().LABELBATCH = labelBatch;
                 en.SaveChanges();
                 re.IsSuccess = true;
                 re.MessageText = tasknum + "任务号，更新完成";
@@ -1688,16 +2061,6 @@ namespace Business.BusinessClass
             {
                 Response response = new Response();
                 response.IsSuccess = true;
-                //OracleParameter[] sqlpara = new OracleParameter[3];
-                //sqlpara[0] = new OracleParameter("bz", "0");
-                //sqlpara[1] = new OracleParameter("p_ErrCode", OracleDbType.Varchar2, 30);
-                //sqlpara[2] = new OracleParameter("p_ErrMsg", OracleDbType.Varchar2, 1000);
-
-                //sqlpara[0].Direction = ParameterDirection.Input;
-                //sqlpara[1].Direction = ParameterDirection.Output;
-                //sqlpara[2].Direction = ParameterDirection.Output;
-
-                //dzEntities.ExecuteStoreCommand("P_UN_REMOVE", sqlpara);
 
                 System.Data.EntityClient.EntityConnection entityConnection = (System.Data.EntityClient.EntityConnection)dzEntities.Connection;
                 entityConnection.Open();
@@ -1705,22 +2068,6 @@ namespace Business.BusinessClass
                 System.Data.Common.DbCommand cmd = storeConnection.CreateCommand();
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.CommandText = "P_UN_REMOVE";
-
-                //DbParameter inPara = cmd.CreateParameter();
-                //inPara.Direction = ParameterDirection.Input;
-                //inPara.ParameterName = "bz";
-                //inPara.Value = "0";
-                //inPara.DbType = DbType.Object;
-
-                //DbParameter outPara1 = cmd.CreateParameter();
-                //outPara1.Direction = ParameterDirection.Output;
-                //outPara1.ParameterName = "p_ErrCode";
-                //outPara1.DbType = DbType.Object;
-
-                //DbParameter outPara2 = cmd.CreateParameter();
-                //outPara2.Direction = ParameterDirection.Output;
-                //outPara2.ParameterName = "p_ErrMsg";
-                //outPara2.DbType = OracleDbType.Varchar2;
 
                 OracleParameter[] sqlpara = new OracleParameter[3];
                 sqlpara[0] = new OracleParameter("bz", "0");

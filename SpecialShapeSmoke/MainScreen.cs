@@ -212,41 +212,48 @@ namespace SpecialShapeSmoke
                 str = "";
             }
         }
-
+        List<MixInfos> list = new List<MixInfos>();
         void GetData()
         {
-            List<MixInfos> list = new List<MixInfos>();
-            foreach (var item in lbladded)
-            {
-                UpdateLabel3(list, 15, lbladd, Color.White);
-                //item.Text = "";
-            }
-            foreach (var item in lbladd)
-            {
-                UpdateLabel3(list, 15, lbladd, Color.White);
-                //item.Text = "";
-                //item.BackColor = Color.White;
-            }
+            //list = new List<MixInfos>();
+            //foreach (var item in lbladded)
+            //{
+            UpdateLabel3(new List<MixInfos>(), 15, lbladded, Color.White);
+            //    //item.Text = "";
+            //}
+            //foreach (var item in lbladd)
+            //{
+            UpdateLabel3(new List<MixInfos>(), 15, lbladd, Color.White);
+            //    //item.Text = "";
+            //    //item.BackColor = Color.White;
+            //}
+
             try
             {
                 list = MixedClass.GetMixCig2(machineSeq, groupNo, 0);
                 int length;
-                if (list.Count > lbladded.Length)
+                List<MixInfos> lists = new List<MixInfos>();
+                lists = GroupList(list);
+                if (lists.Count > lbladded.Length)
                     length = lbladded.Length;
                 else
-                    length = list.Count;
-                UpdateLabel3(list, length, lbladd, Color.White);
+                    length = lists.Count;
+                UpdateLabel3(lists, length, lbladd, Color.White);
                 try
                 {
                     List<MixInfos> finish = new List<MixInfos>();
                     //UpdateLabel(finish, 15, lbladded);
-                    finish = MixedClass.GetMixCig4(machineSeq, groupNo, 1).OrderBy(item => item.ThroughNum).OrderBy(item => item.SortNum).ToList();
+                    finish = MixedClass.GetMixCig4(machineSeq, groupNo, 1).OrderByDescending(item => item.ThroughNum).OrderByDescending(item => item.SortNum).ToList();
                     int lengths;
-                    if (finish.Count > lbladded.Length)
+                    
+                    List<MixInfos> finishs = new List<MixInfos>();
+                    finishs = GroupList(finish).Take(15).OrderBy(item => item.ThroughNum).OrderBy(item => item.SortNum).ToList();
+                    if (finishs.Count > lbladded.Length)
                         lengths = lbladded.Length;
                     else
-                        lengths = finish.Count;
-                    UpdateLabel3(finish, lengths, lbladded, Color.LightGreen);
+                        lengths = finishs.Count;
+                    
+                    UpdateLabel3(finishs, lengths, lbladded, Color.LightGreen);
                 }
                 catch (Exception ex)
                 {
@@ -263,13 +270,76 @@ namespace SpecialShapeSmoke
             }
         }
 
+        public List<MixInfos> GroupList(List<MixInfos> list)
+        {
+            string s = DateTime.Now.ToString();
+            if (list != null)
+            {
+                List<MixInfos> temp = new List<MixInfos>();
+                MixInfos tempview = null;
+                int count = 0;
+                //定义pokelist的长度为混合道poke的个数
+                List<string> pokeidlist = new List<string>();
+                foreach (var item in list)//遍历取到的数据（名称、编码、通道号）
+                {
+                    count++;
+
+                    if (tempview == null)//如果tempview没有数据 赋值当前遍历的值
+                    {
+
+                        tempview = item;
+                        pokeidlist.Add(item.PokeID.ToString());
+                        tempview.PokeIDList = pokeidlist;
+                    }
+                    else if (item.CigCode != tempview.CigCode)//如果当前遍历的数据的香烟编码不等于上一次遍历
+                    {
+                        temp.Add(tempview);
+                        tempview = new MixInfos();
+                        //存pokeid的集合
+                        pokeidlist = new List<string>();
+                        pokeidlist.Add(item.PokeID.ToString());
+                        tempview.CigName = item.CigName;
+                        tempview.PokeNum = item.PokeNum;
+                        tempview.ThroughNum = item.ThroughNum;
+                        tempview.CigCode = item.CigCode;
+                        tempview.PokeIDList = pokeidlist;
+                        tempview.SortNum = item.SortNum;
+                    }
+                    else
+                    {
+                        pokeidlist.Add(item.PokeID.ToString());
+                        tempview.PokeNum += item.PokeNum; //数量相加
+                        // tempview.TROUGHNUM += item.TROUGHNUM;//将编码拼接
+
+                    }
+                    if (count == list.Count)
+                    {
+                        temp.Add(tempview);
+                        tempview.PokeIDList = pokeidlist;
+                    }
+                    //if (temp.Count > 15)//如果连续品牌超过15
+                    //{
+                    //    break;
+                    //}
+                }
+                string s2 = DateTime.Now.ToString();
+                WriteLog.GetLog().Write("组合开始时间" + s); WriteLog.GetLog().Write("组合完成时间" + s2);
+                return temp;
+            }
+            else
+            {
+
+                return null;
+            }
+        }
+
         void UpdateLabel3(List<MixInfos> lists, int length, Label[] labels, Color color)
         {
             for (int i = 0; i < length; i++)
             {
                 try
                 {
-                    string info = i + 1 + "." + lists[i].CigName + " " + lists[i].SortNum;
+                    string info = i + 1 + "." + lists[i].CigName + " " + lists[i].PokeNum;
                     UpdateLabel(info, labels[i], color);
                 }
                 catch
@@ -285,7 +355,7 @@ namespace SpecialShapeSmoke
             {
                 try
                 {
-                    string info = i + 1 + "." + list[i].CigName + " " + list[i].SortNum;
+                    string info = i + 1 + "." + list[i].CigName + " " + list[i].PokeNum;
                     UpdateLabel(info, labels[i], color);
                 }
                 catch
@@ -542,7 +612,23 @@ namespace SpecialShapeSmoke
             GetData();
         }
 
-       
+        private void LblAdd1_Click(object sender, EventArgs e)
+        {
+            DialogResult dia = MessageBox.Show("确认放烟：" + list[0].CigName + " ？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (dia == DialogResult.Cancel)
+                return;
+            WriteLog.GetLog().Write("手动开始时间" + DateTime.Now.ToString());
+            for (int i = 0; i < list[0].PokeIDList.Count; i++)
+            {
+                MixedClass.UpdatePullStatus2Put2(machineSeq, Convert.ToDecimal(list[0].PokeIDList[i]));
+            }
+            WriteLog.GetLog().Write("数据库更新完时间" + DateTime.Now.ToString());
+            WriteLog.GetLog().Write("<手动点击放烟" + list[0].CigName + "成功>");
+            GetData();
+            WriteLog.GetLog().Write("再次取数据时间" + DateTime.Now.ToString());
+        }
+
+
 
     }
 }

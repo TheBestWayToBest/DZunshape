@@ -12,6 +12,7 @@ using Business;
 using Business.Modle;
 using HighspeedNew.OrderHandle;
 using System.Transactions;
+using System.Configuration;
 
 namespace HighSpeed.OrderHandle
 {
@@ -20,37 +21,22 @@ namespace HighSpeed.OrderHandle
         w_main wm = new w_main();
         public delegate void HandleScheduleing(int falge, bool isOrnot);
 
+        List<string> regionSort = new List<string>();
+
         public win_schedule()
         {
             InitializeComponent();
+            string str = ConfigurationManager.AppSettings["RegionSort"].ToString();
+            regionSort = str.Split(',').ToList();
             Bind();
 
         }
         ScheduleClass sc = new ScheduleClass();
         void Bind()
         {
-            var re = sc.GetRouteInFO();
+            var re = sc.GetRouteInFO(regionSort);
             if (re.IsSuccess)
             {
-                //List<TaskInfo> info = new List<TaskInfo>();
-                //info = re.Content;
-                //List<TaskInfo> list = new List<TaskInfo>();
-                //List<string> region = new List<string>();
-                //region = RegionSort.GetRegionSort();
-                //int k = 0;
-                //for (int i = 0; i < region.Count; i++)
-                //{
-                //    for (int j = 0; j < info.Count; j++)
-                //    {
-                //        if (region[i] == info[j].REGIONCODE) 
-                //        {
-                //            list.Insert(k, info[j]);
-                //            k++;
-                //            break;
-                //        }
-                //    }
-                //}
-                //orderdata.DataSource = re.Content.GroupBy(x => new { x.REGIONCODE }).Select(x => new { 车组信息 = x.Key.REGIONCODE, 订单数量 = re.Content.Where(a => a.REGIONCODE == x.Key.REGIONCODE).Sum(a => a.ORDERQUANTITY), 订单户数 = re.Content.Where(b => b.REGIONCODE == x.Key.REGIONCODE).GroupBy(b => b.CUSTOMERCODE).Count() }).ToList();
                 orderdata.DataSource = re.Content.Select(x => new { x.SYNSEQ, x.REGIONCODE, x.Count, x.QTY }).ToList();
                 LblOrderCount.Text = "总订单量：" + re.Content.Sum(item => item.QTY).ToString();
                 LblCusCount.Text = "总订货户数：" + re.Content.Sum(item => item.Count).ToString();
